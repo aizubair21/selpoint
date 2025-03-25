@@ -56,4 +56,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+
+
+    // route for user section 
+    Route::get('/user/index', function () {
+        return view('user.dash');
+    })->name('user.index');
+    Route::get('/user/dash', function () {
+        return view('user.dash');
+    })->name('user.dash');
 });
