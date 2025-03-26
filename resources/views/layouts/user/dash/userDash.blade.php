@@ -11,7 +11,11 @@
       <link rel="icon" href="{{asset('logo.png')}}" type="image/x-icon" />
 
       <title>
-         @yield('site_title')
+         @isset($site_title)
+            @yield('site_title')
+         @else 
+            {{config('app.name')}}
+         @endisset
       </title>
       <!-- Scripts -->
       @vite(['resources/css/app.css', 'resources/js/app.js'])

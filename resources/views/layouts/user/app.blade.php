@@ -7,13 +7,10 @@
       <meta name="keywords" content="" />
       <meta name="description" content="" />
       <meta name="author" content="" />
-      <link rel="shortcut icon" href={{ asset("logo.png")}} type="">
       <meta name="token" content="{{csrf_token()}}">
-      <link rel="icon" href={{ asset("logo.png")}} type="image/x-icon" />
-      <title>
 
-         @yield('title')
-      </title>
+      <x-site_icon />
+      <x-site_title />
 
       {{-- google font  --}}
       {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -64,13 +61,13 @@
       <div class="container">
          @yield('content')
       </div>
-
-
       {{-- @include('layouts.user.footer') --}}
-      <script src="{{asset('assets/user/js/jquery-3.4.1.min.js')}}"></script>
-      <script src="{{asset('assets/user/js/popper.min.js')}}"></script>
+
+
+      {{-- <script src="{{asset('assets/user/js/jquery-3.4.1.min.js')}}"></script> --}}
+      {{-- <script src="{{asset('assets/user/js/popper.min.js')}}"></script> --}}
       <script src="{{asset('assets/user/js/bootstrap.js')}}"></script>
-      <script src="{{asset('assets/user/js/custom.js')}}"></script>
+      {{-- <script src="{{asset('assets/user/js/custom.js')}}"></script> --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
       

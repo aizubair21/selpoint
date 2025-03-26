@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <link rel="shortcut icon" href="{{asset('logo.png')}}" type="image/x-icon">
+        <x-site_title />
+        <x-site_icon />
+        {{-- <link rel="shortcut icon" href="{{asset('logo.png')}}" type="image/x-icon"> --}}
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -31,6 +31,9 @@
 
             <!-- Page Content -->
             <main>
+                <div class="pb-2 max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <x-errors />
+                </div>
                 {{ $slot }}
             </main>
         </div>
