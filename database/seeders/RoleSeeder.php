@@ -19,9 +19,9 @@ class RoleSeeder extends Seeder
             'admin',
             'vendor',
             'reseller',
-            'users'
+            'user'
         ];
-        
+
         // loop through the roles list
         foreach ($roles as $role) {
             // create a new role

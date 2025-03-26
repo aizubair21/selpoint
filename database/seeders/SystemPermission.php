@@ -16,16 +16,16 @@ class SystemPermission extends Seeder
     {
         // get all permision and assign then into 'system' role
         $permissions = Permission::get('name');
-        $system = Role::where('name', 'system')->first();
-        if (!$system) {
-            $system = Role::create(['name' => 'system']);
+        $systemRole = Role::where('name', 'system')->first();
+        if (!$systemRole) {
+            $systemRole = Role::create(['name' => 'system']);
         }
 
         // if permission is not assigned to system role, assign it
         if ($permissions) {
             foreach ($permissions as $permission) {
-                if (!$system->hasPermissionTo($permission->name)) {
-                    $system->givePermissionTo($permission->name);
+                if (!$systemRole->hasPermissionTo($permission->name)) {
+                    $systemRole->givePermissionTo($permission->name);
                 }
             }
         }
