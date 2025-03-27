@@ -41,6 +41,9 @@ $count = "";
            
             @auth
                 <li class="nav-item light">
+                    {{-- <x-nav-link class="py-2" :href="route('user.index')">
+                        Switch to Vendor
+                    </x-nav-link> --}}
                     <x-nav-link class="py-2" :href="route('user.index')">
                         Home
                     </x-nav-link>
@@ -61,26 +64,68 @@ $count = "";
                         <x-dropdown-link>
                             Cart
                         </x-dropdown-link>
-                        <hr>
+
+
+                        {{--  role-based architecture  --}}
+                            @php
+                                $roles = auth()->user()->getRoleNames();
+                            @endphp
+                            @if (count($roles) > 0)
+                                <hr>
+                                    {{-- @if (auth()->user()->hasRole('system'))
+                                    @endif --}}
+                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                        Go To Dashboard
+                                    </x-dropdown-link>
+                                    {{-- @if (auth()->user()->hasRole('vendor'))
+                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                            Vendor Dashboard
+                                        </x-dropdown-link>
+                                    @endif
+                                    @if (auth()->user()->hasRole('reseller'))
+                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                            Reseller Dashboard
+                                        </x-dropdown-link>
+                                    @endif
+                                    @if (auth()->user()->hasRole('rider'))
+                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                            Rider Dashboard
+                                        </x-dropdown-link>
+                                    @endif --}}
+                                <hr>
+                            @endif
+                        {{--  role-based architecture  --}}
+                 
                         {{-- special permission  --}}
                         <div class="py-2">
+                                @can('vendors_navigation')                                
+                                    <x-dropdown-link class="text-green bold border-b">
+                                        Manage Vendor
+                                    </x-dropdown-link>
+                                @endcan
 
-                            <x-dropdown-link >
-                                Manage Vendor
-                            </x-dropdown-link>
-                            <x-dropdown-link >
-                                Manage Reseller
-                            </x-dropdown-link>
-                            <x-dropdown-link >
-                                Manage D. Man
-                            </x-dropdown-link>
-                            <x-dropdown-link >
-                                Manage Users
-                            </x-dropdown-link>
+                                @can('resellers_navigation')
+                                <x-dropdown-link class="text-green bold border-b">
+                                    Manage Reseller
+                                </x-dropdown-link>
+                                @endcan
+
+                                @can('riders_navigation')
+                                <x-dropdown-link class="text-green bold border-b">
+                                    Manage D. Man
+                                </x-dropdown-link>
+                                @endcan 
+
+                                @can('users_navigation')
+                                <x-dropdown-link class="text-green bold border-b">
+                                    Manage Users
+                                </x-dropdown-link>
+                                @endcan
                             
                         </div>
                         {{-- special permission  --}}
-                        <hr>
+
+                 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

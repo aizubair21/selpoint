@@ -1,13 +1,14 @@
 <?php
 
-namespace App\View\Components\dashboard\super\overview;
+namespace App\View\Components\dashboard\overview\system;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class reseller-count extends Component
+class VendorCount extends Component
 {
+    private $vendors, $active, $pending, $review, $disabled, $suspended;
     /**
      * Create a new component instance.
      */
@@ -21,6 +22,6 @@ class reseller-count extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard.super.overview.reseller-count');
+        return view('components.dashboard.overview.system.vendor-count');
     }
 }

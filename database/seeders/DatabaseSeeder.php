@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Administrator',
-            'email' => 'admin@selpoint.com',
+            'email' => 'admin247@selpoint.com',
             'password' => bcrypt('password'),
         ]);
 
@@ -29,5 +29,8 @@ class DatabaseSeeder extends Seeder
 
         // give all permission to system
         $this->call(SystemPermission::class);
+
+        // give role to admin
+        $this->call(SystemRoleSeeder::class);
     }
 }

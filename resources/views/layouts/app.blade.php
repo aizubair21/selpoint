@@ -13,12 +13,20 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
+        <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
+        <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+
+            <x-has-role name="system">
+                @include('layouts.navigation')
+            </x-has-role>
 
             <!-- Page Heading -->
             @isset($header)

@@ -15,15 +15,30 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Vendor') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Reseller') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('D. Man') }}
-                    </x-nav-link>
+
+                    @can('admin_view')         
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Admins') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('vendors_view')         
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Vendor') }}
+                        </x-nav-link>
+                    @endcan
+
+                    @can('resellers_view')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Reseller') }}
+                        </x-nav-link>
+                    @endcan 
+
+                    @can('riders_view')
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Rider') }}
+                        </x-nav-link>
+                    @endcan
                     {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Role') }}
                     </x-nav-link>
@@ -55,15 +70,25 @@
                             </x-slot>
         
                             <x-slot name="content">
+                                @can('role_list')
+                                    
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Role') }}
                                 </x-dropdown-link>
+                                @endcan
+
+                                @can('permission_list')
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Permission') }}
                                 </x-dropdown-link>
+                                @endcan
+
+                                @can('withdraw_manage')
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Withdraw') }}
                                 </x-dropdown-link>
+                                @endcan
+
                                 <x-dropdown-link :href="route('profile.edit')">
                                     {{ __('Comission') }}
                                 </x-dropdown-link>
@@ -117,8 +142,8 @@
                             {{ __('Notice') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Back to User Section') }}
+                        <x-dropdown-link target="_blank" :href="route('user.dash')">
+                            {{ __('Back to User Panel') }}
                         </x-dropdown-link>
 
                         {{-- other link  --}}
@@ -162,24 +187,50 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Vendor') }}
+
+            <x-responsive-nav-link :href="route('user.dash')">
+                {{ __('Back to User Panel') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Reseller') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('D. Man') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Role') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Permission') }}
-            </x-responsive-nav-link>
+            
+            @can('admins_view')         
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Admin') }}
+                </x-responsive-nav-link>
+            @endcan
+            @can('vendors_view')         
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Vendor') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('resellers_view')
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Reseller') }}
+                </x-responsive-nav-link>
+            @endcan 
+
+            @can('riders_view')
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Rider') }}
+                </x-responsive-nav-link>
+            @endcan
+
+            @can('role_list')
+                <x-responsive-nav-link :href="route('dashboard')">
+                    {{ __('Role') }}
+                </x-responsive-nav-link>
+            @endcan 
+
+            @can('permision_list')
+                <x-responsive-nav-link :href="route('dashboard')">
+                    {{ __('Permission') }}
+                </x-responsive-nav-link>
+            @endcan 
+
             <x-responsive-nav-link :href="route('dashboard')">
                 {{ __('Comission') }}
             </x-responsive-nav-link>

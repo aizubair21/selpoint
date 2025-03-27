@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\dashboard\super\overview;
+namespace App\View\Components\dashboard\overview\system;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class d-man-count extends Component
+class ResellerCount extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class d-man-count extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard.super.overview.d-man-count');
+        return view('components.dashboard.overview.system.reseller-count');
     }
 }
