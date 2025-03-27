@@ -1,4 +1,4 @@
-<div class="rounded d-block shadow p-3 relative overflow-hidden" style="background-color: green; z-index:1; color:white;">
+<div class="rounded d-block shadow p-3 relative overflow-hidden" style="background-color: indigo; z-index:1; color:white;">
     <!-- The biggest battle is the war against ignorance. - Mustafa Kemal Atatürk -->
     <style>
         .div_wrapper {
@@ -21,7 +21,7 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
             background: radial-gradient(green, transparent);
-            border: 1px dotted white;
+            /* border: 1px dotted indigo; */
             
         }
     </style>
@@ -29,7 +29,7 @@
             {{$title ?? "Overview"}}
     </h2>
     
-    <p class="text-end text-xl">
+    <p class="text-end text-2xl">
             {{$content ?? " 0 / 0"}}
     </p>
     

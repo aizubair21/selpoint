@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -72,7 +72,7 @@
                             <x-slot name="content">
                                 @can('role_list')
                                     
-                                <x-dropdown-link :href="route('profile.edit')">
+                                <x-dropdown-link :href="route('system.role.list')">
                                     {{ __('Role') }}
                                 </x-dropdown-link>
                                 @endcan
@@ -220,7 +220,7 @@
             @endcan
 
             @can('role_list')
-                <x-responsive-nav-link :href="route('dashboard')">
+                <x-responsive-nav-link :href="route('system.role.list')">
                     {{ __('Role') }}
                 </x-responsive-nav-link>
             @endcan 
