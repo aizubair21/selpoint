@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Permission;
@@ -36,7 +37,7 @@ class RoleController extends Controller
         // how to get count in single query
         // dd($roles[0]->users->count());
 
-        $perm = Permission::all();
+        $perm = Permission::orderBy('id', 'desc')->get();
         $role = Role::all();
         return view('auth.system.role.index', compact('perm', 'role'));
     }
@@ -50,7 +51,57 @@ class RoleController extends Controller
      */
     public function admin_edit(Request $request)
     {
-        $role = Role::findorFail($request->role);
-        return view('auth.system.role.edit', compact('role'));
+        $role = Role::findorFail(decrypt($request->role));
+        $users = User::withoutRole('system')->withoutRole($role->name)->orderBy('id', 'desc')->get();
+        $permissions = Permission::all();
+        return view('auth.system.role.edit', compact('role', 'users', 'permissions'));
+    }
+
+
+    /**
+     * method give role to user
+     * 
+     * @param Role, @param Permissions
+     * @return back;
+     */
+    public function system_give_permission_to_role(Role $role)
+    {
+        DB::table('role_has_permissions')->where('role_id', $role->id)->delete();
+        $role->givePermissionTo(request('permissions'));
+        return redirect()->back();
+    }
+
+
+    /**
+     * method sync role to user
+     * 
+     * @param User, @param Role
+     * @return back;
+     */
+    public function system_give_role_to_user()
+    {
+
+        if (empty(request('user'))) {
+            return redirect()->back()->withInput();
+        }
+        foreach (request()->get('user') as $key => $users) {
+            $user = User::findOrFail($users);
+
+            if (request()->has('force_delete')) {
+
+                if ($user && $user->hasRole(request('role'))) {
+                    $user->removeRole(request('role'));
+                }
+            } else {
+
+                if ($user && !$user->hasRole(request('role'))) {
+                    $user->assignRole(request('role'));
+                }
+            }
+        }
+
+
+
+        return redirect()->back();
     }
 }

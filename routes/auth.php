@@ -72,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dashboard')->group(function () {
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
-        Route::post('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
+        Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
+        Route::post('role/give-to-user', [RoleController::class, 'system_give_role_to_user'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user');
+        Route::post('permissions/{role}/give-to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
     });
 });

@@ -34,21 +34,20 @@
                                 <td> {{$rol->permissions?->count() ?? "No Permissions"}} </td>
                                 <td>
                                     <div class="flex">
-                                        <form action="{{route('system.role.edit')}}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="role" value="{{$rol->id}}">
+                                        <form action="{{route('system.role.edit')}}" method="get">
+                                            <input type="hidden" name="role" value="{{ encrypt($rol->id)}}">
                                             <x-primary-button>
                                                 Edit
                                             </x-primary-button>
                                         </form>
 
-                                        <form action="{{route('system.role.edit')}}" method="post">
+                                        {{-- <form action="{{route('system.role.edit')}}" method="post">
                                             @csrf
                                             <input type="hidden" name="role" value="{{$rol->id}}">
                                             <x-danger-button>
                                                 Delete
                                             </x-danger-button>
-                                        </form>
+                                        </form> --}}
                                        
                                     </div>
                                 </td>
