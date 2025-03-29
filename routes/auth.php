@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SystemUsersController;
 use App\Http\Middleware\AbleTo;
 use Illuminate\Support\Facades\Route;
 
@@ -73,7 +74,11 @@ Route::middleware('auth')->group(function () {
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
         Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
-        Route::post('role/give-to-user', [RoleController::class, 'system_give_role_to_user'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user');
-        Route::post('permissions/{role}/give-to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
+        Route::post('role-to-user', [RoleController::class, 'system_give_role_to_user'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user');
+        Route::post('permissions/{role}/to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
+
+        // permit to make users task
+        Route::get('users', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
+        Route::get('user/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
     });
 });

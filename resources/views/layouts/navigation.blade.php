@@ -77,9 +77,9 @@
                                 </x-dropdown-link>
                                 @endcan
 
-                                @can('permission_list')
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Permission') }}
+                                @can('users_view')
+                                <x-dropdown-link :href="route('system.users.view')">
+                                    {{ __('Users') }}
                                 </x-dropdown-link>
                                 @endcan
 
@@ -225,9 +225,9 @@
                 </x-responsive-nav-link>
             @endcan 
 
-            @can('permision_list')
-                <x-responsive-nav-link :href="route('dashboard')">
-                    {{ __('Permission') }}
+            @can('users_view')
+                <x-responsive-nav-link :href="route('system.users.view')">
+                    {{ __('Users') }}
                 </x-responsive-nav-link>
             @endcan 
 
