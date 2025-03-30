@@ -12,6 +12,6 @@ class category extends Model
         'name',
         'image',
         'user_id',
-        'belongs_to',
+        'belongs_to_type', // reseller or vendor
     ];
 }

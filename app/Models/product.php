@@ -17,10 +17,10 @@ class Product extends Model
         'buying_price',
         'category_id',
         'user_id',
-        'image',
+        'belongs_to_type', // vendor or reseller
+        'thumbnail',
         'offer_type',
         'unit',
-        'price_type',
         'status',
         'display_at_home'
     ];
@@ -49,8 +49,8 @@ class Product extends Model
     /**
      * Product has many order
      */
-    // public function orders()
-    // {
-    //     return $this->hasMany(Order::class);
-    // }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

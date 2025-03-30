@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends Model
 {
-    protected $fillable = ['product_id', 'user_id'];
+    protected $fillable = ['product_id', 'user_id', 'user_type', 'belongs_to', 'belongs_to_type'];
 
     public function product()
     {
@@ -17,15 +17,13 @@ class Cart extends Model
             'title' => 'Product Not Found',
             'slug' => 'product-not-found',
             'description' => 'Product Not Found',
-            'price_in_usd' => 0,
-            'price_in_bdt' => 0,
+            'price' => 0,
             'discount' => 0,
             'buying_price' => 0,
             'category_id' => 0,
             'image' => 'product-not-found.jpg',
             'offer_type' => 'no',
             'unit' => '0',
-            'price_type' => 'bdt'
 
         ]);
     }

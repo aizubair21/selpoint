@@ -7,16 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = [
-        'user_id',
+        'user_id', // the user, who made the order
+        'user_type',
+        'belongs_to', // vendor or reseller id
+        'belongs_to_type', // 1: vendor, 2: reseller
         'product_id',
         'size',
         'name',
+        'price',
+        'quantity',
         'location',
         'number',
         'total',
         'status',
         'road_no',
         'house_no',
+        'shipping',
+        'buying_price'
     ];
 
     public function user()

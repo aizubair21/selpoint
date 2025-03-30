@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             // $table->id();
-            $table->unsignedBigInteger('id',true);
+            $table->id();
             $table->string('name');
             $table->string('title');
             $table->string('slug')->nullable();
@@ -21,12 +21,12 @@ return new class extends Migration
             $table->integer('price')->nullable();
             $table->integer('discount')->nullable();
             $table->string('buying_price')->nullable();
-            $table->string('image')->nullable();
+            $table->string('thumbnail')->nullable();
             $table->string('unit')->nullable();
             $table->string('offer_type')->nullable();
-            $table->string('price_type')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('belongs_to_type', 100)->nullable();
             $table->boolean('status')->nullable();
             $table->boolean('display_at_home')->nullable();
             $table->timestamps();

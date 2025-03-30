@@ -59,7 +59,7 @@ class RoleController extends Controller
 
 
     /**
-     * method give role to user
+     * method give role to role
      * 
      * @param Role, @param Permissions
      * @return back;
@@ -73,12 +73,27 @@ class RoleController extends Controller
 
 
     /**
-     * method sync role to user
+     * method give role to user
+     * 
+     * @param User, @param Permissions
+     * @return back;
+     */
+    public function system_give_permission_to_user(User $user)
+    {
+        // dd(request()->all());
+        // DB::table('role_has_permissions')->where('role_id', $user->id)->delete();
+        $user->syncPermissions(request('permissions'));
+        return redirect()->back();
+    }
+
+
+    /**
+     * method sync role to multiple
      * 
      * @param User, @param Role
      * @return back;
      */
-    public function system_give_role_to_user()
+    public function multiple_user_to_single_role()
     {
 
         if (empty(request('user'))) {
@@ -103,5 +118,24 @@ class RoleController extends Controller
 
 
         return redirect()->back();
+    }
+
+
+    /**
+     * multipe roles to single users
+     * 
+     */
+    public function multiple_role_to_single_user()
+    {
+        // dd(request('user'));
+        if (!empty(request('user')) && !empty(request('role'))) {
+            foreach (request('user') as $key => $value) {
+                $user = User::findOrFail($value);
+                $user->syncRoles(request('role'));
+            }
+            return redirect()->back();
+        } else {
+            return redirect()->back()->withInput();
+        }
     }
 }

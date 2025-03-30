@@ -45,7 +45,6 @@
                                 <td>
                                     <div class="flex">
                                         <form action="{{route('system.users.edit', ['email' => $user->email])}}" method="get">
-                                            @csrf
                                             <x-primary-button type="submit">
                                                 Edit
                                             </x-primary-button>
