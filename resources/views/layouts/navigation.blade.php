@@ -16,16 +16,20 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @can('admin_view')         
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Admins') }}
-                        </x-nav-link>
+                    @can('admin_view')
+                        @if (Route::has('system.admin'))
+                            <x-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
+                                {{ __('Admins') }}
+                            </x-nav-link>
+                        @endif      
                     @endcan
 
-                    @can('vendors_view')         
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Vendor') }}
-                        </x-nav-link>
+                    @can('vendors_view')     
+                        @if (Route::has('system.vendor.index'))
+                            <x-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
+                                {{ __('Vendor') }}
+                            </x-nav-link>
+                        @endif
                     @endcan
 
                     @can('resellers_view')

@@ -25,8 +25,8 @@
 
             <div @class(["p-2 rounded border", 'hidden' => $type == 'role'])>
                 @php
-                    $roles = DB::table('roles')->get();
                     $userRoles= $user->getRoleNames();
+                    $roles = DB::table('roles')->get();
                     // print_r($userRoles->contains('admin'));
                 @endphp
                 @foreach ($roles as $item)

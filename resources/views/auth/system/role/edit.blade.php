@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <x-dashboard.page-header>
         Role Edit  
     </x-dashboard.page-header>
@@ -19,6 +20,7 @@
                         <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'role-add-modal')">
                             Add User
                         </x-primary-button>
+
                         {{-- <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'permissions-add-modal')">
                             Give Permission
                         </x-primary-button> --}}
@@ -53,7 +55,7 @@
                                 $isPermit = $role->hasPermissionTo($perm->name) ? true : false;
                             @endphp
                             <div class="flex items-center space-x-2">
-                                <x-text-input checked="{{$isPermit}}" class="m-0" type='checkbox' name='permissions[]' id="perm_{{$perm->id}}" value="{{$perm->name}}" />
+                                <x-text-input :checked="$isPermit" class="m-0" type='checkbox' name='permissions[]' id="perm_{{$perm->id}}" value="{{$perm->name}}" />
                                 <x-input-label class="text-md m-0 pl-3" id="perm_{{$perm->id}}"> {{$perm->name ?? "Not Found!"}} </x-input-label>
                             </div>
                         @endforeach
@@ -69,6 +71,7 @@
                     @endif
                 </form>
             </x-dashboard.section.inner>
+
         </x-dashboard.section>
     </x-dashboard.container>
 

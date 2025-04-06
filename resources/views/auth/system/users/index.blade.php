@@ -35,7 +35,18 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$user->name }} </td>
                                 <td> {{$user->reference ?? "Not Found" }} </td>
-                                <td> {{$user->role?->name ?? "User"}} </td>
+                                <td> 
+                                    @php
+                                        $uroles = $user->getRoleNames();
+                                    @endphp
+                                    <div class="flex">
+
+                                        @foreach ($uroles as $role)
+                                            <div class="px-1 rounded border m-1 text-sm">{{$role}}</div>
+                                        @endforeach
+                                    </div>
+
+                                </td>
                                 <td> {{$user->permissions?->count() ?? "Not Found !"}} </td>
                                 <td> {{$user->vipPurchase?->package?->name ?? "No"}} </td>
                                 <td> {{count($user->order?? []) ?? "0"}} </td>

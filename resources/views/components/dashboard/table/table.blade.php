@@ -5,10 +5,13 @@
             vertical-align: bottom;
             border-bottom: 2px solid #dee2e6;
             padding: 12px;
+            font-size: 15px;
         }
         td {
             padding: 12px;
+            font-size:14px;
         }
+       
     </style>
     <table class="w-full mb-2">
             {{$slot}}

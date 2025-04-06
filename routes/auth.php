@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('dashboard')->group(function () {
+        include('system.php');
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
         Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");

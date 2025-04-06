@@ -86,13 +86,14 @@
                                     
                                 </x-slot>
                             </x-dashboard.section.header>
-        
+                          
                             @php
+                                
                                 $id = $user->id;
                                 $type = 'user';
                             @endphp
-                            @include('components.dashboard.role-to-user')
-                            {{-- <x-dashboard.role-to-user id="{{$user->id}}"  type="user"/> --}}
+                            @include('components.dashboard.role-to-user', ['id' => $id, 'type' => $type])
+                            {{-- <x.dashboard.role-to-user id="  {{$user->id}}"  type="user"/> --}}
 
                         </div>
 
