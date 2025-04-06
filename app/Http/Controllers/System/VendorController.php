@@ -22,7 +22,7 @@ class VendorController extends Controller
     public function viewToDashboard()
     {
 
-        $vendorRequest = User::role('vendor')->get();
+        $vendorRequest = User::role('vendor')->paginate(50);
         return view('auth.system.vendors.index', [$vendorRequest]);
     }
 

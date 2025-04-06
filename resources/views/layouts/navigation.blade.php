@@ -200,13 +200,13 @@
                 {{ __('Back to User Panel') }}
             </x-responsive-nav-link>
             
-            @can('admins_view')         
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            @can('admin_view')         
+                <x-responsive-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
                     {{ __('Admin') }}
                 </x-responsive-nav-link>
             @endcan
             @can('vendors_view')         
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                <x-responsive-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
                     {{ __('Vendor') }}
                 </x-responsive-nav-link>
             @endcan

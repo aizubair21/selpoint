@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <x-site_title />
+            
         <x-site_icon />
         {{-- <link rel="shortcut icon" href="{{asset('logo.png')}}" type="image/x-icon"> --}}
 
@@ -20,6 +21,14 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        @stack('css')
+        <style>
+            * {
+                box-sizing: border-box !important;
+            }
+        </style>
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
