@@ -33,4 +33,30 @@ class VendorController extends Controller
     {
         return view('auth.system.vendors.edit');
     }
+
+    public function viewSettings()
+    {
+        // 
+        return view('auth.system.vendors.settings');
+    }
+    public function viewProducts()
+    {
+        // 
+        return view('auth.system.vendors.products');
+    }
+    public function viewOrders()
+    {
+        // 
+        // return view('auth.system.vendors.orders');
+    }
+    public function viewDocuments()
+    {
+        // 
+        return view('auth.system.vendors.documents');
+    }
+    public function viewCategories()
+    {
+        // 
+        return view('auth.system.vendors.categories');
+    }
 }

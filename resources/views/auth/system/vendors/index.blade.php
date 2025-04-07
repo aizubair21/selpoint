@@ -99,11 +99,12 @@
                         <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
                         <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
                         <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
+                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
                     </div>
 
-                   <div>
-                    <x-text-input type="search" placeholder="Search Vendor" class="my-1" />
-                   </div>
+                    <div>
+                        <x-text-input type="search" placeholder="Search Vendor" class="my-1" />
+                    </div>
                               
                 </div>
 

@@ -71,35 +71,32 @@ $count = "";
                                 $roles = auth()->user()->getRoleNames();
                             @endphp
                             @if (count($roles) > 0)
-                                <hr>
-                                    {{-- @if (auth()->user()->hasRole('system'))
-                                    @endif --}}
+                                <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                    Go To Dashboard
+                                </x-dropdown-link>
+                                
+                                {{-- @if (auth()->user()->hasRole('vendor'))
                                     <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
-                                        Go To Dashboard
+                                        Vendor Dashboard
                                     </x-dropdown-link>
-                                    {{-- @if (auth()->user()->hasRole('vendor'))
-                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
-                                            Vendor Dashboard
-                                        </x-dropdown-link>
-                                    @endif
-                                    @if (auth()->user()->hasRole('reseller'))
-                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
-                                            Reseller Dashboard
-                                        </x-dropdown-link>
-                                    @endif
-                                    @if (auth()->user()->hasRole('rider'))
-                                        <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
-                                            Rider Dashboard
-                                        </x-dropdown-link>
-                                    @endif --}}
-                                <hr>
+                                @endif
+                                @if (auth()->user()->hasRole('reseller'))
+                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                        Reseller Dashboard
+                                    </x-dropdown-link>
+                                @endif
+                                @if (auth()->user()->hasRole('rider'))
+                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                        Rider Dashboard
+                                    </x-dropdown-link>
+                                @endif --}}
                             @endif
                         {{--  role-based architecture  --}}
                  
                         {{-- special permission  --}}
                         <div class="py-2">
                                 @can('vendors_navigation')                                
-                                    <x-dropdown-link class="text-green bold border-b">
+                                    <x-dropdown-link href="{{route('system.vendor.index')}}" class="text-green bold border-b">
                                         Manage Vendor
                                     </x-dropdown-link>
                                 @endcan

@@ -34,8 +34,8 @@
         <div class="min-h-screen bg-gray-100">
 
             <x-has-role name="system">
-                @include('layouts.navigation')
             </x-has-role>
+            @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)

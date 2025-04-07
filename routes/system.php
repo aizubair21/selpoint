@@ -3,6 +3,7 @@
 use App\Http\Controllers\System\VendorController;
 use App\Http\Middleware\AbleTo;
 use App\Models\User;
+use App\View\Components\dashboard\overview\system\VendorCount;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -29,5 +30,10 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
          * @return Vendor edit page
          */
         Route::get('/edit', [VendorController::class, 'edit'])->name('system.vendor.edit');
+        Route::get('/settings', [VendorController::class, 'viewSettings'])->name('system.vendor.settings');
+        Route::get('/documents', [VendorController::class, 'viewDocuments'])->name('system.vendor.documents');
+        Route::get('/products', [VendorController::class, 'viewProducts'])->name('system.vendor.products');
+        Route::get('/categories', [VendorController::class, 'viewCategories'])->name('system.vendor.categories');
+        Route::get('/orders', [VendorController::class, 'viewOrders'])->name('system.vendor.orders');
     });
 });
