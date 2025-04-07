@@ -47,19 +47,21 @@
             <x-dashboard.section.inner>
                 <form action="{{route('system.permissions.to-role', ['role' => $role->id])}}" method="post">
                     @csrf
+                    @php
+                        // $isPermit = $role->hasPermissionTo($perm->name) ? true : false;
+                        $userPermissions = $role->getPermissionNames();
+                    @endphp
+                    <x-permissions-to-user :$userPermissions />
                     {{-- <input type="hidden" name="role" value="{{$role}}"> --}}
-                    <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                    {{-- <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
                         @foreach ($permissions as $perm)
                             
-                            @php
-                                $isPermit = $role->hasPermissionTo($perm->name) ? true : false;
-                            @endphp
                             <div class="flex items-center space-x-2">
                                 <x-text-input :checked="$isPermit" class="m-0" type='checkbox' name='permissions[]' id="perm_{{$perm->id}}" value="{{$perm->name}}" />
                                 <x-input-label class="text-md m-0 pl-3" id="perm_{{$perm->id}}"> {{$perm->name ?? "Not Found!"}} </x-input-label>
                             </div>
                         @endforeach
-                    </div>
+                    </div> --}}
                     
                     <x-hr />
                     @if($role->name != 'system')

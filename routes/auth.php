@@ -87,5 +87,6 @@ Route::middleware('auth')->group(function () {
         // permit to make users task
         Route::get('users', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
         Route::get('user/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
+        Route::post('user/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
 });

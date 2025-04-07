@@ -51,7 +51,7 @@ class PermissionSeeder extends Seeder
              * to access the system dashboard section. 
              */
 
-            // 'access_admin_section', 
+            // 'access_admin_section',
             // 'access_vendor_section',
             // 'access_reseller_section',
             // 'access_users_section',
@@ -133,6 +133,7 @@ class PermissionSeeder extends Seeder
             'users_add',
             'users_edit',
             'users_delete',
+            'users_update',
 
 
             /**

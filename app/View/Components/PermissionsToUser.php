@@ -12,9 +12,11 @@ class PermissionsToUser extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public $userPermissions;
+    public function __construct($userPermissions)
     {
         //
+        $this->userPermissions = $userPermissions;
     }
 
     /**
@@ -22,7 +24,8 @@ class PermissionsToUser extends Component
      */
     public function render(): View|Closure|string
     {
+        
         $permissions = Permission::all();
-        return view('components.permissions-to-user', compact('permissions'));
+        return view('components.permissions-to-user', ['permissions' => $permissions, 'userPermissions' => $this->userPermissions]);
     }
 }

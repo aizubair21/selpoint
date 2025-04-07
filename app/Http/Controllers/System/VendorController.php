@@ -6,6 +6,8 @@ use App\Http\Middleware\AbleTo;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class VendorController extends Controller
 {
@@ -21,7 +23,7 @@ class VendorController extends Controller
      */
     public function viewToDashboard()
     {
-
+        $perm = 'role_view';
         $vendorRequest = User::role('vendor')->paginate(50);
         return view('auth.system.vendors.index', [$vendorRequest]);
     }
