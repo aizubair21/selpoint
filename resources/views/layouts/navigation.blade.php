@@ -17,103 +17,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    @can('admin_view')
-                        @if (Route::has('system.admin'))
-                            <x-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
-                                {{ __('Admins') }}
-                            </x-nav-link>
-                        @endif      
-                    @endcan
+                   @includeif('layouts.primary_navigation')
 
-                    @can('vendors_view')     
-                        @if (Route::has('system.vendor.index'))
-                            <x-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
-                                {{ __('Vendor') }}
-                            </x-nav-link>
-                        @endif
-                    @endcan
-
-                    @can('resellers_view')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Reseller') }}
-                        </x-nav-link>
-                    @endcan 
-
-                    @can('riders_view')
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Rider') }}
-                        </x-nav-link>
-                    @endcan
-                    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Role') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Permission') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Comission') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Withdraw') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Store') }}
-                    </x-nav-link> --}}
-
-                    {{-- dropdown  --}}
-                    <div class="sm:flex sm:items-center sm:ms-6">
-                        <x-dropdown align="right" width="48">
-                            <x-slot name="trigger">
-                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                    More        
-                                    <div class="ms-1">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                </button>
-                            </x-slot>
-        
-                            <x-slot name="content">
-                                @can('role_list')
-                                    
-                                <x-dropdown-link :href="route('system.role.list')">
-                                    {{ __('Role') }}
-                                </x-dropdown-link>
-                                @endcan
-
-                                @can('users_view')
-                                <x-dropdown-link :href="route('system.users.view')">
-                                    {{ __('Users') }}
-                                </x-dropdown-link>
-                                @endcan
-
-                                @can('withdraw_manage')
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Withdraw') }}
-                                </x-dropdown-link>
-                                @endcan
-
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Comission') }}
-                                </x-dropdown-link>
-                                <x-dropdown-link :href="route('profile.edit')">
-                                    {{ __('Store') }}
-                                </x-dropdown-link>
-        
-                                <!-- Authentication -->
-                                {{-- <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-        
-                                    <x-dropdown-link :href="route('logout')"
-                                            onclick="event.preventDefault();
-                                                        this.closest('form').submit();">
-                                        {{ __('Log Out') }}
-                                    </x-dropdown-link>
-                                </form> --}}
-                            </x-slot>
-                        </x-dropdown>
-                    </div>
+                   @if (auth()->user()->hasRole('vendor'))
+                       {{-- vendor primary nav  --}}
+                       @includeif('layouts.vendor.navigation.primary')
+                   @endif
+                    
+                   @if (auth()->user()->hasRole('reseller'))
+                       {{-- reseller primary nav  --}}
+                   @endif
+                    
+                   @if (auth()->user()->hasRole('rider'))
+                       {{-- rider primary nav  --}}
+                   @endif
+                    
                     
                 </div>
             </div>
@@ -200,51 +118,22 @@
             <x-responsive-nav-link :href="route('user.dash')">
                 {{ __('Back to User Panel') }}
             </x-responsive-nav-link>
+           
+            @include('layouts.responsive_navigation')
+
+            @if (auth()->user()->hasRole('vendor'))
+                {{-- resonsive nav for vendor  --}}
+                @includeIf('layouts.vendor.navigation.responsive')
+            @endif
             
-            @can('admin_view')         
-                <x-responsive-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
-                    {{ __('Admin') }}
-                </x-responsive-nav-link>
-            @endcan
-            @can('vendors_view')         
-                <x-responsive-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
-                    {{ __('Vendor') }}
-                </x-responsive-nav-link>
-            @endcan
+            @if (auth()->user()->hasRole('reseller'))
+                {{-- resonsive nav for reseller  --}}
+            @endif
 
-            @can('resellers_view')
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Reseller') }}
-                </x-responsive-nav-link>
-            @endcan 
-
-            @can('riders_view')
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Rider') }}
-                </x-responsive-nav-link>
-            @endcan
-
-            @can('role_list')
-                <x-responsive-nav-link :href="route('system.role.list')">
-                    {{ __('Role') }}
-                </x-responsive-nav-link>
-            @endcan 
-
-            @can('users_view')
-                <x-responsive-nav-link :href="route('system.users.view')">
-                    {{ __('Users') }}
-                </x-responsive-nav-link>
-            @endcan 
-
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Comission') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Withdraw') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')">
-                {{ __('Store') }}
-            </x-responsive-nav-link>
+            @if (auth()->user()->hasRole('rider'))
+                {{-- resonsive nav for rider  --}}
+            @endif
+           
         </div>
 
         <!-- Responsive Settings Options -->

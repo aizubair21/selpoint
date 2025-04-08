@@ -33,7 +33,7 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
 
-            <x-has-role name="system">
+            <x-has-role name="['system','admin']">
             </x-has-role>
             @include('layouts.navigation')
 
