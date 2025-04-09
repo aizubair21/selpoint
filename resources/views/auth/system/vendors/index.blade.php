@@ -103,7 +103,8 @@
                     </div>
 
                     <div>
-                        <x-text-input type="search" placeholder="Search Vendor" class="my-1" />
+                        <x-text-input type="search" placeholder="Search Vendor" class="my-1 py-1" />
+                        <x-primary-button>Filter</x-primary-button>
                     </div>
                               
                 </div>
@@ -142,9 +143,12 @@
                             <td>100</td>
                             <td>2022-01-01</td>
                             <td>
-                                <x-nav-link href="{{route('system.vendor.edit')}}">
+                                <form action="{{route('system.vendor.edit')}}" method="get">
+                                    <x-primary-button>Edit</x-primary-button>
+                                </form>
+                                {{-- <x-nav-link href="{{route('system.vendor.edit')}}">
                                     Edit
-                                </x-nav-link>
+                                </x-nav-link> --}}
                             </td>
                         </tr>
                     </tbody>

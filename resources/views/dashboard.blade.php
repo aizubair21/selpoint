@@ -1,18 +1,18 @@
 <x-app-layout>
    <x-dashboard.page-header> 
-    @if (auth()->user()->hasRole('vendor'))
-        Vendor
-    @endif
-    @if (auth()->user()->hasRole('rider'))
-        Rider
-    @endif
-    @if (auth()->user()->hasRole('admin'))
-        Admin
-    @endif
-    @if (auth()->user()->hasRole('reseller'))
-        Reseller
-    @endif
-    Dashboard 
+        @if (auth()->user()->hasRole('vendor'))
+            Vendor
+        @endif
+        @if (auth()->user()->hasRole('rider'))
+            Rider
+        @endif
+        @if (auth()->user()->hasRole('admin'))
+            Admin
+        @endif
+        @if (auth()->user()->hasRole('reseller'))
+            Reseller
+        @endif
+        Dashboard 
     </x-dashboard.page-header>
 
     {{-- system dashboard over view  --}}

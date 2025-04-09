@@ -36,6 +36,17 @@ class VendorController extends Controller
         // vendor permission for order 
     }
 
+    public function upgradeIndex()
+    {
+        return view('user.pages.profile-upgrade.vendor.index');
+    }
+    public function upgradeCreateRequest()
+    {
+        return view('user.pages.profile-upgrade.vendor.create');
+    }
+
+
+
     /**
      * Vendor list at system dashboard
      */

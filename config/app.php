@@ -123,4 +123,11 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /**
+     * custom config
+     */
+    'ref' => env('ref', 'REF101U'),
+    'comission' => env('COMISSION', true),
+    'vip' => env('VIP', true),
+
 ];

@@ -140,6 +140,59 @@
         </div>
     </div>
     
+    <x-hr />
+        @push('style')
+            <style>
+                .add:hover > .wrapAdd{
+                    translate: all linear .3s;
+                    position: absolute;
+                    bottom: 12px;
+                    right: 12px!important;
+                    width: 10px;
+                    height: 10px;
+                    translate: all linear .3s;
+                    /* border: 1px solid green!important; */
+
+                }
+                .wrapAdd{
+                    translate: all linear .3s;
+                    position: absolute;
+                    bottom: 12px;
+                    right: 20px;
+                    /* padding: 5px; */
+                    width: 15px;
+                    height: 15px;
+                    /* border-radius: 3px; */
+                    border-top: 1px solid gray;;
+                    border-right: 1px solid gray;;
+                    transform: rotate(45deg);
+                }
+            </style>
+        @endpush
+        <div style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); grid-gap:10px">
+            <a href="{{route('upgrade.vendor.index')}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+                <h6 style="font-weight:600; color:green"> Be a Vendor</h6>
+                <p style="font-size: 12px; color:black; font-weight:300">
+                    Upgrade your account to vendor, sell product and earn comission.
+                </p>
+                <div class="wrapAdd"></div>
+            </a>
+            <a href="" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+                <h6 style="font-weight:600; color:green;" >  Ba Reseller</h6>
+                <p style="font-size: 12px; color:black; font-weight:300">
+                    Upgrade your account to <strong>Reseller</strong> now. Chose product and sel as yours.
+                </p>
+                <div class="wrapAdd"></div>
+            </a>
+            <a href="" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+                <h6 style="font-weight:600; color:green;">Be a Rider</h6>
+                <p style="font-size: 12px; color:black; font-weight:300">
+                    Be a <strong>Delevary Man</strong>, collect product and shipped to destination.
+                </p>
+                <div class="wrapAdd"></div>
+            </a>
+        </div>
+    <x-hr />
 
     <div class="row m-0 my-2">
         <div class="col-12 p-1">

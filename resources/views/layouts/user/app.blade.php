@@ -68,24 +68,24 @@
       {{-- <script src="{{asset('assets/user/js/popper.min.js')}}"></script> --}}
       <script src="{{asset('assets/user/js/bootstrap.js')}}"></script>
       {{-- <script src="{{asset('assets/user/js/custom.js')}}"></script> --}}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
+      {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
       
    </body>
 
 <script>
-   @if (session('success'))
-       toastr.success("{{ session('success') }}", 'Success', {
-           positionClass: 'toast-top-right',
-           timeOut: 3000
-       });
-   @endif
+   // @if (session('success'))
+   //     toastr.success("{{ session('success') }}", 'Success', {
+   //         positionClass: 'toast-top-right',
+   //         timeOut: 3000
+   //     });
+   // @endif
 
-   @if (session('warning'))
-      toastr.warning("{{ session('warning') }}", 'warning', {
-         positionClass: 'toast-top-right',
-         timeOut: 3000
-      });
-   @endif
+   // @if (session('warning'))
+   //    toastr.warning("{{ session('warning') }}", 'warning', {
+   //       positionClass: 'toast-top-right',
+   //       timeOut: 3000
+   //    });
+   // @endif
 </script>
 </html>

@@ -17,7 +17,7 @@ class AbleTo
     {
         if (!auth()->user()->can($permission)) {
             // abort(403, 'You are unable to access');
-            return redirect()->back()->with('warning', "You do not have required permission to access.");
+            return redirect()->route('dashboard')->with('warning', "You do not have required permission to access.");
         }
         return $next($request);
     }
