@@ -17,7 +17,7 @@ class IsActiveVendor
     {
         if ($request->user()?->isVendor() && !$request->user()?->isVendor?->where(['status' => 'Active'])) {
             // abort('403', 'Unable to access. Vendorship is not active');
-            return redirect()->back()->with('warning', "Unable to access. Vendorship is not active");
+            return redirect()->back()->with('info', "Unable to access. Vendorship is not active");
         }
 
         return $next($request);
