@@ -10,12 +10,14 @@ trait HandleVendor
     //////////////// 
     //  VENDOR  PRODUCT //
     ///////////////
+    private $vendor = 'auth.vendor.';
+    // private $vendorProduct = $vendor . '.products';
 
     public function productView()
     {
         //
         // return $this->hasMany(Product::class, 'vendor_id', 'id');
-        return "Product View Page";
+        return view($this->vendor . "products.list");
     }
     public function productDetails()
     {

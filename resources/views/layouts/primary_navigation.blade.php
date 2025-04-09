@@ -52,13 +52,13 @@
 
     @can('role_list')
                     
-    <x-nav-link :href="route('system.role.list')">
+    <x-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
         {{ __('Role') }}
     </x-nav-link>
     @endcan
 
     @can('users_view')
-    <x-nav-link :href="route('system.users.view')">
+    <x-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
         {{ __('Users') }}
     </x-nav-link>
     @endcan

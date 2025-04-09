@@ -1,4 +1,4 @@
-<x-responsive-nav-link href="">
+<x-responsive-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')">
     Products
 </x-responsive-nav-link>
 

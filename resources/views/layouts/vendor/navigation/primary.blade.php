@@ -26,11 +26,11 @@
 
 </div> --}}
 
-<x-nav-link href="{{route('vendor.products.view')}}">
+<x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')">
     Products
 </x-nav-link>
 
-<x-nav-link href="">
+<x-nav-link href="" :active="request()->routeIs('vendor.categories.*')">
     Categories
 </x-nav-link>
 
