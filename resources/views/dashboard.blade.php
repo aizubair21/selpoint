@@ -9,6 +9,9 @@
     @if (auth()->user()->hasRole('admin'))
         Admin
     @endif
+    @if (auth()->user()->hasRole('reseller'))
+        Reseller
+    @endif
     Dashboard 
     </x-dashboard.page-header>
 
@@ -215,15 +218,17 @@
     @endif
 
 
-        {{-- vendor dashboard overview  --}}
-        <x-has-role name="vendor">
-            @include('layouts.vendor.vendor')
-        </x-has-role>
-    
-        {{-- reseller dashboard overview  --}}
-    
-    
-        {{-- rider dashboard overview  --}}
+    {{-- vendor dashboard overview  --}}
+    <x-has-role name="vendor">
+        @includeIf('layouts.vendor.vendor')
+    </x-has-role>
+
+    {{-- reseller dashboard overview  --}}
+    <x-has-role name="reseller">
+        @includeIf('layouts.reseller.reseller')
+    </x-has-role>   
+
+    {{-- rider dashboard overview  --}}
 
 
     

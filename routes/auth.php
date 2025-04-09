@@ -77,6 +77,8 @@ Route::middleware('auth')->group(function () {
 
         include('vendor.php'); // include all route for vendor
 
+        include('reseller.php'); // include all route for reseller
+
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
         Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
@@ -94,6 +96,4 @@ Route::middleware('auth')->group(function () {
         Route::get('user/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
         Route::post('user/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
-
-
 });

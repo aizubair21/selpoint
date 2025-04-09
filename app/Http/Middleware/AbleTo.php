@@ -16,7 +16,8 @@ class AbleTo
     public function handle(Request $request, Closure $next, string $permission): Response
     {
         if (!auth()->user()->can($permission)) {
-            abort(403, 'You are unable to access');
+            // abort(403, 'You are unable to access');
+            return redirect()->back()->with('warning', "You do not have required permission to access.");
         }
         return $next($request);
     }

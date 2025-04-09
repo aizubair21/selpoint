@@ -26,6 +26,7 @@
                     
                    @if (auth()->user()->hasRole('reseller'))
                        {{-- reseller primary nav  --}}
+                       @includeif('layouts.reseller.navigation.primary')
                    @endif
                     
                    @if (auth()->user()->hasRole('rider'))
@@ -128,6 +129,7 @@
             
             @if (auth()->user()->hasRole('reseller'))
                 {{-- resonsive nav for reseller  --}}
+                @includeIf('layouts.reseller.navigation.responsive')
             @endif
 
             @if (auth()->user()->hasRole('rider'))
