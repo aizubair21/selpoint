@@ -8,16 +8,18 @@ class vendor extends Model
 {
     //
     protected $fillable = [
+
         'user_id',
         'shop_name',
         'district',
         'address',
-        'nid',
-        'nid_front',
-        'nid_back',
         'shop_address',
         'shop_phone',
         'shop_email',
+
+        'nid',
+        'nid_front',
+        'nid_back',
         'shop_license',
         'shop_license_front',
         'shop_license_back',
@@ -29,6 +31,7 @@ class vendor extends Model
         'information_update_date',
 
         'status',
+
     ];
 
     /**
@@ -37,6 +40,32 @@ class vendor extends Model
     protected $casts = [
         'information_update_date' => 'datetime',
     ];
+
+
+    //////////////// 
+    // SCOPE //
+    ///////////////
+    public function scomeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 0);
+    }
+    public function scopeSuspend($query)
+    {
+        return $query->where('status', 2);
+    }
+
+
+
+
+    //////////////// 
+    // relation //
+    ///////////////
+
 
     /**
      * model belongs to a user

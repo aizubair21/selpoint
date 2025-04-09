@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
 
         include('system.php'); // include all routes for system
 
+        include('vendor.php'); // include all route for vendor
 
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
@@ -93,4 +94,6 @@ Route::middleware('auth')->group(function () {
         Route::get('user/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
         Route::post('user/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
+
+
 });

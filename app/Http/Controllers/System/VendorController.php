@@ -8,15 +8,33 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use App\HandleVendor;
 
 class VendorController extends Controller
 {
+
+    use HandleVendor;
+
+
     public function __construct()
     {
         $this->middleware(AbleTo::class . ":vendors_view")->only('viewToDashboard');
         $this->middleware(AbleTo::class . ":vendors_edit")->only('edit');
-    }
 
+        // vendor permission for product
+        $this->middleware(AbleTo::class . ":product_view")->only('productView');
+        $this->middleware(AbleTo::class . ":product_add")->only('productStore');
+        $this->middleware(AbleTo::class . ":product_edit")->only('productEdit');
+        $this->middleware(AbleTo::class . ":product_update")->only('productUpdate');
+
+        // vendor permission for category
+        $this->middleware(AbleTo::class . ":category_view")->only('categoryList');
+        $this->middleware(AbleTo::class . ":category_add")->only('categoryStore');
+        $this->middleware(AbleTo::class . ":category_edit")->only('categoryEdit');
+        $this->middleware(AbleTo::class . ":category_update")->only('categoryUpdate');
+
+        // vendor permission for order 
+    }
 
     /**
      * Vendor list at system dashboard

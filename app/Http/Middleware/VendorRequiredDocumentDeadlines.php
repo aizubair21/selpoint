@@ -6,18 +6,15 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AbleTo
+class VendorRequiredDocumentDeadlines
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $permission): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->can($permission)) {
-            abort(403, 'You are unable to access');
-        }
         return $next($request);
     }
 }

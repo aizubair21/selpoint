@@ -54,6 +54,20 @@ class User extends Authenticatable
         ];
     }
 
+
+    /**
+     * give user default 'user' role 
+     * when model is created
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::created(function (User $user) {
+            $user->syncRoles(['user']);
+        });
+    }
+
+
     /**
      * Determined the user hold the specific permissions
      */
@@ -65,5 +79,29 @@ class User extends Authenticatable
     protected function permisions()
     {
         return $this->getPermissionNames();
+    }
+
+    //////////////// 
+    // Relations //
+    ///////////////
+
+    public function isVendor()
+    {
+        return $this->hasOne(vendor::class)->latest();
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function category()
+    {
+        return $this->hasMany(category::class);
+    }
+
+    public function myOrder()
+    {
+        return $this->hasMany(Order::class);
     }
 }

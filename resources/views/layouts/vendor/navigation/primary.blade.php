@@ -26,7 +26,7 @@
 
 </div> --}}
 
-<x-nav-link href="">
+<x-nav-link href="{{route('vendor.products.view')}}">
     Products
 </x-nav-link>
 
