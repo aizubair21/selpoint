@@ -17,6 +17,9 @@
             {{config('app.name')}}
          @endisset
       </title>
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
       <!-- Scripts -->
       @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -27,7 +30,7 @@
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+      {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
       <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
 
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
@@ -168,7 +171,7 @@
 
 
    </body>
-   @if (session('success'))
+   {{-- @if (session('success'))
       <script>
           toastr.success("{{ session('success') }}", 'Success', {
               positionClass: 'toast-top-right',
@@ -185,6 +188,74 @@
          timeOut: 3000
       });
    </script>
+   @endif --}}
+
+   @if($message = session('warning'))
+      <script>
+         // Swal.fire(
+         //     'Attention!',
+         //     '{{ $message }}',
+         //     'warning'
+         // )
+
+         Swal.fire({
+            title: 'Warning!',
+            text: '{{$message}}',
+            icon: 'warning',
+            confirmButtonText: 'Understood'
+         })
+      </script>
+   @endif
+
+   @if($message = session('success'))
+      <script>
+         // Swal.fire(
+         //     'Attention!',
+         //     '{{ $message }}',
+         //     'warning'
+         // )
+
+         Swal.fire({
+            title: 'Success',
+            text: '{{$message}}',
+            icon: 'success',
+            confirmButtonText: 'Done'
+         })
+      </script>
+   @endif
+
+   @if($message = session('error'))
+      <script>
+         // Swal.fire(
+         //     'Attention!',
+         //     '{{ $message }}',
+         //     'warning'
+         // )
+
+         Swal.fire({
+            title: 'Error !',
+            text: '{{$message}}',
+            icon: 'error',
+            confirmButtonText: 'Close'
+         })
+      </script>
+   @endif
+
+   @if($message = session('info'))
+      <script>
+         // Swal.fire(
+         //     'Attention!',
+         //     '{{ $message }}',
+         //     'warning'
+         // )
+
+         Swal.fire({
+            title: 'Info !',
+            text: '{{$message}}',
+            icon: 'info',
+            confirmButtonText: 'Understood'
+         })
+      </script>
    @endif
 
    @stack('script')
