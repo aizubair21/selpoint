@@ -84,6 +84,11 @@ class User extends Authenticatable
     // Relations //
     ///////////////
 
+    public function requestsToBeVendor()
+    {
+        return $this->hasMany(vendor::class);
+    }
+
     public function isVendor()
     {
         return $this->hasOne(vendor::class)->latest();

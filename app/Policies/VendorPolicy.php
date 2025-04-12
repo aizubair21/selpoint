@@ -11,6 +11,11 @@ class VendorPolicy
      */
     public function __construct()
     {
+        // 
+    }
+
+    public function canUpdate()
+    {
         //
     }
 }

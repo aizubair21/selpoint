@@ -9,6 +9,11 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\HandleVendor;
+use App\Http\Middleware\Owner;
+use App\Models\vendor;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Can;
 
 class VendorController extends Controller
 {
@@ -33,11 +38,14 @@ class VendorController extends Controller
         $this->middleware(AbleTo::class . ":category_edit")->only('categoryEdit');
         $this->middleware(AbleTo::class . ":category_update")->only('categoryUpdate');
 
+        // $this->middleware(Owner::class . "")->only('upgradeEdit');
+
         // vendor permission for order 
     }
 
     public function upgradeIndex()
     {
+        // dd(auth()->user()->requestsToBeVendor()->where(['status' => 'Pending'])->count());
         return view('user.pages.profile-upgrade.vendor.index');
     }
     public function upgradeCreateRequest()
@@ -46,15 +54,56 @@ class VendorController extends Controller
     }
     public function upgradeStore(Request $request)
     {
+        if (auth()->user()->requestsToBeVendor()->where(['status' => 'Pending'])->count()) {
+            return redirect()->back()->with('info', 'One Request Has Been Pending!');
+        }
+
         // dd($request->all());
         $request->validate([
+            // unique, but ignore when upgate 
+            'shop_name_en' => ['required', 'string', 'max:100', 'min:5', 'unique:vendors'],
             'shop_name_bn' => 'required',
+            'phone' => ['required', 'max:11', 'min:10', 'unique:vendors'],
+            'email' => [
+                'required',
+                'email',
+                'unique:vendors'
+            ],
+            'country' => 'required',
+            'district' => 'required',
+            'upozila' => 'required',
+            'village' => 'required',
+            'zip' => ['required', 'integer'],
+            'road_no' => 'required',
+            'house_no' => 'required',
         ]);
+        $request->mergeIfMissing(['user_id' => Auth::id(), 'slug' => Str::slug($request->shop_name_en)]); // slug
+
+        $vendorId = vendor::create($request->except('_token'));
+        // dd();
+        return redirect()->route('upgrade.vendor.edit', ['id' => $vendorId->id]);
+        // $this->vendor()->update([]);
     }
-    public function upgradeEdit()
+
+    public function upgradeEdit($id)
     {
-        return view('user.pages.profile-upgrade.vendor.edit');
+        $data = auth()->user()->requestsToBeVendor()->find($id);
+
+        if ($data) {
+            // if ($data->status == 'Active') {
+            //     # code...
+            // }
+            return view('user.pages.profile-upgrade.vendor.edit', compact('data'), ['vendor' => 'active']);
+        } else {
+            return redirect()->back()->with('info', 'You Have No Right Access!');
+        }
     }
+
+    public function upgradeUpdate()
+    {
+        // 
+    }
+
 
 
 

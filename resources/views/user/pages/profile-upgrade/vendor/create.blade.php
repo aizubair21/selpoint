@@ -18,7 +18,7 @@
                     Request to be a vendor
                     <div class="d-flex justify-content-between">
                   
-                        <a href="" class="">
+                        <a href="{{route('upgrade.vendor.index')}}" class="">
                             <x-secondary-button>
                                 previous request
                             </x-secondary-button>
@@ -28,22 +28,15 @@
             </x-dashboard.section.header>
         </x-dashboard.section>
        
-       <x-dashboard.section>
-           <x-dashboard.section.inner>
-               {{-- <x-dashboard.section class="bg-gray-100"> --}}
-                   <form action="{{route('upgrade.vendor.store')}}" method="post"> 
-                       @csrf
-                       <x-input-field label="Your Shop Name English" name="shop_name_en" error="shop_name" />
-                       <x-input-field label="Your Shop Name bangls" name="shop_name_bn" error="shop_name" />
-                           
-                       <x-primary-button>
-                           continue
-                       </x-primary-button>
-                   </form>
-               {{-- </x-dashboard.section> --}}
-           </x-dashboard.section.inner>
-       </x-dashboard.section>
+        <form action="{{route('upgrade.vendor.store')}}" method="post"> 
+            @csrf
+            @include('user.pages.profile-upgrade.vendor.partials.basic')
 
+            {{-- <x-dashboard.section>
+                <x-dashboard.section.inner>
+                </x-dashboard.section.inner>
+            </x-dashboard.section> --}}
+        </form>
     </div>
 
 @endsection

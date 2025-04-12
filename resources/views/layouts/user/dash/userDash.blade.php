@@ -18,11 +18,12 @@
          @endisset
       </title>
 
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+      
       <!-- Scripts -->
       @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+      
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      
       <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
@@ -40,7 +41,7 @@
       
       <style>
          body{
-            background-color: #dfdfdf!important;
+            background-color: #ebebeb!important;
          }
          th {
                vertical-align: middle!important;
@@ -154,7 +155,7 @@
 
 
          {{-- right content  --}}
-         <div id="user_content" class="col-md-9 p-0 p-lg-3 w-100">
+         <div id="user_content" class="col-md-9 py-2 p-lg-3 w-100">
            
             @yield('content')
 
@@ -195,12 +196,6 @@
 
    @if($message = session('warning'))
       <script>
-         // Swal.fire(
-         //     'Attention!',
-         //     '{{ $message }}',
-         //     'warning'
-         // )
-
          Swal.fire({
             title: 'Warning!',
             text: '{{$message}}',
@@ -212,12 +207,6 @@
 
    @if($message = session('success'))
       <script>
-         // Swal.fire(
-         //     'Attention!',
-         //     '{{ $message }}',
-         //     'warning'
-         // )
-
          Swal.fire({
             title: 'Success',
             text: '{{$message}}',
@@ -229,12 +218,6 @@
 
    @if($message = session('error'))
       <script>
-         // Swal.fire(
-         //     'Attention!',
-         //     '{{ $message }}',
-         //     'warning'
-         // )
-
          Swal.fire({
             title: 'Error !',
             text: '{{$message}}',
@@ -246,12 +229,6 @@
 
    @if($message = session('info'))
       <script>
-         // Swal.fire(
-         //     'Attention!',
-         //     '{{ $message }}',
-         //     'warning'
-         // )
-
          Swal.fire({
             title: 'Info !',
             text: '{{$message}}',
