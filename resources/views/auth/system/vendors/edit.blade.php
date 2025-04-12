@@ -5,11 +5,16 @@
         @include('auth.system.vendors.navigations')
     </x-dashboard.page-header>
     
+    @php
+        $user = auth()->user();
+    @endphp
     
-    @include('auth.system.vendors.overview')
+    @include('auth.system.vendors.vendor.overview')
     <x-dashboard.container>
         <x-dashboard.section>
+            @include('profile.partials.update-profile-information-form')
             {{-- @include('auth.system.vendors.settings') --}}
+            
             {{-- body  --}}
             {{-- @if ($filter == 'Settings')
                 

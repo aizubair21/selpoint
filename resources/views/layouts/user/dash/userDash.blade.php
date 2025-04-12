@@ -39,6 +39,9 @@
 
       
       <style>
+         body{
+            background-color: #dfdfdf!important;
+         }
          th {
                vertical-align: middle!important;
                font-size: 14px;

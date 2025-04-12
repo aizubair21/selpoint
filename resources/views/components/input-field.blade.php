@@ -18,7 +18,7 @@
 
         <!-- Error Message -->
         @if ($errors->has($name))
-            <p class="mt-2 text-sm text-red-600">{{ $errors->first($name) }}</p>
+            <div class="text-sm text-red-600">{{ $errors->first($name) }}</div>
         @endif
     </div>
 

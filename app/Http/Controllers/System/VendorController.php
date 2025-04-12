@@ -44,6 +44,17 @@ class VendorController extends Controller
     {
         return view('user.pages.profile-upgrade.vendor.create');
     }
+    public function upgradeStore(Request $request)
+    {
+        // dd($request->all());
+        $request->validate([
+            'shop_name_bn' => 'required',
+        ]);
+    }
+    public function upgradeEdit()
+    {
+        return view('user.pages.profile-upgrade.vendor.edit');
+    }
 
 
 
@@ -52,9 +63,20 @@ class VendorController extends Controller
      */
     public function viewToDashboard()
     {
-        $perm = 'role_view';
-        $vendorRequest = User::role('vendor')->paginate(50);
-        return view('auth.system.vendors.index', [$vendorRequest]);
+        // $perm = 'role_view';
+        $filter = request('filter') ?? 'Active';
+
+        // switch ($filter) {
+        //     case 'Active':
+        //         # code...
+        //         break;
+
+        //     default:
+        //         # code...
+        //         break;
+        // }
+        $vendors = User::role('vendor')->paginate(50);
+        return view('auth.system.vendors.index', [$vendors]);
     }
 
     /**
@@ -68,26 +90,26 @@ class VendorController extends Controller
     public function viewSettings()
     {
         // 
-        return view('auth.system.vendors.settings');
+        return view('auth.system.vendors.vendor.settings');
     }
     public function viewProducts()
     {
         // 
-        return view('auth.system.vendors.products');
+        return view('auth.system.vendors.vendor.products');
     }
     public function viewOrders()
     {
         // 
-        // return view('auth.system.vendors.orders');
+        // return view('auth.system.vendors.vendor.orders');
     }
     public function viewDocuments()
     {
         // 
-        return view('auth.system.vendors.documents');
+        return view('auth.system.vendors.vendor.documents');
     }
     public function viewCategories()
     {
         // 
-        return view('auth.system.vendors.categories');
+        return view('auth.system.vendors.vendor.categories');
     }
 }

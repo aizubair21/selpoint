@@ -5,16 +5,16 @@
 
     <x-dashboard.container>
         <x-dashboard.section>
-            <x-dashboard.section.header>
+            {{-- <x-dashboard.section.header>
                 <x-slot name="title">
-                    {{-- <x-nav-link class="rounded-lg border px-3 py-2 shadow mb-2"> 
+                    <x-nav-link class="rounded-lg border px-3 py-2 shadow mb-2"> 
                         Make a vendor
-                    </x-nav-link> --}}
+                    </x-nav-link>
                 </x-slot>
                 <x-slot name="content">
                    
                 </x-slot>
-            </x-dashboard.section.header>
+            </x-dashboard.section.header> --}}
 
 
             <x-dashboard.overview.section>
@@ -44,32 +44,28 @@
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
                     <x-slot name="title">
+                        Disabled
+                    </x-slot>
+                    <x-slot name="content">
+                        100
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
                         Suspended
                     </x-slot>
                     <x-slot name="content">
                         0
                     </x-slot>
                 </x-dashboard.overview.div>
-            </x-dashboard.overview.section>
-            <x-hr/>
-            <x-dashboard.overview.section>
-                <x-dashboard.overview.div>
+                {{-- <x-dashboard.overview.div>
                     <x-slot name="title">
                         Active Product
                     </x-slot>
                     <x-slot name="content">
                         0
                     </x-slot>
-                </x-dashboard.overview.div>
-                <x-dashboard.overview.div>
-                    <x-slot name="title">
-                        Get Comission
-                    </x-slot>
-                    <x-slot name="content">
-                        0
-                    </x-slot>
-                </x-dashboard.overview.div>
-
+                </x-dashboard.overview.div> --}}
             </x-dashboard.overview.section>
         </x-dashboard.section>
         
@@ -93,23 +89,23 @@
                 $filter = request('filter') ?? "Active";
             @endphp
 
-            <x-dashboard.table>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
-                    </div>
-
-                    <div>
-                        <x-text-input type="search" placeholder="Search Vendor" class="my-1 py-1" />
-                        <x-primary-button>Filter</x-primary-button>
-                    </div>
-                              
+        
+            <div class="flex justify-between items-start">
+                <div>
+                    <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
+                    <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
+                    <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
+                    <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
                 </div>
 
-            </x-dashboard.table>
+                <div>
+                    <x-text-input type="search" placeholder="Search Vendor" class="my-1 py-1" />
+                    <x-primary-button>Filter</x-primary-button>
+                </div>
+                            
+            </div>
+
+           
 
             {{-- section inner  --}}
             <x-dashboard.section.inner>

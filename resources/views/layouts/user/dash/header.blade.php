@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\DB;
 $count = "";
 @endphp
 @endauth
-<header class="header_section">
+<header class="header_section bg-white">
 <div class="container">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
       
