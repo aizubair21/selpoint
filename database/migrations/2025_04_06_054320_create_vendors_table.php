@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('district', 100)->nullable();
             $table->string('upozila', 100)->nullable();
             $table->string('village', 100)->nullable();
-            $table->string('Zip', 100)->nullable();
+            $table->string('zip', 100)->nullable();
             $table->string('road_no', 100)->nullable();
             $table->string('house_no', 100)->nullable();
 

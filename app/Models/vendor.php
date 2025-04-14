@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use App\Models\vendor_has_document;
 
 class vendor extends Model
 {
@@ -66,6 +68,15 @@ class vendor extends Model
          */
         static::saving(function ($model) {
             $model->status = 'Pending';
+            $model->user_id = Auth::id();
+        });
+
+        static::saved(function ($model) {
+            // add new documents 
+            vendor_has_document::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
+
+            // add new nomini
+            vendor_has_nomini::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
         });
 
         /**
@@ -79,7 +90,7 @@ class vendor extends Model
                 /**
                  * null deatline at vendor_has_document
                  */
-                $model->documents()->update(['deadline' => null]);
+                $model->documents()->update(['deatline' => null]);
             }
 
             /**

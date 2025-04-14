@@ -11,7 +11,9 @@ use Illuminate\Support\Str;
 use App\HandleVendor;
 use App\Http\Middleware\Owner;
 use App\Models\vendor;
+use App\Models\vendor_has_document;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Can;
 
@@ -54,9 +56,9 @@ class VendorController extends Controller
     }
     public function upgradeStore(Request $request)
     {
-        if (auth()->user()->requestsToBeVendor()->where(['status' => 'Pending'])->count()) {
-            return redirect()->back()->with('info', 'One Request Has Been Pending!');
-        }
+        // if (auth()->user()->requestsToBeVendor()->where(['status' => 'Pending'])->count()) {
+        //     return redirect()->back()->with('info', 'One Request Has Been Pending!');
+        // }
 
         // dd($request->all());
         $request->validate([
@@ -77,7 +79,7 @@ class VendorController extends Controller
             'road_no' => 'required',
             'house_no' => 'required',
         ]);
-        $request->mergeIfMissing(['user_id' => Auth::id(), 'slug' => Str::slug($request->shop_name_en)]); // slug
+        $request->mergeIfMissing(['slug' => Str::slug($request->shop_name_en)]); // slug
 
         $vendorId = vendor::create($request->except('_token'));
         // dd();
@@ -87,21 +89,47 @@ class VendorController extends Controller
 
     public function upgradeEdit($id)
     {
+        /**
+         * user can able to update the rquest,
+         * if the request is pending
+         */
+        // $vendor = vendor::find($id);
+        // if ($vendor->status == 'Pending') {
+
+
         $data = auth()->user()->requestsToBeVendor()->find($id);
 
-        if ($data) {
-            // if ($data->status == 'Active') {
-            //     # code...
-            // }
+        if ($data && $data->status == 'Pending') {
             return view('user.pages.profile-upgrade.vendor.edit', compact('data'), ['vendor' => 'active']);
         } else {
-            return redirect()->back()->with('info', 'You Have No Right Access!');
+            return redirect()->back()->with('warning', 'You are unable to edit or Update!');
         }
     }
 
-    public function upgradeUpdate()
+    public function upgradeUpdate($id)
     {
         // 
+        $data = auth()->user()->requestsToBeVendor()->find($id);
+        if ($data && $data->status == 'Pending') {
+            $data->update(request()->except('_token'));
+            return redirect()->back()->with('success', 'Request Updated!');
+        } else {
+            return redirect()->back()->with('warning', 'Unable to Edit or Update');
+        }
+    }
+
+    public function upgradeUpdateDocument($id)
+    {
+        // 
+        // $data = auth()->user()->requestsToBeVendor()->find($id);
+        $data = vendor_has_document::find($id);
+        // dd($data->vendorRequest->status);
+        if ($data && $data->vendorRequest->status == 'Pending') {
+            $data->update(request()->except('_token'));
+            return redirect()->back()->with('success', 'Request Updated!');
+        } else {
+            return redirect()->back()->with('warning', 'Unable to Edit or Update');
+        }
     }
 
 
@@ -124,22 +152,23 @@ class VendorController extends Controller
         //         # code...
         //         break;
         // }
-        $vendors = User::role('vendor')->paginate(50);
-        return view('auth.system.vendors.index', [$vendors]);
+        $vendors = vendor::where(['status' => 'Pending'])->orderBy('id', 'desc')->get();
+        return view('auth.system.vendors.index', compact('vendors'));
     }
 
     /**
      * vendor edit 
      */
-    public function edit()
+    public function edit($id)
     {
-        return view('auth.system.vendors.edit');
+        $vendor = vendor::find($id);
+        return view('auth.system.vendors.edit', compact('vendor'));
     }
 
-    public function viewSettings()
+    public function viewSettings($id)
     {
-        // 
-        return view('auth.system.vendors.vendor.settings');
+        $vendor = vendor::find($id);
+        return view('auth.system.vendors.vendor.settings', compact('vendor'));
     }
     public function viewProducts()
     {

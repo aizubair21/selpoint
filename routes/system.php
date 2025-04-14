@@ -29,11 +29,11 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
          * route for vendor edit
          * @return Vendor edit page
          */
-        Route::get('/edit', [VendorController::class, 'edit'])->name('system.vendor.edit');
-        Route::get('/settings', [VendorController::class, 'viewSettings'])->name('system.vendor.settings');
-        Route::get('/documents', [VendorController::class, 'viewDocuments'])->name('system.vendor.documents');
-        Route::get('/products', [VendorController::class, 'viewProducts'])->name('system.vendor.products');
-        Route::get('/categories', [VendorController::class, 'viewCategories'])->name('system.vendor.categories');
-        Route::get('/orders', [VendorController::class, 'viewOrders'])->name('system.vendor.orders');
+        Route::get('/{id}/edit', [VendorController::class, 'edit'])->name('system.vendor.edit');
+        Route::get('/{id}/settings', [VendorController::class, 'viewSettings'])->name('system.vendor.settings');
+        Route::get('/{id}/documents', [VendorController::class, 'viewDocuments'])->name('system.vendor.documents');
+        Route::get('/{id}/products', [VendorController::class, 'viewProducts'])->name('system.vendor.products');
+        Route::get('/{id}/categories', [VendorController::class, 'viewCategories'])->name('system.vendor.categories');
+        Route::get('/{id}/orders', [VendorController::class, 'viewOrders'])->name('system.vendor.orders');
     });
 });

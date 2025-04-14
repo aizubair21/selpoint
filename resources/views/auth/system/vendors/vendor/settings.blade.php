@@ -22,19 +22,19 @@
                     <x-hr/>
                     <div class="flex">
                         <div class="flex items-center p-2 ">
-                            <x-text-input type="radio" class="m-0 mr-2" name="status" value="Active" id="active_check" />
+                            <x-text-input :checked="$vendor->status == 'Active'" type="radio" class="m-0 mr-2" name="status" value="Active" id="active_check" />
                             <x-input-label class="m-0" >Active</x-input-label>
                         </div>
                         <div class="flex items-center p-2 ">
-                            <x-text-input type="radio" class="m-0 mr-2" name="status" value="Pending" id="Pending_check" />
+                            <x-text-input :checked="$vendor->status == 'Pending'" type="radio" class="m-0 mr-2" name="status" value="Pending" id="Pending_check" />
                             <x-input-label class="m-0" >Pending</x-input-label>
                         </div>
                         <div class="flex items-center p-2 ">
-                            <x-text-input type="radio" class="m-0 mr-2" name="status" value="Disable" id="Disable_check" />
+                            <x-text-input :checked="$vendor->status == 'Disable'" type="radio" class="m-0 mr-2" name="status" value="Disable" id="Disable_check" />
                             <x-input-label class="m-0" >Disable</x-input-label>
                         </div>
                         <div class="flex items-center p-2 ">
-                            <x-text-input type="radio" class="m-0 mr-2" name="status" value="Suspended" id="Suspended_check" />
+                            <x-text-input :checked="$vendor->status == 'Suspended'" type="radio" class="m-0 mr-2" name="status" value="Suspended" id="Suspended_check" />
                             <x-input-label class="m-0" >Suspended</x-input-label>
                         </div>
                     </div>

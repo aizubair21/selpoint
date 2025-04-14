@@ -12,9 +12,9 @@
 
     <div class="form-group">
         <div class="md:flex justify-between">
-            <div style="width:250px">         
+            <div style="width:350px">         
                 <!-- Label -->
-                <x-input-label for="{{ $name }}" class="block text-sm font-medium text-gray-700">{{ $label }}</x-input-label>
+                <x-input-label for="{{ $name }}" class="block text-sm font-medium text-gray-700">{{ $label }} {{$required ? "*" : ""}} </x-input-label>
                 
                 <!-- Error Message -->
                 @if ($errors->has($name))

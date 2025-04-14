@@ -16,14 +16,10 @@
 
                 <x-slot name="content">
                     Request to be a vendor
-                    <div class="d-flex justify-content-between">
-                  
-                        <a href="{{route('upgrade.vendor.index')}}" class="">
-                            <x-secondary-button>
-                                previous request
-                            </x-secondary-button>
-                        </a>
-                    </div>
+                    <a href="{{route('upgrade.vendor.index')}}" class="">
+                        previous request
+                    </a>
+                   
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -34,6 +30,9 @@
 
             {{-- <x-dashboard.section>
                 <x-dashboard.section.inner>
+                    <x-primary-button>
+                        submit
+                    </x-primary-button>
                 </x-dashboard.section.inner>
             </x-dashboard.section> --}}
         </form>

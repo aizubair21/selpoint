@@ -112,7 +112,7 @@
                 <x-dashboard.table>
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>SL</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Commission</th> 
@@ -123,30 +123,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <div class="text-nowrap">
-                                    Vendor 1
-                                </div>
-                                <div class="badge badge-info text-nowrap">Vendor Shop Name</div>
-                            </td>
-                            <td>Active</td>
-                            <td>
-                                <span class="badge badge-success">10%</span>
-                            </td>
-                            <td>10</td>
-                            <td>100</td>
-                            <td>2022-01-01</td>
-                            <td>
-                                <form action="{{route('system.vendor.edit')}}" method="get">
-                                    <x-primary-button>Edit</x-primary-button>
-                                </form>
-                                {{-- <x-nav-link href="{{route('system.vendor.edit')}}">
-                                    Edit
-                                </x-nav-link> --}}
-                            </td>
-                        </tr>
+                        <x-dashboard.foreach :data="$vendors">
+                            
+                            @foreach ($vendors as $key => $vendor)    
+                                <tr>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td>
+                                        <div class="text-nowrap">
+                                            {{$vendor->user?->name ?? "N/A"}}
+                                        </div>
+                                        <div class="badge badge-info text-nowrap"> {{$vendor->shop_name_en ?? "N/A"}} </div>
+                                    </td>
+                                    <td>
+                                        {{$vendor->status ?? "N/A"}}
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-success"> {{$vendor->system_get_comission ?? "N/A"}} </span>
+                                    </td>
+                                    <td>10</td>
+                                    <td>100</td>
+                                    <td> {{$vendor->created_at?->toFormattedDateString()}} </td>
+                                    <td>
+                                        <form action="{{route('system.vendor.edit', ['id' => $vendor->id])}}" method="get">
+                                            <x-primary-button>Edit</x-primary-button>
+                                        </form>
+                                        {{-- <x-nav-link href="{{route('system.vendor.edit')}}">
+                                            Edit
+                                        </x-nav-link> --}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
+                        </x-dashboard.foreach>
                     </tbody>
                 </x-dashboard.table>
             </x-dashboard.section.inner>

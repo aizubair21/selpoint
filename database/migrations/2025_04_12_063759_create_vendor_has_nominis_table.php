@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('vendor_has_nominis', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('vendor_id')->nullable();
+            $table->string('nomini', 100)->nullable();
+            $table->string('nomini_relation', 100)->nullable();
+            $table->string('nomini_nid', 100)->nullable();
+            $table->string('nomini_phone', 100)->nullable();
             $table->timestamps();
         });
     }

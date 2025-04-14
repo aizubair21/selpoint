@@ -53,7 +53,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach (auth()->user()->requestsToBeVendor as $vr)
+                        @foreach (auth()->user()->requestsToBeVendor()->orderBy('id', 'desc')->get() as $vr)
                             <tr>
                                 <td> {{$loop->iteration}} </td>
                                 <td>
