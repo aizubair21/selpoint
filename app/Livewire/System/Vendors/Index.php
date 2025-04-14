@@ -4,9 +4,18 @@ namespace App\Livewire\System\Vendors;
 
 use Livewire\Component;
 use App\Models\vendor;
+use Livewire\Attributes\Url;
+
 
 class Index extends Component
 {
+
+    /**
+     * URL data
+     */
+    #[URL]
+    public $filter = "Active";
+
     public $vendors;
 
     /**mount */
@@ -17,7 +26,8 @@ class Index extends Component
 
     public function getData()
     {
-        $this->vendors = vendor::where(['status' => 'Pending'])->orderBy('id', 'desc')->get();
+
+        $this->vendors = vendor::where(['status' => $this->filter])->orderBy('id', 'desc')->get();
     }
 
     public function render()

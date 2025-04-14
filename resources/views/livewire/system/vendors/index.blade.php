@@ -144,12 +144,12 @@
                                         <td>100</td>
                                         <td> {{$vendor->created_at?->toFormattedDateString()}} </td>
                                         <td>
-                                            <form action="{{route('system.vendor.edit', ['id' => $vendor->id])}}" method="get">
+                                            {{-- <form action="{{route('system.vendor.edit', ['id' => $vendor->id])}}" method="get">
                                                 <x-primary-button>Edit</x-primary-button>
-                                            </form>
-                                            {{-- <x-nav-link href="{{route('system.vendor.edit')}}">
+                                            </form> --}}
+                                            <x-nav-link href="{{route('system.vendor.edit', ['id' => $vendor->id])}}">
                                                 Edit
-                                            </x-nav-link> --}}
+                                            </x-nav-link>
                                         </td>
                                     </tr>
                                 @endforeach

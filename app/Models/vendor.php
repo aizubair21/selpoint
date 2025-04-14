@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\vendor_has_document;
+use Carbon\Carbon;
 
 class vendor extends Model
 {
@@ -66,39 +67,43 @@ class vendor extends Model
         /**
          * if model inserte
          */
-        static::saving(function ($model) {
+        static::creating(function ($model) {
             $model->status = 'Pending';
             $model->user_id = Auth::id();
         });
 
-        static::saved(function ($model) {
+        // static::created
+
+        static::created(function ($model) {
             // add new documents 
             vendor_has_document::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
 
             // add new nomini
             vendor_has_nomini::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
+
+            $model->documents()->update(['deatline' => Carbon::now()->addDays(7)]);
         });
 
         /**
          * if model saving and have status = 1
          */
-        static::updating(function ($model) {
+        static::saving(function ($model) {
             if ($model->isDirty('status') && $model->status == 'Active') {
                 $model->is_rejected = 0;
                 $model->rejected_for = null;
 
-                /**
-                 * null deatline at vendor_has_document
-                 */
                 $model->documents()->update(['deatline' => null]);
+            }
+
+            if ($model->isDirty('status') && $model->status != 'Pending') {
+                $model->is_rejected = 0;
             }
 
             /**
              * if rejected
              */
-            if ($model->isDirty('is_rejected')) {
-                $model->is_rejected = 1;
-                $model->status = "Pending";
+            if ($model->isDirty('is_rejected') && $model->is_rejected) {
+                $model->status = "Suspended";
                 // $model->rejected_for = $request;
             }
         });

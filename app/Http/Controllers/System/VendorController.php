@@ -190,4 +190,18 @@ class VendorController extends Controller
         // 
         return view('auth.system.vendors.vendor.categories');
     }
+
+    public function updateBySystem($id)
+    {
+        // dd(request()->except(['id', '_token']));
+        $data = vendor::find($id);
+        // dd($data->id);
+
+        if ($data) {
+            // dd(request()->except(['id', '_token']));
+            $data->update(request()->except(['id', '_token']));
+        }
+
+        return redirect()->back()->with('success', 'Vendor Data Updated!');
+    }
 }
