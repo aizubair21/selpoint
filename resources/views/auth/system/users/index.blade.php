@@ -78,11 +78,9 @@
                                 </td>
                                 <td>
                                     <div class="flex">
-                                        <form action="{{route('system.users.edit', ['email' => $user->email])}}" method="get">
-                                            <x-primary-button type="submit">
-                                                Edit
-                                            </x-primary-button>
-                                        </form>
+                                        <x-nav-link href="{{route('system.users.edit', ['email' => $user->email])}}" >                                           
+                                            Edit
+                                        </x-nav-link>
                                     </div>
                                 </td>
                             </tr>

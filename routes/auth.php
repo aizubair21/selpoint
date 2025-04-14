@@ -7,6 +7,9 @@ use App\Http\Controllers\SystemUsersController;
 use App\Http\Middleware\AbleTo;
 use Livewire\Volt\Volt;
 
+
+use App\Livewire\System\Roles\Index as roleIndexPage;
+
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
         ->name('register');
@@ -56,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
+        // Route::get('roles', roleIndexPage::class)->name('system.role.list')->middleware(AbleTo::class . ':role_list');
         Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
         Route::post('role-to-users', [RoleController::class, 'multiple_user_to_single_role'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user'); // single role to multiple users
 

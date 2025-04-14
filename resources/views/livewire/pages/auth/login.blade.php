@@ -22,7 +22,9 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
+}; 
+
+?>
 
 <div>
     <!-- Session Status -->

@@ -6,6 +6,10 @@ use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
+use Livewire\Volt\Volt;
+
+
+use App\Livewire\System\Vendors\Index as vendorIndexPage;
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -22,7 +26,8 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
          * route for vendor index
          * as per permision
          */
-        Route::get('/', [VendorController::class, 'viewToDashboard'])->name('system.vendor.index');
+        Route::get('/', vendorIndexPage::class)->name('system.vendor.index');
+        // Route::view('/', vendorIndexPage::class)->name('system.vendor.index');
 
 
         /**

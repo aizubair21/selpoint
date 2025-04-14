@@ -60,7 +60,9 @@ new class extends Component
 
         Session::flash('status', 'verification-link-sent');
     }
-}; ?>
+}; 
+
+?>
 
 <section>
     <header>

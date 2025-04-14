@@ -34,12 +34,15 @@
                                 <td> {{$rol->permissions?->count() ?? "No Permissions"}} </td>
                                 <td>
                                     <div class="flex">
-                                        <form action="{{route('system.role.edit')}}" method="get">
+                                        {{-- <form action="{{route('system.role.edit')}}" method="get" wire:navigate>
                                             <input type="hidden" name="role" value="{{ encrypt($rol->id)}}">
                                             <x-primary-button>
                                                 Edit
                                             </x-primary-button>
-                                        </form>
+                                        </form> --}}
+                                        <x-nav-link :href="route('system.role.edit', ['role' => encrypt($rol->id)])">
+                                            Edit
+                                        </x-nav-link>
 
                                         {{-- <form action="{{route('system.role.edit')}}" method="post">
                                             @csrf
