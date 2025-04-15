@@ -5,7 +5,7 @@ namespace App\Livewire\System\Vendors;
 use Livewire\Component;
 use App\Models\vendor;
 use Livewire\Attributes\Url;
-
+use Livewire\Attributes\Reactive;
 
 class Index extends Component
 {
@@ -16,6 +16,12 @@ class Index extends Component
     #[URL]
     public $filter = "Active";
 
+    #[URL]
+    public $find, $filterSearch;
+
+    /**
+     * component data
+     */
     public $vendors;
 
     /**mount */
@@ -28,6 +34,18 @@ class Index extends Component
     {
 
         $this->vendors = vendor::where(['status' => $this->filter])->orderBy('id', 'desc')->get();
+    }
+
+    /**
+     * search vendor 
+     */
+    public function search()
+    {
+        if ($this->filter == "*") {
+            $this->vendors = vendor::where('shop_name_en', 'like', '%' . $this->find . '%')->get();
+        } else {
+            $this->vendors = vendor::where('shop_name_en', 'like', '%' . $this->find . '%')->where(['status' => $this->filter])->get();
+        }
     }
 
     public function render()

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Can;
+use Spatie\Permission\Models\Permission;
 
 class VendorController extends Controller
 {
@@ -168,7 +169,8 @@ class VendorController extends Controller
     public function viewSettings($id)
     {
         $vendor = vendor::find($id);
-        return view('auth.system.vendors.vendor.settings', compact('vendor'));
+        $permissions = Permission::all();
+        return view('auth.system.vendors.vendor.settings', compact('vendor', 'permissions'));
     }
     public function viewProducts()
     {

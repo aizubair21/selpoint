@@ -85,22 +85,23 @@
                     </div>
                     
                 </div> --}}
-                @php
+                {{-- @php
                     $filter = request('filter') ?? "Active";
-                @endphp
+                @endphp --}}
     
             
                 <div class="flex justify-between items-start">
                     <div>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
-                        <x-nav-link href="{{URL::to(URL()->current())}}/?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
+                        <x-nav-link href="?filter=*" class="px-2 mb-2" :active="$filter == '*' " >All</x-nav-link>
+                        <x-nav-link href="?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
+                        <x-nav-link href="?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
+                        <x-nav-link href="?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
+                        <x-nav-link href="?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
                     </div>
     
                     <div>
-                        <x-text-input type="search" placeholder="Search Vendor" class="my-1 py-1" />
-                        <x-primary-button>Filter</x-primary-button>
+                        <x-text-input wire:model.live="find" wire:keydown.enter="search" type="search" placeholder="Search Vendor" class="my-1 py-1" />
+                        <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'vendor-filter-modal')">Filter</x-primary-button>
                     </div>
                                 
                 </div>
@@ -147,7 +148,7 @@
                                             {{-- <form action="{{route('system.vendor.edit', ['id' => $vendor->id])}}" method="get">
                                                 <x-primary-button>Edit</x-primary-button>
                                             </form> --}}
-                                            <x-nav-link href="{{route('system.vendor.edit', ['id' => $vendor->id])}}">
+                                            <x-nav-link href="{{route('system.vendor.settings', ['id' => $vendor->id])}}">
                                                 Edit
                                             </x-nav-link>
                                         </td>
