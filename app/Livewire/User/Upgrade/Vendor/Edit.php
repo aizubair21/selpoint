@@ -3,13 +3,17 @@
 namespace App\Livewire\User\Upgrade\Vendor;
 
 use App\Models\vendor;
+use App\Models\vendor_has_document;
 use Illuminate\Foundation\Exceptions\Renderer\Listener;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\Attributes\Url;
+use Livewire\WithFileUploads;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
     #[URL]
     public $id, $nav;
 
@@ -22,13 +26,22 @@ class Edit extends Component
     /**
      * component data
      */
-    public $vendor;
+    public $vendor, $vendorDocument, $nid_front, $nid_back, $shop_tin_image, $shop_trade_image;
 
 
     public function mount()
     {
-        $this->data = vendor::find($this->id);
+        $this->data = auth()->user()->requestsToBeVendor()->find($this->id);
         $this->vendor = $this->data->toArray();
+        $this->vendorDocument = $this->data->documents->toArray();
+    }
+    // equest()->all()
+
+    public function updated($property)
+    {
+        if ($property == $this->vendorDocument['nid_front']) {
+            $this->nid_front == $this->vendorDocument['nid_front'];;
+        }
     }
 
 
@@ -40,6 +53,72 @@ class Edit extends Component
         // Session::flash('success', 'Your vendor request updated !');
         $this->dispatch('refresh');
         $this->dispatch('alert', 'Updated');
+    }
+
+    public function updateDocument()
+    {
+        // dd($this->vendorDocument);
+        $vd = vendor_has_document::find($this->vendorDocument['id']);
+
+        // $this->validate(
+        //     [
+        //         'vendorDocument.nid_front' => ['required' | 'image' | 'max:1024'], // max 1MB 
+        //         'vendorDocument.nid_back' => ['image' | 'max:1024'], // max 1MB
+        //         'vendorDocument.shop_trade_image' => [
+        //             'image' | 'max:1024'
+        //         ], // 1 MB
+        //         'vendorDocument.shop_tin_image' =>
+        //         [
+        //             'image' | 'max:1024' | 'mim:png, jpg'
+        //         ], // 1 MB
+        //     ]
+        // );
+        // $this->vendorDocument->nid_front->store(path: 'vendor-document');
+
+        // $nid_image_front = 'vendor-nid-front-' . time() . '.' . $this->vendorDocument['nid_front']->getClientOriginalExtension();
+        // dd($this->processImageStore($this->nid_front, 'vendor-document', 'vendor-nid-front-'));
+        $data = [
+            'nid' => $this->vendorDocument['nid'],
+            'shop_tin' => $this->vendorDocument['shop_tin'],
+            'shop_trade' => $this->vendorDocument['shop_trade'],
+
+            // 'shop_tin_image' => $this->processImageStore($this->shop_tin_image, 'vendor-document', 'vendor-shop-tin-'),
+            // 'shop_trade_image' =>  $this->processImageStore($this->shop_trade_image, 'vendor-document', 'vendor-shop-trade-'),
+            // 'nid_front' => $this->processImageStore($this->nid_front, 'vendor-document', 'vendor-nid-front-'),
+            // 'nid_back' => $this->processImageStore($this->nid_back, 'vendor-document', 'vendor-nid-back-'),
+        ];
+
+
+        if ($this->shop_tin_image) {
+            $data['shop_tin_image'] = $this->processImageStore($this->shop_tin_image, 'vendor-document', 'vendor-shop-tin-');
+        }
+        if ($this->shop_trade_image) {
+            $data['shop_trade_image'] = $this->processImageStore($this->shop_trade_image, 'vendor-document', 'vendor-shop-trade-');
+        }
+        if ($this->nid_front) {
+            $data['nid_front'] = $this->processImageStore($this->nid_front, 'vendor-document', 'vendor-nid-front-');
+        }
+        if ($this->nid_back) {
+            $data['nid_back'] = $this->processImageStore($this->nid_back, 'vendor-document', 'vendor-nid-back-');
+        }
+
+        $vd->update($data);
+
+        $this->dispatch('refresh');
+        $this->dispatch('alert', 'Updated');
+    }
+
+    private function processImageStore($image, $targetStorePath, $targetStoreName)
+    {
+        //
+        if ($image) {
+            $ext = $image->getClientOriginalExtension();
+            $name = "$targetStoreName" . time() . ".$ext";
+            // $filePath = $image->move(public_path($targetStorePath), $name);
+            $image->storeAs('vendor-document', $name, 'public');
+
+            return $name;
+        }
     }
 
 
