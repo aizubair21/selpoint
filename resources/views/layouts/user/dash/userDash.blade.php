@@ -28,7 +28,7 @@
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
       {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
       {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
@@ -36,7 +36,7 @@
 
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
-      <link href="form-validation.css" rel="stylesheet">
+      {{-- <link href="form-validation.css" rel="stylesheet"> --}}
 
       
       <style>

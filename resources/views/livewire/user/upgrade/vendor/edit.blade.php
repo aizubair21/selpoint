@@ -26,13 +26,13 @@
                     </x-nav-link>
                 </div>
                 <div>
-                    <a href="{{route('upgrade.vendor.create')}}">New Request</a>
+                    <x-nav-link href="{{route('upgrade.vendor.create')}}">New Request</x-nav-link>
                 </div>
             </div>
         </x-dashboard.section.inner>
     </x-dashboard.section>
     
-    {{-- @if ($nav == 'basic')    
+    @if ($nav == 'basic')    
         <form action="{{route('upgrade.vendor.update', ['id' => $data->id])}}" method="post"> 
             @csrf
             @includeIf('user.pages.profile-upgrade.vendor.partials.basic')
@@ -42,7 +42,7 @@
     
         @includeIf('user.pages.profile-upgrade.vendor.partials.document')
     
-    @endif --}}
+    @endif
 
 </div>
     

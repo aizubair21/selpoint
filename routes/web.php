@@ -19,3 +19,8 @@ Route::middleware('auth')->prefix('/u/')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 require __DIR__ . '/auth.php';
+
+
+Route::get('/volt-test', function () {
+    return view('livewire.test');
+})->name('test.volt');

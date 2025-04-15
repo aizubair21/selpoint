@@ -1,9 +1,12 @@
+
+
+
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">    
-                <h5>Vendor Upgrade</h5>
+                <h5>Profile Upgrade (VENDOR)  </h5>
             </x-slot>
     
             <x-slot name="content">
@@ -13,8 +16,9 @@
                         <x-primary-button>
                             New REQUEST
                         </x-primary-button>
+                      
                     </a>
-        
+
                     {{-- <a href="" class="mt-2 md:mt-0 block">
                         <x-secondary-button>
                             previous request
@@ -23,19 +27,9 @@
                 </div>
             </x-slot>
         </x-dashboard.section.header>
-    </x-dashboard.section>
-
-    <x-dashboard.section>
-        <x-dashboard.section.header>
-            <x-slot name="title">
-                Previous Request 
-            </x-slot>
-            <x-slot name="content">
-                view your previous vendor requests
-            </x-slot>
-        </x-dashboard.section.header>
-
-        @if (auth()->user()->requestsToBeVendor->count() > 0)
+        <x-hr/>
+        <x-dashboard.section.inner>
+            @if (auth()->user()->requestsToBeVendor->count() > 0)
             <x-dashboard.section.inner>
                 <x-dashboard.table>
                     <thead>
@@ -71,10 +65,8 @@
                 No Previous request found! Make a new request, instead. 
             </div>
         @endif
-        {{-- @php
-            print_r(auth()->user()->requestsToBeVendor);
-        @endphp --}}
-    </x-dashboard.section>
+        </x-dashboard.section.inner>
+    </x-dashboard.section>  
 
 
 </div>

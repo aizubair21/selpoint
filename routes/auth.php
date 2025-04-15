@@ -14,6 +14,7 @@ use App\Livewire\System\Users\Index as userIndexPage;
 use App\Livewire\User\Dash as userPanel;
 use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
+use App\Livewire\User\Upgrade\Vendor\Edit as upgradeToVendorEdit;
 
 
 
@@ -58,7 +59,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
         Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
         Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');
-        Route::get('/{id}/edit', [VendorController::class, 'upgradeEdit'])->name('upgrade.vendor.edit');
+        Route::get('/{id}/edit', upgradeToVendorEdit::class)->name('upgrade.vendor.edit');
         Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
         Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
     });

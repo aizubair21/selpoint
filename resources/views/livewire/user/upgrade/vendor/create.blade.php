@@ -16,7 +16,7 @@
         </x-dashboard.section.header>
     </x-dashboard.section>
    
-    <form action="{{route('upgrade.vendor.store')}}" method="post"> 
+    <form wire:submit.prevent="store" method="post"> 
         @csrf
         @include('user.pages.profile-upgrade.vendor.partials.basic')
 
