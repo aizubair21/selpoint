@@ -84,7 +84,7 @@ new class extends Component
                             {{ __('Notice') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link target="_blank" :href="route('user.dash')">
+                        <x-dropdown-link wire:navigate target="_blank" :href="route('user.dash')">
                             {{ __('Back to User Panel') }}
                         </x-dropdown-link>
 

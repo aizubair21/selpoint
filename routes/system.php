@@ -4,6 +4,7 @@ use App\Http\Controllers\System\VendorController;
 use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
+use App\Http\Controllers\SystemUsersController;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -19,15 +20,16 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
         return view('auth.system.admins.index', ['admins' => User::role('admin')->get()]);
     })->name('system.admin')->middleware(AbleTo::class . ":admin_view");
 
+
     /**
-     * vendors prefix for vendor actions route 
+     * route prefix dedicated for vendor management with permission
      */
     Route::prefix('vendors')->group(function () {
         /**
          * route for vendor index
          * as per permision
          */
-        Route::get('/', vendorIndexPage::class)->name('system.vendor.index');
+        Route::get('/', vendorIndexPage::class)->name('system.vendor.index')->middleware(AbleTo::class . ":vendors_view");
         // Route::view('/', vendorIndexPage::class)->name('system.vendor.index');
 
 
@@ -46,5 +48,18 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
 
         Route::post('/{id}/update', [VendorController::class, 'updateBySystem'])->name('system.vendor.update')->middleware(AbleTo::class . ":vendors_update");
+    });
+
+
+    /**
+     * route prifix dedicated for user management with permission
+     */
+
+    Route::prefix('users')->group(function () {
+
+        // permit to make users task
+        Route::get('/', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
+        Route::get('/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
+        Route::post('/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
 });

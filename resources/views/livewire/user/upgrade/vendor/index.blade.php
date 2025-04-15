@@ -1,11 +1,5 @@
-@extends('layouts.user.dash.userDash')
-
-@section('site_title')
-    Vendor Upgrade
-@endsection
-
-@section('content')
-
+<div>
+    {{-- Care about people's approval and you will be their prisoner. --}}
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">    
@@ -15,7 +9,7 @@
             <x-slot name="content">
                 Upgrade your account to venor to sell your product. To make a new request , click the button below. or check the status of your previous request.
                 <div class="md:flex justify-between">
-                    <a href="{{route('upgrade.vendor.create')}}">
+                    <a wire:navigate href="{{route('upgrade.vendor.create')}}">
                         <x-primary-button>
                             New REQUEST
                         </x-primary-button>
@@ -83,4 +77,4 @@
     </x-dashboard.section>
 
 
-@endsection
+</div>

@@ -194,7 +194,7 @@
         </div>
     <x-hr />
 
-    <div class="row m-0 my-2">
+    {{-- <div class="row m-0 my-2">
         <div class="col-12 p-1">
             <div class="alert alert-default" style="background-color: rgb(235, 235, 235)">
                 <h4 class="bold">Change Password</h4>
@@ -202,7 +202,7 @@
                 <a href="{{route('password.update')}}" class="btn btn-sm btn-danger">Chang Password</a>                
             </div>
         </div>
-    </div>
+    </div> --}}
    
 
     @php

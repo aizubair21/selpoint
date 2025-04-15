@@ -4,11 +4,19 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemUsersController;
+use App\Http\Controllers\System\VendorController;
 use App\Http\Middleware\AbleTo;
 use Livewire\Volt\Volt;
 
 
 use App\Livewire\System\Roles\Index as roleIndexPage;
+use App\Livewire\System\Users\Index as userIndexPage;
+use App\Livewire\User\Dash as userPanel;
+use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
+use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
+
+
+
 
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
@@ -41,11 +49,19 @@ Route::middleware('auth')->group(function () {
 
     // route for user section 
     Route::get('/user/index', function () {
-        return view('user.dash');
+        return redirect()->route('user.dash');
     })->name('user.index');
-    Route::get('/user/dash', function () {
-        return view('user.dash');
-    })->name('user.dash');
+
+
+    Route::get('/user/dash', userPanel::class)->name('user.dash');
+    Route::prefix('/upgrade')->group(function () {
+        Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
+        Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
+        Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');
+        Route::get('/{id}/edit', [VendorController::class, 'upgradeEdit'])->name('upgrade.vendor.edit');
+        Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
+        Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
+    });
 
 
     Route::prefix('dashboard')->group(function () {
@@ -69,10 +85,5 @@ Route::middleware('auth')->group(function () {
         Route::post('user-to-roles', [RoleController::class, 'multiple_role_to_single_user'])->name('multiple_role_to_single_user')->middleware(AbleTo::class . ':sync_role_to_user'); // multiple role to single user
         Route::post('permissions/{role}/to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
         Route::post('permissions/{user}/to-user', [RoleController::class, 'system_give_permission_to_user'])->name('system.permissions.to-user')->middleware(AbleTo::class . ':sync_permission_to_role');
-
-        // permit to make users task
-        Route::get('users', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
-        Route::get('user/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
-        Route::post('user/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
 });

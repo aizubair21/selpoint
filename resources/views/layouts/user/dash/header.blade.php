@@ -1,16 +1,16 @@
 <!-- header section strats -->
 <style>
 .cart-count {
-position: absolute;
-top: 15px;
-right: 14.9em;
-background-color: red;
-color: white;
-font-size: 12px;
-font-weight: bold;
-border-radius: 50%;
-padding: 2px 6px;
-transform: translate(50%, -50%);
+    position: absolute;
+    top: 15px;
+    right: 14.9em;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    transform: translate(50%, -50%);
 }
 
 .navbar-expand-lg .navbar-nav {
@@ -19,8 +19,8 @@ flex-direction: row;
 }
 </style>
 <?php
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\DB;
 ?>
 @auth
 @php
@@ -34,7 +34,7 @@ $count = "";
 <div class="container">
     <nav class="navbar navbar-expand-lg custom_nav-container ">
       
-        <a class="navbar-brand" href="/"><img style="height: 50px;" src="{{asset('logo.png')}}" alt="#" /></a>
+        <x-nav-link class="navbar-brand" href="/"><img style="height: 50px;" src="{{asset('logo.png')}}" alt="#" /></x-nav-link>
         <div class="d-flex flex-grow-1" id="navbarSupportedContent">
         <ul class="navbar-nav">
             
@@ -44,7 +44,7 @@ $count = "";
                     {{-- <x-nav-link class="py-2" :href="route('user.index')">
                         Switch to Vendor
                     </x-nav-link> --}}
-                    <x-nav-link class="py-2" :href="route('user.index')">
+                    <x-nav-link wire:navigate class="py-2" :href="route('user.index')">
                         Home
                     </x-nav-link>
                 </li> 
@@ -71,22 +71,22 @@ $count = "";
                                 $roles = auth()->user()->getRoleNames();
                             @endphp
                             @if (count($roles) > 0)
-                                <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
                                     Go To Dashboard
                                 </x-dropdown-link>
                                 
                                 {{-- @if (auth()->user()->hasRole('vendor'))
-                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                    <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
                                         Vendor Dashboard
                                     </x-dropdown-link>
                                 @endif
                                 @if (auth()->user()->hasRole('reseller'))
-                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                    <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
                                         Reseller Dashboard
                                     </x-dropdown-link>
                                 @endif
                                 @if (auth()->user()->hasRole('rider'))
-                                    <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
+                                    <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
                                         Rider Dashboard
                                     </x-dropdown-link>
                                 @endif --}}
@@ -96,25 +96,25 @@ $count = "";
                         {{-- special permission  --}}
                         <div class="py-2">
                                 @can('vendors_navigation')                                
-                                    <x-dropdown-link href="{{route('system.vendor.index')}}" class="text-green bold border-b">
+                                    <x-dropdown-link wire:navigate href="{{route('system.vendor.index')}}" class="text-green bold border-b">
                                         Manage Vendor
                                     </x-dropdown-link>
                                 @endcan
 
                                 @can('resellers_navigation')
-                                <x-dropdown-link class="text-green bold border-b">
+                                <x-dropdown-link wire:navigate class="text-green bold border-b">
                                     Manage Reseller
                                 </x-dropdown-link>
                                 @endcan
 
                                 @can('riders_navigation')
-                                <x-dropdown-link class="text-green bold border-b">
+                                <x-dropdown-link wire:navigate class="text-green bold border-b">
                                     Manage D. Man
                                 </x-dropdown-link>
                                 @endcan 
 
                                 @can('users_navigation')
-                                <x-dropdown-link class="text-green bold border-b">
+                                <x-dropdown-link wire:navigate class="text-green bold border-b">
                                     Manage Users
                                 </x-dropdown-link>
                                 @endcan
@@ -122,27 +122,31 @@ $count = "";
                         </div>
                         {{-- special permission  --}}
 
-                 
-                        <form method="POST" action="{{ route('logout') }}">
+                        <x-dropdown-link>
+                            Profile
+                        </x-dropdown-link>
+                        
+                        {{-- <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link wire:navigate :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                        </form>
+                        </form> --}}
+
                     </x-slot>
                 </x-dropdown>
                
             @else
                 
                 <li class="nav-item">
-                    <a style="color:white;width: 7em;" class="nav-link btn-success" href="{{route('register')}}">Sign Up</a>
+                    <a wire:navigate style="color:white;width: 7em;" class="nav-link btn-success" href="{{route('register')}}">Sign Up</a>
                 </li>
 
                 <li class="nav-item">
-                    <a style="color:white;margin-left:5px;" class="nav-link btn-danger" href="{{route('login')}}">Login</a>
+                    <a wire:navigate style="color:white;margin-left:5px;" class="nav-link btn-danger" href="{{route('login')}}">Login</a>
                 </li>
             @endauth
         </ul>

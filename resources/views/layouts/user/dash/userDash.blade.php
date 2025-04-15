@@ -41,7 +41,7 @@
       
       <style>
          body{
-            background-color: #ebebeb!important;
+            background-color: #f0f0f0!important;
          }
          th {
                vertical-align: middle!important;
@@ -55,7 +55,7 @@
          #user_asside .asside_link{
             display: flex;
             padding: 15px;
-            border-bottom: .5px solid #e5e5e5;
+            /* border-bottom: .5px solid #e5e5e5; */
             color: #000;
             margin: 1px 0px;
             cursor: pointer;
@@ -102,11 +102,11 @@
                padding: 12px 5px!important;
                
             }
-            .active{
+            /* .active{
                border: 0;
                border-bottom: 3px solid var(--brand-secondary)!important;
                font-weight: 900
-            }  
+            }   */
          }
       </style> 
       @stack('style')
@@ -116,53 +116,60 @@
    
    @include('layouts.user.dash.header')
 
-   <div class="container">
+   <x-dashboard.container>
       <div class="row m-0 " >
 
          {{-- left asside  --}}
-         <div id="user_asside" class="position-sm-absolute col-md-3">
-            <a class="asside_link @if(request()->routeIs('user.dash')) active @endif" href="{{route('user.dash')}}">
+         
+         <div id="user_asside" class="position-sm-absolute col-md-3 py-3 mb-4 bg-white shadow-sm ">
+            <x-nav-link wire:navigate class="asside_link" :active="request()->routeIs('user.dash')" href="{{route('user.dash')}}">
                <i class="fas fa-home"></i>
                <span class="pl-2 d-none d-md-block">
                   Dashboard
                </span>
-            </a>
-            {{-- <a class="asside_link @if(request()->routeIs('cart.index')) active @endif" href="">
+            </x-nav-link>
+            {{-- <x-nav-link wire:navigate class="asside_link @if(request()->routeIs('cart.index')) active @endif" href="">
                <i class="fas fa-shopping-cart pr-2"></i>
                <span class="pl-2 d-none d-md-block">
                   Cart
                </span>
-            </a> --}}
-            <a class="asside_link @if(request()->routeIs('user.view.orders')) active @endif" href="">
+            </x-nav-link> --}}
+            <x-nav-link wire:navigate class="asside_link" :active="request()->routeIs('user.view.orders')"  href="">
                <i class="fas fa-shopping-cart pr-2"></i>
                <span class="pl-2 d-none d-md-block">
                   Order
                </span>
-            </a>
-            <a class="asside_link vip @if(request()->routeIs('user.vip.*')) active @endif" href="">
+            </x-nav-link>
+            <x-nav-link wire:navigate class="asside_link vip @if(request()->routeIs('user.vip.*')) active @endif" href="">
                <i class="fas fa-user-check pr-2"></i>
                <span class="pl-2 d-none d-md-block">
                   VIP
                </span>
-            </a>
-            <a class="asside_link vip @if(request()->routeIs('user.coin.*')) active @endif" href="">
+            </x-nav-link>
+            <x-nav-link wire:navigate class="asside_link vip @if(request()->routeIs('user.coin.*')) active @endif" href="">
                <i class="fas fa-coins pr-2"></i>
                <span class="pl-2 d-none d-md-block">
                   Wallet
                </span>
-            </a>
+            </x-nav-link>
          </div>
+
+
 
 
          {{-- right content  --}}
          <div id="user_content" class="col-md-9 py-2 p-lg-3 w-100">
-           
-            @yield('content')
+         
+            {{-- {{$slot ?? @yield('content')}}  --}}
+
+            {{-- slot or yield  --}}
+            {{$slot}}
+
 
          </div>
       </div>
 
-   </div>
+   </x-dashboard.container>
 
 
    {{-- @include('layouts.user.footer') --}}
