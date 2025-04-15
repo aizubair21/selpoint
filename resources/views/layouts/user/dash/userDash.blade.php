@@ -200,6 +200,16 @@
       });
    </script>
    @endif --}}
+<script>
+
+   document.addEventListener('DOMContentLoaded', function () {
+      Livewire.on('alert', (data) => {
+         // You can perform any client-side logic here
+         alert(data); // Example: show an alert with the data
+      });
+   });
+   
+</script>
 
    @if($message = session('warning'))
       <script>

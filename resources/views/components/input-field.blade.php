@@ -30,7 +30,7 @@
                 value="{{ $value }}" 
                 {{ $attributes }} 
                 placeholder="{{$label}}"
-                required="{{ $required }}"
+                :required="$required"
             />
         </div>
 
