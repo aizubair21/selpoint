@@ -18,6 +18,9 @@ use App\Livewire\System\Vendors\Vendor\Documents as systemVendorDocumentsPage;
 use App\Livewire\System\Vendors\Vendor\Products as systemVendorProductsPage;
 use App\Livewire\System\Vendors\Vendor\Categories as systemVendorCategoriesPage;
 
+
+use App\Livewire\System\Resellers\Index as systemResellerIndexPage;
+
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
     // route for admin index to system dashboard
@@ -53,6 +56,14 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
 
         Route::post('/{id}/update', [VendorController::class, 'updateBySystem'])->name('system.vendor.update')->middleware(AbleTo::class . ":vendors_update");
+    });
+
+
+    /**
+     * Rotue prefix dedicated for reseller management 
+     */
+    Route::prefix('reseller')->group(function () {
+        Route::get('/', systemResellerIndexPage::class)->name('system.reseller.index');
     });
 
 

@@ -18,7 +18,7 @@
 
     @can('resellers_view')                  
 
-        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        <x-nav-link :href="route('system.reseller.index')" :active="request()->routeIs('system.reseller.*')">
             {{ __('Reseller') }}
         </x-nav-link>
     @endcan 
