@@ -132,21 +132,21 @@
             </style>
         @endpush
         <div style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); grid-gap:10px">
-            <a wire:navigate href="{{route('upgrade.vendor.index')}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+            <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'vendor'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                 <h6 style="font-weight:600; color:green"> Be a Vendor</h6>
                 <p style="font-size: 12px; color:black; font-weight:300">
                     Upgrade your account to <strong>VENDOR</strong>, sell product and earn comission.
                 </p>
                 <div class="wrapAdd"></div>
             </a>
-            <a wire:navigate href="" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+            <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'reseller'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                 <h6 style="font-weight:600; color:green;" >  Ba Reseller</h6>
                 <p style="font-size: 12px; color:black; font-weight:300">
                     Upgrade your account to <strong>Reseller</strong> now. Chose product and sel as yours.
                 </p>
                 <div class="wrapAdd"></div>
             </a>
-            <a wire:navigate href="" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+            <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'rider'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                 <h6 style="font-weight:600; color:green;">Be a Rider</h6>
                 <p style="font-size: 12px; color:black; font-weight:300">
                     Be a <strong>Delevary Man</strong>, collect product and shipped to destination.

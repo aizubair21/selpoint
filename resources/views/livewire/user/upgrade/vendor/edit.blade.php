@@ -3,10 +3,10 @@
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">
-                Vendor Request
+                {{$upgrade}} request
             </x-slot>
             <x-slot name="content">
-                Edit and Upgrade Your Vendor Request Form <a href="{{route('upgrade.vendor.index')}}">Previous Request</a>
+                Edit and Upgrade Your Vendor Request Form <a href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}">Previous Request</a>
                 
             </x-slot>
         </x-dashboard.section.header>
@@ -20,10 +20,10 @@
             <div class="flex justify-between">
                 <div>
 
-                    <x-nav-link :active="$nav == 'basic'" href="?nav=basic">
+                    <x-nav-link :active="$nav == 'basic'" href="?upgrade={{$upgrade}}&nav=basic">
                         Basic 
                     </x-nav-link>
-                    <x-nav-link :active="$nav == 'document'" href="?nav=document">
+                    <x-nav-link :active="$nav == 'document'" href="?upgrade={{$upgrade}}&nav=document">
                         Document
                     </x-nav-link>
                 
@@ -86,7 +86,7 @@
 
                     <x-input-file label="Your NID Image (front side)" error='nid_front'>
                             
-                            @if ($vendorDocument['nid_front'] && !$nid_front)
+                            @if ($vendorDocument && $vendorDocument['nid_front'] && !$nid_front)
                                 <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['nid_front'])}}" alt="">
                             @endif
                             @if($nid_front) 
@@ -96,7 +96,7 @@
                             <x-text-input accept="png, jpg, jpeg" type="file" wire:model.live="nid_front" />
                     </x-input-file>
                     <x-input-file label="Your NID Image (back side)" error='nid_back'>
-                            @if ($vendorDocument['nid_back'] && !$nid_back)
+                            @if ($vendorDocument && $vendorDocument['nid_back'] && !$nid_back)
                                 <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['nid_back'])}}" alt="">
                             @endif
                             @if($nid_back) 
@@ -109,7 +109,7 @@
                             <x-text-input type="number" wire:model="vendorDocument.shop_tin" type="text" name="nid" placeholder="NID" />
                     </x-input-file>
                     <x-input-file label="Your TIN Image (front side)" error='shop_tin'>
-                             @if ($vendorDocument['shop_tin_image'] && !$shop_tin_image)
+                             @if ($vendorDocument && $vendorDocument['shop_tin_image'] && !$shop_tin_image)
                                 <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_tin_image'])}}" alt="">
                             @endif
                             @if($shop_tin_image) 
@@ -121,7 +121,7 @@
                     <x-hr />
                     <x-input-field wire:model="vendorDocument.shop_trade" label="Your business Trade Number" name="shop_trade" error="shop_trade" />
                     <x-input-file label="Your Trade License Image (front side)" error='shop_trade_image'>
-                             @if ($vendorDocument['shop_trade_image'] && !$shop_trade_image)
+                             @if ($vendorDocument && $vendorDocument['shop_trade_image'] && !$shop_trade_image)
                                 <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_trade_image'])}}" alt="">
                             @endif
                             @if($shop_trade_image) 

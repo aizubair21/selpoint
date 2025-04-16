@@ -10,7 +10,34 @@ use Illuminate\Support\Carbon;
 class reseller extends Model
 {
     //
-    protected $guarded;
+    protected $fillable = [
+        'user_id',
+        'shop_name_bn',
+        'shop_name_en',
+        'slug',
+        'description',
+        'logo',
+        'banner',
+
+        // business address and contact
+        'phone',
+        'email',
+        'country',
+        'district',
+        'upozila',
+        'village',
+        'zip',
+        'road_no',
+        'house_no',
+
+
+        // authorization 
+        'is_rejected',
+        'rejected_for',
+        'system_get_comission',
+        'information_update_date',
+        'status',
+    ];
     /**
      * cast information_update_date to datetime
      */
@@ -39,10 +66,10 @@ class reseller extends Model
 
         static::created(function ($model) {
             // add new documents 
-            vendor_has_document::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
+            reseller_has_document::create(['user_id' => Auth::id(), 'reseller_id' => $model->id]);
 
             // add new nomini
-            vendor_has_nomini::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
+            // vendor_has_nomini::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
 
             $model->documents()->update(['deatline' => Carbon::now()->addDays(7)]);
 
@@ -78,7 +105,8 @@ class reseller extends Model
          * dispatch an alert message
          */
         static::updated(function () {
-            // $this->dispatch('alert', 'Updated!');
+            // dispatch('alert', 'Updated!');
+            // dispatch();
             Session::flash('Success', "Model Updated !");
         });
     }
@@ -123,6 +151,6 @@ class reseller extends Model
      */
     public function documents()
     {
-        return $this->hasOne(vendor_has_document::class);
+        return $this->hasOne(reseller_has_document::class);
     }
 }

@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/user/dash', userPanel::class)->name('user.dash');
-    Route::prefix('/upgrade')->group(function () {
+    Route::prefix('/user/dash/upgrade')->group(function () {
         Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
         Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
         Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');

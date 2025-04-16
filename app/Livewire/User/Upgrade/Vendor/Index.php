@@ -9,8 +9,13 @@ use Livewire\Attributes\Reactive;
 
 class Index extends Component
 {
-    #[URL]
+    #[URL] 
     public $upgrade = 'vendor';
+
+    /**
+     * modal 
+     */
+    public $isShowCreateModal;
 
     public function render()
     {

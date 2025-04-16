@@ -10,14 +10,19 @@
             </x-slot>
     
             <x-slot name="content">
-                Upgrade your account to revenew money. To make a new request , click the 
-                <a wire:navigate href="{{route('upgrade.vendor.create',)}}">
+                <div class="flex justify-between">
+                    <div>
+                        Upgrade your account to revenew money. To make a new request , click the 
+                    </div>
                     
-                    New REQUEST
-                    {{-- <x-primary-button>
-                    </x-primary-button> --}}
+                </div>
+                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'request-for-create')">
+                    NEW REQUEST
+                </x-primary-button>
+                {{-- <a wire:navigate href="{{route('upgrade.vendor.create',)}}">
                     
-                </a>
+                    
+                </a> --}}
                 
                 
             </x-slot>
@@ -48,7 +53,7 @@
                                         <td> {{$loop->iteration}} </td>
                                         <td>
                                             
-                                            <x-nav-link href="{{route('upgrade.vendor.edit', ['id' => $vr->id])}}">
+                                            <x-nav-link href="{{route('upgrade.vendor.edit', ['upgrade' => 'vendor' , 'id' => $vr->id])}}">
                                                 {{$vr->shop_name_bn}}
                                             </x-nav-link>
     
@@ -71,7 +76,7 @@
         <x-dashboard.section.inner>
             <div  wire:show="upgrade == 'reseller'">
 
-                {{-- @if (auth()->user()->requestsToBeReseller->count() > 0)
+                @if (auth()->user()->requestsToBeReseller->count() > 0)
                     <x-dashboard.section.inner>
                         <x-dashboard.table>
                             <thead>
@@ -84,12 +89,12 @@
                             </thead>
     
                             <tbody>
-                                @foreach (auth()->user()->requestsToBeVendor()->orderBy('id', 'desc')->get() as $vr)
+                                @foreach (auth()->user()->requestsToBeReseller()->orderBy('id', 'desc')->get() as $vr)
                                     <tr>
                                         <td> {{$loop->iteration}} </td>
                                         <td>
                                             
-                                            <x-nav-link href="{{route('upgrade.vendor.edit', ['id' => $vr->id])}}">
+                                            <x-nav-link href="{{route('upgrade.vendor.edit', ['upgrade' => 'reseller','id' => $vr->id])}}">
                                                 {{$vr->shop_name_bn}}
                                             </x-nav-link>
     
@@ -106,10 +111,41 @@
                     <div class="alert alert-info">
                         No Previous request found! Make a new request, instead. 
                     </div>
-                @endif --}}
+                @endif
             </div>
         </x-dashboard.section.inner>
     </x-dashboard.section>  
 
+    <x-modal name="request-for-create" maxWidth="sm">
+        <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Make sure your request
+                </x-slot>
+                <x-slot name="content">
+                    please choose your expected link to reqeust.
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+                <x-nav-link href="{{route('upgrade.vendor.create', ['upgrade' => 'vendor'])}}">
+                    <x-primary-button>
+                        Request for Vendor
+                    </x-primary-button>
+                </x-nav-link>
+                <br>
+                <x-nav-link href="{{route('upgrade.vendor.create', ['upgrade' => 'reseller'])}}">
+                    <x-primary-button>
+                        Request for Reseller
+                    </x-primary-button>
+                </x-nav-link>
+                <br>
+                <x-nav-link href="">
+                    <x-primary-button>
+                        Request for Rider (Delevary Man)
+                    </x-primary-button>
+                </x-nav-link>
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
+    </x-modal>
 
 </div>

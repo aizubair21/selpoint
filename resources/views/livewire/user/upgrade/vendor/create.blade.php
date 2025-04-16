@@ -3,12 +3,12 @@
     <x-dashboard.section >
         <x-dashboard.section.header>
             <x-slot name="title">
-                Vendor Request Form
+             {{$upgrade}} Request Form
             </x-slot>
 
             <x-slot name="content">
                 Request to be a vendor
-                <x-nav-link href="{{route('upgrade.vendor.index')}}" class="">
+                <x-nav-link href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}" class="">
                     previous request
                 </x-nav-link>
                

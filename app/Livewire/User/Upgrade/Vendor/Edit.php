@@ -2,6 +2,8 @@
 
 namespace App\Livewire\User\Upgrade\Vendor;
 
+use App\Models\reseller;
+use App\Models\reseller_has_document;
 use App\Models\vendor;
 use App\Models\vendor_has_document;
 use Carbon\Carbon;
@@ -16,7 +18,7 @@ class Edit extends Component
     use WithFileUploads;
 
     #[URL]
-    public $id, $nav = 'basic';
+    public $id, $upgrade = 'vendor', $nav = 'basic';
 
     private $data;
 
@@ -27,28 +29,45 @@ class Edit extends Component
     /**
      * component data
      */
-    public $vendor, $vendorDocument, $nid_front, $nid_back, $shop_tin_image, $shop_trade_image;
+    public $vendor, $vendorDocument = [], $nid_front, $nid_back, $shop_tin_image, $shop_trade_image;
 
 
     public function mount()
     {
-        $this->data = auth()->user()->requestsToBeVendor()->find($this->id);
-        $this->vendor = $this->data->toArray();
-        $this->vendorDocument = $this->data->documents->toArray();
+        $this->getDate();
 
-        if ($this->data->status != 'Pending' || $this->data->status == 'Suspended'  || ($this->data->status != 'Disabled' && $this->data?->documents?->deatline < Carbon::now())) {
-            $this->dispatch('info', 'Unable to process');
-            session()->flash('info', 'Unable to Edit or Update');
-            $this->redirectIntended(route('upgrade.vendor.index'), true);
+        if (empty($this->vendor) || empty($this->vendorDocument)) {
+            $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
         }
     }
+
+
     // equest()->all()
 
-    public function updated($property)
+    // public function updated($property)
+    // {
+    //     if ($property == $this->vendorDocument['nid_front']) {
+    //         $this->nid_front == $this->vendorDocument['nid_front'];;
+    //     }
+    // }
+
+    public function getDate()
     {
-        if ($property == $this->vendorDocument['nid_front']) {
-            $this->nid_front == $this->vendorDocument['nid_front'];;
+        if ($this->upgrade == 'reseller') {
+            // if upgrade is reseller, get the reseller data
+            $this->data = auth()->user()->requestsToBeReseller()->find($this->id);
+        } else {
+            $this->data = auth()->user()->requestsToBeVendor()->find($this->id);
         }
+
+        $this->vendor = $this->data?->toArray();
+        $this->vendorDocument = $this->data?->documents?->toArray();
+
+        // if ($this->data?->status != 'Pending' || $this->data?->status == 'Suspended'  || ($this->data?->status != 'Disabled' && $this->data?->documents?->deatline < Carbon::now())) {
+        //     $this->dispatch('info', 'Unable to process');
+        //     session()->flash('info', 'Unable to Edit or Update');
+        //     $this->redirectIntended(route('upgrade.vendor.index'), true);
+        // }
     }
 
 
@@ -56,7 +75,11 @@ class Edit extends Component
     {
         // 
         // dd(request()->all());
-        vendor::find($this->id)->update($this->vendor);
+        if ($this->upgrade == 'reseller') {
+            reseller::find($this->id)->update($this->vendor);
+        } else {
+            vendor::find($this->id)->update($this->vendor);
+        }
         // Session::flash('success', 'Your vendor request updated !');
         $this->dispatch('refresh');
         $this->dispatch('alert', 'Updated');
@@ -65,10 +88,15 @@ class Edit extends Component
     public function updateDocument()
     {
         // dd($this->vendorDocument);
-        $vd = vendor_has_document::find($this->vendorDocument['id']);
+
+        if ($this->upgrade == 'vendor') {
+            $vd = vendor_has_document::find($this->vendorDocument['id']);
+        } else {
+            $vd = reseller_has_document::find($this->vendorDocument['id']);
+        }
 
         // $this->validate(
-        //     [
+        //     [vendorDocument
         //         'vendorDocument.nid_front' => ['required' | 'image' | 'max:1024'], // max 1MB 
         //         'vendorDocument.nid_back' => ['image' | 'max:1024'], // max 1MB
         //         'vendorDocument.shop_trade_image' => [
@@ -97,16 +125,16 @@ class Edit extends Component
 
 
         if ($this->shop_tin_image) {
-            $data['shop_tin_image'] = $this->processImageStore($this->shop_tin_image, 'vendor-document', 'vendor-shop-tin-');
+            $data['shop_tin_image'] = $this->processImageStore($this->shop_tin_image, 'vendor-shop-tin-');
         }
         if ($this->shop_trade_image) {
-            $data['shop_trade_image'] = $this->processImageStore($this->shop_trade_image, 'vendor-document', 'vendor-shop-trade-');
+            $data['shop_trade_image'] = $this->processImageStore($this->shop_trade_image, 'vendor-shop-trade-');
         }
         if ($this->nid_front) {
-            $data['nid_front'] = $this->processImageStore($this->nid_front, 'vendor-document', 'vendor-nid-front-');
+            $data['nid_front'] = $this->processImageStore($this->nid_front, 'vendor-nid-front-');
         }
         if ($this->nid_back) {
-            $data['nid_back'] = $this->processImageStore($this->nid_back, 'vendor-document', 'vendor-nid-back-');
+            $data['nid_back'] = $this->processImageStore($this->nid_back, 'vendor-nid-back-');
         }
 
         $vd->update($data);
@@ -115,14 +143,15 @@ class Edit extends Component
         $this->dispatch('alert', 'Updated');
     }
 
-    private function processImageStore($image, $targetStorePath, $targetStoreName)
+    private function processImageStore($image, $targetStoreName)
     {
         //
+        $targetPath = $this->upgrade == 'vendor' ? 'vendor-document' : 'reseller-document';
         if ($image) {
             $ext = $image->getClientOriginalExtension();
             $name = "$targetStoreName" . time() . ".$ext";
             // $filePath = $image->move(public_path($targetStorePath), $name);
-            $image->storeAs('vendor-document', $name, 'public');
+            $image->storeAs($targetPath, $name, 'public');
 
             return $name;
         }
