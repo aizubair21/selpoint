@@ -49,7 +49,34 @@
             </x-dashboard.section.header>
             <x-dashboard.section.inner>
                 <x-dashboard.table>
-
+                    <thead>
+                        <tr>
+                            <th>SL</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Commission</th> 
+                            <th>Category</th>
+                            <th>Product</th>
+                            <th>Join</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <x-nav-link href="{{route('system.reseller.edit', ['id' => 1])}}">
+                                    edit
+                                </x-nav-link>
+                            </td>
+                        </tr>
+                    </tbody>
                 </x-dashboard.table>
             </x-dashboard.section.inner>
         </x-dashboard.section>

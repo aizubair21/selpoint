@@ -20,6 +20,7 @@ use App\Livewire\System\Vendors\Vendor\Categories as systemVendorCategoriesPage;
 
 
 use App\Livewire\System\Resellers\Index as systemResellerIndexPage;
+use App\Livewire\System\Resellers\Edit as systemResellerEditPage;
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -64,6 +65,7 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      */
     Route::prefix('reseller')->group(function () {
         Route::get('/', systemResellerIndexPage::class)->name('system.reseller.index');
+        Route::get('/{id}/edit', systemResellerEditPage::class)->name('system.reseller.edit');
     });
 
 

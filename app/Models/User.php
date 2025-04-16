@@ -88,18 +88,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(vendor::class);
     }
+    public function requestsToBeReseller()
+    {
+        return $this->hasMany(reseller::class);
+    }
 
     public function isVendor()
     {
-        return $this->hasOne(vendor::class)->latest();
+        $this->requestsToBeVendor()->latest();
+    }
+    public function isReseller()
+    {
+        $this->requestsToBeReseller()->latest();
     }
 
-    public function products()
+    public function myProducts()
     {
         return $this->hasMany(Product::class);
     }
 
-    public function category()
+    public function myCategory()
     {
         return $this->hasMany(category::class);
     }
