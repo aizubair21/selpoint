@@ -4,6 +4,7 @@ namespace App\Livewire\User\Upgrade\Vendor;
 
 use App\Models\vendor;
 use App\Models\vendor_has_document;
+use Carbon\Carbon;
 use Illuminate\Foundation\Exceptions\Renderer\Listener;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
@@ -15,7 +16,7 @@ class Edit extends Component
     use WithFileUploads;
 
     #[URL]
-    public $id, $nav;
+    public $id, $nav = 'basic';
 
     private $data;
 
@@ -34,6 +35,12 @@ class Edit extends Component
         $this->data = auth()->user()->requestsToBeVendor()->find($this->id);
         $this->vendor = $this->data->toArray();
         $this->vendorDocument = $this->data->documents->toArray();
+
+        if ($this->data->status != 'Pending' || $this->data->status == 'Suspended'  || ($this->data->status != 'Disabled' && $this->data?->documents?->deatline < Carbon::now())) {
+            $this->dispatch('info', 'Unable to process');
+            session()->flash('info', 'Unable to Edit or Update');
+            $this->redirectIntended(route('upgrade.vendor.index'), true);
+        }
     }
     // equest()->all()
 

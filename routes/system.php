@@ -13,6 +13,9 @@ use Livewire\Volt\Volt;
 use App\Livewire\System\Vendors\Index as vendorIndexPage;
 use App\Livewire\System\Vendors\Edit as vendorEdit;
 
+use App\Livewire\System\Vendors\Vendor\Settings as systemVendorSettingspage;
+use App\Livewire\System\Vendors\Vendor\Documents as systemVendorDocumentsPage;
+
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
     // route for admin index to system dashboard
@@ -39,8 +42,8 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
          */
         Route::middleware(AbleTo::class . ":vendors_edit")->group(function () {
             Route::get('/{id}/edit', vendorEdit::class)->name('system.vendor.edit');
-            Route::get('/{id}/settings', [VendorController::class, 'viewSettings'])->name('system.vendor.settings');
-            Route::get('/{id}/documents', [VendorController::class, 'viewDocuments'])->name('system.vendor.documents');
+            Route::get('/{id}/settings', systemVendorSettingspage::class)->name('system.vendor.settings');
+            Route::get('/{id}/documents', systemVendorDocumentsPage::class)->name('system.vendor.documents');
             Route::get('/{id}/products', [VendorController::class, 'viewProducts'])->name('system.vendor.products');
             Route::get('/{id}/categories', [VendorController::class, 'viewCategories'])->name('system.vendor.categories');
             Route::get('/{id}/orders', [VendorController::class, 'viewOrders'])->name('system.vendor.orders');

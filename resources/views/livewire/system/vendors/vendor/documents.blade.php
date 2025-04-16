@@ -1,5 +1,5 @@
-
-<x-app-layout>
+<div>
+    {{-- If you look to others for fulfillment, you will never truly be fulfilled. --}}
     <x-dashboard.page-header>  
         @include('auth.system.vendors.navigations')
     </x-dashboard.page-header>
@@ -23,12 +23,12 @@
                     {{-- <input type="date" value="" id=""> --}}
                 </x-input-file>
                 <x-hr />
-                <form action="">
+                <form wire:submit.prevent="updateDeatline">
                     <x-input-file label="set New Date" error="deatline">
                         <div class="flex">
 
-                            <x-text-input type="date" class="py-1" />
-                            <x-primary-button class="ms-2 py-1" type="submit">set</x-primary-button>
+                            <x-text-input wire:model.live="deatline" type="date" class="py-1" />
+                            <x-primary-button type="button" wire:show="deatline" class="ms-2 py-1" type="submit">set</x-primary-button>
                         </div>
                     </x-input-file>
                 </form>
@@ -84,5 +84,4 @@
         </x-dashboard.section>
     </x-dashboard.container>
 
-
-</x-app-layout>
+</div>

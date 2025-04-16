@@ -5,12 +5,24 @@ namespace App\Livewire\User\Upgrade\Vendor;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Models\vendor;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Create extends Component
 {
 
     public $shop_name_en, $shop_name_bn, $phone, $email, $country, $district, $upozila, $village, $zip, $road_no, $house_no;
+
+    public function mount()
+    {
+        // 
+        $vi = vendor::where(['user_id' => Auth::id()])->orderBy('id', 'desc')->first();
+        if ($vi->status == 'Pending') {
+            session()->flash('info', 'Unable to request again, your request is pending');
+            $this->redirectIntended(route('upgrade.vendor.index'), true);
+        }
+    }
+
 
     public function render()
     {

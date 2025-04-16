@@ -10,10 +10,11 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+        
         @livewireStyles
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -37,4 +38,64 @@
     </body>
 
     @livewireScripts
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            Livewire.on('alert', (data) => {
+                Swal.fire({
+                    title: 'Look At!',
+                    text: data,
+                    icon: 'Info',
+                    confirmButtonText: 'OK'
+                })
+            });
+        });
+    
+    </script>
+
+   @if($message = session('warning'))
+    <script>
+        Swal.fire({
+            title: 'Warning!',
+            text: '{{$message}}',
+            icon: 'warning',
+            confirmButtonText: 'Understood'
+        })
+    </script>
+    @endif
+
+    @if($message = session('success'))
+    <script>
+        Swal.fire({
+            title: 'Success',
+            text: '{{$message}}',
+            icon: 'success',
+            confirmButtonText: 'Done'
+        })
+    </script>
+    @endif
+
+    @if($message = session('error'))
+    <script>
+        Swal.fire({
+            title: 'Error !',
+            text: '{{$message}}',
+            icon: 'error',
+            confirmButtonText: 'Close'
+        })
+    </script>
+    @endif
+
+    @if($message = session('info'))
+    <script>
+        Swal.fire({
+            title: 'Info !',
+            text: '{{$message}}',
+            icon: 'info',
+            confirmButtonText: 'Understood'
+        })
+    </script>
+    @endif
+
+    @stack('script')
 </html>

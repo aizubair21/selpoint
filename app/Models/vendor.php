@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Models\vendor_has_document;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class vendor extends Model
 {
@@ -82,6 +83,8 @@ class vendor extends Model
             vendor_has_nomini::create(['user_id' => Auth::id(), 'vendor_id' => $model->id]);
 
             $model->documents()->update(['deatline' => Carbon::now()->addDays(7)]);
+
+            Session::flash('Success', "Model Created !");
         });
 
         /**
@@ -106,6 +109,15 @@ class vendor extends Model
                 $model->status = "Suspended";
                 // $model->rejected_for = $request;
             }
+        });
+
+        /**
+         * if anyway update the model
+         * dispatch an alert message
+         */
+        static::updated(function () {
+            // $this->dispatch('alert', 'Updated!');
+            Session::flash('Success', "Model Updated !");
         });
     }
 

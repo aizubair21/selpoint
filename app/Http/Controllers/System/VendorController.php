@@ -172,24 +172,24 @@ class VendorController extends Controller
         $permissions = Permission::all();
         return view('auth.system.vendors.vendor.settings', compact('vendor', 'permissions'));
     }
-    public function viewProducts()
+    public function viewProducts($id)
     {
-        // 
-        return view('auth.system.vendors.vendor.products');
+        $vendor = vendor::find($id);
+        return view('auth.system.vendors.vendor.products', compact('vendor'));
     }
-    public function viewOrders()
+    public function viewOrders($id)
     {
-        // 
-        // return view('auth.system.vendors.vendor.orders');
+        $vendor = vendor::find($id);
+        return view('auth.system.vendors.vendor.orders', compact('vendor'));
     }
-    public function viewDocuments()
+    public function viewDocuments($id)
     {
-        // 
-        return view('auth.system.vendors.vendor.documents');
+        $vendor = vendor::find($id);
+        return view('auth.system.vendors.vendor.documents', compact('vendor'));
     }
-    public function viewCategories()
+    public function viewCategories($id)
     {
-        // 
+        $vendor = vendor::find($id);
         return view('auth.system.vendors.vendor.categories');
     }
 
