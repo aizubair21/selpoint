@@ -15,6 +15,8 @@ use App\Livewire\System\Vendors\Edit as vendorEdit;
 
 use App\Livewire\System\Vendors\Vendor\Settings as systemVendorSettingspage;
 use App\Livewire\System\Vendors\Vendor\Documents as systemVendorDocumentsPage;
+use App\Livewire\System\Vendors\Vendor\Products as systemVendorProductsPage;
+use App\Livewire\System\Vendors\Vendor\Categories as systemVendorCategoriesPage;
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -44,8 +46,8 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
             Route::get('/{id}/edit', vendorEdit::class)->name('system.vendor.edit');
             Route::get('/{id}/settings', systemVendorSettingspage::class)->name('system.vendor.settings');
             Route::get('/{id}/documents', systemVendorDocumentsPage::class)->name('system.vendor.documents');
-            Route::get('/{id}/products', [VendorController::class, 'viewProducts'])->name('system.vendor.products');
-            Route::get('/{id}/categories', [VendorController::class, 'viewCategories'])->name('system.vendor.categories');
+            Route::get('/{id}/products', systemVendorProductsPage::class)->name('system.vendor.products');
+            Route::get('/{id}/categories', systemVendorCategoriesPage::class)->name('system.vendor.categories');
             Route::get('/{id}/orders', [VendorController::class, 'viewOrders'])->name('system.vendor.orders');
         });
 

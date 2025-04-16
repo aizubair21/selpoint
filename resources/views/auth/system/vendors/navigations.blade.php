@@ -20,10 +20,11 @@
             {{$vendor?->created_at?->toFormattedDateString() ?? ""}}
         </span>
     </x-slot>
+    {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
 </x-dashboard.section.header>
 <br>
 <x-nav-link class="" :active="request()->routeIs('system.vendor.settings')" href="{{route('system.vendor.settings', ['id' => $vendor?->id])}}">Settings</x-nav-link>
 <x-nav-link class="" :active="request()->routeIs('system.vendor.documents')" href="{{route('system.vendor.documents', ['id' => $vendor?->id])}}">Documents</x-nav-link>
 <x-nav-link class="" :active="request()->routeIs('system.vendor.products')" href="{{route('system.vendor.products', ['id' => $vendor?->id])}}">Products</x-nav-link>
 <x-nav-link class="" :active="request()->routeIs('system.vendor.categories')" href="{{route('system.vendor.categories', ['id' => $vendor?->id])}}">Categories</x-nav-link>
-<x-nav-link class="" :active="request()->routeIs('system.vendor.orders')" href="{{route('system.vendor.orders', ['id' => $vendor?->id])}}">Order</x-nav-link>
+{{-- <x-nav-link class="" :active="request()->routeIs('system.vendor.orders')" href="{{route('system.vendor.orders', ['id' => $vendor?->id])}}">Order</x-nav-link> --}}
