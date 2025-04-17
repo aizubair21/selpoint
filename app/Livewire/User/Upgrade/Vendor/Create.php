@@ -30,6 +30,10 @@ class Create extends Component
             session()->flash('info', 'Unable to request again, your request is pending');
             $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
         }
+        if ($vi && $vi->status == 'Active') {
+            session()->flash('info', 'Unable to request again, you have an active Membership');
+            $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
+        }
     }
 
 
@@ -94,6 +98,6 @@ class Create extends Component
         }
         // dd();
         // return redirect()->route();
-        $this->redirectIntended(route('upgrade.vendor.edit', ['upgrade' => $this->upgrade, 'id' => $vendorId->id]), true);
+        $this->redirectIntended(route('upgrade.vendor.edit', ['upgrade' => $this->upgrade, 'id' => $vendorId->id, 'nav' => 'document']), true);
     }
 }

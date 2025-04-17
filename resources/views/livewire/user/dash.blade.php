@@ -1,4 +1,10 @@
 <div>
+
+    {{-- <?php 
+    use App\Models\vendor;
+    use function Livewire\Volt\{state};
+    state(['latestVndor' =>0, 'data' => vendor::latest()]);
+    ?> --}}
     
     <x-dashboard.section>
         <div class="my-2 p-1 rounded">
@@ -101,6 +107,20 @@
     </x-dashboard.section>
 
 
+    {{-- @volt('container')
+        <div>
+           {{$latestVndor}}
+           @php
+               dd($data);
+           @endphp
+        </div>
+    @endvolt --}}
+    {{-- <x-dashboard.section>
+        @php
+            $isVendor = auth()->user()->isVendor;
+            echo($isVendor->id);
+        @endphp
+    </x-dashboard.section> --}}
     <x-dashboard.section>
 
         @push('style')
