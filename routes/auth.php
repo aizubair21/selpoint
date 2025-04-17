@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemUsersController;
 use App\Http\Controllers\System\VendorController;
+use App\Livewire\Actions\Logout;
 use App\Http\Middleware\AbleTo;
 use Livewire\Volt\Volt;
 
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Volt::route('confirm-password', 'pages.auth.confirm-password')
         ->name('password.confirm');
 
-
+    volt::route('logout', 'pages.auth.logout')->name('logout');
 
 
 

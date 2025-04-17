@@ -1,5 +1,5 @@
 <div>
-    
+
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">
@@ -7,7 +7,46 @@
             </x-slot>
             <x-slot name="content">
                 Edit and Upgrade Your Vendor Request Form <a href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}">Previous Request</a>
-                
+                <br>
+                <div>
+                    @php
+                        if ($upgrade == 'reseller') {
+                            $authRequest = auth()->user()->requestsToBeReseller()?->find($id);
+                            
+                        }else{
+
+                            $authRequest = auth()->user()->requestsToBeVendor()?->find($id);
+                        }
+                    @endphp
+                    @if ($authRequest->status == 'Pending')
+                        <div class="alert alert-info">
+                                <strong>Pending</strong>, Your account is under reveiw now. You are requested to stay with patience. 
+                        </div>
+                    @endif
+                    @if ($authRequest->status == 'Active')
+                        <div class="alert alert-success">
+                                Your Membership is now in <strong>{{$authRequest->status}}</strong> . Now you can sell your products.
+                        </div>
+                    @endif
+                    @if ($authRequest->status == 'Disabled' || $authRequest->status == 'Suspended')
+                        <div class="alert alert-warning">
+                                Your Membership is now <strong>{{$authRequest->status}}</strong> . <strong>{{ $authRequest->rejected_for ?? "For unknown reason  " }}</strong>
+                        </div>
+                    @endif
+
+                    @if ($authRequest->documents && $authRequest->documents?->deatline > carbon\Carbon::now())
+                        <div class="text-sm text-warning">
+                                You are requested to fill your required document, with deatline of
+                                <strong>
+                                    {{Carbon\Carbon::parse($authRequest->documents->deatline)->toFormattedDateString()}} *.
+                                </strong>
+                                After successfully authorize your document, you will be able to do your vendor daily jobs. Otherwise, you will be suspended.
+                        </div>
+                    @endif
+
+                    
+                  
+                </div>
             </x-slot>
         </x-dashboard.section.header>
     
@@ -30,7 +69,7 @@
                 </div>
                 
                 <div>
-                    <x-nav-link href="{{route('upgrade.vendor.create')}}">New Request</x-nav-link>
+                    <x-nav-link href="{{route('upgrade.vendor.create', ['upgrade' => $upgrade])}}">New Request</x-nav-link>
                 </div>
             </div>
         </x-dashboard.section.inner>

@@ -28,7 +28,7 @@ class Create extends Component
 
         if ($vi && $vi->status == 'Pending') {
             session()->flash('info', 'Unable to request again, your request is pending');
-            $this->redirectIntended(route('upgrade.vendor.index'), true);
+            $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
         }
     }
 

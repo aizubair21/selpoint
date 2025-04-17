@@ -1,34 +1,34 @@
-<!-- header section strats -->
-<style>
-.cart-count {
-    position: absolute;
-    top: 15px;
-    right: 14.9em;
-    background-color: red;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 50%;
-    padding: 2px 6px;
-    transform: translate(50%, -50%);
-}
 
-.navbar-expand-lg .navbar-nav {
--ms-flex-direction: row;
-flex-direction: row;
-}
+<style>
+    .cart-count {
+        position: absolute;
+        top: 15px;
+        right: 14.9em;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 2px 6px;
+        transform: translate(50%, -50%);
+    }
+
+    .navbar-expand-lg .navbar-nav {
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
 </style>
 <?php
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\DB;
 ?>
 @auth
-@php
-// $count = DB::table('carts')
-//     ->where('user_id', Auth::user()->id)
-//     ->count();
-$count = "";
-@endphp
+    @php
+        // $count = DB::table('carts')
+        //     ->where('user_id', Auth::user()->id)
+        //     ->count();
+        $count = "";
+    @endphp
 @endauth
 <header class="header_section bg-white">
 <div class="container">
@@ -125,17 +125,22 @@ $count = "";
                         <x-dropdown-link>
                             Profile
                         </x-dropdown-link>
-                        
-                        {{-- <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                        @if (Route::has('logout'))
+                            <form method="get" action="{{ route('logout') }}">
+                                {{-- @csrf --}}
 
-                            <x-dropdown-link wire:navigate :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form> --}}
-
+                                <x-dropdown-link wire:navigate :href="route('logout')"
+                                        onclick="event.preventDefault();
+                                                    this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        @endif
+                        {{-- <x-secondary-button wire:click="logout">
+                            {{ __('Log Out') }}
+                        </x-secondary-button>    --}}
+                        {{-- @livewire('livewire.page.auth.logout') --}}
+                        {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
                     </x-slot>
                 </x-dropdown>
                
