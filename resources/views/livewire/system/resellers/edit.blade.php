@@ -3,7 +3,10 @@
     <x-dashboard.page-header>
         Resellers
         <br>
-        N/A - N/A
+        <x-nav-link href="{{route('system.users.edit', ['email' => $resellers->user?->email ?? ''])}}">
+            {{$resellers->user?->name ?? "N/A"}}
+        </x-nav-link>
+        - <span class="text-sm"> {{$resellers->shop_name_bn ?? "N/A"}} </span>
         <br>
         <span class="text-xs">Pending</span>
         <br>
@@ -17,9 +20,9 @@
         </div>
     </x-dashboard.page-header>
     
-    @if ($nav == 'documents')
+    <x-dashboard.container>
+        @if ($nav == 'documents')
     
-        {{-- <x-dashboard.container>
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
@@ -47,8 +50,7 @@
                     </form>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
-        </x-dashboard.container>
-        <x-dashboard.container>
+      
             <x-dashboard.section>
                 @php
                     $resellersDocument = $resellers->documents;
@@ -93,19 +95,21 @@
     
             
             </x-dashboard.section>
-        </x-dashboard.container> --}}
-
-    @endif
-    <x-dashboard.container>
-        <x-dashboard.section>
-            <x-dashboard.section.inner>
-                @if ($nav == 'products')
-                    
-                @endif
-                @if ($nav == 'orders')
-                    
-                @endif
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
+            
+        @endif
+        @if ($nav == 'products')
+            <x-dashboard.section>
+                <x-dashboard.section.inner>
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
+            
+        @endif
+        @if ($nav == 'orders')
+            
+            <x-dashboard.section>
+                <x-dashboard.section.inner>
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
+        @endif
     </x-dashboard.container>
 </div>

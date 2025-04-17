@@ -2,6 +2,7 @@
 
 namespace App\Livewire\System\Resellers;
 
+use App\Models\reseller;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Reactive;
@@ -16,11 +17,14 @@ class Index extends Component
 
     public function mount()
     {
-        //    
+        $this->getData();
     }
 
 
-    public function getDate() {}
+    public function getData()
+    {
+        $this->resellers = reseller::where(['status' => $this->filter])->get();
+    }
 
 
     /**
@@ -29,9 +33,9 @@ class Index extends Component
     public function search()
     {
         if ($this->filter == "*") {
-            $this->resellers = vendor::where('shop_name_en', 'like', '%' . $this->find . '%')->get();
+            $this->resellers = reseller::where('shop_name_en', 'like', '%' . $this->find . '%')->get();
         } else {
-            $this->resellers = vendor::where('shop_name_en', 'like', '%' . $this->find . '%')->where(['status' => $this->filter])->get();
+            $this->resellers = reseller::where('shop_name_en', 'like', '%' . $this->find . '%')->where(['status' => $this->filter])->get();
         }
     }
 

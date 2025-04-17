@@ -29,7 +29,7 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <x-nav-link href="?filter=*" class="px-2 mb-2" :active="$filter == '*' " >All</x-nav-link>
-                            <x-nav-link href="?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active</x-nav-link>
+                            <x-nav-link href="?filter=Active" class="px-2 mb-2" :active="$filter == 'Active' " >Active </x-nav-link>
                             <x-nav-link href="?filter=Pending" class="px-2 mb-2" :active="$filter == 'Pending' " >Pending</x-nav-link>
                             <x-nav-link href="?filter=Disabled" class="px-2 mb-2" :active="$filter == 'Disabled' " >Disabled</x-nav-link>
                             <x-nav-link href="?filter=Suspended" class="px-2 mb-2" :active="$filter == 'Suspended' " >Suspended</x-nav-link>
@@ -62,20 +62,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <x-nav-link href="{{route('system.reseller.edit', ['id' => 1])}}">
-                                    edit
-                                </x-nav-link>
-                            </td>
-                        </tr>
+                        <x-dashboard.foreach :data="$resellers">
+                            @foreach ($resellers as $item)
+                                <tr>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td>
+                                        {{$item->user?->name ?? "N/A"}}
+                                        <br>
+                                        <span class="text-xs">
+                                            {{$item->shop_name_bn ?? "N/A"}}
+                                        </span>
+                                    </td>
+                                    <td> {{$item->status ?? "N/A"}} </td>
+                                    <td> {{$item->system_get_comission ?? "N/A"}} </td>
+                                    <td> 0 </td>
+                                    <td> 0 </td>
+                                    <td>
+                                        {{$item->created_at->diffForHumans()}}
+                                        <br>
+                                        <span class="text-xs">
+                                            {{$item->created_at->toFormattedDateString()}}    
+                                        </span>     
+                                    </td>
+                                    <td>
+                                        <x-nav-link href="{{route('system.reseller.edit', ['id' => $item->id, 'filter' => $filter])}}">
+                                            edit
+                                        </x-nav-link>
+                                    </td>
+                                </tr>
+                                
+                            @endforeach
+                        </x-dashboard.foreach>
                     </tbody>
                 </x-dashboard.table>
             </x-dashboard.section.inner>
