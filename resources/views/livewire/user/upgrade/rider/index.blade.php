@@ -15,9 +15,9 @@
                         </div>
                         
                     </div>
-                    <x-nav-link href="{{route('upgrade.rider.create')}}">
+                    <a wire:navigate href="{{route('upgrade.rider.create')}}">
                         New Request
-                    </x-nav-link>
+                    </a>
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -33,6 +33,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Status</th>
+                                <th>Created</th>
                                 <th>A/C</th>
                             </tr>
                         </thead>
@@ -42,6 +43,13 @@
                                     <td> {{$loop->iteration}} </td>
                                     <td> {{$item->user?->name ?? "N/A"}} </td>
                                     <td> {{$item->status ?? "N/A"}} </td>
+                                    <td>
+                                        {{ $item->created_at->diffForHumans() }}
+                                        <br>
+                                        <span class="text-xs">
+                                            {{ $item->created_at->toFormattedDateString() }}
+                                        </span>
+                                    </td>
                                     <td>
                                         <x-nav-link href="{{route('upgrade.rider.edit', $item->id)}}">
                                             Edit

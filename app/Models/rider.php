@@ -27,13 +27,21 @@ class rider extends Model
         'status',
     ];
 
+    // hidden 
+    protected $hidden = [
+        'id',
+        'user_id',
+        'created_at',
+        'updated_at',
+    ];
+
     //////////////// 
     // boot //
     ///////////////
     protected static function boot(): void
     {
         parent::boot();
-        static::created(function (rider $data) {
+        static::creating(function (rider $data) {
             $data->status = 'Pending';
         });
     }

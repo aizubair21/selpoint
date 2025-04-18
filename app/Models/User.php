@@ -101,15 +101,15 @@ class User extends Authenticatable
 
     public function isVendor()
     {
-        return $this->requestsToBeVendor()?->latest();
+        return $this->requestsToBeVendor()?->latest()->first();
     }
     public function isReseller()
     {
-        return $this->requestsToBeReseller()?->latest();
+        return $this->requestsToBeReseller()?->latest()->first();
     }
     public function isRider()
     {
-        return $this->requestsToBeRider()?->latest();
+        return $this->requestsToBeRider()?->latest()->first();
     }
 
 

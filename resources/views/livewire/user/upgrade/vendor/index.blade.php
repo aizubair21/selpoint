@@ -19,11 +19,7 @@
                 <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'request-for-create')">
                     NEW REQUEST
                 </x-primary-button>
-                {{-- <a wire:navigate href="{{route('upgrade.vendor.create',)}}">
-                    
-                    
-                </a> --}}
-                
+                              
                 
             </x-slot>
         </x-dashboard.section.header>
@@ -31,7 +27,7 @@
         <div>
             <x-nav-link :active="$upgrade == 'vendor'" href="?upgrade=vendor" > Vendor</x-nav-link>
             <x-nav-link :active="$upgrade == 'reseller'" href="?upgrade=reseller" > Reseller</x-nav-link>
-            <x-nav-link :active="$upgrade == 'rider'" href="?upgrade=rider" > Rider</x-nav-link>
+            {{-- <x-nav-link :active="$upgrade == 'rider'" href="?upgrade=rider" > Rider</x-nav-link> --}}
         </div>
         <x-dashboard.section.inner>
             <div  wire:show="upgrade == 'vendor'">

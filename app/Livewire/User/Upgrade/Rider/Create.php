@@ -4,12 +4,25 @@ namespace App\Livewire\User\Upgrade\Rider;
 
 use App\Models\rider;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\WithFileUploads;
 
 #[layout('layouts.user.dash.userDash')]
 class Create extends Component
 {
+    use WithFileUploads;
+
+    public function mount()
+    {
+        if (auth()->user()?->isRider()->status == 'Pending') {
+            Session::flash('warning', 'You have a pending request to be a rider');
+            $this->dispatch('alsert', 'You have an pending request to be a rider');
+            $this->redirectIntended(route('upgrade.rider.index'), true);
+        }
+    }
+
 
     public $phone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area;
 
@@ -20,12 +33,12 @@ class Create extends Component
             'phone' => 'required|numeric',
             'email' => 'required|email',
             'nid' => 'required',
-            'nid_photo_front' => 'required|mimes:jpg,jpeg,png| size:300KB',
-            'nid_photo_back' => 'required|mimes:jpg,jpeg,png| size:300KB',
+            'nid_photo_front' => 'nullable|mimes:jpg,jpeg,png| max:300',
+            'nid_photo_back' => 'nullable|mimes:jpg,jpeg,png| max:300',
             'fixed_address' => 'required',
             'current_address' => 'required',
             'area_condition' => 'required',
-            'targeted_area' => 'required',
+            'targeted_area' => 'nullable',
         ]);
 
         // array_merge($validData)
@@ -39,7 +52,7 @@ class Create extends Component
             'fixed_address' => $validData['fixed_address'],
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
-            'targeted_area' => $validData['targeted_area'],
+            'targeted_area' => $this->targeted_area,
         ]);
         // rider::created($validData);
         $this->redirectIntended(route('upgrade.rider.index'), true);
@@ -58,6 +71,12 @@ class Create extends Component
             return $name;
         }
     }
+
+    public function update() 
+    {
+        //     
+    }
+    
 
 
     public function render()
