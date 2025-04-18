@@ -203,9 +203,37 @@
 <script>
 
    document.addEventListener('DOMContentLoaded', function () {
-      Livewire.on('alert', (data) => {
-         // You can perform any client-side logic here
-         alert(data); // Example: show an alert with the data
+      Livewire.on('info', (data) => {
+         Swal.fire({
+            title: 'Look At!',
+            text: data,
+            icon: 'Info',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('success', (data) => {
+         Swal.fire({
+            title: 'Congrass !',
+            text: data,
+            icon: 'success',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('warning', (data) => {
+         Swal.fire({
+            title: 'Alart !',
+            text: data,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('error', (data) => {
+         Swal.fire({
+            title: 'Attention !',
+            text: data,
+            icon: 'error',
+            confirmButtonText: 'OK'
+         })
       });
    });
    

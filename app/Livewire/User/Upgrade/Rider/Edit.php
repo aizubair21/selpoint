@@ -58,8 +58,9 @@ class Edit extends Component
 
         // dd($this->rider);
         rider::find($this->id)->update($this->rider);
-        $this->dispatch('alert', 'Updated !');
-        Session::flash('success', "Information updated !");
+        $this->dispatch('success', 'Information Updated Successfully');
+        $this->reset(['nid_photo_front', 'nid_photo_back']);
+        // Session::flash('success', "Information updated !");
     }
 
     private function processImageStore($image, $targetStoreName)

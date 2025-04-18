@@ -10,11 +10,11 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
         @livewireStyles
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -41,11 +41,35 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
-            Livewire.on('alert', (data) => {
+            Livewire.on('info', (data) => {
                 Swal.fire({
                     title: 'Look At!',
                     text: data,
                     icon: 'Info',
+                    confirmButtonText: 'OK'
+                })
+            });
+            Livewire.on('success', (data) => {
+                Swal.fire({
+                    title: 'Congrass !',
+                    text: data,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            });
+            Livewire.on('warning', (data) => {
+                Swal.fire({
+                    title: 'Alart !',
+                    text: data,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                })
+            });
+            Livewire.on('error', (data) => {
+                Swal.fire({
+                    title: 'Attention !',
+                    text: data,
+                    icon: 'error',
                     confirmButtonText: 'OK'
                 })
             });

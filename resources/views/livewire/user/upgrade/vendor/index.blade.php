@@ -19,7 +19,8 @@
                 <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'request-for-create')">
                     NEW REQUEST
                 </x-primary-button>
-                              
+                <x-hr/>
+                <x-client.membership-activate-box />
                 
             </x-slot>
         </x-dashboard.section.header>
@@ -27,11 +28,15 @@
         <div>
             <x-nav-link :active="$upgrade == 'vendor'" href="?upgrade=vendor" > Vendor</x-nav-link>
             <x-nav-link :active="$upgrade == 'reseller'" href="?upgrade=reseller" > Reseller</x-nav-link>
-            {{-- <x-nav-link :active="$upgrade == 'rider'" href="?upgrade=rider" > Rider</x-nav-link> --}}
+            <x-nav-link :active="$upgrade == 'rider'" href="{{route('upgrade.rider.index')}}" > Rider</x-nav-link>
         </div>
         <x-dashboard.section.inner>
             <div  wire:show="upgrade == 'vendor'">
                 @if (auth()->user()->requestsToBeVendor->count() > 0)
+                    {{-- @if ($activeReqeust)
+                    
+                    @else
+                    @endif --}}
                     <x-dashboard.section.inner>
                         <x-dashboard.table>
                             <thead>
@@ -135,7 +140,7 @@
                     </x-primary-button>
                 </x-nav-link>
                 <br>
-                <x-nav-link href="">
+                <x-nav-link href="{{route('upgrade.rider.create')}}">
                     <x-primary-button>
                         Request for Rider (Delevary Man)
                     </x-primary-button>

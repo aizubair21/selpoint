@@ -16,14 +16,16 @@
                         
                     </div>
                     <a wire:navigate href="{{route('upgrade.rider.create')}}">
+                        
                         New Request
                     </a>
                 </x-slot>
             </x-dashboard.section.header>
-        </x-dashboard.section>
-
-
-        <x-dashboard.section>
+            <div>
+                <x-nav-link href="{{route('upgrade.vendor.index', ['upgrade' => 'vendor'])}}" > Vendor</x-nav-link>
+                <x-nav-link href="{{route('upgrade.vendor.index', ['upgrade' => 'reseller'])}}" > Reseller</x-nav-link>
+                <x-nav-link :active="true" href="{{route('upgrade.rider.index')}}" > Rider</x-nav-link>
+            </div>
             <x-dashboard.section.inner>
                 <x-dashboard.foreach :data="$rider">
 

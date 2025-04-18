@@ -30,19 +30,30 @@
                     
                     <x-input-file label="You NID Front Image" name="nid_photo_front" error="nid_photo_front">
                         <div>
-                            @if ($rider && $rider['nid_photo_front'] && !$nid_photo_front)
-                                <img class="mb-2" style="width:300px; height:200px" src="{{asset('storage/' . $rider['nid_photo_front'])}}" alt="">
-                            @endif
-                            @if($nid_photo_front) 
-                                <img class="mb-2" style="width:300px; height:200px" src="{{$nid_photo_front->temporaryUrl()}}" alt="">
-                            @endif
+                            <div class="flex">
+                                @if($nid_photo_front) 
+                                    <img class="mb-2" style="width:150px; height:100px" src="{{$nid_photo_front->temporaryUrl()}}" alt="" >
+                                @endif
+                                @if ($rider['nid_photo_front'])
+                                    <x-image class="mb-2" style="width:150px; height:100px" src="{{asset('storage/' . $rider['nid_photo_front'])}}" alt="" />
+                                @endif
+                            </div>
+                            {{-- <x-image-temp :model="$rider['nid_photo_front']" :temp="$nid_photo_front" :src="asset('storage/' . $rider['nid_photo_front'])"></x-image-temp> --}}
                             <input type="file" class="" wire:model="nid_photo_front" id="">
                         </div>
                     </x-input-file>
                     <x-input-file label="You NID Back Image" name="nid_photo_back" error="nid_photo_back">
                         <div>
 
-                            <img class="mb-2" style="width:300px; height:200px" src="{{asset('storage/' . $rider['nid_photo_back'])}}" alt="">
+                            <div class="flex">
+                                @if($nid_photo_back) 
+                                    <img class="mb-2" style="width:150px; height:100px" src="{{$nid_photo_back->temporaryUrl()}}" alt="" >
+                                @endif
+                                @if ($rider['nid_photo_back'])
+                                    <x-image class="mb-2" style="width:150px; height:100px" src="{{asset('storage/' . $rider['nid_photo_back'])}}" alt="" />
+                                @endif
+                            </div>
+                            {{-- <img class="mb-2" style="width:150px; height:100px" src="{{asset('storage/' . $rider['nid_photo_back'])}}" alt=""> --}}
                             <input type="file" class="" wire:model="nid_photo_back" id="">
                         </div>
                     </x-input-file>
@@ -60,17 +71,18 @@
             <x-dashboard.section>
                 <x-dashboard.section.inner>
                     <x-input-file label="Chose Your Area" name="area_condition" error="area_condition">
-    
-                        <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                            <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="rider.area_condition" id="area_condition_1" />
-                            <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
+                        <div class="flex">
+
+                            <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
+                                <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="rider.area_condition" id="area_condition_1" />
+                                <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
+                            </div>
+                            <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
+                                <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="rider.area_condition" id="area_condition_2" />
+                                <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                            <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="rider.area_condition" id="area_condition_2" />
-                            <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
-                        </div>
-                        <x-hr/>
-                        <br>
+
                     </x-input-file>
                     <div  wire:show="area_condition == 'other'" wire:transition>     
                         <x-input-file label="" name="targeted_area" error="targeted_area">

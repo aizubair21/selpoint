@@ -46,8 +46,7 @@ class Documents extends Component
     public function updateDeatline()
     {
         $this->vendor->documents->update(['deatline' => $this->deatline]);
-        $this->dispatch('alert', 'Updated');
-        $this->getData();
+        $this->dispatch('success', 'Updated');
     }
 
 

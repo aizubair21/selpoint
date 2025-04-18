@@ -47,9 +47,7 @@ class Settings extends Component
     {
         vendor::find($this->id)->update($this->varray);
         // Session()->flash('success', 'Vendor Updated!');
-        $this->dispatch('alert', 'Updated');
-        $this->getDate();
-        $this->dispatch('refresh');
+        $this->dispatch('success', 'Updated');
     }
 
 

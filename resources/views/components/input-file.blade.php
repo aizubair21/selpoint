@@ -4,8 +4,8 @@
    
 
     <div class="form-group">
-        <div class="md:flex justify-between">
-            <div style="width:350px">         
+        <div class="md:flex justify-start ">
+            <div style="width:250px">         
                 <!-- Label -->
                 <x-input-label for="{{ $name ?? $label }}" class="block text-sm font-medium text-gray-700">{{ $label }} </x-input-label>
                 
@@ -15,7 +15,10 @@
                 @endif
             </div>
             <!-- Text Input -->
-            {{$slot}}
+            <div>
+
+                {{$slot}}
+            </div>
         </div>
 
     </div>

@@ -8,11 +8,12 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
+use App\HandleImageUpload;
 
 #[layout('layouts.user.dash.userDash')]
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, HandleImageUpload;
 
     public function mount()
     {
@@ -47,8 +48,8 @@ class Create extends Component
             'phone' => $validData['phone'],
             'email' => $validData['email'],
             'nid' => $validData['nid'],
-            'nid_photo_front' => $this->processImageStore($this->nid_photo_front, 'rider-nid-front-'),
-            'nid_photo_back' => $this->processImageStore($this->nid_photo_back, 'rider-nid-back-'),
+            'nid_photo_front' => $this->handleImageUpload($this->nid_photo_front, 'rider-document', null),
+            'nid_photo_back' => $this->handleImageUpload($this->nid_photo_back, 'rider-document', null),
             'fixed_address' => $validData['fixed_address'],
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
@@ -72,11 +73,11 @@ class Create extends Component
         }
     }
 
-    public function update() 
+    public function update()
     {
         //     
     }
-    
+
 
 
     public function render()

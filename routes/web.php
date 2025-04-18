@@ -6,7 +6,7 @@ use App\Http\Controllers\ProfileController;
 Route::view('/', 'welcome');
 
 Route::get('dashboard', function () {
-    if (auth()->user()->hasRole('system')) {
+    if (auth()->user()->hasAnyRole(['system', 'admin']) || auth()->user()->can('access_vendor_dashboard') || auth()->user()->can('access_reseller_dashboard') || auth()->user()->can('access_rider_dashboard')) {
         return view('dashboard');
     } else {
         return redirect()->route('user.dash');

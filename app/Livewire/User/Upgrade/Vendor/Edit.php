@@ -12,10 +12,11 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
+use App\HandleImageUpload;
 
 class Edit extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, HandleImageUpload;
 
     #[URL]
     public $id, $upgrade = 'vendor', $nav = 'basic';
@@ -125,22 +126,22 @@ class Edit extends Component
 
 
         if ($this->shop_tin_image) {
-            $data['shop_tin_image'] = $this->processImageStore($this->shop_tin_image, 'vendor-shop-tin-');
+            $data['shop_tin_image'] = $this->handleImageUpload($this->shop_tin_image, 'vendor-document', $this->vendorDocument['shop_tin_image']);
         }
         if ($this->shop_trade_image) {
-            $data['shop_trade_image'] = $this->processImageStore($this->shop_trade_image, 'vendor-shop-trade-');
+            $data['shop_trade_image'] = $this->handleImageUpload($this->shop_trade_image, 'vendor-document', $this->vendorDocument['shop_trade_image']);
         }
         if ($this->nid_front) {
-            $data['nid_front'] = $this->processImageStore($this->nid_front, 'vendor-nid-front-');
+            $data['nid_front'] = $this->handleImageUpload($this->nid_front, 'vendor-document', $this->vendorDocument['nid_front']);
         }
         if ($this->nid_back) {
-            $data['nid_back'] = $this->processImageStore($this->nid_back, 'vendor-nid-back-');
+            $data['nid_back'] = $this->handleImageUpload($this->nid_back, 'vendor-document', $this->vendorDocument['nid_back']);
         }
 
         $vd->update($data);
 
         $this->dispatch('refresh');
-        $this->dispatch('alert', 'Updated');
+        $this->dispatch('success', 'Information Updated Successfully');
     }
 
     private function processImageStore($image, $targetStoreName)

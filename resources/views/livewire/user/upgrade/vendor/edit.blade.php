@@ -88,34 +88,34 @@
 
                     <x-input-file label="Your NID Image (front side)" error='nid_front'>
                             
-                            @if ($vendorDocument && $vendorDocument['nid_front'] && !$nid_front)
-                                <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['nid_front'])}}" alt="">
+                            @if ($vendorDocument['nid_front'] && !$nid_front)
+                                <x-image src="{{asset('/storage/'.$vendorDocument['nid_front'])}}" alt="" />
                             @endif
                             @if($nid_front) 
-                                <img width="100px" src="{{$nid_front->temporaryUrl()}}" alt="">
+                                <img src="{{$nid_front->temporaryUrl()}}" alt="">
                             @endif
                         
                             <x-text-input accept="png, jpg, jpeg" type="file" wire:model.live="nid_front" />
                     </x-input-file>
                     <x-input-file label="Your NID Image (back side)" error='nid_back'>
-                            @if ($vendorDocument && $vendorDocument['nid_back'] && !$nid_back)
-                                <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['nid_back'])}}" alt="">
+                            @if ($vendorDocument['nid_back'] && !$nid_back)
+                                <x-image src="{{asset('/storage/'.$vendorDocument['nid_back'])}}" alt="" />
                             @endif
                             @if($nid_back) 
-                                <img width="100px" src="{{$nid_back->temporaryUrl()}}" alt="">
+                                <img src="{{$nid_back->temporaryUrl()}}" alt="">
                             @endif
                             <x-text-input type="file" wire:model.live="nid_back" />
                     </x-input-file>
                     <x-hr />
-                    <x-input-file label="Your TIN No" error='nid'>
-                            <x-text-input type="number" wire:model="vendorDocument.shop_tin" type="text" name="nid" placeholder="NID" />
+                    <x-input-file label="Your TIN No" error='shop_tin'>
+                            <x-text-input class="w-full" type="number" wire:model="vendorDocument.shop_tin" type="text" name="nid" placeholder="Your Business TIN" />
                     </x-input-file>
-                    <x-input-file label="Your TIN Image (front side)" error='shop_tin'>
-                             @if ($vendorDocument && $vendorDocument['shop_tin_image'] && !$shop_tin_image)
-                                <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_tin_image'])}}" alt="">
+                    <x-input-file label="Your TIN Image (front side)" error='shop_tin_image'>
+                             @if ($vendorDocument['shop_tin_image'] && !$shop_tin_image)
+                                <x-image src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_tin_image'])}}" alt="" />
                             @endif
                             @if($shop_tin_image) 
-                                <img width="100px" src="{{$shop_tin_image->temporaryUrl()}}" alt="">
+                                <ximg src="{{$shop_tin_image->temporaryUrl()}}" alt="">
                             @endif
                             <x-text-input type="file" wire:model.live="shop_tin_image" />
                     </x-input-file>
@@ -123,11 +123,11 @@
                     <x-hr />
                     <x-input-field wire:model="vendorDocument.shop_trade" label="Your business Trade Number" name="shop_trade" error="shop_trade" />
                     <x-input-file label="Your Trade License Image (front side)" error='shop_trade_image'>
-                             @if ($vendorDocument && $vendorDocument['shop_trade_image'] && !$shop_trade_image)
-                                <img width="100px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_trade_image'])}}" alt="">
+                             @if ($vendorDocument['shop_trade_image'] && !$shop_trade_image)
+                                <x-image src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_trade_image'])}}" alt="" />
                             @endif
                             @if($shop_trade_image) 
-                                <img width="100px" src="{{$shop_trade_image->temporaryUrl()}}" alt="">
+                                <ximg src="{{$shop_trade_image->temporaryUrl()}}" alt="">
                             @endif
                             <x-text-input type="file" wire:model.live="shop_trade_image" />
                     </x-input-file>

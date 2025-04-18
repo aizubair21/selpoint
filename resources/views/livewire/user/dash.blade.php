@@ -107,21 +107,9 @@
     </x-dashboard.section>
 
 
-    {{-- @volt('container')
-        <div>
-           {{$latestVndor}}
-           @php
-               dd($data);
-           @endphp
-        </div>
-    @endvolt --}}
-    {{-- <x-dashboard.section>
-        @php
-            $isVendor = auth()->user()->isVendor;
-            echo($isVendor->id);
-        @endphp
-    </x-dashboard.section> --}}
+ 
     <x-dashboard.section>
+        <x-client.membership-activate-box />
 
         @push('style')
             <style>
