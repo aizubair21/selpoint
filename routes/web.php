@@ -5,7 +5,13 @@ use App\Http\Controllers\ProfileController;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', function () {
+    if (auth()->user()->hasRole('system')) {
+        return view('dashboard');
+    } else {
+        return redirect()->route('user.dash');
+    }
+})
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

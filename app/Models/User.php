@@ -63,6 +63,7 @@ class User extends Authenticatable
         parent::boot();
         static::created(function (User $user) {
             $user->syncRoles(['user']);
+            $user->coin = 0;
         });
     }
 
@@ -92,15 +93,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(reseller::class);
     }
+    public function requestsToBeRider()
+    {
+        return $this->hasMany(rider::class);
+    }
+
 
     public function isVendor()
     {
-        return $this->requestsToBeVendor()->latest();
+        return $this->requestsToBeVendor()?->latest();
     }
     public function isReseller()
     {
-        return $this->requestsToBeReseller()->latest();
+        return $this->requestsToBeReseller()?->latest();
     }
+    public function isRider()
+    {
+        return $this->requestsToBeRider()?->latest();
+    }
+
 
     public function myProducts()
     {

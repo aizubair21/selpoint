@@ -125,9 +125,9 @@
                         <x-dropdown-link>
                             Profile
                         </x-dropdown-link>
-                        @if (Route::has('logout'))
+                        {{-- @if (Route::has('logout'))
                             <form method="get" action="{{ route('logout') }}">
-                                {{-- @csrf --}}
+                                @csrf
 
                                 <x-dropdown-link wire:navigate :href="route('logout')"
                                         onclick="event.preventDefault();
@@ -135,7 +135,10 @@
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
-                        @endif
+                        @endif --}}
+                        <x-dropdown-link href="{{route('logout')}}">
+                            Log Out
+                        </x-dropdown-link>
                         {{-- <x-secondary-button wire:click="logout">
                             {{ __('Log Out') }}
                         </x-secondary-button>    --}}

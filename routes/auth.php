@@ -18,6 +18,9 @@ use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
 use App\Livewire\User\Upgrade\Vendor\Edit as upgradeToVendorEdit;
 
+use App\Livewire\User\Upgrade\Rider\Index as upgradeToRiderIndex;
+use App\Livewire\User\Upgrade\Rider\Edit as upgradeToRiderEdit;
+use App\Livewire\User\Upgrade\Rider\Create as upgradeToRiderCreate;
 
 
 
@@ -64,6 +67,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', upgradeToVendorEdit::class)->name('upgrade.vendor.edit');
         Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
         Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
+
+
+        Route::get('/rider', upgradeToRiderIndex::class)->name('upgrade.rider.index');
+        Route::get('/rider/create', upgradeToRiderCreate::class)->name('upgrade.rider.create');
+        Route::get('/rider/{id}/edit', upgradeToRiderEdit::class)->name('upgrade.rider.edit');
     });
 
     // Route::prefix('/upgrade/reseller')->group(function () {
