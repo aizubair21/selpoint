@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class AbleTo
@@ -15,9 +16,10 @@ class AbleTo
      */
     public function handle(Request $request, Closure $next, string $permission): Response
     {
-        if (!auth()->user()->can($permission)) {
+        if (!request()->user()->can($permission)) {
             // abort(403, 'You are unable to access');
-            return redirect()->route('dashboard')->with('warning', "You do not have required permission to access.");
+            Session::flash('warning', 'You are unable to access');
+            return redirect()->route('dashboard');
         }
         return $next($request);
     }

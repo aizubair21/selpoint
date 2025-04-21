@@ -10,13 +10,14 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
         @livewireStyles
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" wire:scroll>
         <div class="min-h-screen bg-gray-100">
             @livewire('layout.navigation')
             {{-- @include('layouts.navigation') --}}

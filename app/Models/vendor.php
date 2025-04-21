@@ -84,7 +84,7 @@ class vendor extends Model
 
             $model->documents()->update(['deatline' => Carbon::now()->addDays(7)]);
 
-            Session::flash('Success', "Model Created !");
+            // Session::flash('Success', "Model Created !");
         });
 
         /**

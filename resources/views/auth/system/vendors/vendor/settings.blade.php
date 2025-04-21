@@ -1,9 +1,4 @@
 
-<?php
-
-
-?>
-
 <x-app-layout>
     <x-dashboard.page-header>
 

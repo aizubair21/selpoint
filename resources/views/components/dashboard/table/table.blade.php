@@ -1,4 +1,4 @@
-<div class="overflow-x-scroll ">
+<div {{$attributes}} class="overflow-x-scroll ">
     <!-- Life is available only in the present moment. - Thich Nhat Hanh -->
     <style>
         thead th {

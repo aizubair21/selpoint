@@ -9,10 +9,10 @@ use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+use App\Livewire\System\Users\Edit as systemUserEditPage;
 
 use App\Livewire\System\Vendors\Index as vendorIndexPage;
 use App\Livewire\System\Vendors\Edit as vendorEdit;
-
 use App\Livewire\System\Vendors\Vendor\Settings as systemVendorSettingspage;
 use App\Livewire\System\Vendors\Vendor\Documents as systemVendorDocumentsPage;
 use App\Livewire\System\Vendors\Vendor\Products as systemVendorProductsPage;
@@ -21,6 +21,8 @@ use App\Livewire\System\Vendors\Vendor\Categories as systemVendorCategoriesPage;
 
 use App\Livewire\System\Resellers\Index as systemResellerIndexPage;
 use App\Livewire\System\Resellers\Edit as systemResellerEditPage;
+
+
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -77,7 +79,7 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
         // permit to make users task
         Route::get('/', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
-        Route::get('/edit/{email}', [SystemUsersController::class, 'admin_edit'])->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
+        Route::get('/edit/{email}', systemUserEditPage::class)->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
         Route::post('/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
     });
 });

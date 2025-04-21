@@ -49,7 +49,7 @@
          }
          #user_asside{
             width: 150px!important;
-            height: 100vh;
+            height: auto;
 
          }
          #user_asside .asside_link{
