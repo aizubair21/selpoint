@@ -93,5 +93,6 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      */
     Route::prefix('rider')->group(function () {
         Route::get('/', systemRiderIndexPage::class)->name("system.rider.index")->middleware(AbleTo::class . ":riders_view");
+        Route::get('/{id}/edit', systemRiderEditPage::class)->name('system.rider.edit')->middleware(AbleTo::class . ":riders_edit");
     });
 });

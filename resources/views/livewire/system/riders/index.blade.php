@@ -62,7 +62,7 @@
 
                                         </td>
                                         <td>
-                                            <x-nav-link>edit</x-nav-link>
+                                            <x-nav-link href="{{route('system.rider.edit', ['id' => $item->id])}}">edit</x-nav-link>
                                         </td>
                                     </tr>
                                 @endforeach
