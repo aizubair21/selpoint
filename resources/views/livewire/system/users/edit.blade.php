@@ -33,9 +33,14 @@
 
         <x-dashboard.section x-show="nav == 'role'">
             <x-dashboard.section.inner>
-                    @livewire('system.users.partials.update-profile-role', ['user' => $user], key($user->id))
+                @livewire('system.users.partials.update-profile-role', ['user' => $user], key($user->id))
                 <x-hr/>
-                    
+                <div class="">
+                    <x-input-label style="width:250px" class="mb-4">
+                        User Permission
+                    </x-input-label>
+                    @livewire('system.users.partials.update-profile-permission', ['user' => $user], key($user->id))
+                </div>
             </x-dashboard.section.inner>
         </x-dashboard.section>
        

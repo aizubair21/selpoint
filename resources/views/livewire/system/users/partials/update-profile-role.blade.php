@@ -36,14 +36,16 @@ new class extends Component {
     <form wire:submit.prevent="save">
         <div>   
             <x-input-file label="User Role" error="role" name="role" >
-                @foreach ($roles as $item)
-                    <div class="flex items-center space-y-2">
-                  
-                        <x-text-input type="checkbox" wire:model.live="role" wire:model.live="userRoles" value="{{$item->name}}" />
-                        <x-input-label class="pl-3 text-md" value="{{$item->name}}" />
-                        
-                    </div>
-                @endforeach
+                <div class="flex">
+                    @foreach ($roles as $item)
+                        <div class="flex items-center p-3 border shadow-sm">
+                      
+                            <x-text-input class="m-0" type="checkbox" wire:model.live="userRoles" value="{{$item->name}}" />
+                            <x-input-label class="m-0 p-0 pl-3 text-md" value="{{$item->name}}" />
+                            
+                        </div>
+                    @endforeach
+                </div>
                 <x-hr/>
                 <x-primary-button>
                     save
