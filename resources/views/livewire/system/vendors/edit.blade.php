@@ -6,6 +6,6 @@
     @php
         $user = $vendor->user;
     @endphp
-    @includeIf('auth.system.users.edit');
-    {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+    {{-- @includeIf('auth.system.users.edit'); --}}
+    @livewire('system.users.edit', ['id' => $user->id], key($user->id))
 </div>

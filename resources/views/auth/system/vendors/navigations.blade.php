@@ -11,7 +11,7 @@
     
     <x-slot name="content">
         <div class="text-sm">
-            <x-nav-link href="{{route('system.users.edit', ['email' => $vendor?->user?->email])}}">
+            <x-nav-link href="{{route('system.users.edit', ['id' => $vendor?->user?->id])}}">
                 {{$vendor?->user?->name ?? "N/A"}}
             </x-nav-link>
             - {{$vendor?->status ?? "N/A"}}

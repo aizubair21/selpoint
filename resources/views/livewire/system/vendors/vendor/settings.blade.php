@@ -47,7 +47,7 @@
                             <x-hr />
                             
                             <div wire:show="varray.status == 'Active'">
-                                <x-nav-link href="{{route('system.users.edit', ['email' => $vendor->user?->email])}}">
+                                <x-nav-link href="{{route('system.users.edit', ['id' => $vendor->user?->id])}}">
                                     <x-primary-button>
                                         Updat User
                                     </x-primary-button>

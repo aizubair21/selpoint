@@ -11,7 +11,7 @@ use Livewire\Attributes\Url;
 class Edit extends Component
 {
     #[URL]
-    public $id;
+    public $id, $nav = 'user';
     private $data;
 
     public $rider;
