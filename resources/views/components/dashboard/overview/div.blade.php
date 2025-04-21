@@ -25,13 +25,13 @@
             
         }
     </style>
-    <h2 class="text-md mb-3">
+    <div class="text-md mb-3">
             {{$title ?? "Overview"}}
-    </h2>
+    </div>
     
-    <p class="text-end text-2xl">
-            {{$content ?? " 0 / 0"}}
-    </p>
+    <div class="text-end text-2xl">
+        {{$content ?? " 0 / 0"}}
+    </div>
     
     <div class="div_wrapper"></div>
     

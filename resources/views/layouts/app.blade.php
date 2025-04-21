@@ -17,11 +17,11 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
     </head>
-    <body class="font-sans antialiased" wire:scroll>
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased h-screen overflow-hidden">
+        <div class="flex flex-col h-screen bg-gray-100">
             @livewire('layout.navigation')
             {{-- @include('layouts.navigation') --}}
-
+    
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
@@ -30,14 +30,14 @@
                     </div>
                 </header>
             @endif
-
+    
             <!-- Page Content -->
-            <main>
+            <main class="flex-1 overflow-y-auto">
                 {{ $slot }}
             </main>
         </div>
     </body>
-
+    
     @livewireScripts
     <script>
 

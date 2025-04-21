@@ -71,7 +71,7 @@
                                 $roles = auth()->user()->getRoleNames();
                             @endphp
                             @if (count($roles) > 0)
-                                <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
+                                <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
                                     Go To Dashboard
                                 </x-dropdown-link>
                                 

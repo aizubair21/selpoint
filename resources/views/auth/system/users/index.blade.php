@@ -23,7 +23,7 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-
+                    
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex justify-between">

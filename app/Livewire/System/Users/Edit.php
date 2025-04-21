@@ -12,13 +12,14 @@ use Livewire\Attributes\Url;
 class Edit extends Component
 {
     #[URL]
-    public $email;
+    public $id;
 
-    public $user;
+    public $users, $user, $cref;
 
     public function mount()
     {
-        $this->user = User::where(['email' => $this->email])->first();
+        $this->user = User::find($this->id);
+        $this->users = $this->user->toArray();
         // dd($this->user);
     }
 

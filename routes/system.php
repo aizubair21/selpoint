@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 use App\Livewire\System\Users\Edit as systemUserEditPage;
+use App\Livewire\System\Users\Index as systemUserIndexPage;
 
 use App\Livewire\System\Vendors\Index as vendorIndexPage;
 use App\Livewire\System\Vendors\Edit as vendorEdit;
@@ -22,6 +23,8 @@ use App\Livewire\System\Vendors\Vendor\Categories as systemVendorCategoriesPage;
 use App\Livewire\System\Resellers\Index as systemResellerIndexPage;
 use App\Livewire\System\Resellers\Edit as systemResellerEditPage;
 
+use App\Livewire\System\Riders\Index as systemRiderIndexPage;
+use App\Livewire\System\Riders\Edit as systemRiderEditPage;
 
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
@@ -77,9 +80,18 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
     Route::prefix('users')->group(function () {
 
-        // permit to make users task
-        Route::get('/', [SystemUsersController::class, 'admin_view'])->name('system.users.view')->middleware(AbleTo::class . ":users_view");
-        Route::get('/edit/{email}', systemUserEditPage::class)->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
+        // permit to make users task    
+        Route::get('/', systemUserIndexPage::class)->name('system.users.view')->middleware(AbleTo::class . ":users_view");
+        Route::get('/edit/{id}', systemUserEditPage::class)->name('system.users.edit')->middleware(AbleTo::class . ":users_edit");
         Route::post('/update/{id}', [SystemUsersController::class, 'admin_update'])->name("system.users.update")->middleware(AbleTo::class . ":users_update");
+    });
+
+
+    /**
+     * routes dedicated for rider management
+     * 
+     */
+    Route::prefix('rider')->group(function () {
+        Route::get('/', systemRiderIndexPage::class)->name("system.rider.index")->middleware(AbleTo::class . ":riders_view");
     });
 });

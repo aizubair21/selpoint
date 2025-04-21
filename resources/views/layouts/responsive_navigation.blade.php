@@ -18,7 +18,7 @@
     @endcan 
 
     @can('riders_view')
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        <x-responsive-nav-link :href="route('system.rider.index')" :active="request()->routeIs('system.rider.*')">
             {{ __('Rider') }}
         </x-responsive-nav-link>
     @endcan

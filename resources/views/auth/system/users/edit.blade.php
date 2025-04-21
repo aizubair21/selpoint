@@ -1,8 +1,8 @@
 <div>
-    {{-- <x-dashboard.page-header>
+    <x-dashboard.page-header>
         User Update
         <br>
-    </x-dashboard.page-header> --}}
+    </x-dashboard.page-header>
     
     
     
