@@ -49,7 +49,7 @@
                                         }}
                                     </td>
                                     <td>
-                                        <form action="{{route('system.users.edit', ['email' => $item->email])}}" method="get">
+                                        <form action="{{route('system.users.edit', ['id' => $item->id])}}" method="get">
                                             <x-primary-button type="submit">
                                                 Edit
                                             </x-primary-button>

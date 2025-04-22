@@ -29,11 +29,12 @@
                 </x-dashboard.section.header>
 
                 <x-dashboard.section.inner>
-                    {!!$users->links()!!}
+                    {{$users->links()}}
 
                     <x-dashboard.foreach :data="$users" >
-                        <div  x-data="{ users: @js($users) }">
-                            <x-dashboard.table>
+                        {{-- <div  x-data="{ users: @js($users) }"> --}}
+                        <div>
+                            <x-dashboard.table >
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -51,7 +52,7 @@
                                 </thead>
     
                                 <tbody>
-                                    
+                                   
                                     @foreach ($users as $key => $user)
                                         <tr>
                                             <td> {{$loop->iteration}} </td>
@@ -82,9 +83,7 @@
                                                     <x-nav-link href="{{route('system.users.edit', ['id' => $user->id])}}" >                                           
                                                         Edit
                                                     </x-nav-link>
-                                                    <x-primary-button>
-                                                        edit
-                                                    </x-primary-button>
+                                                    
                                                 </div>
                                             </td>
                                         </tr>
@@ -98,4 +97,12 @@
             </x-dashboard.section>
         </x-dashboard.container>
     </div>
+    
+    
+    @script
+        <script sec="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+        <script>
+            let table = new DataTable('#myTable');
+        </script>
+    @endscript
 </div>

@@ -18,6 +18,7 @@
                                 <x-nav-link :active="$condition == 'all' " href="?condition=all"> All </x-nav-link>
                                 <x-nav-link :active="$condition == 'Active' " href="?condition=Active"> Active </x-nav-link>
                                 <x-nav-link :active="$condition == 'Pending' " href="?condition=Pending"> Pending </x-nav-link>
+                                <x-nav-link :active="$condition == 'Disabled' " href="?condition=Disabled"> Disabled </x-nav-link>
                                 <x-nav-link :active="$condition == 'Suspended' " href="?condition=Suspended"> Suspended </x-nav-link>
                             </div>
 
@@ -33,8 +34,8 @@
                 </x-dashboard.section.header>
 
                 <x-dashboard.section.inner>
-                    <x-dashboard.table>
-                        <x-dashboard.foreach :data="$riders">
+                    <x-dashboard.foreach :data="$riders">
+                        <x-dashboard.table>
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -67,10 +68,8 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-
-                            {{ $riders->links() }}
-                        </x-dashboard.foreach>
-                    </x-dashboard.table>
+                        </x-dashboard.table>
+                    </x-dashboard.foreach>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
         </x-dashboard.container>

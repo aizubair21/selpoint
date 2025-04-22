@@ -24,6 +24,7 @@ class Index extends Component
     {
         $users = User::paginate(200);
         // $this->getData();
+        
         if (!empty($this->search)) {
             // rider::where('name', 'like', '%' . $this->search . '%')->paginate(20);
             $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('name', 'like', '%' . $this->search . '%')->paginate(200);

@@ -3,7 +3,7 @@
     <x-dashboard.page-header>
         Resellers
         <br>
-        <x-nav-link href="{{route('system.users.edit', ['email' => $resellers->user?->email ?? ''])}}">
+        <x-nav-link href="{{route('system.users.edit', ['id' => $resellers->user?->id ?? ''])}}">
             {{$resellers->user?->name ?? "N/A"}}
         </x-nav-link>
         - <span class="text-sm"> {{$resellers->shop_name_bn ?? "N/A"}} </span>
@@ -13,6 +13,7 @@
 
 
         <div>
+            <x-nav-link :active="$nav == 'user'" href="?nav=user">user</x-nav-link>
             <x-nav-link :active="$nav == 'documents'" href="?nav=documents">Documents</x-nav-link>
             <x-nav-link :active="$nav == 'products'" href="?nav=products">Products</x-nav-link>
             <x-nav-link :active="$nav == 'categories'" href="?nav=categories">Categories</x-nav-link>
@@ -21,6 +22,46 @@
     </x-dashboard.page-header>
     
     <x-dashboard.container>
+        <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Reseller Status
+                </x-slot>
+                <x-slot name="content">
+                    <x-hr />
+                    <div>
+                        <form wire:submit.prevent='updateStatus'>
+    
+                            <div class="flex items-center justify-between">
+    
+                                <div >
+                                    <p class="text-sm">Current Status is : <strong> {{$resellers  ->status}} </strong>. Change status to - </p>
+                                    <select id="" wire:model="requestStatus" class="rounded-lg py-1" >
+                                        <option value="Select Status">-- Select -- </option>
+                                        <option @if($resellers->status == 'Active') selected @endif value="Active">Active</option>
+                                        <option @if($resellers->status == 'Pending') selected @endif value="Pending">Pending</option>
+                                        <option @if($resellers->status == 'Disabled') selected @endif value="Disabled">Disabled</option>
+                                        <option @if($resellers->status == 'Suspended') selected @endif value="Suspended">Suspended</option>
+                                    </select>
+                                    
+                                    {{-- <div class="mt-1" x-show="sd != 'Active'">
+                                        <textarea class="rounded-lg" name="" id="" rows="2"></textarea>
+                                    </div> --}}
+                                    
+                                </div>
+                                <div class="text-end">
+                                    <p class="text-sm">
+                                        update : {{$resellers ->updated_at->diffForHumans()}}
+                                    </p>
+                                    <x-primary-button class="ml-2">set</x-primary-button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </x-slot>
+            </x-dashboard.section.header>
+        </x-dashboard.section>
+
         @if ($nav == 'documents')
     
             <x-dashboard.section>
@@ -112,4 +153,7 @@
             </x-dashboard.section>
         @endif
     </x-dashboard.container>
+    @if ($nav == 'user')
+        @livewire('system.users.edit', ['id' => $resellers->user?->id], key($resellers->user?->id))
+    @endif
 </div>

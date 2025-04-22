@@ -14,7 +14,7 @@
         }
        
     </style>
-    <table class="w-full mb-2">
+    <table id="myTable" class="w-full mb-2">
             {{$slot}}
     </table>
 </div>

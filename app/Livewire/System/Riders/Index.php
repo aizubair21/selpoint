@@ -23,7 +23,7 @@ class Index extends Component
     {
         // $query = rider::query();
 
-        $riders = rider::orderBy('created_at', 'desc')->where(['status' => $this->condition])->paginate(50);
+        $riders = rider::orderBy('created_at', 'desc')->where(['status' => $this->condition])->paginate(200);
 
         // if (!empty($this->search)) {
         //     if ($this->condition == 'all') {

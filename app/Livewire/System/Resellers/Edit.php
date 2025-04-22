@@ -12,7 +12,7 @@ class Edit extends Component
     #[URL]
     public $id, $filter, $nav = 'documents';
 
-    public $resellers, $deatline;
+    public $resellers, $deatline, $requestStatus;
 
     // mount 
     public function mount()
@@ -32,13 +32,23 @@ class Edit extends Component
     /**
      * update deatline
      */
-    public function updateDeatline() 
+    public function updateDeatline()
     {
         $this->resellers?->documents?->update(['deatline' => $this->deatline]);
         $this->dispatch('alert', 'Updated');
-        $this->getData(); 
+        $this->getData();
     }
-    
+
+    public function updateStatus()
+    {
+        $this->resellers->status = $this->requestStatus;
+        $this->resellers->save();
+
+
+        $this->dispatch('success', "Status Updated !");
+        $this->dispatch('refresh');
+    }
+
 
     public function render()
     {
