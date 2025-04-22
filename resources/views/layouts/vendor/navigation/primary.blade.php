@@ -30,7 +30,7 @@
     Products
 </x-nav-link>
 
-<x-nav-link href="" :active="request()->routeIs('vendor.categories.*')">
+<x-nav-link href="{{route('vendor.category.view')}}" :active="request()->routeIs('vendor.category.*')">
     Categories
 </x-nav-link>
 
