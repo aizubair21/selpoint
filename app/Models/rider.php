@@ -50,7 +50,7 @@ class rider extends Model
     //////////////// 
     // SCOPE //
     ///////////////
-    public function scomeActive($query)
+    public function scopeActive($query)
     {
         return $query->where(['status' => 'Active']);
     }
@@ -59,13 +59,13 @@ class rider extends Model
     {
         return $query->where(['status' => 'Pending']);
     }
-    public function scopeSuspend($query)
+    public function scopeSuspended($query)
     {
         return $query->where(['status' => 'Suspended']);
     }
     public function scopeDisabled($query)
     {
-        return $query->where(['status' => 'Disableded']);
+        return $query->where(['status' => 'Disabled']);
     }
 
     //////////////// 

@@ -125,18 +125,22 @@ class vendor extends Model
     //////////////// 
     // SCOPE //
     ///////////////
-    public function scomeActive($query)
+    public function scopeActive($query)
     {
-        return $query->where('status', 1);
+        return $query->where('status', '=', 'Active');
     }
 
     public function scopePending($query)
     {
-        return $query->where('status', 0);
+        return $query->where('status', '=', 'Pending');
     }
-    public function scopeSuspend($query)
+    public function scopeSuspended($query)
     {
-        return $query->where('status', 2);
+        return $query->where('status', '=', 'Suspended');
+    }
+    public function scopeDisabled($query)
+    {
+        return $query->where('status', '=', 'Disabled');
     }
 
 

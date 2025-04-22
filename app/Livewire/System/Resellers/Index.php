@@ -15,6 +15,15 @@ class Index extends Component
     #[URL]
     public $filter = 'Active', $find;
 
+
+    public $trs,$ars, $prs, $srs, $drs;
+
+    public function mount()
+    {
+            
+    }
+    
+
     public function render()
     {
 

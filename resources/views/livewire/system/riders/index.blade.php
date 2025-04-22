@@ -6,6 +6,51 @@
 
     <div>
         <x-dashboard.container>
+            <x-dashboard.overview.section>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Total Rider
+                    </x-slot>
+                    <x-slot name="content">
+                        {{$tri}}
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Active Rider
+                    </x-slot>
+                    <x-slot name="content">
+                        {{$ari}}
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Pending Rider
+                    </x-slot>
+                    <x-slot name="content">
+                        {{$pri}}
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Suspended Rider
+                    </x-slot>
+                    <x-slot name="content">
+                        {{$sri}}
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Disabled Rider
+                    </x-slot>
+                    <x-slot name="content">
+                        {{$dri}}
+                    </x-slot>
+                </x-dashboard.overview.div>
+            </x-dashboard.overview.section>
+        </x-dashboard.container>
+
+        <x-dashboard.container>
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">

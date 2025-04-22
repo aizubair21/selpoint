@@ -19,6 +19,19 @@ class Index extends Component
     #[URL]
     public $condition = 'Active', $search;
 
+    public $tri, $ari, $pri, $dri, $sri;
+
+
+    public function mount()
+    {
+        $this->tri = rider::count();
+        $this->ari = rider::query()->active()->count();
+        $this->pri = rider::query()->pending()->count();
+        $this->dri = rider::query()->disabled()->count();
+        $this->sri = rider::query()->suspended()->count();
+    }
+
+
     public function render()
     {
         // $query = rider::query();

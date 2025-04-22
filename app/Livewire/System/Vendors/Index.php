@@ -7,6 +7,7 @@ use App\Models\vendor;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Reactive;
 
+
 class Index extends Component
 {
 
@@ -22,12 +23,17 @@ class Index extends Component
     /**
      * component data
      */
-    public $vendors;
+    public $vendors,$tvd, $avd, $pvd, $svd, $dvd;
 
     /**mount */
     public function mount()
     {
         $this->getData();
+        $this->tvd = vendor::query()->count();
+        $this->avd = vendor::query()->active()->count();
+        $this->pvd = vendor::query()->pending()->count();
+        $this->dvd = vendor::query()->disabled()->count();
+        $this->svd = vendor::query()->suspended()->count();
     }
 
     public function getData()

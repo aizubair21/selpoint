@@ -1,3 +1,24 @@
+<?php
+ 
+use Livewire\Volt\Component;
+use App\Models\reseller;
+
+ 
+new class extends Component {
+    public $trs,$ars, $prs, $srs, $drs;
+
+    public function mount()
+    {
+        $qy = reseller::query();
+        $this->trs = $qy->count();
+        $this->ars =$qy->active()->count();
+        $this->prs = $qy->Pending()->count();
+        $this->srs = $qy->suspended()->count();
+        $this->drs = $qy->disabled()->count();
+    }
+
+} ?>
+
 <div>
     {{-- Do your work, then step back. --}}
     <x-dashboard.page-header>
@@ -15,7 +36,59 @@
                         Resellers
                     </x-slot>
                     <x-slot name="content">
-                        29
+                        @volt('trs')
+                            <div>
+                                {{$this->trs}}
+                            </div>
+                        @endvolt
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Active
+                    </x-slot>
+                    <x-slot name="content">
+                        @volt('ars')
+                            <div>
+                                {{$this->ars}}
+                            </div>
+                        @endvolt
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Pending
+                    </x-slot>
+                    <x-slot name="content">
+                        @volt('prs')
+                            <div>
+                                {{$this->prs}}
+                            </div>
+                        @endvolt
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Disabled
+                    </x-slot>
+                    <x-slot name="content">
+                        @volt('drs')
+                            <div>
+                                {{$this->drs}}
+                            </div>
+                        @endvolt
+                    </x-slot>
+                </x-dashboard.overview.div>
+                <x-dashboard.overview.div>
+                    <x-slot name="title">
+                        Suspended
+                    </x-slot>
+                    <x-slot name="content">
+                        @volt('srs')
+                            <div>
+                                {{$this->srs}}
+                            </div>
+                        @endvolt
                     </x-slot>
                 </x-dashboard.overview.div>
             </x-dashboard.overview.section>
