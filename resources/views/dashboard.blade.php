@@ -211,7 +211,7 @@ new class extends Component {
         </x-dashboard.container>
 
         <x-dashboard.container>
-{{-- 
+            {{-- 
             <div class="row m-0">
                 <div class="col-md-6 p-0 col-lg-7">
                         <x-dashboard.section>

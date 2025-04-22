@@ -3,7 +3,7 @@
     @props(['label', 'error'])
    
 
-    <div class="form-group">
+    <div class="form-group my-3">
         <div class="md:flex justify-start ">
             <div style="width:250px">         
                 <!-- Label -->
@@ -15,8 +15,7 @@
                 @endif
             </div>
             <!-- Text Input -->
-            <div>
-
+            <div style="width:100%" class="flex-1">
                 {{$slot}}
             </div>
         </div>

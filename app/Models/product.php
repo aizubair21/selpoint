@@ -33,18 +33,40 @@ class Product extends Model
         ]);
     }
 
+    //////////////// 
+    // SCOPE //
+    ///////////////
+    public function scopeActive($query)
+    {
+        return $query->where(['status' => 'Active']);
+    }
+
+    public function scopeDraft($query)
+    {
+        return $query->where(['status' => 'Draft']);
+    }
+
+    // public function scopeSuspended($query)
+    // {
+    //     return $query->where(['status' => 'Suspended']);
+    // }
+    // public function scopeDisabled($query)
+    // {
+    //     return $query->where(['status' => 'Disabled']);
+    // }
+
     // public function comissions()
     // {
     //     return $this->hasMany(ComissionTracking::class);
     // }
-    // public function attr()
-    // {
-    //     return $this->hasOne(product_has_attribute::class);
-    // }
-    // public function showcase()
-    // {
-    //     return $this->hasMany(product_has_images::class);
-    // }
+    public function attr()
+    {
+        return $this->hasOne(product_has_attribute::class);
+    }
+    public function showcase()
+    {
+        return $this->hasMany(product_has_image::class);
+    }
 
     /**
      * Product has many order

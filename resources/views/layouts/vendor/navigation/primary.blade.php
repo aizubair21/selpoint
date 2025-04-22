@@ -38,6 +38,10 @@
     Orders
 </x-nav-link>
 
+<x-nav-link href="">
+    Comissions
+</x-nav-link>
+
 {{-- <x-nav-link href="">
     Orders
 </x-nav-link> --}}

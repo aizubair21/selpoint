@@ -9,3 +9,6 @@
 <x-responsive-nav-link href="">
     Orders
 </x-responsive-nav-link>
+<x-responsive-nav-link href="">
+    Comissions
+</x-responsive-nav-link>
