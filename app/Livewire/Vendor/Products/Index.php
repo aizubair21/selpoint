@@ -15,32 +15,17 @@ class Index extends Component
     use WithPagination;
 
     #[URL]
-    public $search, $nav = 'Active';
+    public $nav = 1, $take;
 
 
     public $selectedModel = [];
-    public $ap, $dp, $tp;
-
-
-    public function mount()
-    {
-        $this->getData();
-        // dd($this->products);
-    }
-
-    public function computed() {}
-
-    public function getData() {}
-
-    public function search() {}
-
-
+    public $ap, $dp, $tp, $search;
 
     public function render()
     {
 
         //     
-        $products = Product::query()->paginate(200);
+        $products = Product::where(['status' => $this->nav])->paginate(200);
 
         if ($this->nav == 'trash') {
             //
@@ -51,7 +36,7 @@ class Index extends Component
         }
 
 
-        if (!empty($this->search())) {
+        if (!empty($this->search)) {
             $products = Product::where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
         }
         return view('livewire.vendor.products.index', compact('products'));

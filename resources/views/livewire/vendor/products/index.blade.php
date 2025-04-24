@@ -34,13 +34,13 @@
                         <div >
 
                             <div x-show="!$wire.selectedModel.length > 0">
-                                <x-nav-link href="" :active="true">
+                                <x-nav-link href="?nav=1" :active="$nav">
                                     Active
                                 </x-nav-link>
-                                <x-nav-link href="">
+                                <x-nav-link href="?nav=0" :active="$nav == '0'" >
                                     In Active
                                 </x-nav-link>
-                                <x-nav-link href="">
+                                <x-nav-link href="?take=trash" :active="$take == 'trash'" >
                                     Trash
                                 </x-nav-link>
                             </div>
