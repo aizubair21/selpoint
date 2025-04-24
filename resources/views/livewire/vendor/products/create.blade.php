@@ -30,11 +30,20 @@
                     <x-dashboard.section.inner>
                         <x-input-field inputClass="w-full" labelWdith="250px" label="Product Name" wire:model.live="products.name" name="products.name" error="products.name" />
                         <x-input-field inputClass="w-full" label="Product Title" wire:model.live="products.title" name="products.title" error="products.title" />
+                        
                         <x-input-file label="Chose Category" name="products.category_id" error="products.category_id">
                             <select class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" wire:model.live="products.category_id" id="">
                                 <option value=""> -- Chose an category -- </option>
+                                @foreach ($categories as $cat)
+                                <option value="{{$cat->id}}"> {{$cat->name ?? "N/A"}} </option>
+                                @endforeach
                             </select>
+                            @if (empty($categories))
+                                {{-- @livewire('vendor.categories.create');     --}}
+                                <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button>
+                            @endif
                         </x-input-file>
+
                     </x-dashboard.section.inner>
                    
     
@@ -111,6 +120,10 @@
             </div>
         </form>
 
+
+        <x-modal name="create-category-modal" >
+            @livewire('vendor.categories.create')
+        </x-modal>
 
     </x-dashboard.container>
 </div>

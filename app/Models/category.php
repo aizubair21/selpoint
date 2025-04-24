@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Livewire\System\Vendors\Vendor\Products;
 use Illuminate\Database\Eloquent\Model;
 
 class category extends Model
@@ -12,6 +13,11 @@ class category extends Model
         'name',
         'image',
         'user_id',
-        'belongs_to_type', // reseller or vendor
+        'belongs_to', // reseller or vendor
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Products::class);
+    }
 }

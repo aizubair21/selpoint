@@ -7,28 +7,40 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 
 #[layout('layouts.app')]
 class Index extends Component
 {
     use WithPagination;
 
+    #[URL]
+    public $search, $nav = 'Active';
 
-    public $selectedModel = [], $nav = 'Active', $serarch;
-    public $products, $ap, $dp, $tp;
+
+    public $selectedModel = [];
+    public $ap, $dp, $tp;
 
 
     public function mount()
     {
         $this->getData();
+        // dd($this->products);
     }
 
     public function computed() {}
 
-    public function getData()
+    public function getData() {}
+
+    public function search() {}
+
+
+
+    public function render()
     {
+
         //     
-        $this->products = Product::all();
+        $products = Product::query()->paginate(200);
 
         if ($this->nav == 'trash') {
             //
@@ -37,19 +49,11 @@ class Index extends Component
         if ($this->nav == 'draft') {
             // 
         }
-    }
-
-    public function search()
-    {
-        $this->products = product::where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
-    }
 
 
-
-    public function render()
-    {
-
-
-        return view('livewire.vendor.products.index');
+        if (!empty($this->search())) {
+            $products = Product::where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
+        }
+        return view('livewire.vendor.products.index', compact('products'));
     }
 }

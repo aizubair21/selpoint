@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\category;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -21,9 +22,31 @@ class Product extends Model
         'thumbnail',
         'offer_type',
         'unit',
-        'status',
+        'status', // 
         'display_at_home'
     ];
+
+
+    protected $hidden = [
+        'id',
+        'created_at',
+        'updated_at',
+        'user_id'
+    ];
+
+
+    /**
+     * give user default 'user' role 
+     * when model is created
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::creating(function (Product $product) {
+            $product->user_id = Auth::id();
+            $product->status = 1;
+        });
+    }
 
     public function category()
     {

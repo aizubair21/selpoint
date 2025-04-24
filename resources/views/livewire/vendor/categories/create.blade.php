@@ -13,7 +13,7 @@
                 </x-dashboard.section.header>
 
                 <x-dashboard.section.inner>
-                    <x-input-field name="" class="md:flex" labelWidth="250px" wire:model.live="name" error="name" label="Your Category Name" />
+                    <x-input-field name="name" class="md:flex" labelWidth="250px" wire:model.live="name" error="name" label="Your Category Name" />
                     <x-hr/>
                     <x-input-file label="Category Image" error="image" >
                         <input type="file" wire:model.live="image" id="">

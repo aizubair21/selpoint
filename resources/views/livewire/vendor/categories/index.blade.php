@@ -18,7 +18,35 @@
             </x-dashboard.section.header>
 
             <x-dashboard.section.inner>
-                
+                <x-dashboard.table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Owner</th>
+                            <th>Prouct</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($categories as $item)
+                            <tr>
+                                <td> {{$loop->iteration}} </td>
+                                <td> {{$item->name ?? "N/A"}} </td>
+                                <td> {{$item->user_id == auth()->user()->id ? "You" : "N/A"}} </td>
+                                <td>  </td>
+                                <td> 
+
+                                    {{$item->created_at->diffForHumans() ?? "N/A"}} 
+                                    <br>
+                                    <span class="text-xs">
+                                        {{$item->created_at->toFormattedDateString()}}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-dashboard.table>
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>

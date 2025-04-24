@@ -6,6 +6,7 @@ use App\Models\vendor;
 use App\Models\reseller;
 use App\Models\rider;
 use App\Models\product;
+use App\Models\category;
 use function Livewire\Volt\{placeholder, computed};
  
  
@@ -41,7 +42,7 @@ use function Livewire\Volt\{placeholder, computed};
 
 
 new class extends Component {
-    public $usercount = 0, $vd, $avd, $ri, $ari, $rs, $ars, $adm = 0, $aadm, $vp, $avp;
+    public $usercount = 0, $vd, $avd, $ri, $ari, $rs, $ars, $adm = 0, $aadm, $vp, $avp, $cat;
 
     public function mount()
     {
@@ -56,6 +57,8 @@ new class extends Component {
         $this->adm = user::role('admin')->count();
 
         $this->vp = product::query()->get()->count();
+
+        $this->cat = category::count();
 
     }
 } 
@@ -162,7 +165,11 @@ new class extends Component {
                         Category
                     </x-slot>
                     <x-slot name="content">
-                        100 / 100
+                        @volt('cat')
+                        <div>
+                            {{$cat}}
+                        </div>
+                        @endvolt
                     </x-slot>
                 </x-dashboard.overview.div>
             </x-dashboard.overview.section>

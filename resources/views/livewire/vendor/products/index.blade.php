@@ -51,7 +51,7 @@
 
 
                         <div class="flex items-center">
-                            <x-text-input type="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1"></x-text-input>
+                            <x-text-input type="search" wire:model.live="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1"></x-text-input>
                             <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')" >Filter</x-primary-button>
                         </div>
                     </div>
@@ -76,6 +76,35 @@
                                 <th>A/C</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach ($products as $product)
+                                <tr>
+                                    <td>
+                                        
+                                    </td>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td>
+                                        <img height="50px" width="100px" src="{{asset('/storage/'. $product->thumbnail)}}" />
+                                    </td>
+                                    <td>
+                                        {{$product->name ?? "N/A"}}
+                                    </td>
+                                    <td>
+                                        {{$product->status ? 'Active' : "In Active"}}
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>0</td>
+                                    <td> 
+                                        {{$product->created_at?->diffForHumans() ?? "N/A"}}    
+                                    </td>
+                                    <td>
+                                        <x-nav-link>edit</x-nav-link>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </x-dashboard.table>
 
                 </x-dashboard.foreach>

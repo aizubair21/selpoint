@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('belongs_to_type', 100)->nullable();
-            $table->boolean('status')->nullable();
+            $table->string('status')->nullable();
             $table->boolean('display_at_home')->nullable();
             $table->timestamps();
         });
