@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id', true);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('ref')->nullable();
-            $table->boolean('status')->nullable()->default(true);
+            $table->boolean('status')->nullable()->default(1);
             $table->timestamps();
         });
     }

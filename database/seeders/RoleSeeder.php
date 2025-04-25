@@ -19,6 +19,7 @@ class RoleSeeder extends Seeder
             'admin',
             'vendor',
             'reseller',
+            'rider',
             'user'
         ];
 

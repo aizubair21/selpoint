@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10000)->create();
+        // User::factory(10000)->create();
 
         // User::factory()->create([
         //     'name' => 'Administrator',
@@ -22,15 +22,18 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         // call PermissionSeeder here to create permission seeder
-        // $this->call(PermissionSeeder::class);
+        $this->call(PermissionSeeder::class);
 
         // call role seeder here to create role seeder
-        // $this->call(RoleSeeder::class);
+        $this->call(RoleSeeder::class);
 
         // give all permission to system
-        // $this->call(SystemPermission::class);
+        $this->call(SystemPermission::class);
 
         // give role to admin
-        // $this->call(SystemRoleSeeder::class);
+        $this->call(SystemRoleSeeder::class);
+
+        // system has default ref
+        $this->call(SystemRefsSeeder::class);
     }
 }

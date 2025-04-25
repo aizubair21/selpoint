@@ -65,8 +65,9 @@ class User extends Authenticatable
 
         static::created(function (User $user) {
             // give an default role
-            $user->syncRoles(['user']);
+            $user->syncRoles('user');
             $user->coin = 0;
+            $user->profile_photo_url = 'https://source.unsplash.com/random';
 
             // permission to access user pane.
             $user->syncPermissions('access_users_dashboard');

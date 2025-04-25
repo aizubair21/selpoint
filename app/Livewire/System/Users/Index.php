@@ -23,14 +23,12 @@ class Index extends Component
     public function render()
     {
         // use cache here 
-        $users = Cache::rememberForever('users', function () {
-            return User::paginate(200);
-        });
+        $users = User::orderBy('id', 'desc')->paginate(100);
         // $this->getData();
 
         if (!empty($this->search)) {
             // rider::where('name', 'like', '%' . $this->search . '%')->paginate(20);
-            $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('name', 'like', '%' . $this->search . '%')->paginate(200);
+            $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('name', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->paginate(100);
         }
         return view('livewire.system.users.index', compact('users'));
     }

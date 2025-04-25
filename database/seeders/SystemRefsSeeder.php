@@ -2,36 +2,20 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\user_has_refs;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Models\User;
+use App\Models\user_has_refs;
 
-class SystemRoleSeeder extends Seeder
+class SystemRefsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        //
         $system = User::where('email', 'admin247@selpoint.com')->first();
-        $systemRole = Role::where('name', 'system')->first();
-
         if ($system) {
-
-            /**
-             * if user have
-             * give the system role to user
-             * by spatie role-permision package
-             */
-            if (!$system->hasRole($systemRole)) {
-                $system->assignRole($systemRole);
-            }
-
 
             /**
              * system has it's own reffer code 
@@ -46,9 +30,5 @@ class SystemRoleSeeder extends Seeder
 
             // $system->syncRole($systemRole);
         }
-
-
-        // $permissions = Permission::all();
-        // $permissions->syncRole($systemRole);
     }
 }
