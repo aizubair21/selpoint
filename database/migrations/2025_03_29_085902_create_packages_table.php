@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->string('ref_owner_get_coin')->nullable();
             $table->string('owner_get_coin')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

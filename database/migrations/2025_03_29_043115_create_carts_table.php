@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('belongs_to')->nullable(); // reseller or vendor id
             $table->string('belongs_to_type')->nullable(); // reseller or vendor
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

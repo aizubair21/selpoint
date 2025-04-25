@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('belongs_to_type', 100)->nullable();
             $table->string('status')->nullable();
             $table->boolean('display_at_home')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

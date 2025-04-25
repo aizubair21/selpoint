@@ -23,6 +23,7 @@ return new class extends Migration
             $table->dateTime('reference_accepted_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

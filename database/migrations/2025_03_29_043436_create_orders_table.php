@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('total')->nullable();
             $table->string('shipping')->nullable();
             $table->string('buying_price')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

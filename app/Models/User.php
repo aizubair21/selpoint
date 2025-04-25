@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -61,9 +62,35 @@ class User extends Authenticatable
     protected static function boot(): void
     {
         parent::boot();
+
         static::created(function (User $user) {
+            // give an default role
             $user->syncRoles(['user']);
             $user->coin = 0;
+
+            // permission to access user pane.
+            $user->syncPermissions('access_users_dashboard');
+
+            /**
+             * create a reff code, if comission is turn on to config
+             */
+
+            if (config('app.comission')) {
+                $length = strlen($user->id);
+
+                if ($length >= 4) {
+                    $ref = $user->id;
+                } else {
+                    $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
+                }
+                user_has_refs::create(
+                    [
+                        'user_id' => $user->id,
+                        'ref' => date('ym') . $ref,
+                        'status' => 1,
+                    ]
+                );
+            }
         });
     }
 

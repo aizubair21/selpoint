@@ -68,11 +68,6 @@ class RegisteredUserController extends Controller
          */
         if (config('app.comission')) {
 
-            // createUserRef::dispatch($user->id);
-            // $userFormate = new constant();
-
-            // $ref = date('ym') . "0" . $userFormate->formatString(Auth::id());
-            // $ref = '';
             $length = strlen($user->id);
 
             if ($length >= 4) {

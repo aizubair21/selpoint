@@ -14,13 +14,13 @@ class Slider extends Model
         'placement',
     ];
 
-
+    
 
     /**
      * slideer has multiple slides
      */
-    // public function slides()
-    // {
-    //     return $this->hasMany(slider_has_slides::class);
-    // }
+    public function slides()
+    {
+        return $this->hasMany(Slider_has_slide::class);
+    }
 }

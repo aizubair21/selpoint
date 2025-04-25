@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('valid_till')->nullable();
             $table->text('valid_from')->nullable();
             $table->string('task_type')->nullable()->default('daily');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
