@@ -100,7 +100,7 @@
                                         {{$product->created_at?->diffForHumans() ?? "N/A"}}    
                                     </td>
                                     <td>
-                                        <x-nav-link>edit</x-nav-link>
+                                        <x-nav-link href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">edit</x-nav-link>
                                     </td>
                                 </tr>
                             @endforeach

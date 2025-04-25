@@ -25,7 +25,7 @@ class Index extends Component
     {
 
         //     
-        $products = Product::where(['status' => $this->nav])->paginate(200);
+        $products = auth()->user()->myProducts()->where(['status' => $this->nav])->paginate(200);
 
         if ($this->nav == 'trash') {
             //
@@ -37,7 +37,7 @@ class Index extends Component
 
 
         if (!empty($this->search)) {
-            $products = Product::where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
+            $products = auth()->user()->myProducts()->where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
         }
         return view('livewire.vendor.products.index', compact('products'));
     }

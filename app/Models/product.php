@@ -42,7 +42,7 @@ class Product extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function (Product $product) {
+        static::creating(function (product $product) {
             $product->user_id = Auth::id();
             $product->status = 1;
         });
@@ -50,7 +50,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id')->withDefault([
+        return $this->belongsTo(category::class)->withDefault([
             'id' => 0,
             'name' => "Category Not Found!",
         ]);
