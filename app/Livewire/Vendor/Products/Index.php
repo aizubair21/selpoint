@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Vendor\Products;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -15,11 +15,33 @@ class Index extends Component
     use WithPagination;
 
     #[URL]
-    public $nav = 1, $take;
+    public $nav = 1, $take, $relatedImage = [];
 
 
     public $selectedModel = [];
     public $ap, $dp, $tp, $search;
+
+    public function moveToTrash()
+    {
+        // 
+        if (count($this->selectedModel) > 0) {
+            auth()->user()->myProducts()->whereIn('id', $this->selectedModel)->delete();
+            $this->reset('selectedModel');
+
+            $this->dispatch('success', 'Product Move to Trash');
+        }
+    }
+    public function restoreFromTrash()
+    {
+        // 
+        if (count($this->selectedModel) > 0) {
+            auth()->user()->myProducts()->onlyTrashed()->whereIn('id', $this->selectedModel)->restore();
+            $this->reset('selectedModel');
+
+            $this->dispatch('success', 'Product restore from Trash');
+        }
+    }
+
 
     public function render()
     {
@@ -27,8 +49,8 @@ class Index extends Component
         //     
         $products = auth()->user()->myProducts()->where(['status' => $this->nav])->paginate(200);
 
-        if ($this->nav == 'trash') {
-            //
+        if ($this->take) {
+            $products = auth()->user()->myProducts()->onlyTrashed()->paginate(20);
         }
 
         if ($this->nav == 'draft') {

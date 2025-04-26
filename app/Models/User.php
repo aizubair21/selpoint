@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
+use App\Models\user_has_refs;
 
 class User extends Authenticatable
 {
@@ -82,7 +83,7 @@ class User extends Authenticatable
                 if ($length >= 4) {
                     $ref = $user->id;
                 } else {
-                    $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
+                    $ref = str_pad($user->id, 4, '0', STR_PAD_LEFT);
                 }
                 user_has_refs::create(
                     [
@@ -112,6 +113,31 @@ class User extends Authenticatable
     //////////////// 
     // Relations //
     ///////////////
+
+
+    /**
+     * @return reff_code
+     */
+    public function getRef()
+    {
+        return $this->hasOne(user_has_refs::class)->withDefault([
+            'ref' => null,
+        ]);
+    }
+
+    /**
+     * @return reffered_user
+     */
+    public function getReffOwner()
+    {
+        return $this->belongsTo(user_has_refs::class, 'reference', 'ref')->withDefault([
+            'ref' => null,
+        ]);
+    }
+
+
+
+
 
     public function requestsToBeVendor()
     {
@@ -143,12 +169,12 @@ class User extends Authenticatable
 
     public function myProducts()
     {
-        return $this->hasMany(product::class);
+        return $this->hasMany(Product::class);
     }
 
     public function myCategory()
     {
-        return $this->hasMany(category::class);
+        return $this->hasMany(Category::class);
     }
 
     public function myOrder()

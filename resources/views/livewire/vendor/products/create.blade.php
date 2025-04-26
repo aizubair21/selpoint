@@ -38,9 +38,9 @@
                                 <option value="{{$cat->id}}"> {{$cat->name ?? "N/A"}} </option>
                                 @endforeach
                             </select>
+                            <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button>
                             @if (empty($categories))
                                 {{-- @livewire('vendor.categories.create');     --}}
-                                <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button>
                             @endif
                         </x-input-file>
 

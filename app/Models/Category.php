@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Livewire\System\Vendors\Vendor\Products;
 use Illuminate\Database\Eloquent\Model;
 
-class category extends Model
+class Category extends Model
 {
     // fillable data
     protected $fillable =

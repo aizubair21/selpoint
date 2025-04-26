@@ -34,7 +34,7 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$item->name ?? "N/A"}} </td>
                                 <td> {{$item->user_id == auth()->user()->id ? "You" : "N/A"}} </td>
-                                <td>  </td>
+                                <td> {{$item->products?->count() ?? "0"}} </td>
                                 <td> 
 
                                     {{$item->created_at->diffForHumans() ?? "N/A"}} 

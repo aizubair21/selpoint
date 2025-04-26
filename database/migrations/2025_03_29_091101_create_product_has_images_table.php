@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('product_has_images', function (Blueprint $table) {
             $table->id();
+            $table->string('product_id')->nullable();
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }

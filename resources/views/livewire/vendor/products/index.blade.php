@@ -34,7 +34,7 @@
                         <div >
 
                             <div x-show="!$wire.selectedModel.length > 0">
-                                <x-nav-link href="?nav=1" :active="$nav">
+                                <x-nav-link href="?nav=1" :active="$nav && !$take">
                                     Active
                                 </x-nav-link>
                                 <x-nav-link href="?nav=0" :active="$nav == '0'" >
@@ -44,8 +44,17 @@
                                     Trash
                                 </x-nav-link>
                             </div>
-                            <div x-show="$wire.selectedModel.length > 0">
-                                asdf
+                            <div x-show="$wire.selectedModel.length && !$wire.take" wire-transition>
+                                
+                                <x-primary-button wire:click="moveToTrash">
+                                    Move to Trash
+                                </x-primary-button>
+                            </div>
+                            <div x-show="$wire.selectedModel.length && $wire.take" wire-transition>
+                                
+                                <x-primary-button wire:click="restoreFromTrash">
+                                    Restore
+                                </x-primary-button>
                             </div>
                         </div>
 
@@ -80,7 +89,7 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        
+                                        <input type="checkbox" wire:model.live="selectedModel" value="{{$product->id}}" style="width:20px; height:20px" />
                                     </td>
                                     <td> {{$loop->iteration}} </td>
                                     <td>
@@ -95,11 +104,13 @@
                                     <td>
                                         0
                                     </td>
-                                    <td>0</td>
+                                    <td>
+                                        0
+                                    </td>
                                     <td> 
                                         {{$product->created_at?->diffForHumans() ?? "N/A"}}    
                                     </td>
-                                    <td>
+                                    <td >
                                         <x-nav-link href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">edit</x-nav-link>
                                     </td>
                                 </tr>

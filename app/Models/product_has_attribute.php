@@ -7,4 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class product_has_attribute extends Model
 {
     //
+    protected $fillable =
+    [
+        'product_id',
+        'name',
+        'value',
+        'stock',
+        'price'
+    ];
 }

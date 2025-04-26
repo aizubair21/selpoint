@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\category;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,13 +28,14 @@ class Product extends Model
         'display_at_home'
     ];
 
-
-    protected $hidden = [
-        'id',
-        'created_at',
-        'updated_at',
-        'user_id'
-    ];
+    
+    public function casts(): array
+    {
+        return [
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime'
+        ];
+    }
 
 
     /**
@@ -44,7 +45,7 @@ class Product extends Model
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function (product $product) {
+        static::creating(function (Product $product) {
             $product->user_id = Auth::id();
             $product->status = 1;
         });
@@ -52,7 +53,7 @@ class Product extends Model
 
     public function category()
     {
-        return $this->belongsTo(category::class)->withDefault([
+        return $this->belongsTo(Category::class)->withDefault([
             'id' => 0,
             'name' => "Category Not Found!",
         ]);
