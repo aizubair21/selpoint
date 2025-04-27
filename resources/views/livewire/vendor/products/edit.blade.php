@@ -25,11 +25,11 @@
                         <div>
                             @if ($products['deleted_at'])
                                 <x-secondary-button type="button" wire:click.prevent="restoreFromTrash">
-                                    Restore
+                                   <i class="fa-solid fa-sync mr-2"></i> Restore
                                 </x-secondary-button>
                             @else 
                                 <x-secondary-button type="button" wire:click.prevent="moveToTrash">
-                                    Move To Trash
+                                   <i class="fa-solid fa-trash mr-2"></i> Move To Trash
                                 </x-secondary-button>
                             @endif
                         </div>
@@ -64,11 +64,11 @@
                         </x-slot>
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
-                        <x-input-file error='name' label="Products Name" name="name" class="md:flex" inputClass="w-full">
-                            <textarea  wire:model.live="products.name" id="" class="w-full" ></textarea>
+                        <x-input-file error='name' label="Products Name" name="name" inputClass="w-full">
+                            <textarea  wire:model.live="products.name" rows="6" id="" class="w-full" ></textarea>
                         </x-input-file>
-                        <x-input-file wire:model.live="products.title" error='name' label="Products title" name="title" class="md:flex" inputClass="w-full">
-                            <textarea  wire:model.live="products.title" id="" class="w-full" ></textarea>
+                        <x-input-file wire:model.live="products.title" error='name' label="Products title" name="title" inputClass="w-full">
+                            <textarea  wire:model.live="products.title" rows="6" id="" class="w-full" ></textarea>
                         </x-input-file>
     
                         <x-hr/>
@@ -147,7 +147,7 @@
                         Other Image
                     </x-slot>
                     <x-slot name="content">
-                        other product image that showcase your product. other image mainly display at product details page. 
+                        Other product image that showcase your product. other image mainly display at product details page. 
                     </x-slot>
                 </x-dashboard.section.header>
 
@@ -157,7 +157,7 @@
                         @foreach ($relatedImage as $item)
                             <div class="p-2 border">
                                 <x-image  src="{{asset('storage/'. $item['image'])}}" />
-                                <button type="button" wire:click="erageOldImage">
+                                <button type="button" wire:click="erageOldImage({{$item['id']}})">
                                     Erage
                                 </button>
                             </div>

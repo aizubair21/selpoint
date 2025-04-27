@@ -4,6 +4,7 @@ namespace App\Livewire\Vendor\Products;
 
 use App\HandleImageUpload;
 use App\Models\product_has_image;
+use Illuminate\Support\Facades\Storage as FacadesStorage;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -36,19 +37,20 @@ class Edit extends Component
 
     public function save()
     {
-        // dd($this->data);
 
+        // dd($this->newImage);
 
-        $totalImage = array_merge($this->relatedImage, $this->newImage);
+        // $totalImage = array_merge($this->relatedImage, $this->newImage);
         // $this->data->showcase->delete();
-        foreach ($totalImage as $key => $image) {
+        foreach ($this->newImage as $key => $image) {
             product_has_image::create([
                 'product_id' => decrypt($this->product),
-                'image' => $this->handleImageUpload($image, 'product-showcase', $totalImage[$key]),
+                'image' => $this->handleImageUpload($image, 'product-showcase', $this->newImage[$key]),
             ]);
         }
         $this->reset('newImage');
         $this->dispatch('refresh');
+        $this->dispatch('success', 'Product Updated !');
         // dd($totalImage);
     }
 
@@ -66,10 +68,17 @@ class Edit extends Component
         $this->dispatch('refresh');
     }
 
-    public function erageOldImage()
+    public function erageOldImage($id)
     {
-        dd('asdf');
-        product_has_image::destroy($id);
+        $img = $this->data->showcase->find($id);
+        // dd($img);
+        if ($img) {
+            // unlink(asset('storage/' . $img));
+            // Storage::disk('public')->delete($oldImage);
+            $img->delete();
+            FacadesStorage::disk('public')->delete($img->image);
+        }
+
         $this->dispatch('refresh');
         $this->dispatch('success', 'Image Deletd !');
     }
