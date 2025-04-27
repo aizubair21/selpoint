@@ -28,7 +28,7 @@ class Product extends Model
         'display_at_home'
     ];
 
-    
+
     public function casts(): array
     {
         return [
@@ -47,7 +47,15 @@ class Product extends Model
         parent::boot();
         static::creating(function (Product $product) {
             $product->user_id = Auth::id();
-            $product->status = 1;
+            $product->status = 'Active';
+        });
+
+        static::created(function (Product $product) {
+            product_has_attribute::create(
+                [
+                    'product_id' => $product->id,
+                ]
+            );
         });
     }
 

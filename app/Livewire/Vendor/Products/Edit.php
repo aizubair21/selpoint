@@ -3,6 +3,7 @@
 namespace App\Livewire\Vendor\Products;
 
 use App\HandleImageUpload;
+use App\Models\product_has_attribute;
 use App\Models\product_has_image;
 use Illuminate\Support\Facades\Storage as FacadesStorage;
 use Livewire\Component;
@@ -21,11 +22,12 @@ class Edit extends Component
     public $product;
 
     public $data;
-    public $products, $thumb, $relatedImage = [], $newImage = [];
+    public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];
 
     #[On('refresh')]
     public function mount()
     {
+
         $this->data = auth()->user()->myProducts()->withTrashed()->find(decrypt($this->product));
         // if ($this->data->trashed()) {
         //     $this->redirectIntended(route('vendor.products.view'), true);
@@ -33,12 +35,13 @@ class Edit extends Component
 
         $this->products = $this->data->toArray();
         $this->relatedImage = $this->data->showcase->toArray();
+        $this->attr = $this->data->attr->toArray();
     }
 
     public function save()
     {
 
-        // dd($this->newImage);
+        // dd($this->attr);
         $this->data->name = $this->products['name'];
         $this->data->title = $this->products['title'];
         $this->data->category_id = $this->products['category_id'];
@@ -50,6 +53,22 @@ class Edit extends Component
         $this->data->thumbnail = $this->handleImageUpload($this->thumb, 'products', $this->products['thumbnail']);
         $this->data->save();
 
+        if ($this->attr && $this->attr['id']) {
+            $this->data->attr->update(
+                [
+                    'name' => $this->attr['name'],
+                    'value' => $this->attr['value'],
+                ]
+            );
+        } else {
+            product_has_attribute::create(
+                [
+                    'product_id' => decrypt($this->product),
+                    'name' => $this->attr['name'],
+                    'value' => $this->attr['value'],
+                ]
+            );
+        }
 
         // $totalImage = array_merge($this->relatedImage, $this->newImage);
         // $this->data->showcase->delete();

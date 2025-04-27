@@ -78,7 +78,24 @@
                 
             </div>
 
-            <div class="lg:flex justify-between">
+            <div>
+                {{-- <x-dashboard.section>
+                    <x-dashboard.section.header>
+                        <x-slot name="title">
+                            Image Attributes
+                        </x-slot>
+                        <x-slot name="content">
+                            Give your products attributes, product different types, different product color package and quantity.
+                        </x-slot>
+                    </x-dashboard.section.header>
+                    <x-dashboard.section.inner>
+                        <div class="md:flex">
+                            <x-text-input wire:model='attr.name' placeholder="Name" />
+                            <x-text-input wire:model='attr.value' placeholder="Value" />
+                        </div>
+                    </x-dashboard.section.inner>
+                </x-dashboard.section> --}}
+
                 <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">

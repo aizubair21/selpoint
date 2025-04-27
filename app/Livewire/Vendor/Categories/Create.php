@@ -3,7 +3,7 @@
 namespace App\Livewire\Vendor\Categories;
 
 use App\HandleImageUpload;
-use App\Models\category;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;

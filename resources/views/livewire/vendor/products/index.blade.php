@@ -34,10 +34,10 @@
                         <div >
 
                             <div x-show="!$wire.selectedModel.length > 0">
-                                <x-nav-link href="?nav=1" :active="$nav && !$take">
+                                <x-nav-link href="?nav=Active" :active="$nav && !$take">
                                     Active
                                 </x-nav-link>
-                                <x-nav-link href="?nav=0" :active="$nav == '0'" >
+                                <x-nav-link href="?nav=Draft" :active="$nav == '0'" >
                                     In Active
                                 </x-nav-link>
                                 <x-nav-link href="?take=trash" :active="$take == 'trash'" >

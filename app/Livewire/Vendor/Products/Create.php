@@ -5,7 +5,7 @@ namespace App\Livewire\Vendor\Products;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\HandleImageUpload;
-use App\Models\product;
+use App\Models\Product;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
@@ -17,7 +17,7 @@ class Create extends Component
     use HandleImageUpload, WithFileUploads;
 
     #[Validate]
-    public $products = [], $thumb, $categories;
+    public $products = [], $thumb, $categories, $attr = [];
 
     protected function rules()
     {
@@ -57,10 +57,10 @@ class Create extends Component
             ]
         );
         // dd($data);
-        Product::create($data);
+        $pd = Product::create($data);
 
         $this->dispatch('success', 'Product Created');
-        $this->redirectIntended(route('vendor.products.view'), true);
+        $this->redirectIntended(route('vendor.products.edit', ['product' => encrypt($pd->id)]), true);
     }
 
     public function render()

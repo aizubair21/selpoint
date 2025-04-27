@@ -15,7 +15,7 @@ class Index extends Component
     use WithPagination;
 
     #[URL]
-    public $nav = 1, $take, $relatedImage = [];
+    public $nav = 'Active', $take, $relatedImage = [];
 
 
     public $selectedModel = [];
