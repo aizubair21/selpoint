@@ -39,14 +39,27 @@ class Edit extends Component
     {
 
         // dd($this->newImage);
+        $this->data->name = $this->products['name'];
+        $this->data->title = $this->products['title'];
+        $this->data->category_id = $this->products['category_id'];
+        $this->data->buying_price = $this->products['buying_price'];
+        $this->data->price = $this->products['price'];
+        $this->data->discount = $this->products['discount'];
+        $this->data->offer_type = $this->products['offer_type'];
+        $this->data->description = $this->products['description'];
+        $this->data->thumbnail = $this->handleImageUpload($this->thumb, 'products', $this->products['thumbnail']);
+        $this->data->save();
+
 
         // $totalImage = array_merge($this->relatedImage, $this->newImage);
         // $this->data->showcase->delete();
-        foreach ($this->newImage as $key => $image) {
-            product_has_image::create([
-                'product_id' => decrypt($this->product),
-                'image' => $this->handleImageUpload($image, 'product-showcase', $this->newImage[$key]),
-            ]);
+        if ($this->newImage) {
+            foreach ($this->newImage as $key => $image) {
+                product_has_image::create([
+                    'product_id' => decrypt($this->product),
+                    'image' => $this->handleImageUpload($image, 'product-showcase', $this->newImage[$key]),
+                ]);
+            }
         }
         $this->reset('newImage');
         $this->dispatch('refresh');

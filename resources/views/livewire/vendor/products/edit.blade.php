@@ -124,6 +124,7 @@
                         </x-slot>
                         <x-slot name="content">
                             Provide a mendatory thumbnail image for your products. This image consider for the thumbnail for social media platform. 
+                            <input type="file" wire:model.live="thumb"  />
                         </x-slot>
                     </x-dashboard.section.header>
                     
@@ -132,10 +133,8 @@
                                 <x-image src="{{asset('storage/'. $products['thumbnail'])}}" />
                             @endif
                             @if ($thumb)
-                                <img src="{{$thumb->temporaryUrl()}}" width="50px" height="100px" alt="">
+                                <img src="{{$thumb->temporaryUrl()}}" width="100px" height="200px" alt="">
                             @endif
-                            <x-hr/>
-                            <input type="file" wire:model.live="thumb"  />
                     </x-dashboard.section.inner>
                 </div>
             </x-dashboard.section>
@@ -179,6 +178,24 @@
                         Please choose all image at once, if you plan to upload multiple image.
                     </div>
                    
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
+
+            <x-dashboard.section>
+                <x-dashboard.section.header>
+                    <x-slot name="title">
+                        Description
+                    </x-slot>
+                    <x-slot name="content">
+                        Descrive your product as you need.
+                    </x-slot>
+                </x-dashboard.section.header>
+                <x-dashboard.section.inner>
+                    <x-input-file label="Description" labelWidth="250px" error="products.description" >
+                        
+                        <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="" rows="10"></textarea>
+                
+                    </x-input-file>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
             <x-primary-button>save</x-primary-button>
