@@ -5,8 +5,8 @@ use App\Models\User;
 use App\Models\vendor;
 use App\Models\reseller;
 use App\Models\rider;
-use App\Models\product;
-use App\Models\category;
+use App\Models\Product;
+use App\Models\Category;
 use function Livewire\Volt\{placeholder, computed};
  
  
@@ -36,7 +36,7 @@ use function Livewire\Volt\{placeholder, computed};
     // return  user::role('admin')->count();
     // });
     // $vp = computed(function () {
-    // return  product::query()->get()->count();
+    // return  Product::query()->get()->count();
     // });
 
 
@@ -56,9 +56,9 @@ new class extends Component {
         $this->ari = rider::query()->active()->count();
         $this->adm = user::role('admin')->count();
 
-        $this->vp = product::query()->get()->count();
+        $this->vp = Product::query()->get()->count();
 
-        $this->cat = category::count();
+        $this->cat = Category::count();
 
     }
 } 

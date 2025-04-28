@@ -181,4 +181,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function orderToMe()
+    {
+        // return $this->hasMany(Order::class);
+        return Order::where(['belongs_to' => auth()->user()->id])->get();
+    }
 }
