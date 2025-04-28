@@ -9,16 +9,33 @@ use App\Http\Middleware\IsActiveVendor;
 use App\Livewire\Vendor\Products\Index as vendorProductsIndexPage;
 use App\Livewire\Vendor\Products\Create as vendorProductsCreatePage;
 use App\Livewire\Vendor\Products\Edit as vendorProductsEditPage;
+use App\Livewire\Vendor\Products\Pages\Orders as vendorProductsOrderPage;
+use App\Livewire\Vendor\Products\Pages\Resell as vendorProductsResellPage;
 
 use App\Livewire\Vendor\Categories\Index as vendorCategoryIndexpage;
 use App\Livewire\Vendor\Categories\Create as vendorCategoryCreatePage;
+
+use App\Livewire\Vendor\Orders\Index as vendorOrderIndexPage;
+use App\Livewire\Vendor\Orders\View as vendorOrderViewPage;
+use App\Livewire\Vendor\Orders\Vprint as vendorOrderVPrintPage;
+use App\Livewire\Vendor\Orders\Cprint as vendorOrderCPrintPage;
 
 
 Route::prefix('/v/')->group(function () {
     // Route::get('/','VendorController@index')->name('vendor.index');
     Route::get('products/view', vendorProductsIndexPage::class)->name("vendor.products.view")->middleware(AbleTo::class . ":product_view");
-    Route::get('products/{product}/edit', vendorProductsEditPage::class)->name("vendor.products.edit")->middleware(AbleTo::class . ":product_edit");
+    Route::get('products', vendorProductsEditPage::class)->name("vendor.products.edit")->middleware(AbleTo::class . ":product_edit");
     Route::get('products/create', vendorProductsCreatePage::class)->name("vendor.products.create")->middleware(AbleTo::class . ":product_add");
+    Route::get('/products/orders', vendorProductsOrderPage::class)->name('vendor.products.orders');
+    // Route::get('/products/orders/{order}/view', vendorProductsOrderPage::class)->name('vendor.products.orders');
+    Route::get('/products/resell', vendorProductsResellPage::class)->name('vendor.products.resell');
+    // Route::get('/products/resell/{product}/veiw', vendorProductsResellPage::class)->name('vendor.products.resell');
+
+
+    Route::prefix('/order')->group(function () {
+        Route::get('/', vendorOrderIndexPage::class)->name('vendor.orders.index');
+        Route::get('/view/{order}/', vendorOrderViewPage::class)->name('vendor.orders.view');
+    });
 
 
     Route::prefix('category')->group(function () {

@@ -3,7 +3,6 @@
     <x-dashboard.page-header>
         Categories
     </x-dashboard.page-header>
-
     @livewire('vendor.categories.create',  key('cat_101'))
 
     <x-dashboard.container>
@@ -24,7 +23,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Owner</th>
-                            <th>Prouct</th>
+                            <th>Product</th>
                             <th>Created</th>
                         </tr>
                     </thead>
@@ -42,6 +41,7 @@
                                     <span class="text-xs">
                                         {{$item->created_at->toFormattedDateString()}}
                                     </span>
+
                                 </td>
                             </tr>
                         @endforeach

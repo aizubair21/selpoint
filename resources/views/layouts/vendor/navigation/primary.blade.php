@@ -34,7 +34,7 @@
     Categories
 </x-nav-link>
 
-<x-nav-link href="">
+<x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')">
     Orders
 </x-nav-link>
 

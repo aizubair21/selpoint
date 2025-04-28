@@ -19,7 +19,7 @@ class Edit extends Component
     use WithFileUploads, HandleImageUpload;
 
     #[URL]
-    public $product;
+    public $product, $nav = 'Product';
 
     public $data;
     public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];

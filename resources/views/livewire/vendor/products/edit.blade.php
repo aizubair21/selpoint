@@ -3,12 +3,15 @@
     {{-- Stop trying to control. --}}
     <x-dashboard.page-header>
         Product Edit
+        <br>
+        {{-- <x-dashboard.vendor.products.navigations :nav="$nav" /> --}}
+        @include('components.dashboard.vendor.products.navigations')
     </x-dashboard.page-header>
 
 
     <x-dashboard.container>
-        <x-dashboard.section>
 
+        <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="flex justify-between text-xs">
@@ -29,7 +32,7 @@
                                 </x-secondary-button>
                             @else 
                                 <x-secondary-button type="button" wire:click.prevent="moveToTrash">
-                                   <i class="fa-solid fa-trash mr-2"></i> Move To Trash
+                                   <i class="fa-solid fa-trash mr-2"></i> Trash
                                 </x-secondary-button>
                             @endif
                         </div>
@@ -37,6 +40,9 @@
                 </x-slot>
                 
                 <x-slot name="content">
+                    <div>
+                        <x-image src="{{asset('storage/'.$products['thumbnail'])}}" />
+                    </div>
                     <div>
                         {{$products['title'] ?? "N/A"}}
                     </div>
@@ -46,13 +52,9 @@
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
-
-            <x-dashboard.section.inner>
-            </x-dashboard.section.inner>
         </x-dashboard.section>
         
-        
-        <form wire:submit.prevent="save">
+        <form wire:transition wire:submit.prevent="save">
             <div class="md:flex jusfity-between">
                 <x-dashboard.section>
                     <x-dashboard.section.header>
@@ -194,7 +196,7 @@
                     <div class="text-xs">
                         Please choose all image at once, if you plan to upload multiple image.
                     </div>
-                   
+                
                 </x-dashboard.section.inner>
             </x-dashboard.section>
 
@@ -217,5 +219,6 @@
             </x-dashboard.section>
             <x-primary-button>save</x-primary-button>
         </form>
+            
     </x-dashboard.container>
 </div>

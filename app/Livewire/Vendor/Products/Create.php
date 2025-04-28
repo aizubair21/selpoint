@@ -18,6 +18,7 @@ class Create extends Component
 
     #[Validate]
     public $products = [], $thumb, $categories, $attr = [];
+    public $belongs_to;
 
     protected function rules()
     {
@@ -42,6 +43,8 @@ class Create extends Component
          * as every product must belongs to a category
          *  
          * */
+
+        $this->belongs_to = auth()->user()->isVendor() ? 'vendor' : 'reseller';
     }
 
 
@@ -54,6 +57,7 @@ class Create extends Component
             [
                 'slug' => Str::slug($this->products['title']),
                 'thumbnail' => $this->handleImageUpload($this->thumb, 'products', null),
+                'belongs_to_type' => $this->belongs_to,
             ]
         );
         // dd($data);
