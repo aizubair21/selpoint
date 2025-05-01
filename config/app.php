@@ -129,5 +129,6 @@ return [
     'ref' => env('ref', 'REF101U'),
     'comission' => env('COMISSION', true),
     'vip' => env('VIP', true),
+    'system_email' => env('SYSTEM_EMAIL', 'admin247@selpoint.com'),
 
 ];

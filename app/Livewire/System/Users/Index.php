@@ -23,7 +23,7 @@ class Index extends Component
     public function render()
     {
         // use cache here 
-        $users = User::orderBy('id', 'desc')->paginate(100);
+        $users = User::query()->withoutAdmin()->orderBy('id', 'desc')->paginate(100);
         // $this->getData();
 
         if (!empty($this->search)) {

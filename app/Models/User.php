@@ -96,6 +96,17 @@ class User extends Authenticatable
         });
     }
 
+    /**
+     * scope method 
+     */
+    public function scopeWithAdmin($query)
+    {
+        return $query->where('email', '=', config('app.system_email'));
+    }
+    public function scopeWithoutAdmin($query)
+    {
+        return $query->where('email', '!=', config('app.system_email'));
+    }
 
     /**
      * Determined the user hold the specific permissions
@@ -179,11 +190,11 @@ class User extends Authenticatable
 
     public function myOrder()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(order::class);
     }
     public function orderToMe()
     {
         // return $this->hasMany(Order::class);
-        return Order::where(['belongs_to' => auth()->user()->id])->get();
+        return order::where(['belongs_to' => auth()->user()->id])->get();
     }
 }

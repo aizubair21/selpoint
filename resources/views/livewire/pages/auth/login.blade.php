@@ -4,7 +4,8 @@ use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -63,12 +64,19 @@ new #[Layout('layouts.guest')] class extends Component
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        @if (Route::has('register'))
+            <hr>
             @if (Route::has('password.request'))
+            <div class="text-center">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('Forgot your password?') }}
                 </a>
+            </div>
             @endif
+            <hr>
+            @endif
+        <div class="flex items-center justify-between mt-4">
+            <x-nav-link class="text-center" wire:navigate href="/register" >Register</x-nav-link>
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

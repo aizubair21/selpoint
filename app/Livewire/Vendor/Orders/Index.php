@@ -6,22 +6,29 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
 
 
 #[layout('layouts.app')]
 class Index extends Component
 {
+    use WithPagination;
     #[URL]
-    public $nav;
+    public $nav = 'Pending';
     public $order;
 
     public function mount()
     {
-        // 
+        $this->getData();
     }
+
+
+    public function getData() {}
+
 
     public function render()
     {
-        return view('livewire.vendor.orders.index');
+        $order = auth()->user()->orderToMe()->where(['status' => $this->nav]);
+        return view('livewire.vendor.orders.index', compact('order'));
     }
 }

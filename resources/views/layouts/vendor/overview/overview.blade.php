@@ -13,6 +13,7 @@ new class extends Component
         // 
         $this->p = auth()->user()->myProducts()->count();
         $this->ca = auth()->user()->myCategory()->count();
+        $this->por = auth()->user()->orderToMe()->count();
         // $this->tp = auth()->user()->myProducts()->Trashed()->count();
     }
 }
@@ -26,7 +27,7 @@ new class extends Component
         </x-slot>
         <x-slot name="content">
             @volt('product')
-                <div>{{$this->p }}</div>
+                <div>{{$this->p ?? "0"}}</div>
             @endvolt
         </x-slot>
     </x-dashboard.overview.div>
@@ -48,7 +49,7 @@ new class extends Component
         </x-slot>
         <x-slot name="content">
             @volt('product')
-                <div>{{$this->ca }}</div>
+                <div>{{$this->ca ?? "0"}}</div>
             @endvolt
         </x-slot>
     </x-dashboard.overview.div>
@@ -59,7 +60,11 @@ new class extends Component
             Pending Order
         </x-slot>
         <x-slot name="content">
-            <x-dashboard.overview.vendor.pending-order-count></x-dashboard.overview.vendor.pending-order-count>
+            @volt('order')
+                <div>
+                    {{$this->por ?? "0"}}
+                </div>
+            @endvolt
         </x-slot>
     </x-dashboard.overview.div>
 

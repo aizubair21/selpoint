@@ -19,10 +19,6 @@
       </title>
 
       
-      <!-- Scripts -->
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
-      
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       
       <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
@@ -37,7 +33,11 @@
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
       {{-- <link href="form-validation.css" rel="stylesheet"> --}}
-
+      
+      <!-- Scripts -->
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
+      
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       
       <style>
          body{
@@ -174,8 +174,8 @@
 
    {{-- @include('layouts.user.footer') --}}
    {{-- <script src="{{asset('assets/user/js/jquery-3.4.1.min.js')}}"></script> --}}
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" ></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" ></script>
+   {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" ></script> --}}
+   {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" ></script> --}}
    {{-- <script src="{{asset('assets/user/js/custom.js')}}"></script> --}}
    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
