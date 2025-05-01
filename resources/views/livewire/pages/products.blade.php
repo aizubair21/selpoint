@@ -5,7 +5,7 @@
     {{-- <x-product_loop :$products /> --}}
 
     <div class="text-center">
-        <a href="{{route('uproducts.index')}}" class="btn btn_outline_secondary">
+        <a href="{{route('uproducts.index')}}" class="px-3 py-2 rounded btn_outline_secondary">
             View All products
         </a>
     </div>

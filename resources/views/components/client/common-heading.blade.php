@@ -1,6 +1,6 @@
 <div>
     <div class="heading_container heading_center my-3">
-        <h2 class="text_secondary bold">
+        <h2 class="text-xl">
             Gorom <span>Bazar</span>
         </h2>
     </div>

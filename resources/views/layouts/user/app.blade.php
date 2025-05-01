@@ -31,7 +31,7 @@
       @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}" /> --}}
-      <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
+      {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" /> --}}
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />

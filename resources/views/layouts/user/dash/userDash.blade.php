@@ -18,6 +18,8 @@
          @endisset
       </title>
 
+      <!-- Scripts -->
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       
       <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
@@ -28,14 +30,12 @@
       {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
       {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
-      <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+      {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet"> --}}
 
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
       {{-- <link href="form-validation.css" rel="stylesheet"> --}}
       
-      <!-- Scripts -->
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       
