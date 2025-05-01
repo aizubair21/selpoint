@@ -32,7 +32,7 @@
             <x-dashboard.section.header>
                 <x-slot name="title" class="float-right clearfix">
                     <x-primary-button>
-                        Add New Product
+                        New
                     </x-primary-button>
                 </x-slot>
                 <x-slot name="content">
