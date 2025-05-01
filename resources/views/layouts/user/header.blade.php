@@ -44,15 +44,15 @@
 @endauth
 
 <!-- header section strats -->
-<header class="header_section">
+<header class="header_section bg-white">
     <div class="container">
 
         {{-- desktop version  --}}
-        <div class="d-block d-lg-none">
+        <div class="lg:hidden">
             <nav class="navbar navbar-expand-lg custom_nav-container ">
-                {{-- <a class="navbar-brand" href="/"><img style="height:50px!important; object-fit:cover" src="{{asset('logo.png')}}" alt="#" /></a> --}}
-                
-                <x-application-logo />
+                <a class="navbar-brand" href="/">
+                    <x-application-logo />
+                </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -109,14 +109,18 @@
         </div>
 
         {{-- mobile version  --}}
-        <div class="d-none d-lg-block" >
+        <div class="hidden lg:block" >
             <nav class="navbar navbar-expand-lg custom_nav-container ">
-                <x-application-logo />
+                <a class="navbar-brand" href="/">
+                    <x-application-logo />
+                </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class=""> </span>
                 </button>
+                
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav">
                         <li @class(['nav-item', 'active' => request()->routeIs('*')])>

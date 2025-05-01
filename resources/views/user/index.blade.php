@@ -194,7 +194,7 @@
                 Gorom <span>Bazar</span>
             </h2>
         </div>
-{{--         
+        {{--         
         <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); grid-gap:10px">
             @foreach($products as $product)
                 <div class="">

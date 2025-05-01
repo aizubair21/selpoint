@@ -57,10 +57,10 @@
             <div class="col-md-4 col-lg-2">
                 <div class="widget_menu py-4 w-100">
                     <a class="d-block mb-2 p-2 d-inline-block rounded text_secondary" href="{{route('about.contact')}}">
-                       <i class="fas fa-phone mr-2"></i> Contact Us
+                       <i class="fa-solid fa-phone mr-2"></i> Contact Us
                     </a>
                     <a class="p-2 px-4 w-100 rounded-md btn_outline_secondary bold" href="mailto:gorombazar01@gmail.com">
-                        <i class="fas fa-paper-plane mr-2"></i>   Mail US
+                        <i class="fa-solid fa-paper-plane mr-2"></i>   Mail US
                     </a>
                   
                    
@@ -99,7 +99,7 @@
                             <a class="d-block mb-2 px-3 py-1 rounded" href="">Contact Us</a>
                             <p>
                                 <a class="border p-2 rounded text_secondary bold " href="mailto:gorombazar01@gmail.com">
-                                    <i class="fas fa-paper-plane mr-2"></i>   Mail US
+                                    <i class="fa-solid fa-paper-plane mr-2"></i>   Mail US
                                 </a>
                             </p>
                             <div class="form_sub">

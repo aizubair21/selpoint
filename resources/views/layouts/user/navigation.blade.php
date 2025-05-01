@@ -5,7 +5,7 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="/">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -13,26 +13,17 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
+                    <x-nav-link :active="request()->routeIs('dashboard')">
+                        {{ __('Home') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Products') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Categories') }}
                     </x-nav-link>
 
-                   @includeif('layouts.primary_navigation')
-
-                   @if (auth()->user()->hasRole('vendor'))
-                       {{-- vendor primary nav  --}}
-                       @includeif('layouts.vendor.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('reseller'))
-                       {{-- reseller primary nav  --}}
-                       @includeif('layouts.reseller.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('rider'))
-                       {{-- rider primary nav  --}}
-                   @endif
-                    
+                
                 </div>
             </div>
 
@@ -41,7 +32,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                            <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -52,23 +43,13 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                        <x-dropdown-link :href="route('login')">
+                            {{ __('Login') }}
                         </x-dropdown-link>
+                        {{-- <x-dropdown-link :href="route('login')">
+                            {{ __('Login') }}
+                        </x-dropdown-link> --}}
                        
-                        {{-- other link  --}}
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Settings') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Notice') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link target="_blank" :href="route('user.dash')">
-                            {{ __('Back to User Panel') }}
-                        </x-dropdown-link>
-
                         {{-- other link  --}}
 
                         {{-- @can('change-administrator-password', $user)
@@ -112,38 +93,21 @@
         <div class="pt-2 pb-3 space-y-1">
             
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                Home
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                Products
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                Categories
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('user.dash')">
-                {{ __('Back to User Panel') }}
-            </x-responsive-nav-link>
-           
-            @include('layouts.responsive_navigation')
-
-            @if (auth()->user()->hasRole('vendor'))
-                {{-- resonsive nav for vendor  --}}
-                @includeIf('layouts.vendor.navigation.responsive')
-            @endif
-            
-            @if (auth()->user()->hasRole('reseller'))
-                {{-- resonsive nav for reseller  --}}
-                @includeIf('layouts.reseller.navigation.responsive')
-            @endif
-
-            @if (auth()->user()->hasRole('rider'))
-                {{-- resonsive nav for rider  --}}
-            @endif
            
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
+           
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}

@@ -9,25 +9,44 @@
       <meta name="author" content="" />
       <meta name="token" content="{{csrf_token()}}">
 
-      <x-site_icon />
+      {{-- <x-site_icon />  --}}
+
+      <link rel="shortcut icon" href={{ asset("logo.png")}} type="">
+
       <x-site_title />
 
-      {{-- google font  --}}
-      {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> --}}
+      <title>
+         @isset($site_title)
+            @yield('site_title')
+         @else 
+            {{config('app.name', 'site')}}
+         @endisset
+      </title>
 
+      {{-- google font  --}}
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+      
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
+      
       {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}" /> --}}
       <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
+      
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
       {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+      {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
       {{-- <link href="form-validation.css" rel="stylesheet"> --}}
       <style>
+          body{
+            background-color: #f0f0f0!important;
+         }
          th {
              vertical-align: middle!important;
              font-size: 14px;
@@ -48,6 +67,7 @@
          }
       </style>
 
+
       @stack('style')
 
    </head>
@@ -56,36 +76,64 @@
 
 
       <div >
-        @include('layouts.user.header')
+        @includeIf('layouts.user.navigation')
       </div>
-      <div class="container">
-         @yield('content')
+
+      <div class="">
+         {{$slot}}
       </div>
-      {{-- @include('layouts.user.footer') --}}
+
+      <div>
+         @includeIf('layouts.user.footer')
+      </div>
 
 
       {{-- <script src="{{asset('assets/user/js/jquery-3.4.1.min.js')}}"></script> --}}
       {{-- <script src="{{asset('assets/user/js/popper.min.js')}}"></script> --}}
-      <script src="{{asset('assets/user/js/bootstrap.js')}}"></script>
+      {{-- <script src="{{asset('assets/user/js/bootstrap.js')}}"></script> --}}
       {{-- <script src="{{asset('assets/user/js/custom.js')}}"></script> --}}
       {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
       {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
       
    </body>
 
-<script>
-   // @if (session('success'))
-   //     toastr.success("{{ session('success') }}", 'Success', {
-   //         positionClass: 'toast-top-right',
-   //         timeOut: 3000
-   //     });
-   // @endif
+   <script>
 
-   // @if (session('warning'))
-   //    toastr.warning("{{ session('warning') }}", 'warning', {
-   //       positionClass: 'toast-top-right',
-   //       timeOut: 3000
-   //    });
-   // @endif
+      document.addEventListener('DOMContentLoaded', function () {
+         Livewire.on('info', (data) => {
+            Swal.fire({
+               title: 'Look At!',
+               text: data,
+               icon: 'Info',
+               confirmButtonText: 'OK'
+            })
+         });
+         Livewire.on('success', (data) => {
+            Swal.fire({
+               title: 'Congrass !',
+               text: data,
+               icon: 'success',
+               confirmButtonText: 'OK'
+            })
+         });
+         Livewire.on('warning', (data) => {
+            Swal.fire({
+               title: 'Alart !',
+               text: data,
+               icon: 'warning',
+               confirmButtonText: 'OK'
+            })
+         });
+         Livewire.on('error', (data) => {
+            Swal.fire({
+               title: 'Attention !',
+               text: data,
+               icon: 'error',
+               confirmButtonText: 'OK'
+            })
+         });
+      });
+      
+   </script>
 </script>
 </html>
