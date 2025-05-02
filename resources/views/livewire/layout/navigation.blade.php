@@ -2,9 +2,65 @@
 
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
+use Livewire\Attributes\Session;
 
 new class extends Component
 {
+
+    public $get;
+
+
+    private $roles, $hasMultipleRole = false;
+
+    public function mount() 
+    {
+        $this->roles = auth()->user()->getRoleNames();
+        if (auth()->user()->active_nav && auth()->user()->active_nav != $this->roles->contains(auth()->user()->active_nav)) {
+            auth()->user()->active_nav = $this->roles[0];
+            auth()->user()->save();
+        }
+        
+        // set default nav
+        $this->get = auth()->user()->active_nav;     
+
+
+        if (empty($this->get)) {      
+            // dd($this->roles);
+            if (count($this->roles) > 2) {
+                $this->hasMultipleRole = true;
+                
+                auth()->user()->active_nav = $this->roles[0];
+                auth()->user()->save();
+            }else{
+    
+                $this->hasMultipleRole = false;
+                if ($this->roles->contains('venodor')) {
+                    auth()->user()->active_nav = 'vendor';
+                    auth()->user()->save();
+                }
+        
+                if ($this->roles->contains('reseller')) {
+                    
+                    auth()->user()->active_nav = 'reseller';
+                    auth()->user()->save();
+                }
+        
+                if ($this->roles->contains('rider')) {
+                    $this->$get = 'rider';
+                }
+            }
+        }
+    }
+
+    public function getNavigation($name) {
+        // dd($name);
+        auth()->user()->active_nav = $name;
+        auth()->user()->save();
+        return redirect()->route('dashboard');
+    }
+    
+    
+
     /**
      * Log the current user out of the application.
      */
@@ -17,6 +73,7 @@ new class extends Component
 }; 
 
 ?>
+
 
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
@@ -38,19 +95,19 @@ new class extends Component
 
                     @includeif('layouts.primary_navigation')
 
-                   @if (auth()->user()->hasRole('vendor'))
-                       {{-- vendor primary nav  --}}
-                       @includeif('layouts.vendor.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('reseller'))
-                       {{-- reseller primary nav  --}}
-                       @includeif('layouts.reseller.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('rider'))
-                       {{-- rider primary nav  --}}
-                   @endif
+                    @if (auth()->user()->hasRole('vendor') && $this->get == 'vendor')
+                        {{-- vendor primary nav  --}}
+                        @includeif('layouts.vendor.navigation.primary')
+                    @endif
+                        
+                    @if (auth()->user()->hasRole('reseller') && $this->get == 'reseller')
+                        {{-- reseller primary nav  --}}
+                        @includeif('layouts.reseller.navigation.primary')
+                    @endif
+                        
+                    @if (auth()->user()->hasRole('rider') && $this->get == 'rider')
+                        {{-- rider primary nav  --}}
+                    @endif
                     
                 </div>
             </div>
@@ -71,6 +128,33 @@ new class extends Component
                     </x-slot>
 
                     <x-slot name="content">
+
+                        @if ($this->hasMultipleRole)
+    
+                        
+                        @endif
+                        @if (auth()->user()->hasRole('vendor') )
+                            <x-dropdown-link wire:click="getNavigation('vendor')"> 
+                                @if ($this->get == 'vendor')
+                                    <i class="fas fa-check mr-3"></i>
+                                @endif Vendor Dashboard
+                            </x-dropdown-link>
+                        @endif
+                        @if (auth()->user()->hasRole('reseller'))
+                            <x-dropdown-link wire:click="getNavigation('reseller')">
+                                @if ($this->get == 'reseller')
+                                    <i class="fas fa-check mr-3"></i>
+                                @endif    Reseller Dashboard
+                            </x-dropdown-link>
+                        @endif
+                        @if (auth()->user()->hasRole('rider'))
+                            <x-dropdown-link wire:click="getNavigation('rider')">
+                                @if ($this->get == 'rider')
+                                    <i class="fas fa-check mr-3"></i>
+                                @endif    Rider Dashboard
+                            </x-dropdown-link>
+                        @endif
+
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -129,6 +213,8 @@ new class extends Component
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">

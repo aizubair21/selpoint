@@ -8,38 +8,6 @@ use App\Models\rider;
 use App\Models\Product;
 use App\Models\Category;
 use function Livewire\Volt\{placeholder, computed};
- 
- 
-    placeholder('<div>Loading...</div>');
-    // $userCount = computed(function () {
-    // return User::count();
-    // });
-    // $vd = computed(function () {
-    // return vendor::query()->get()->count();
-    // });
-    // $avd = computed(function () {
-    // return vendor::query()->active()->get()->count();
-    // });
-    // $ri = computed(function () {
-    // return rider::query()->count();
-    // });
-    // $ari = computed(function () {
-    // return rider::query()->active()->count();
-    // });
-    // $rs = computed(function () {
-    // return reseller::query()->count();
-    // });
-    // $ars = computed(function () {
-    // return  reseller::query()->active()->count();
-    // });
-    // $adm = computed(function () {
-    // return  user::role('admin')->count();
-    // });
-    // $vp = computed(function () {
-    // return  Product::query()->get()->count();
-    // });
-
-
 
 new class extends Component {
     public $usercount = 0, $vd, $avd, $ri, $ari, $rs, $ars, $adm = 0, $aadm, $vp, $avp, $cat;
@@ -67,16 +35,16 @@ new class extends Component {
 
 <x-app-layout>
     <x-dashboard.page-header> 
-        @if (auth()->user()->hasRole('vendor'))
+        @if (auth()->user()->hasRole('vendor') && auth()->user()->active_nav == 'vendor')
             Vendor
         @endif
-        @if (auth()->user()->hasRole('rider'))
+        @if (auth()->user()->hasRole('rider') && auth()->user()->active_nav == 'rider')
             Rider
         @endif
         @if (auth()->user()->hasRole('admin'))
             Admin
         @endif
-        @if (auth()->user()->hasRole('reseller'))
+        @if (auth()->user()->hasRole('reseller') && auth()->user()->active_nav == 'reseller')
             Reseller
         @endif
         Dashboard 
@@ -300,14 +268,19 @@ new class extends Component {
  
  
      {{-- vendor dashboard overview  --}}
-     <x-has-role name="vendor">
-         @includeIf('layouts.vendor.vendor')
-     </x-has-role>
+     @if (auth()->user()->active_nav == 'vendor')     
+        <x-has-role name="vendor">
+            @includeIf('layouts.vendor.vendor')
+        </x-has-role>
+     @endif
  
-     {{-- reseller dashboard overview  --}}
-     <x-has-role name="reseller">
-         @includeIf('layouts.reseller.reseller')
-     </x-has-role>   
+     @if (auth()->user()->active_nav == 'reseller')
+         
+        {{-- reseller dashboard overview  --}}
+        <x-has-role name="reseller">
+            @includeIf('layouts.reseller.reseller')
+        </x-has-role>   
+     @endif
  
      {{-- rider dashboard overview  --}}
  

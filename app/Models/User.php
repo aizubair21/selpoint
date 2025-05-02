@@ -29,7 +29,8 @@ class User extends Authenticatable
         'profile_photo_url',
         'coin',
         'reference',
-        'reference_accepted_at'
+        'reference_accepted_at',
+        'active_nav',
     ];
 
     /**

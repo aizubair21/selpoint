@@ -23,7 +23,13 @@
     </head>
     <body class="font-sans antialiased h-screen overflow-hidden">
         <div class="flex flex-col h-screen bg-gray-100">
+
             @livewire('layout.navigation')
+            {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+
+            {{-- @if (isset($navigations))
+                {{$navigations}}
+            @endif --}}
             {{-- @include('layouts.navigation') --}}
     
             <!-- Page Heading -->

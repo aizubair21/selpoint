@@ -17,21 +17,21 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                   @includeif('layouts.primary_navigation')
+                    @includeif('layouts.primary_navigation')
 
-                   @if (auth()->user()->hasRole('vendor'))
-                       {{-- vendor primary nav  --}}
-                       @includeif('layouts.vendor.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('reseller'))
-                       {{-- reseller primary nav  --}}
-                       @includeif('layouts.reseller.navigation.primary')
-                   @endif
-                    
-                   @if (auth()->user()->hasRole('rider'))
-                       {{-- rider primary nav  --}}
-                   @endif
+                    @if (auth()->user()->hasRole('vendor'))
+                        {{-- vendor primary nav  --}}
+                        @includeif('layouts.vendor.navigation.primary')
+                    @endif
+                        
+                    @if (auth()->user()->hasRole('reseller'))
+                        {{-- reseller primary nav  --}}
+                        @includeif('layouts.reseller.navigation.primary')
+                    @endif
+                        
+                    @if (auth()->user()->hasRole('rider'))
+                        {{-- rider primary nav  --}}
+                    @endif
                     
                 </div>
             </div>
@@ -55,6 +55,16 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        @if (auth()->user()->hasRole('vendor'))
+                            <x-dropdown-link>Vendor Dashboard</x-dropdown-link>
+                        @endif
+                        @if (auth()->user()->hasRole('reseller'))
+                            <x-dropdown-link>Reseller Dashboard</x-dropdown-link>
+                        @endif
+                        @if (auth()->user()->hasRole('rider'))
+                            <x-dropdown-link>Rider Dashboard</x-dropdown-link>
+                        @endif
                        
                         {{-- other link  --}}
                         <x-dropdown-link :href="route('profile.edit')">
