@@ -7,8 +7,8 @@
 @section('content')
 
     <div class="my-2 p-1 rounded">
-        <div class="border border-success p-3">
-            <div class="d-flex justify-content-between align-items-center">
+        <div class="border border-success p-2 ">
+            <div class="flex justify-between align-center">
                 <div>
                     Welcome, back!
                 </div>
@@ -18,19 +18,19 @@
             </div >
             <div class="row align-items-center justify-content-between m-0 p-0">
                 <div class="col-md-6 px-0">
-                    <b class="text-success" style="font-size: 20px">
+                    <b class="text-green-800" style="font-size: 20px">
                         {{ Str::upper(auth()->user()->name)}}
                     </b>
                 </div>
                 {{-- <div class="col-md-2 co px-0"></div> --}}
-                {{-- <a href="{{route('user.coin.store')}}" class="shadow d-block col-8 col-md-4 text-dark bold rounded-pill border p-1 pl-3 d-flex justify-content-between align-items-center">
+                <a href="{{route('user.coin.store')}}" class="shadow d-block col-8 col-md-4 text-dark bold rounded-pill border p-1 pl-3 d-flex justify-content-between align-items-center">
                     <div>
                         Earning
                     </div>
                     <div class="d-block px-3 py-1 rounded-pill text-white bg-success " href="">
                         {{auth()->user()->coin ?? "0"}} TK
                     </div>
-                </a> --}}
+                </a>
             </div>
                 
         </div>
@@ -171,7 +171,7 @@
         @endpush
         <div style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); grid-gap:10px">
             <a href="{{route('upgrade.vendor.index')}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
-                <h6 style="font-weight:600; color:green"> Be a Vendor</h6>
+                <div class="text-lg" style="font-weight:600; color:green"> Be a Vendor</div>
                 <p style="font-size: 12px; color:black; font-weight:300">
                     Upgrade your account to vendor, sell product and earn comission.
                 </p>

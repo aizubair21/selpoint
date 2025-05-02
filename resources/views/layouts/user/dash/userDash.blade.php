@@ -22,10 +22,10 @@
       @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       
-      <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
-      <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
-      <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
-      <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
+      {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" /> --}}
+      {{-- <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" /> --}}
+      {{-- <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" /> --}}
+      {{-- <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" /> --}}
       {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
       {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -40,15 +40,20 @@
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       
       <style>
+
+         /* html{
+            font-family: inherit !important;
+         } */
          body{
             background-color: #f0f0f0!important;
          }
+
          th {
                vertical-align: middle!important;
                font-size: 14px;
          }
          #user_asside{
-            width: 150px!important;
+            width: 250px!important;
             height: auto;
 
          }
@@ -56,7 +61,7 @@
             display: flex;
             padding: 15px;
             /* border-bottom: .5px solid #e5e5e5; */
-            color: #000;
+            /* color: #000; */
             margin: 1px 0px;
             cursor: pointer;
          }
@@ -114,58 +119,49 @@
    <body>
 
    
+      
    @include('layouts.user.dash.header')
-
    <x-dashboard.container>
-      <div class="row m-0 " >
+      <div class="flex" >
 
          {{-- left asside  --}}
          
-         <div id="user_asside" class="position-sm-absolute col-md-3 py-3 mb-4 bg-white shadow-sm ">
-            <x-nav-link wire:navigate class="asside_link" :active="request()->routeIs('user.dash')" href="{{route('user.dash')}}">
+         <div id="user_asside" class="rounded position-sm-absolute col-md-3 py-3 mb-4 bg-white shadow-sm ">
+            <x-nav-link class="asside_link" :active="request()->routeIs('user.dash')" href="{{route('user.dash')}}">
                <i class="fas fa-home"></i>
-               <span class="pl-2 d-none d-md-block">
+               <span class="pl-2 hidden md:block">
                   Dashboard
                </span>
             </x-nav-link>
-            {{-- <x-nav-link wire:navigate class="asside_link @if(request()->routeIs('cart.index')) active @endif" href="">
+            {{-- <x-nav-link class="asside_link @if(request()->routeIs('cart.index')) active @endif" href="">
                <i class="fas fa-shopping-cart pr-2"></i>
-               <span class="pl-2 d-none d-md-block">
+               <span class="pl-2 hidden md:block">
                   Cart
                </span>
             </x-nav-link> --}}
-            <x-nav-link wire:navigate class="asside_link" :active="request()->routeIs('user.view.orders')"  href="">
+            <x-nav-link class="asside_link" :active="request()->routeIs('user.view.orders')"  href="">
                <i class="fas fa-shopping-cart pr-2"></i>
-               <span class="pl-2 d-none d-md-block">
+               <span class="pl-2 hidden md:block">
                   Order
                </span>
             </x-nav-link>
-            <x-nav-link wire:navigate class="asside_link vip @if(request()->routeIs('user.vip.*')) active @endif" href="">
+            <x-nav-link class="asside_link vip @if(request()->routeIs('user.vip.*')) active @endif" href="">
                <i class="fas fa-user-check pr-2"></i>
-               <span class="pl-2 d-none d-md-block">
+               <span class="pl-2 hidden md:block">
                   VIP
                </span>
             </x-nav-link>
-            <x-nav-link wire:navigate class="asside_link vip @if(request()->routeIs('user.coin.*')) active @endif" href="">
+            <x-nav-link class="asside_link vip @if(request()->routeIs('user.coin.*')) active @endif" href="">
                <i class="fas fa-coins pr-2"></i>
-               <span class="pl-2 d-none d-md-block">
+               <span class="pl-2 hidden md:block">
                   Wallet
                </span>
             </x-nav-link>
          </div>
 
-
-
-
          {{-- right content  --}}
-         <div id="user_content" class="col-md-9 py-2 p-lg-3 w-100">
-         
-            {{-- {{$slot ?? @yield('content')}}  --}}
-
-            {{-- slot or yield  --}}
+         <div id="user_content" class="col-md-9 py-2 p-lg-3 w-full">
             {{$slot}}
-
-
          </div>
       </div>
 

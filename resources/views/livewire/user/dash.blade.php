@@ -7,9 +7,9 @@
     ?> --}}
     
     <x-dashboard.section>
-        <div class="my-2 p-1 rounded">
-            <div class="border border-success p-3">
-                <div class="d-flex justify-content-between align-items-center">
+        <div class="my-2 rounded">
+            <div>
+                <div class="flex justify-between align-center">
                     <div>
                         Welcome, back!
                     </div>
@@ -17,18 +17,18 @@
                         {{auth()->user()->created_at->diffForHumans()}}
                     </div> --}}
                 </div >
-                <div class="row align-items-center justify-content-between m-0 p-0">
-                    <div class="col-md-6 px-0">
-                        <b class="text-success" style="font-size: 20px">
+                <div class="flex align-center justify-between m-0 p-0">
+                    <div class="px-0">
+                        <b class="text-green-900" style="font-size: 20px">
                             {{ Str::upper(auth()->user()->name)}}
                         </b>
                     </div>
                     {{-- <div class="col-md-2 co px-0"></div> --}}
-                    <x-nav-link wire:navigate href="" class="shadow d-block col-8 col-md-4 text-dark bold rounded-pill border p-1 pl-3 d-flex justify-content-between align-items-center">
+                    <x-nav-link wire:navigate href="" class="bold rounded-lg bg-gray-800 text-white p-1 pl-3 flex justify-between align-center">
                         <div>
                             Earning
                         </div>
-                        <div class="d-block px-3 py-1 rounded-pill text-white bg-success " href="">
+                        <div class="d-block px-3 py-1 " href="">
                             {{auth()->user()->coin ?? "0"}} TK
                         </div>
                     </x-nav-link>
@@ -38,9 +38,9 @@
         </div>
     </x-dashboard.section>
 
-    <x-dashboard.section>
-        <div class="row m-0 my-2">
-            <div class="col-md-6 p-1">
+    <div class="lg:flex justify-between items-start m-0 my-2">
+        <x-dashboard.section>
+            <div class="">
                 <x-dashboard.section.header>
                     <x-slot name="title">
                         Refer and Claim
@@ -52,18 +52,20 @@
                 <x-dashboard.section.inner>
 
                     <div class=" w-100">
-                        <input type="text" disabled readonly id="refID" class=" form-control" value="{{auth()->user()->getRef->ref ?? ""}}" >
+                        <input type="text" disabled readonly id="refID" class=" form-control rounded" value="{{auth()->user()->getRef->ref ?? ""}}" >
                     </div>
     
-                    <div class="d-flex justify-content-between align-items-center">    
-                        <button onclick="copyPaymentNumber(this, 'refID')" class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i> COPY</button>
-                        <x-nav-link wire:navigate class="btn btn-sm btn-outline-info" href="">View Your Referred User</x-nav-link>
+                    <div>    
+                        <x-primary-button onclick="copyPaymentNumber(this, 'refID')" class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i> COPY</x-primary-button>
+                        <x-nav-link wire:navigate class="text-xs" href="">View Your Referred User</x-nav-link>
                     </div>
                 </x-dashboard.section.inner>
                 
             </div>
+        </x-dashboard.section>
 
-            <div @class(["col-md-6 p-1", 'd-none' => auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72])>
+        <x-dashboard.section>
+            <div @class(['hidden' => auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72])>
                 <x-dashboard.section.header>
                     <x-slot name="title">
                         Claim Your Reward
@@ -76,25 +78,29 @@
                     <div class=" position-relative">
     
                         {{-- <form action="{{route('user.set.ref')}}" method="post"> --}}
-                        <form action="" method="post">
-                        @csrf
+                        <form wire:submit.prevent="checkRef">
                             <div class="input-group w-100">
-                                @php
+                                {{-- @php 
                                     $rffer = '';
                                     if(auth()->user()->reference_accepted_at || auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72)
                                     {
                                         $rffer = auth()->user()->reference;
                                     }
-    
-                                @endphp
-                                <input type="text" class="w-full form-input form-control" name="reference" value="{{$rffer}}" @disabled(auth()->user()->reference_accepted_at ? true : false) placeholder="Give Referred Code" >
+                                    
+                                @endphp --}}
+                                <input type="text" class="w-full rounded border" wire:model.live="newRef"  @disabled(auth()->user()->reference_accepted_at ? true : false) placeholder="Give Referred Code" >
+                                @error('reference')
+                                    <strong>{{$message}}</strong>
+                                @enderror
                             </div>  
             
-                            <div class="d-flex align-items-center">
-            
-                                <button type="submit" for="" class="btn btn-info btn-sm my-1 px-3" @disabled(auth()->user()->reference_accepted_at ? true : false) >Apply</button>
-                                <div class="input-group-text bg-white border-0">
-                                    <span class="pr-2" id="timeleft"> </span>
+
+                            <div class="mt-1 flex justify-between align-center">
+                                <x-primary-button >Apply</x-primary-button>
+
+                                {{-- <button class="bg-gray-800 text-white px-3 py-1 rounded mt-1" type="submit" for="" @disabled(auth()->user()->reference_accepted_at ? true : false) > Apply</button> --}}
+                                <div class="text-xs">
+                                    <span class="" id="timeleft"> </span>
                                     {{auth()->user()->created_at->diffForHumans()}}
                                 </div>
                             </div>
@@ -103,8 +109,8 @@
                     </div>
                 </x-dashboard.section.inner>
             </div>
-        </div>
-    </x-dashboard.section>
+        </x-dashboard.section>
+    </div>
 
 
  
@@ -115,9 +121,9 @@
             <style>
                 .add:hover > .wrapAdd{
                     translate: all linear .3s;
-                    position: absolute;
+                    /* position: absolute;
                     bottom: 12px;
-                    right: 12px!important;
+                    right: 12px!important; */
                     width: 10px;
                     height: 10px;
                     translate: all linear .3s;
@@ -126,9 +132,10 @@
                 }
                 .wrapAdd{
                     translate: all linear .3s;
-                    position: absolute;
+                    margin-top: 10px;
+                    /* position: absolute;
                     bottom: 12px;
-                    right: 20px;
+                    right: 20px; */
                     /* padding: 5px; */
                     width: 15px;
                     height: 15px;
@@ -141,24 +148,24 @@
         @endpush
         <div style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); grid-gap:10px">
             <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'vendor'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
-                <h6 style="font-weight:600; color:green"> Be a Vendor</h6>
-                <p style="font-size: 12px; color:black; font-weight:300">
+                <div class="text-lg" style="font-weight:600; color:green"> Be a Vendor</div>
+                <div class="text-sm">
                     Upgrade your account to <strong>VENDOR</strong>, sell product and earn comission.
-                </p>
+                </div>
                 <div class="wrapAdd"></div>
             </a>
             <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'reseller'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
-                <h6 style="font-weight:600; color:green;" >  Ba Reseller</h6>
-                <p style="font-size: 12px; color:black; font-weight:300">
+                <div class="text-lg" style="font-weight:600; color:green;" >  Be Reseller</div>
+                <div class="text-sm">
                     Upgrade your account to <strong>Reseller</strong> now. Chose product and sel as yours.
-                </p>
+                </div>
                 <div class="wrapAdd"></div>
             </a>
             <a wire:navigate href="{{route('upgrade.rider.index')}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                 <h6 style="font-weight:600; color:green;">Be a Rider</h6>
-                <p style="font-size: 12px; color:black; font-weight:300">
+                <div class="text-sm">
                     Be a <strong>Delevary Man</strong>, collect product and shipped to destination.
-                </p>
+                </div>
                 <div class="wrapAdd"></div>
             </a>
         </div>
