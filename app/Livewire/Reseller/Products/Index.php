@@ -17,7 +17,7 @@ class Index extends Component
 
     public function render()
     {
-        $data = auth()->user()->myProductsAsReseller;
+        $data = auth()->user()->myProducts;
 
         return view('livewire.reseller.products.index', compact('data'));
     }

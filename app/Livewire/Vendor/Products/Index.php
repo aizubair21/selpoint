@@ -47,7 +47,7 @@ class Index extends Component
     {
 
         //     
-        $products = auth()->user()->myProductsAsVendor()->where(['status' => $this->nav])->paginate(200);
+        $products = auth()->user()->myProducts()->where(['status' => $this->nav])->paginate(200);
 
         if ($this->take) {
             $products = auth()->user()->myProducts()->onlyTrashed()->paginate(20);

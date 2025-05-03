@@ -38,7 +38,7 @@ class Edit extends Component
         }
         // dd($this->account);
 
-        $this->categories = $ac == 'vendor' ? auth()->user()->myCategoryAsVendor : auth()->user()->myCategoryAsReseller;
+        $this->categories = auth()->user()->myCategory;
 
         $this->data = auth()->user()->myProducts()->withTrashed()->find(decrypt($this->product));
         // if ($this->data->trashed()) {

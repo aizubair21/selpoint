@@ -52,7 +52,7 @@ class Create extends Component
         }
         // dd($this->account);
 
-        $this->categories = $this->belongs_to == 'vendor' ? auth()->user()->myCategoryAsReseller : auth()->user()->myCategoryAsVendor;
+        $this->categories = auth()->user()->myCategory;
     }
 
 

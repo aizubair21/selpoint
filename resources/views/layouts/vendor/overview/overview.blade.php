@@ -11,10 +11,11 @@ new class extends Component
     public function mount()
     {
         // 
-        $this->p = auth()->user()->myProducts()->count();
-        $this->ca = auth()->user()->myCategory()->count();
-        $this->por = auth()->user()->orderToMe()->count();
-        // $this->tp = auth()->user()->myProducts()->Trashed()->count();
+        // dd( auth()->user()->myProducts()->count());
+        $this->p = auth()->user()->myProducts()?->count();
+        $this->ca = auth()->user()->myCategory()?->count();
+        $this->por = auth()->user()->orderToMe()?->count();
+        // $this->tp = auth()->user()->myProducts()->Trashed()?->count();
     }
 }
 

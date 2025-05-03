@@ -22,7 +22,7 @@ class Index extends Component
     #[On('refresh')]
     public function getData()
     {
-        $this->categories = auth()->user()->myCategoryAsVendor;
+        $this->categories = auth()->user()->myCategory;
     }
 
 

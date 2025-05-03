@@ -178,35 +178,59 @@ class User extends Authenticatable
         return $this->requestsToBeRider()?->where(['status' => 'Active'])->first();
     }
 
-
-    public function myProducts()
+    private function myPd()
     {
         return $this->hasMany(Product::class);
     }
 
-    public function myProductsAsVendor()
+    public function account_type()
     {
-        return $this->myProducts()->where(['belongs_to_type' => 'vendor']);
+        $account = '';
+        $roles = auth()->user()->getRoleNames();
+        // dd($roles);
+        if (count($roles) > 2) {
+            $account = auth()->user()->active_nav;
+        } else {
+
+            $account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        }
+
+        return $account;
     }
-    public function myProductsAsReseller()
+
+
+    public function myProducts()
     {
-        return $this->myProducts()->where(['belongs_to_type' => 'reseller']);
+        return $this->myPd()->where(['belongs_to_type' => $this->account_type()]);
     }
 
+    // public function myProductsAsVendor()
+    // {
+    //     return $this->myPd()->where(['belongs_to_type' => 'vendor']);
+    // }
+    // public function myProductsAsReseller()
+    // {
+    //     return $this->myPd()->where(['belongs_to_type' => 'reseller']);
+    // }
 
 
-    public function myCategory()
+    private function myCt()
     {
         return $this->hasMany(Category::class);
     }
-    public function myCategoryAsVendor()
+
+    public function myCategory()
     {
-        return $this->myCategory()->where(['belongs_to' => 'vendor']);
+        return $this->myCt()->where(['belongs_to' => $this->account_type()]);
     }
-    public function myCategoryAsReseller()
-    {
-        return $this->myCategory()->where(['belongs_to' => 'reseller']);
-    }
+    // public function myCategoryAsVendor()
+    // {
+    //     return $this->myCt()->where(['belongs_to' => 'vendor']);
+    // }
+    // public function myCategoryAsReseller()
+    // {
+    //     return $this->myCt()->where(['belongs_to' => 'reseller']);
+    // }
 
 
     public function myOrder()
@@ -216,6 +240,6 @@ class User extends Authenticatable
     public function orderToMe()
     {
         // return $this->hasMany(Order::class);
-        return order::where(['belongs_to' => auth()->user()->id])->get();
+        return order::where(['belongs_to' => auth()->user()->id]);
     }
 }

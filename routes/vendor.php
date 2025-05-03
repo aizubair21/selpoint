@@ -21,25 +21,24 @@ use App\Livewire\Vendor\Orders\Vprint as vendorOrderVPrintPage;
 use App\Livewire\Vendor\Orders\Cprint as vendorOrderCPrintPage;
 
 
-Route::prefix('/v/')->group(function () {
-    // Route::get('/','VendorController@index')->name('vendor.index');
-    Route::get('products/view', vendorProductsIndexPage::class)->name("vendor.products.view")->middleware(AbleTo::class . ":product_view");
-    Route::get('products', vendorProductsEditPage::class)->name("vendor.products.edit")->middleware(AbleTo::class . ":product_edit");
-    Route::get('products/create', vendorProductsCreatePage::class)->name("vendor.products.create")->middleware(AbleTo::class . ":product_add");
-    Route::get('/products/orders', vendorProductsOrderPage::class)->name('vendor.products.orders');
-    // Route::get('/products/orders/{order}/view', vendorProductsOrderPage::class)->name('vendor.products.orders');
-    Route::get('/products/resell', vendorProductsResellPage::class)->name('vendor.products.resell');
-    // Route::get('/products/resell/{product}/veiw', vendorProductsResellPage::class)->name('vendor.products.resell');
+
+// Route::get('/','VendorController@index')->name('vendor.index');
+Route::get('products/view', vendorProductsIndexPage::class)->name("vendor.products.view")->middleware(AbleTo::class . ":product_view");
+Route::get('products', vendorProductsEditPage::class)->name("vendor.products.edit")->middleware(AbleTo::class . ":product_edit");
+Route::get('products/create', vendorProductsCreatePage::class)->name("vendor.products.create")->middleware(AbleTo::class . ":product_add");
+Route::get('/products/orders', vendorProductsOrderPage::class)->name('vendor.products.orders');
+// Route::get('/products/orders/{order}/view', vendorProductsOrderPage::class)->name('vendor.products.orders');
+Route::get('/products/resell', vendorProductsResellPage::class)->name('vendor.products.resell');
+// Route::get('/products/resell/{product}/veiw', vendorProductsResellPage::class)->name('vendor.products.resell');
 
 
-    Route::prefix('/order')->group(function () {
-        Route::get('/', vendorOrderIndexPage::class)->name('vendor.orders.index');
-        Route::get('/view/{order}/', vendorOrderViewPage::class)->name('vendor.orders.view');
-    });
+Route::prefix('/order')->group(function () {
+    Route::get('/', vendorOrderIndexPage::class)->name('vendor.orders.index');
+    Route::get('/view/{order}/', vendorOrderViewPage::class)->name('vendor.orders.view');
+});
 
 
-    Route::prefix('category')->group(function () {
-        Route::get('/', vendorCategoryIndexpage::class)->name('vendor.category.view')->middleware(AbleTo::class . ":category_view");
-        Route::get('/create', vendorCategoryCreatePage::class)->name('vendor.category.create')->middleware(AbleTo::class . ":category_create");
-    });
+Route::prefix('category')->group(function () {
+    Route::get('/', vendorCategoryIndexpage::class)->name('vendor.category.view')->middleware(AbleTo::class . ":category_view");
+    Route::get('/create', vendorCategoryCreatePage::class)->name('vendor.category.create')->middleware(AbleTo::class . ":category_create");
 });

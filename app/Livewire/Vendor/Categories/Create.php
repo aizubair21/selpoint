@@ -18,24 +18,10 @@ class Create extends Component
     use WithFileUploads, HandleImageUpload;
 
     #[validate]
-    public $name, $image, $account;
+    public $name, $image;
 
     // protected refresh listeners
     // protected $listeners = ['$refresh'];
-
-
-    public function mount()
-    {
-        $roles = auth()->user()->getRoleNames();
-        // dd($roles);
-        if (count($roles) > 2) {
-            $this->account = auth()->user()->active_nav;
-        } else {
-
-            $this->account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
-        }
-        // dd($this->account);
-    }
 
     public function getData()
     {
@@ -66,7 +52,7 @@ class Create extends Component
                 'name' => $this->name,
                 'image' => $this->handleImageUpload($this->image, 'categories', null),
                 'user_id' => Auth::id(),
-                'belongs_to' => $this->account,
+                'belongs_to' => auth()->user()->account_type(),
             ]
         );
         $this->reset();
