@@ -1,7 +1,9 @@
 <div>
     
     {{-- Be like water. --}}
-    @livewire('pages.products')
+    <x-dashboard.container>
+        @livewire('pages.products')
+    </x-dashboard.container>
 
 
 </div>

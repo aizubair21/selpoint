@@ -28,14 +28,14 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
       
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}" /> --}}
-      {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" /> --}}
+      <link rel="stylesheet" type="text/css" href="{{asset('assets/user/css/bootstrap.css')}}" />
       <link href="{{asset('assets/user/css/font-awesome.min.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
       
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
       {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
@@ -44,7 +44,7 @@
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
       {{-- <link href="form-validation.css" rel="stylesheet"> --}}
       <style>
-          body{
+         body{
             background-color: #f0f0f0!important;
          }
          th {
@@ -52,18 +52,18 @@
              font-size: 14px;
          }
          .discount-badge {
-             position: absolute;
-             top: 0;
-             left: 0;
-             color: white;
-             font-weight: bold;
-             padding: 3px 8px;
-             clip-path: polygon(0px 0px, 85px 0px, 0px 75px);
-             width: 100px;
-             height: 100px;
-             text-align: center;
-             display: flex;
-             font-size: 18px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: white;
+            font-weight: bold;
+            padding: 3px 8px;
+            clip-path: polygon(0px 0px, 85px 0px, 0px 75px);
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            display: flex;
+            font-size: 18px;
          }
       </style>
 

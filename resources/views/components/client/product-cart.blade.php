@@ -1,0 +1,132 @@
+@props(['product'])
+
+@push('style')
+   
+@endpush
+<div class="box border bg-white">
+
+    
+    @if($product->offer_type == 'yes' && $product->discount)
+        @php
+            $originalPrice = $product->price_in_usd ?? $product->price_in_bdt;
+            $discountedPrice = $product->discount;
+            $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+            @endphp
+        <div class="discount-badge bg_primary" style="z-index:5">{{ round($discountPercentage, 0) }}%</div>
+    @endif  
+    <div class="option_container d-none d-lg-block" style="background-color:hsla(24, 100%, 90%, 0.419);; transform:blur(10px)">
+        <div class="d-flex flex-column justify-content-between " style="height:100%; width:100%">
+            <div></div>
+
+            <div>
+                
+                <form action="" method="post">
+                    @csrf
+                    <button class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
+                        <i class="fas fa-cart-plus mx-2"></i> To Cart
+                    </button>
+                </form>
+                <br>
+                <a href="" style="font-size: 13px" class="fs-6 d-block text-black border-0 text-center py-1 text_secondary bold">
+                    View Details <i class="fas fa-arrow-right mx-2"></i>
+                </a>
+            </div>
+            <a type="button" class="d-block py-2 text-center bg-white d-flex align-items-center justify-content-center option1" style="font-weight:bold;color:var(--brand-primary); width:100%" href="">
+                Order Now <i class="fas fa-arrow-right mx-2"></i>
+            </a>
+        </div>
+    </div>
+    <a class="d-block" href="">
+    
+        <div class="img-box">
+            <img src="{{ asset('storage/' . $product->thumbnail) }}">
+            {{-- <img src="{{ asset('product-images/1732693495_6746cdf717f13_book.jpg') }}"> --}}
+    
+        </div>
+    
+        {{-- card body  --}}
+        <div class="details_box">
+            
+            <div class="w-100 mb-2 d-flex align-items-start justify-content-between">
+    
+                {{-- <a href="{{ route('product.details', ['id' => $product->id]) }}" class="d-block w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light" style="border-top-right-radius:12px; border-bottom-right-radius:12px">
+                    {{ $product->name }}
+                </a>
+    
+                <div style="width:20%; border-top-left-radius:12px; border-bottom-left-radius:12px" class="px-2 h-100 bg_primary d-flex justify-content-center align-items-center text-light">
+                    {{ $product->unit }} 
+                </div> --}}
+    
+    
+                <a href="" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light product-title">
+                    {{ $product->name }}
+                </a>
+    
+                <div style="width:20%;" class="py-1 px-2 h-100 bg_primary d-flex justify-content-center align-items-center text-light">
+                    {{ $product->unit }} 
+                </div>
+    
+            </div>
+            
+            <div style="height:32px; width:100%; display:flex; flex-direction:row-reverse; align-items: center; font-size:14px; @if($product->offer_type == 'yes')justify-content:space-between @else justify-content:center @endif" class="px-2 py-1">
+                @if($product->offer_type == 'yes')
+                    
+                    <div class=" @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                        {{$product->discount}} TK
+                    </div>
+    
+                    <div>
+                        <del>   
+                            MRP {{$product->price}} TK    
+                        </del>
+                    </div>
+    
+                @else
+                    <div class=" @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                        {{$product->price}} TK
+                    </div>
+                @endif 
+            </div>
+            {{-- <div style="font-size: 13px;background-color:var(--brand-light);" class=" px-3 py-1 rounded-pill  d-flex justify-content-center align-items-center">
+                <div style="width:10px; height:10px; border-radius:50%; background-color:var(--brand-primary); " class="mr-2"></div>
+                {{ $product->unit }}
+            </div> --}}
+    
+            {{-- @guest    
+                <a type="button" class=" btn_hover hover_zoom d-block py-2 text-center d-flex align-items-center justify-content-center option1" style="font-weight:bold; color:var(--brand-primary); width:100%" href="{{ route('order.single', ['id' => $product->id]) }}">
+                    Order Now <i class="fas fa-arrow-right mx-2"></i>
+            
+                </a>
+        
+                <form action="{{ route('cart.add', $product->id) }}" method="post" class="" >
+                    @csrf
+                    <button class="border-0 p-2 fs-4 bg-none text-center w-100 text-light" type="submit" style="background-color: var(--brand-primary)">
+                        <i class="fas fa-cart-plus mx-2"></i> To Cart
+                    </button>
+        
+        
+                </form>
+                
+            @else
+            @endguest --}}
+            <a type="button" class="text-sm btn_hover hover_zoom d-block py-2 text-center d-flex align-items-center justify-content-center option1" style="font-weight:bold; color:var(--brand-primary); width:100%" href="">
+                <i class="fas fa-cart-plus mx-2"></i>Order Now 
+            </a>
+            {{-- <form action="{{ route('cart.add', $product->id) }}" method="post" class="" >
+                @csrf
+                <button class="border-0 p-2 bg-white text-center w-100 text_secondary" type="submit">
+                    <i class="fas fa-cart-plus mx-2"></i> To Cart
+                </button>
+    
+    
+            </form> --}}
+            
+    
+        </div>
+    
+    </a>
+     
+    
+
+    
+</div>
