@@ -59,7 +59,7 @@
         <div class=" px-2 mb-2 cat_box">
             <div class="cat_box border">
                 {{-- <a href="{{route('product.by.catgory', ['id' =>$cat->id, 'name' => Str::slug( $cat->name)])}}" class=""> --}}
-                <a class="">
+                <a wire:navigate href="{{route('category.products', ['cat' => $cat->name])}}">
                     <img src="{{ asset('storage/' . $cat->image) }}">
                     
                     

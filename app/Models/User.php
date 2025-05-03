@@ -234,7 +234,7 @@ class User extends Authenticatable
 
     private function uct()
     {
-        return $this->hasMany(Cart::class);
+        return $this->hasMany(cart::class);
     }
 
     public function myCarts()

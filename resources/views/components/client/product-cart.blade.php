@@ -14,24 +14,22 @@
             @endphp
         <div class="discount-badge bg_primary" style="z-index:5">{{ round($discountPercentage, 0) }}%</div>
     @endif  
-    <div class="option_container d-none d-lg-block" style="background-color:hsla(24, 100%, 90%, 0.419);; transform:blur(10px)">
-        <div class="d-flex flex-column justify-content-between " style="height:100%; width:100%">
-            <div></div>
+    <div class="option_container hidden lg:block" style="background-color:hsla(24, 100%, 90%, 0.419);; transform:blur(10px)">
+        <div class="flex flex-col justify-between items-center" style="height:100%; width:100%">
 
-            <div>
+            <div class="flex flex-col justify-between flex-1">
                 
-                <form action="" method="post">
-                    @csrf
-                    <button class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
-                        <i class="fas fa-cart-plus mx-2"></i> To Cart
-                    </button>
-                </form>
-                <br>
-                <a href="" style="font-size: 13px" class="fs-6 d-block text-black border-0 text-center py-1 text_secondary bold">
+                
+                <button class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
+                    <i class="fas fa-cart-plus mx-2"></i> To Cart
+                </button>
+                
+             
+                <a href="" class="text-sm border-0 text-center py-1 text_secondary bold">
                     View Details <i class="fas fa-arrow-right mx-2"></i>
                 </a>
             </div>
-            <a type="button" class="d-block py-2 text-center bg-white d-flex align-items-center justify-content-center option1" style="font-weight:bold;color:var(--brand-primary); width:100%" href="">
+            <a type="button" class="py-2 text-center bg-white d-flex align-items-center justify-content-center option1" style="font-weight:bold;color:var(--brand-primary); width:100%" href="">
                 Order Now <i class="fas fa-arrow-right mx-2"></i>
             </a>
         </div>
@@ -46,7 +44,7 @@
         {{-- card body  --}}
         <div class="details_box">
             
-            <div class="w-100 mb-2 d-flex align-items-start justify-content-between">
+            <div class="w-full mb-2 flex items-start justify-between text-white" >
     
                 {{-- <a href="{{ route('product.details', ['id' => $product->id]) }}" class="d-block w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light" style="border-top-right-radius:12px; border-bottom-right-radius:12px">
                     {{ $product->name }}
@@ -57,11 +55,11 @@
                 </div> --}}
     
     
-                <a href="" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light product-title">
+                <a href="" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold bg_primary border-0 text-slate-0 product-title">
                     {{ $product->name ?? "N/A"}}
                 </a>
     
-                <div style="width:20%;" class="text-sm py-1 px-2 h-100 bg_primary d-flex justify-content-center align-items-center text-light">
+                <div style="width:20%;" class="text-sm py-1 px-2 bg_primary">
                     {{ $product->unit ?? "N/A"}} 
                 </div>
     
@@ -70,7 +68,7 @@
             <div style="height:32px; width:100%; display:flex; flex-direction:row-reverse; align-items: center; font-size:14px; @if($product->offer_type == 'yes')justify-content:space-between @else justify-content:center @endif" class="px-2 py-1">
                 @if($product->offer_type == 'yes')
                     
-                    <div class=" @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                    <div class="text-md @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
                         {{$product->discount}} TK
                     </div>
     
@@ -81,7 +79,7 @@
                     </div>
     
                 @else
-                    <div class=" @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                    <div class=" test-md @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
                         {{$product->price}} TK
                     </div>
                 @endif 
@@ -108,7 +106,7 @@
                 
             @else
             @endguest --}}
-            <a type="button" class="text-sm btn_hover hover_zoom d-block py-2 text-center d-flex align-items-center justify-content-center option1" style="font-weight:bold; color:var(--brand-primary); width:100%" href="">
+            <a type="button" class="text-sm btn_hover hover_zoom d-block py-2 text-center flex items-center justify-center" style="font-weight:bold; color:var(--brand-primary); width:100%" href="">
                 <i class="fas fa-cart-plus mx-2"></i>Order Now 
             </a>
             {{-- <form action="{{ route('cart.add', $product->id) }}" method="post" class="" >

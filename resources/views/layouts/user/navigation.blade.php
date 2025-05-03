@@ -2,12 +2,32 @@
 
  
 use App\Models\cart;
+use App\Livewire\Actions\Logout;
+use Livewire\Volt\Component;
 use function Livewire\Volt\{computed};
  
 $count = computed(function () {
     return auth()->user() ? auth()->user()->myCarts()->count() : "0";
 });
 
+new class extends Component {
+
+    /**
+     * Log the current user out of the application.
+     */
+     public function logout(Logout $logout): void
+    {
+        $logout();
+
+        $this->redirect('/', navigate: true);
+    }
+
+    public function login() 
+    {
+        $this->redirect('/login', navigate:true);    
+    }
+    
+}
 ?>
 
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
@@ -17,7 +37,7 @@ $count = computed(function () {
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="/" :active="request()->routeIs('/')">
+                    <a wire:navigate href="/" :active="request()->routeIs('/')">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -44,14 +64,19 @@ $count = computed(function () {
             <div class="flex items-center">
 
                 <x-nav-link href="" class="mr-3">
-                    <button type="button" class="btn position-relative">
+                    <button type="button" class="btn flex items-center">
                         <i class="fas fa-cart-plus"></i>
-                        <span id="displayCartItem" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success text-white">
-                          @volt('cart')
-                          <div>
-                            {{$this->count ?? "0"}}
-                          </div>
-                          @endvolt
+                        <span id="displayCartItem" class="pb-3 text-green">
+                          @auth
+                            @volt('cart')
+                                <div>
+                                    {{$this->count ?? "0"}}
+                                </div>
+                            @endvolt
+                          @endauth
+                          @guest
+                              0
+                          @endguest
                           {{-- <span class="visually-hidden">unread messages</span> --}}
                         </span>
                     </button>
@@ -62,7 +87,7 @@ $count = computed(function () {
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                    <button class="flex items-center px-3 py-2 border border text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                         <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
         
                                         <div class="ms-1">
@@ -87,22 +112,18 @@ $count = computed(function () {
                                     <hr> --}}
                                     
         
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-        
-                                        <x-dropdown-link :href="route('logout')"
-                                                onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                        </x-dropdown-link>
-                                    </form>
+                                    <x-dropdown-link :href="route('logout')"
+                                            onclick="event.preventDefault();
+                                                        this.closest('form').submit();">
+                                        {{ __('Log Out') }}
+                                    </x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         </div>
                     </div>
                 @endauth
                 @guest
-                    <x-nav-link class="btn btn_secondary btn-md text-white px-3 text-sm hidden md:block" :href="route('login')" >
+                    <x-nav-link class=" px-3 text-md uppercase hidden md:block" :href="route('login')" >
                         login
                     </x-nav-link>
                 @endguest
@@ -139,24 +160,18 @@ $count = computed(function () {
 
         <!-- Responsive Settings Options -->
         @auth    
-            <div class="pt-4 pb-1 border-t border-gray-200">
+            <div class="pt-4 pb-1 border-t border border-gray-200">
             
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Profile') }}
                     </x-responsive-nav-link>
 
-                
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-responsive-nav-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                            {{ __('Log Out') }}
-                        </x-responsive-nav-link>
-                    </form>
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
 
 
                     

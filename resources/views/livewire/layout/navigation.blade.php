@@ -2,9 +2,9 @@
 
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
-use Livewire\Attributes\Session;
+use function Livewire\Volt\{computed};
 
-new class extends Component
+new class extends component
 {
 
     public $get;

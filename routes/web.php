@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Livewire\Welcome;
 use App\Livewire\Pages\Products as userProductsPage;
 use App\Livewire\Pages\Categories as userCategoriesPage;
+use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 
 Route::get('/', Welcome::class)->name('home');
 
@@ -39,7 +40,7 @@ Route::get('about-policy', function () {
 })->name('about.policy');
 
 Route::get('products', userProductsPage::class)->name('products.index');
-
+Route::get('products/category/{cat}', userProductsForCategoryPage::class)->name('category.products');
 Route::get('categories', userCategoriesPage::class)->name('categories.index');
 
 Route::get('earning', function () {
