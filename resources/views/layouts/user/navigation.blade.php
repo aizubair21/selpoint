@@ -13,7 +13,7 @@ use function Livewire\Volt\{computed};
 
 new class extends Component {
 
-    public $count = 1;
+    public $count = 0;
     protected $listeners = ['$refresh'];
 
     public function mount() 
@@ -79,7 +79,7 @@ new class extends Component {
 
             <div class="flex items-center">
 
-                <x-nav-link href="" class="mr-3">
+                <x-nav-link href="{{route('carts.view')}}" class="mr-3">
                     <button type="button" class="btn flex items-center">
                         <i class="fas fa-cart-plus"></i>
                         <span id="displayCartItem" class="pb-3 text-green">

@@ -199,6 +199,15 @@
 <script>
 
    document.addEventListener('DOMContentLoaded', function () {
+      Livewire.on('cart', (data) => {
+         Swal.fire({
+            title: 'Done!',
+            text: 'Cart Updated',
+            icon: 'Info',
+            confirmButtonText: 'OK'
+         })
+         document.getElementById('displayCartItem').innerHTML = data;
+      });
       Livewire.on('info', (data) => {
          Swal.fire({
             title: 'Look At!',

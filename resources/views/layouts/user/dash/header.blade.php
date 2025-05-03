@@ -78,20 +78,11 @@ new class extends Component{
                                 {{-- <x-dropdown-link>
                                     Cart
                                 </x-dropdown-link> --}}
-                                <x-dropdown-link href="" class="mr-3">
+                                <x-dropdown-link href="{{route('carts.view')}}" class="mr-3">
                                     <button type="button" class="btn relative">
                                         <i class="fas fa-cart-plus"></i> Cart
                                         <span id="displayCartItem" class="ml-3 absolute top-0 start-100 translate-middle badge rounded-lg">
-                                          @auth
-                                            @volt('cart')
-                                                <div>
-                                                    {{$this->count ?? "0"}}
-                                                </div>
-                                            @endvolt
-                                          @endauth
-                                          @guest
-                                              0
-                                          @endguest
+                                            {{auth()->user()->myCarts()->count() ?? "0"}}
                                         </span>
                                     </button>
                                 </x-dropdown-link>

@@ -12,7 +12,7 @@ use Livewire\Volt\Volt;
 
 use App\Livewire\System\Roles\Index as roleIndexPage;
 use App\Livewire\System\Users\Index as userIndexPage;
-
+use App\Livewire\User\Carts;
 use App\Livewire\User\Dash as userPanel;
 use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
@@ -59,8 +59,8 @@ Route::middleware('auth')->group(function () {
     })->name('user.index');
 
 
-    Route::get('/user/dash', userPanel::class)->name('user.dash');
-    Route::prefix('/user/dash/upgrade')->group(function () {
+    Route::get('/user', userPanel::class)->name('user.dash');
+    Route::prefix('/user/upgrade')->group(function () {
         Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
         Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
         Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');
@@ -72,6 +72,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/rider', upgradeToRiderIndex::class)->name('upgrade.rider.index');
         Route::get('/rider/create', upgradeToRiderCreate::class)->name('upgrade.rider.create');
         Route::get('/rider/{id}/edit', upgradeToRiderEdit::class)->name('upgrade.rider.edit');
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::get('carts', Carts::class)->name('carts.view');
     });
 
     // Route::prefix('/upgrade/reseller')->group(function () {
