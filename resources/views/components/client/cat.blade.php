@@ -66,7 +66,7 @@
                     {{-- <i class="fas fa-caret-up text-white fa_icon"></i> --}}
                     
                     <div class="detail-box">
-                        <div class="text-truncate w-100  px-3 py-1 bold d-block bg_primary border-0 text-center text-light product-title">
+                        <div class="w-full px-3 py-1 bold bg_primary text-center text-light product-title">
                             {{$cat->name}}
                         </div>
     

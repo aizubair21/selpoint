@@ -1,8 +1,44 @@
-@props(['product'])
+<?php 
 
-@push('style')
-   
-@endpush
+use Livewire\Volt\Component;
+use Livewire\Attributes\URL;
+use App\Models\cart;
+
+new class extends Component 
+{
+
+    #[URL]
+    public $product;
+
+    public function addToCart()
+    {
+        $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
+        if ($isAlreadyInCart) {
+            $this->dispatch('info', 'Product already in cart');
+        }else{
+            cart::create(
+                [
+                    'product_id' => $this->product->id,
+                    'user_id' => auth()->user()->id,
+                    'user_type' => 'user',
+                    'belongs_to' => $this->product->user_id,
+                    'belongs_to_type' => 'reseller',
+                ]
+            );
+    
+            $count = auth()->user()->myCarts()->count();
+            // dd($isAlreadyInCart);
+            $this->dispatch('cart', $count);
+            $this->dispatch('success', 'Product Added to cart');
+        }
+    }
+}
+
+?> 
+
+
+{{-- @props(['product']) --}}
+
 <div class="box border bg-white">
 
     
@@ -19,10 +55,13 @@
 
             <div class="flex flex-col justify-between flex-1">
                 
-                
-                <button class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
-                    <i class="fas fa-cart-plus mx-2"></i> To Cart
-                </button>
+                @volt('cartBtn')
+                    <div>
+                        <button wire:click="addToCart" class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
+                            <i class="fas fa-cart-plus mx-2"></i> To Cart
+                        </button>
+                    </div>
+                @endvolt
                 
              
                 <a href="" class="text-sm border-0 text-center py-1 text_secondary bold">

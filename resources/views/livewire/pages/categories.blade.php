@@ -1,7 +1,7 @@
 <div>
     {{-- Success is as dangerous as failure. --}}
     <x-dashboard.container>
-        <div class="container">
+        <div class="">
             <div class="heading_container heading_center">
                 <h2>
                     Our <span>Categories</span>

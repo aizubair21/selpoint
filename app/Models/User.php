@@ -122,6 +122,9 @@ class User extends Authenticatable
         return $this->getPermissionNames();
     }
 
+
+
+
     //////////////// 
     // Relations //
     ///////////////
@@ -146,10 +149,6 @@ class User extends Authenticatable
             'ref' => null,
         ]);
     }
-
-
-
-
 
     public function requestsToBeVendor()
     {
@@ -223,6 +222,7 @@ class User extends Authenticatable
     {
         return $this->myCt()->where(['belongs_to' => $this->account_type()]);
     }
+
     // public function myCategoryAsVendor()
     // {
     //     return $this->myCt()->where(['belongs_to' => 'vendor']);
@@ -232,19 +232,20 @@ class User extends Authenticatable
     //     return $this->myCt()->where(['belongs_to' => 'reseller']);
     // }
 
+
     private function uct()
     {
         return $this->hasMany(cart::class);
     }
-
+    
     public function myCarts()
     {
-        return $this->uct()->where(['belongs_to_type' => 'user']);
+        return $this->uct()->where(['user_type' => 'user']);
     }
 
     public function myCartsAsReseller()
     {
-        return $this->uct()->where(['belongs_to_type' => 'reseller']);
+        return $this->uct()->where(['user_type' => 'reseller']);
     }
 
 

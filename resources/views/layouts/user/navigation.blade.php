@@ -4,14 +4,30 @@
 use App\Models\cart;
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
+use Livewire\Attributs\On;
 use function Livewire\Volt\{computed};
  
-$count = computed(function () {
-    return auth()->user() ? auth()->user()->myCarts()->count() : "0";
-});
+// $count = computed(function () {
+//     return auth()->user() ? auth()->user()->myCarts()->count() : "0";
+// });
 
 new class extends Component {
 
+    public $count = 1;
+    protected $listeners = ['$refresh'];
+
+    public function mount() 
+    {
+        $this->count();    
+    }
+    
+    #[On('cart')]
+    public function count() 
+    {
+        $this->count = auth()->user() ? auth()->user()->myCarts()->count() : "0";
+        // $this->count ++;
+    }
+    
     /**
      * Log the current user out of the application.
      */
