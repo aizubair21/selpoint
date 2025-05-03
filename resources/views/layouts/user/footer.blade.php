@@ -23,7 +23,7 @@
                     <div class="text-lg mb-3 bold">Menu</div>
                     <x-nav-link class="py-1 mb-1 d-block" href="/">Home</x-nav-link>
                     <br>
-                    <x-nav-link class="py-1 mb-1 d-block" href="{{ route('uproducts.index') }}">Products</x-nav-link>
+                    <x-nav-link class="py-1 mb-1 d-block" href="{{ route('products.index') }}">Products</x-nav-link>
                     <br>
                     <x-nav-link class="py-1 mb-1 d-block" href="{{route('categories.index')}}">Categories</x-nav-link>
                     <br>

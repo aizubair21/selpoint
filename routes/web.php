@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Welcome;
+use App\Livewire\Pages\Products as userProductsPage;
+use App\Livewire\Pages\Categories as userCategoriesPage;
 
-Route::get('/', Welcome::class);
+Route::get('/', Welcome::class)->name('home');
 
 Route::get('dashboard', function () {
     if (auth()->user()->hasAnyRole(['system', 'admin']) || auth()->user()->can('access_vendor_dashboard') || auth()->user()->can('access_reseller_dashboard') || auth()->user()->can('access_rider_dashboard')) {
@@ -36,13 +38,9 @@ Route::get('about-policy', function () {
     //
 })->name('about.policy');
 
-Route::get('uproducts', function () {
-    //
-})->name('uproducts.index');
+Route::get('products', userProductsPage::class)->name('products.index');
 
-Route::get('categories', function () {
-    //
-})->name('categories.index');
+Route::get('categories', userCategoriesPage::class)->name('categories.index');
 
 Route::get('earning', function () {
     //

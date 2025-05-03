@@ -232,6 +232,22 @@ class User extends Authenticatable
     //     return $this->myCt()->where(['belongs_to' => 'reseller']);
     // }
 
+    private function uct()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function myCarts()
+    {
+        return $this->uct()->where(['belongs_to_type' => 'user']);
+    }
+
+    public function myCartsAsReseller()
+    {
+        return $this->uct()->where(['belongs_to_type' => 'reseller']);
+    }
+
+
 
     public function myOrder()
     {

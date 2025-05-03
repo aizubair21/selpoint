@@ -1,3 +1,15 @@
+<?php 
+
+ 
+use App\Models\cart;
+use function Livewire\Volt\{computed};
+ 
+$count = computed(function () {
+    return auth()->user() ? auth()->user()->myCarts()->count() : "0";
+});
+
+?>
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,13 +25,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     
-                    <x-nav-link :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('Home') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                         {{ __('Products') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
                         {{ __('Categories') }}
                     </x-nav-link>
 
@@ -28,51 +40,73 @@
             </div>
 
             <!-- Settings Dropdown -->
-            @auth     
-                <div class="hidden sm:flex sm:items-center sm:ms-6">
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
 
-                                <div class="ms-1">
-                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </x-slot>
+            <div class="flex items-center">
 
-                        <x-slot name="content">
-                            
-                            <x-dropdown-link :href="route('user.index')">
-                                {{ __('User Panel') }}
-                            </x-dropdown-link>
-                        
-                           
-                            {{-- <hr>
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Change Password') }}
-                            </x-dropdown-link>
-                            <hr> --}}
-                            
-
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')"
-                                        onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                </div>
-            @endauth
-            @guest
-                <x-nav-link :href="route('login')" >Login</x-nav-link>
-            @endguest
+                <x-nav-link href="" class="mr-3">
+                    <button type="button" class="btn position-relative">
+                        <i class="fas fa-cart-plus"></i>
+                        <span id="displayCartItem" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success text-white">
+                          @volt('cart')
+                          <div>
+                            {{$this->count ?? "0"}}
+                          </div>
+                          @endvolt
+                          {{-- <span class="visually-hidden">unread messages</span> --}}
+                        </span>
+                    </button>
+                </x-nav-link>
+    
+                @auth     
+                    <div class="flex">
+                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                        <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
+        
+                                        <div class="ms-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+        
+                                <x-slot name="content">
+                                    
+                                    <x-dropdown-link :href="route('user.index')">
+                                        {{ __('User Panel') }}
+                                    </x-dropdown-link>
+                                
+                                   
+                                    {{-- <hr>
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        {{ __('Change Password') }}
+                                    </x-dropdown-link>
+                                    <hr> --}}
+                                    
+        
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+        
+                                        <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                    </div>
+                @endauth
+                @guest
+                    <x-nav-link class="btn btn_secondary btn-md text-white px-3 text-sm hidden md:block" :href="route('login')" >
+                        login
+                    </x-nav-link>
+                @endguest
+            </div>
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -90,13 +124,13 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 Home
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 Products
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
                 Categories
             </x-responsive-nav-link>
 
@@ -130,8 +164,8 @@
             </div>
         @endauth
         @guest    
-            <x-responsive-nav-link :href="route('profile.edit')">
-                {{ __('Logout') }}
+            <x-responsive-nav-link :href="route('login')">
+                {{ __('login') }}
             </x-responsive-nav-link>
         @endguest
     </div>

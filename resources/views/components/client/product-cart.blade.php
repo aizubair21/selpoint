@@ -40,7 +40,6 @@
     
         <div class="img-box">
             <img src="{{ asset('storage/' . $product->thumbnail) }}">
-            {{-- <img src="{{ asset('product-images/1732693495_6746cdf717f13_book.jpg') }}"> --}}
     
         </div>
     
@@ -59,11 +58,11 @@
     
     
                 <a href="" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light product-title">
-                    {{ $product->name }}
+                    {{ $product->name ?? "N/A"}}
                 </a>
     
-                <div style="width:20%;" class="py-1 px-2 h-100 bg_primary d-flex justify-content-center align-items-center text-light">
-                    {{ $product->unit }} 
+                <div style="width:20%;" class="text-sm py-1 px-2 h-100 bg_primary d-flex justify-content-center align-items-center text-light">
+                    {{ $product->unit ?? "N/A"}} 
                 </div>
     
             </div>
