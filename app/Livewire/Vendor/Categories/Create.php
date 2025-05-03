@@ -10,6 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 
 #[layout('layouts.app')]
 class Create extends Component
@@ -25,7 +26,14 @@ class Create extends Component
 
     public function mount()
     {
-        $this->account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        $roles = auth()->user()->getRoleNames();
+        // dd($roles);
+        if (count($roles) > 2) {
+            $this->account = auth()->user()->active_nav;
+        } else {
+
+            $this->account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        }
         // dd($this->account);
     }
 

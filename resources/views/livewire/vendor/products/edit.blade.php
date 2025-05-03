@@ -80,7 +80,7 @@
                             </div>
                             <select wire:modal="products.category_id" id="">
                                 <option value=""> -- Select Category -- </option>
-                                @foreach (auth()->user()->myCategory as $item)
+                                @foreach ($categories as $item)
                                     <option @selected($data['category_id'] == $item->id) value="{{$item->id}}">{{$item->name}} </option>
                                 @endforeach 
                             </select>

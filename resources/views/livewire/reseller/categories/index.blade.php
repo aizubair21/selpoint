@@ -4,7 +4,7 @@
     <x-dashboard.page-header>
         Categories
     </x-dashboard.page-header>
-    {{-- @livewire('vendor.categories.create',  key('cat_101')) --}}
+    @livewire('vendor.categories.create',  key('cat_101'))
 
     <x-dashboard.container>
         <x-dashboard.section>

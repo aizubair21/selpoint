@@ -1,6 +1,6 @@
 <div>
     <x-dashboard.page-header>
-        Your Products
+        Products
     </x-dashboard.page-header>
 
     <x-dashboard.container>
@@ -11,7 +11,13 @@
                     Products List
                 </x-slot>
                 <x-slot name="content">
-                    Product those have insert in the system or resell form vendor
+                    Product those have insert in the system or resell form vendor.
+                    <x-nav-link class="shadow rounded px-2 py-1" href="{{route('vendor.products.create')}}">
+                        {{-- <x-primary-button>
+                            New
+                        </x-primary-button> --}}
+                        Add New
+                    </x-nav-link>
                 </x-slot>
             </x-dashboard.section.header>
 
@@ -31,9 +37,11 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title" class="float-right clearfix">
-                    <x-primary-button>
-                        New
-                    </x-primary-button>
+                    <div class="flex items-center">
+                        <x-text-input type="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1"></x-text-input>
+                        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')" >Filter</x-primary-button>
+                    </div>
+
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex justify-between items-center">
@@ -49,10 +57,6 @@
                             </x-nav-link>
                         </div>
 
-                        <div class="flex items-center">
-                            <x-text-input type="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1"></x-text-input>
-                            <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')" >Filter</x-primary-button>
-                        </div>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
@@ -60,9 +64,51 @@
                 <x-dashboard.table>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>#</th>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Sell</th>
+                            <th>Earning</th>
+                            <th>Insert At</th>
+                            <th>A/C</th>
                         </tr>
                     </thead>
+
+                    <tbody>
+                        <tbody>
+                            @foreach ($data as $product)
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" wire:model.live="selectedModel" value="{{$product->id}}" style="width:20px; height:20px" />
+                                    </td>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td>
+                                        <img height="50px" width="100px" src="{{asset('/storage/'. $product->thumbnail)}}" />
+                                    </td>
+                                    <td>
+                                        {{$product->name ?? "N/A"}}
+                                    </td>
+                                    <td>
+                                        {{$product->status ? 'Active' : "In Active"}}
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td> 
+                                        {{$product->created_at?->diffForHumans() ?? "N/A"}}    
+                                    </td>
+                                    <td >
+                                        <x-nav-link href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">edit</x-nav-link>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </tbody>
                 </x-dashboard.table>
             </x-dashboard.section.inner>
         </x-dashboard.section>

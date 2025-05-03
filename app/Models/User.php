@@ -167,15 +167,15 @@ class User extends Authenticatable
 
     public function isVendor()
     {
-        return $this->requestsToBeVendor()?->latest()->first();
+        return $this->requestsToBeVendor()?->where(['status' => 'Active'])->first();
     }
     public function isReseller()
     {
-        return $this->requestsToBeReseller()?->latest()->first();
+        return $this->requestsToBeReseller()?->where(['status' => 'Active'])->first();
     }
     public function isRider()
     {
-        return $this->requestsToBeRider()?->latest()->first();
+        return $this->requestsToBeRider()?->where(['status' => 'Active'])->first();
     }
 
 
@@ -184,10 +184,30 @@ class User extends Authenticatable
         return $this->hasMany(Product::class);
     }
 
+    public function myProductsAsVendor()
+    {
+        return $this->myProducts()->where(['belongs_to_type' => 'vendor']);
+    }
+    public function myProductsAsReseller()
+    {
+        return $this->myProducts()->where(['belongs_to_type' => 'reseller']);
+    }
+
+
+
     public function myCategory()
     {
         return $this->hasMany(Category::class);
     }
+    public function myCategoryAsVendor()
+    {
+        return $this->myCategory()->where(['belongs_to' => 'vendor']);
+    }
+    public function myCategoryAsReseller()
+    {
+        return $this->myCategory()->where(['belongs_to' => 'reseller']);
+    }
+
 
     public function myOrder()
     {

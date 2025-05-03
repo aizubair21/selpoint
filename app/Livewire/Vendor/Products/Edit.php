@@ -21,12 +21,24 @@ class Edit extends Component
     #[URL]
     public $product, $nav = 'Product';
 
-    public $data;
+    public $data, $categories;
     public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];
 
     #[On('refresh')]
     public function mount()
     {
+        $ac = 'vendor';
+        $roles = auth()->user()->getRoleNames();
+
+        if (count($roles) > 2) {
+            $ac = auth()->user()->active_nav;
+        } else {
+
+            $ac = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        }
+        // dd($this->account);
+
+        $this->categories = $ac == 'vendor' ? auth()->user()->myCategoryAsVendor : auth()->user()->myCategoryAsReseller;
 
         $this->data = auth()->user()->myProducts()->withTrashed()->find(decrypt($this->product));
         // if ($this->data->trashed()) {
@@ -121,3 +133,4 @@ class Edit extends Component
         return view('livewire.vendor.products.edit');
     }
 }
+    

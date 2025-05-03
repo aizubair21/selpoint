@@ -2,7 +2,7 @@
     Products
 </x-nav-link>
 
-<x-nav-link href='' >
+<x-nav-link href="{{route('reseller.categories.list')}}" :active="request()->routeIs('reseller.categories.*')" >
     Categories
 </x-nav-link>
 

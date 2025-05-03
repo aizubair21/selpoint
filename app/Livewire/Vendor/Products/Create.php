@@ -36,15 +36,23 @@ class Create extends Component
     #[On('refresh')]
     public function mount()
     {
-        $this->categories = auth()->user()->myCategory;
+
         /**
          * if any category not fount
          * throw an warning,
          * as every product must belongs to a category
          *  
          * */
+        $roles = auth()->user()->getRoleNames();
+        // dd($roles);
+        if (count($roles) > 2) {
+            $this->belongs_to = auth()->user()->active_nav;
+        } else {
+            $this->belongs_to = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        }
+        // dd($this->account);
 
-        $this->belongs_to = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        $this->categories = $this->belongs_to == 'vendor' ? auth()->user()->myCategoryAsReseller : auth()->user()->myCategoryAsVendor;
     }
 
 
