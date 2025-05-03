@@ -57,27 +57,26 @@ new class extends Component
                 
                 @volt('cartBtn')
                     <div>
-                        <button wire:click="addToCart" class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit" class="option1">
+                        <button wire:click="addToCart" class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit">
                             <i class="fas fa-cart-plus mx-2"></i> To Cart
                         </button>
                     </div>
                 @endvolt
                 
              
-                <a href="" class="text-sm border-0 text-center py-1 text_secondary bold">
+                <x-nav-link href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-sm border-0 text-center py-1 text_secondary bold">
                     View Details <i class="fas fa-arrow-right mx-2"></i>
-                </a>
+                </x-nav-link>
             </div>
-            <a type="button" class="py-2 text-center bg-white d-flex align-items-center justify-content-center option1" style="font-weight:bold;color:var(--brand-primary); width:100%" href="">
+            <x-nav-link class="py-2 text-center bg-white flex items-center justify-center" style="font-weight:bold;color:var(--brand-primary); width:100%" href="">
                 Order Now <i class="fas fa-arrow-right mx-2"></i>
-            </a>
+            </x-nav-link>
         </div>
     </div>
     <a class="d-block" href="">
     
         <div class="img-box">
             <img src="{{ asset('storage/' . $product->thumbnail) }}">
-    
         </div>
     
         {{-- card body  --}}
@@ -94,7 +93,7 @@ new class extends Component
                 </div> --}}
     
     
-                <a href="" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold bg_primary border-0 text-slate-0 product-title">
+                <a href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold bg_primary border-0 text-slate-0 product-title">
                     {{ $product->name ?? "N/A"}}
                 </a>
     
