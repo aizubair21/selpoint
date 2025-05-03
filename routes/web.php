@@ -7,6 +7,7 @@ use App\Livewire\Pages\Products as userProductsPage;
 use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
+use App\Livewire\Pages\SingleProductOrder;
 
 Route::get('/', Welcome::class)->name('home');
 
@@ -41,9 +42,10 @@ Route::get('about-policy', function () {
 })->name('about.policy');
 
 Route::get('products', userProductsPage::class)->name('products.index');
-Route::get('products/category/{cat}', userProductsForCategoryPage::class)->name('category.products');
-Route::get('categories', userCategoriesPage::class)->name('categories.index');
+Route::get('category/{cat}/products', userProductsForCategoryPage::class)->name('category.products');
+Route::get('category', userCategoriesPage::class)->name('category.index');
 Route::get('product/{id}/{slug}', userProductsDetailsPage::class)->name('products.details');
+Route::get('product/purchase/{slug}', SingleProductOrder::class)->name('product.makeOrder');
 
 Route::get('earning', function () {
     //

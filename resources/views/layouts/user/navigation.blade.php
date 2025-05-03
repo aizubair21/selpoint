@@ -67,7 +67,7 @@ new class extends Component {
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                         {{ __('Products') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
                         {{ __('Categories') }}
                     </x-nav-link>
 
@@ -167,7 +167,7 @@ new class extends Component {
             <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
                 Products
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+            <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
                 Categories
             </x-responsive-nav-link>
 

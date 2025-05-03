@@ -31,7 +31,7 @@
                 {{-- @php
                     $catName = DB::table("categories")->where(['id'=>$product->category_id])->select(['id', 'name'])->first();
                 @endphp --}}
-                <a href="{{route('category.products' , ['cat' =>$product->category?->id ?? "0", 'name' => Str::slug($product->category?->name ?? "Not Found!")])}}">
+                <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->name])}}">
                     {{$product->category?->name ?? "Undefined"}}
                 </a>
                 {{-- {{$catName->id}} --}}
@@ -130,7 +130,7 @@
         <div class="py-1 my-2" style="">Quantity: {{$product->unit}}</div>
         
         <div class="purchase-info md:flex justify-start items-center w-full">
-            <a type="button" class="sm:mb-2 md:mr-2 rounded px-3 py-1 text-center" href="">
+            <a wire:navigate type="button" class="sm:mb-2 md:mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
                 <i class="fas fa-arrow-right mx-2"></i>Buy Now 
             </a>
             

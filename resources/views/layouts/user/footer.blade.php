@@ -25,7 +25,7 @@
                     <br>
                     <x-nav-link class="py-1 mb-1 d-block" href="{{ route('products.index') }}">Products</x-nav-link>
                     <br>
-                    <x-nav-link class="py-1 mb-1 d-block" href="{{route('categories.index')}}">Categories</x-nav-link>
+                    <x-nav-link class="py-1 mb-1 d-block" href="{{route('category.index')}}">Categories</x-nav-link>
                     <br>
                     {{-- <ul>
                         <li></li>
