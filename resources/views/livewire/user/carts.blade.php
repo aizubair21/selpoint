@@ -2,7 +2,7 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
     
     <x-dashboard.container>
-        <x-dashboard.section>
+        <x-dashboard.section @class(['hidden' => request()->routeIs('user.carts.checkout')])>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     Your Carts
@@ -20,7 +20,7 @@
                     {{auth()->user()->myCarts()->count() ?? "0"}} items in cart
                 </x-slot>
                 <x-slot name="content">
-                    <x-nav-link>
+                    <x-nav-link @class(['hidden' => request()->routeIs('user.carts.checkout')]) href="{{route('user.carts.checkout')}}">
                         <x-primary-button>
                             checkout
                         </x-primary-button>
@@ -61,7 +61,18 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <tr>
+                                <td>
+                                    Total
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td class="bold" >
+                                    <strong> {{$totalAmount}} TK</strong>
+                                </td>
+                            </tr>
                         </tbody>
+
                     </x-dashboard.table>
                 </x-dashboard.foreach>
             </x-dashboard.section.inner>

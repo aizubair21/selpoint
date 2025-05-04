@@ -15,6 +15,7 @@ use App\Livewire\Vendor\Products\Pages\Resell as vendorProductsResellPage;
 
 use App\Livewire\Vendor\Categories\Index as vendorCategoryIndexpage;
 use App\Livewire\Vendor\Categories\Create as vendorCategoryCreatePage;
+use App\Livewire\Vendor\Categories\Edit as vendorCategoryEditPage;
 
 
 use App\Livewire\Vendor\Orders\Index as vendorOrderIndexPage;
@@ -44,4 +45,5 @@ Route::prefix('/order')->group(function () {
 Route::prefix('category')->group(function () {
     Route::get('/', vendorCategoryIndexpage::class)->name('vendor.category.view')->middleware(AbleTo::class . ":category_view");
     Route::get('/create', vendorCategoryCreatePage::class)->name('vendor.category.create')->middleware(AbleTo::class . ":category_create");
+    Route::get('/edit/{cat}', vendorCategoryEditPage::class)->name('vendor.category.edit')->middleware(AbleTo::class . ":category_edit");
 });

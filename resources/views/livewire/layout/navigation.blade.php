@@ -168,11 +168,15 @@ new class extends component
                         <x-dropdown-link wire:navigate>
                             {{ __('Notice') }}
                         </x-dropdown-link>
-
+                        <x-hr/>
                         <x-dropdown-link wire:navigate target="_blank" :href="route('user.dash')">
                             {{ __('Back to User Panel') }}
                         </x-dropdown-link>
-
+                        <x-dropdown-link wire:navigate target="_blank" :href="route('home')">
+                            {{ __('Visit Website') }}
+                        </x-dropdown-link>
+                        
+                        <x-hr/>
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>

@@ -126,6 +126,13 @@ new class extends Component {
                                         {{ __('Change Password') }}
                                     </x-dropdown-link>
                                     <hr> --}}
+
+                                    @if (count(auth()->user()->getRoleNames()) > 1)
+                                        <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
+                                            Dashboard
+                                        </x-dropdown-link>
+                                    @endif
+                                    
                                     
         
                                     <x-dropdown-link :href="route('logout')"

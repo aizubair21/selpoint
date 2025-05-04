@@ -41,7 +41,7 @@ new class extends Component
 
 <div class="lg:flex justify-between item-start p-2">
     <!-- card left -->
-    <div class="w-1/2 ">
+    <div class="w-full lg:w-1/2 ">
         <div class="img-display">
             <div class="img-showcase">
                 <img id="preview" class=" p-2 rounded" style="width: 100%; object-fit:contain; max-width:400px; height:300px" height="400" src="{{ asset('storage/' . $product?->thumbnail) }}"alt="image">
@@ -63,7 +63,7 @@ new class extends Component
         </div>
     </div>
 
-    <div class="w-1/2 py-3 lg:py-0 px-4 lg:px-0">
+    <div class="w-full lg:w-1/2 py-3 lg:py-0 px-4 lg:px-0">
         <div>
             <div class="text_primary bold rounded" style="font-size: 12px">
                 {{-- @php
@@ -75,7 +75,7 @@ new class extends Component
                 {{-- {{$catName->id}} --}}
 
             </div>
-            <h1 style="font-size: 28px; font-weight:bold;">{{$product->title}}</h1>
+            <div style="font-size: 28px; font-weight:bold;">{{$product->title}}</div>
             <div class="flex justify-between items-center" style="font-size: 14px">
                 
                 <div class="flex items-center">
@@ -131,7 +131,7 @@ new class extends Component
         <div class="">
             {{-- <div style="font-weight:bold;font-size:17px;">Price : @if($product->price_in_usd != null) ${{$product->price_in_usd}} @else {{$product->price_in_bdt}} tk @endif</div> --}}
             
-            @if($product->offer_type == 'yes')
+            @if($product->offer_type)
                 <div style="font-size:22px; margin-right:12px"> Price : <strong class="text_secondary bold"> {{$product->discount}} TK  </strong></div>
                 {{-- <div style="font-weight:bold;font-size:20px;">
                     Discount Price : 
@@ -142,24 +142,20 @@ new class extends Component
                         @endif    
                 </div> --}}
 
-                <div class="d-flex" style="font-size: 14px">
+                <div class="" style="font-size: 14px">
                     MRP:
                     <del class="px-1">
-                        @if($product->price_in_usd != null)                                
-                            ${{$product->price_in_usd}}
-                        @else 
-                            {{$product->price_in_bdt}} tk 
-                        @endif    
+                        {{$product->price}} TK
                     </del> / 
                     @php
-                        $originalPrice = $product->price_in_usd ?? $product->price_in_bdt;
+                        $originalPrice = $product->price;
                         $discountedPrice = $product->discount;
                         $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
                     @endphp
                     <div >{{ round($discountPercentage, 0) }}% OFF</div>
                 </div>
             @else 
-                <div style="font-weight:bold;font-size:22px; color:var(--brand-primary); margin-right:12px"> Price : @if($product->price_in_usd != null) ${{$product->price_in_usd}} @else {{$product->price_in_bdt}} TK @endif</div>
+                <div style="font-weight:bold;font-size:22px; color:var(--brand-primary); margin-right:12px"> Price : {{$product->price}} TK </div>
             @endif 
             {{-- @if($product->offer_type == 'yes' && $product->discount)
             @endif  --}}

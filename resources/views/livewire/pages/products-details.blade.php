@@ -3,11 +3,7 @@
 
     <x-dashboard.container>
         <x-dashboard.section>
-            {{-- show the products  --}}
             @includeIf('components.client.product-single')
-            {{-- <x-hr /> --}}
-            {{-- products other info  --}}
-
         </x-dashboard.section>
 
 
@@ -27,7 +23,7 @@
 
             </div>
 
-            <div class="py-3 lg:w-[40%] product_section">
+            <div class="py-3 lg:w-[20%] product_section">
               
                 <h4>You May Also Like</h4>
                 <div class="row p-0 m-0 mb-2">
