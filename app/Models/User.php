@@ -237,7 +237,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(cart::class);
     }
-    
+
     public function myCarts()
     {
         return $this->uct()->where(['user_type' => 'user']);
@@ -249,10 +249,18 @@ class User extends Authenticatable
     }
 
 
-
-    public function myOrder()
+    private function myOr()
     {
-        return $this->hasMany(order::class);
+        return $this->hasMany(order::class, 'user_id');
+    }
+
+    public function myOrderAsUser()
+    {
+        $this->myOr()->where(
+            [
+                'belongs_to_type' => 'reseller'
+            ]
+        );
     }
     public function orderToMe()
     {

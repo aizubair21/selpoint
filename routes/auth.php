@@ -14,6 +14,7 @@ use App\Livewire\System\Roles\Index as roleIndexPage;
 use App\Livewire\System\Users\Index as userIndexPage;
 use App\Livewire\User\Carts;
 use App\Livewire\User\Dash as userPanel;
+use App\Livewire\User\Orders;
 use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
 use App\Livewire\User\Upgrade\Vendor\Edit as upgradeToVendorEdit;
@@ -76,6 +77,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get('carts', Carts::class)->name('carts.view');
+        Route::get('orders', Orders::class)->name('user.orders.view');
     });
 
     // Route::prefix('/upgrade/reseller')->group(function () {

@@ -67,10 +67,10 @@ class Order extends Model
         ]);
     }
 
-    // public function cartOrders()
-    // {
-    //     return $this->hasMany(CartOrder::class);
-    // }
+    public function cartOrders()
+    {
+        return $this->hasMany(CartOrder::class);
+    }
 
     // public function comissions()
     // {

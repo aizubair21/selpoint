@@ -16,14 +16,16 @@ new #[Layout('layouts.user.dash.userDash')] class extends Component
 
 <div>
     <x-dashboard.container>
-        <div class="alert alert-danger">
-            <div class="text-md mb-3">
-                Are you sure to logout from your current session. 
+        <x-dashboard.section>
+            <div class="alert alert-danger">
+                <div class="text-md mb-3">
+                    Are you sure to logout from your current session. 
+                </div>
+                
+                <x-danger-button wire:click="logout">
+                    {{ __('Log Out') }}
+                </x-danger-button>
             </div>
-            
-            <x-danger-button wire:click="logout">
-                {{ __('Log Out') }}
-            </x-danger-button>
-        </div>
+        </x-dashboard.section>
     </x-dashboard.container>
 </div>

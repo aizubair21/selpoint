@@ -139,10 +139,10 @@
                   Cart
                </span>
             </x-nav-link> --}}
-            <x-nav-link class="asside_link" :active="request()->routeIs('user.view.orders')"  href="">
+            <x-nav-link class="asside_link" :active="request()->routeIs('user.orders.view')"  href="{{route('user.orders.view')}}">
                <i class="fas fa-shopping-cart pr-2"></i>
                <span class="pl-2 hidden md:block">
-                  Order
+                  Order ({{auth()->user()->myOrderAsUser()?->count() ?? "0"}})
                </span>
             </x-nav-link>
             <x-nav-link class="asside_link vip @if(request()->routeIs('user.vip.*')) active @endif" href="">
