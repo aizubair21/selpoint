@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Str;
 
 #[layout('layouts.app')]
 class Edit extends Component
@@ -29,6 +30,7 @@ class Edit extends Component
         auth()->user()->myCategory()->find($this->cat)->update(
             [
                 'name' => $this->targettedForEdit['name'],
+                'slug' => Str::slug($this->targettedForEdit['name']),
                 'image' => $this->handleImageUpload($this->image, 'categories', $this->targettedForEdit['image']),
             ]
         );

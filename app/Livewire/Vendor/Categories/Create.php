@@ -11,6 +11,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Str;
 
 #[layout('layouts.app')]
 class Create extends Component
@@ -50,6 +51,7 @@ class Create extends Component
         category::create(
             [
                 'name' => $this->name,
+                'slug' => Str::slug($this->name),
                 'image' => $this->handleImageUpload($this->image, 'categories', null),
                 'user_id' => Auth::id(),
                 'belongs_to' => auth()->user()->account_type(),
