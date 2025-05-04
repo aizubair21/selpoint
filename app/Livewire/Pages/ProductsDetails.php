@@ -8,6 +8,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 #[layout('layouts.user.app')]
 class ProductsDetails extends Component
@@ -29,28 +30,34 @@ class ProductsDetails extends Component
         $this->product = Product::where(['slug' => $this->slug, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
     }
 
-    public function addToCart()
-    {
-        $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
-        if ($isAlreadyInCart) {
-            $this->dispatch('info', 'Product already in cart');
-        } else {
-            cart::create(
-                [
-                    'product_id' => $this->product->id,
-                    'user_id' => auth()->user()->id,
-                    'user_type' => 'user',
-                    'belongs_to' => $this->product->user_id,
-                    'belongs_to_type' => 'reseller',
-                ]
-            );
+    // public function addToCart()
+    // {
 
-            $count = auth()->user()->myCarts()->count();
-            // dd($isAlreadyInCart);
-            $this->dispatch('cart', $count);
-            $this->dispatch('success', 'Product Added to cart');
-        }
-    }
+    //     if (Auth::guest()) {
+    //         $this->dispatch('warning', 'Login to add Cart');
+    //     } else {
+
+    //         $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
+    //         if ($isAlreadyInCart) {
+    //             $this->dispatch('info', 'Product already in cart');
+    //         } else {
+    //             cart::create(
+    //                 [
+    //                     'product_id' => $this->product->id,
+    //                     'user_id' => auth()->user()->id,
+    //                     'user_type' => 'user',
+    //                     'belongs_to' => $this->product->user_id,
+    //                     'belongs_to_type' => 'reseller',
+    //                 ]
+    //             );
+
+    //             $count = auth()->user()->myCarts()->count();
+    //             // dd($isAlreadyInCart);
+    //             $this->dispatch('cart', $count);
+    //             $this->dispatch('success', 'Product Added to cart');
+    //         }
+    //     }
+    // }
 
     public function render()
     {

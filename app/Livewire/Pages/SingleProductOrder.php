@@ -2,26 +2,57 @@
 
 namespace App\Livewire\Pages;
 
+use App\Models\cart;
+use App\Models\order;
 use Livewire\Component;
 use App\Models\Product;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 
 #[layout('layouts.user.app')]
 class SingleProductOrder extends Component
 {
     #[URL]
-    private $slug;
+    public $slug;
 
-    public $product, $purchaseData;
+    public $product, $size;
+
+    #[validate('required')]
+    public $name, $location, $phone, $quantity = 1;
 
     public function mount()
     {
-        dd($this->slug);
+        // dd($this->slug);
         $this->product = Product::where(['slug' => $this->slug, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
         // if (!$this->product) {
         //     return redirect('/');
         // }
+    }
+
+    public function confirm()
+    {
+        $this->validate();
+
+        order::create(
+            [
+                'user_id' => auth()->user()->id,
+                'user_type' => 'user',
+                'belongs_to' => $this->product->user_id,
+                'belongs_to_type' => 'reseller',
+                'status' => 'Pending',
+                'product_id' => $this->product->id,
+                'size' => $this->size ?? 'Free Size',
+                'name' => $this->product->name,
+                'price' => $this->product->offer_type ? $this->product->discount : $this->product->price,
+                'quantity' => 1,
+                'location' => $this->location,
+                'total' => $this->product->offer_type ? $this->product->discount : $this->product->price,
+                'buying_price' => $this->product->buying_price,
+            ]
+        );
+
+        $this->dispatch('success', "Product added to order list");
     }
 
 

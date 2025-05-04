@@ -45,7 +45,7 @@ Route::get('products', userProductsPage::class)->name('products.index');
 Route::get('category/{cat}/products', userProductsForCategoryPage::class)->name('category.products');
 Route::get('category', userCategoriesPage::class)->name('category.index');
 Route::get('product/{id}/{slug}', userProductsDetailsPage::class)->name('products.details');
-Route::get('product/purchase/{slug}', SingleProductOrder::class)->name('product.makeOrder');
+Route::get('product/{slug}', SingleProductOrder::class)->name('product.makeOrder')->middleware('auth');
 
 Route::get('earning', function () {
     //

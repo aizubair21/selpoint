@@ -11,26 +11,32 @@ new class extends Component
     public $product;
 
     public function addToCart()
-    {
-        $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
-        if ($isAlreadyInCart) {
-            $this->dispatch('info', 'Product already in cart');
+    {   
+        if (Auth::guest()) {
+            $this->dispatch('warning', 'Login to add Cart');
         }else{
-            cart::create(
-                [
-                    'product_id' => $this->product->id,
-                    'user_id' => auth()->user()->id,
-                    'user_type' => 'user',
-                    'belongs_to' => $this->product->user_id,
-                    'belongs_to_type' => 'reseller',
-                ]
-            );
-    
-            $count = auth()->user()->myCarts()->count();
-            // dd($isAlreadyInCart);
-            $this->dispatch('cart', $count);
-            $this->dispatch('success', 'Product Added to cart');
+
+            $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
+            if ($isAlreadyInCart) {
+                $this->dispatch('info', 'Product already in cart');
+            }else{
+                cart::create(
+                    [
+                        'product_id' => $this->product->id,
+                        'user_id' => auth()->user()->id,
+                        'user_type' => 'user',
+                        'belongs_to' => $this->product->user_id,
+                        'belongs_to_type' => 'reseller',
+                    ]
+                );
+        
+                $count = auth()->user()->myCarts()->count();
+                // dd($isAlreadyInCart);
+                $this->dispatch('cart', $count);
+                $this->dispatch('success', 'Product Added to cart');
+            }
         }
+
     }
 }
 

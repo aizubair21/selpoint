@@ -1,3 +1,41 @@
+<?php 
+
+use Livewire\Volt\Component;
+
+new class extends Component
+{
+    public function addToCart()
+    {
+
+        if (Auth::guest()) {
+            $this->dispatch('warning', 'Login to add Cart');
+        } else {
+
+            $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
+            if ($isAlreadyInCart) {
+                $this->dispatch('info', 'Product already in cart');
+            } else {
+                cart::create(
+                    [
+                        'product_id' => $this->product->id,
+                        'user_id' => auth()->user()->id,
+                        'user_type' => 'user',
+                        'belongs_to' => $this->product->user_id,
+                        'belongs_to_type' => 'reseller',
+                    ]
+                );
+
+                $count = auth()->user()->myCarts()->count();
+                // dd($isAlreadyInCart);
+                $this->dispatch('cart', $count);
+                $this->dispatch('success', 'Product Added to cart');
+            }
+        }
+    }
+}
+
+?>
+
 <div>
 @props(['product'])
 
@@ -134,10 +172,11 @@
                 <i class="fas fa-arrow-right mx-2"></i>Buy Now 
             </a>
             
-            <x-secondary-button wire:click="addToCart" type="button" class="option1">
-                <i class="fas fa-cart-plus mx-2"></i> To Cart
-            </x-secondary-button>
-        
+            @volt('cartAdd')
+                <x-secondary-button wire:click="addToCart" type="button" class="option1">
+                    <i class="fas fa-cart-plus mx-2"></i> To Cart
+                </x-secondary-button>
+            @endvolt
             {{-- <button type="button" onclick="window.location.href='{{ route('order.single', ['id' => $product->id]) }}'"
                 class="btn" style="border-radius: 20px;">
                     Order Now
