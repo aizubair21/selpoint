@@ -21,7 +21,7 @@ class rider extends Model
 
         'current_address',
 
-        'area_condition', // inside dhaka or outlide
+        'area_condition', // inside dhaka or outside
         'targeted_area',
 
         'status',

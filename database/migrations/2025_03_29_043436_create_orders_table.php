@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('total')->nullable();
             $table->string('shipping')->nullable();
             $table->string('buying_price')->nullable();
+            $table->string('area_condition')->nullable();
+            $table->string('district')->nullable();
+            $table->string('upozila')->nullable();
+            $table->string('delevery')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

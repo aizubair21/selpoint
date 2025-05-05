@@ -15,6 +15,11 @@ return new class extends Migration
             $table->string('belongs_to')->nullable(); // reseller or vendor id
             $table->string('belongs_to_type')->nullable(); // reseller or vendor
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->string('qty', 100)->nullable();
+            $table->string('name', 191)->nullable();
+            $table->string('image', 191)->nullable();
+            $table->string('price', 191)->nullable();
+            $table->string('size', 191)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

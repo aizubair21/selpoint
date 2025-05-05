@@ -10,10 +10,16 @@ class CartOrder extends Model
     protected $fillable =
     [
         'user_id',
+        'user_type',
+        'belongs_to',
+        'belongs_to_type',
         'order_id',
         'product_id',
-        'total',
-        'size',
+        'quantity',
         'buying_price',
+        'price', // normal price
+        'total', // total multiple with quty
+        'size',
+        'status',
     ];
 }

@@ -51,9 +51,9 @@ new class extends Component
 <div class="box border bg-white">
 
     
-    @if($product->offer_type == 'yes' && $product->discount)
+    @if($product->offer_type && $product->discount)
         @php
-            $originalPrice = $product->price_in_usd ?? $product->price_in_bdt;
+            $originalPrice = $product->price;
             $discountedPrice = $product->discount;
             $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
             @endphp
@@ -111,21 +111,21 @@ new class extends Component
 
         </div>
         
-        <div style="height:32px; width:100%; display:flex; flex-direction:row-reverse; align-items: center; font-size:14px; @if($product->offer_type == 'yes')justify-content:space-between @else justify-content:center @endif" class="px-2 py-1">
-            @if($product->offer_type == 'yes')
+        <div style="height:32px; width:100%; display:flex; flex-direction:colums-reverse; align-items: end; font-size:14px; @if($product->offer_type)justify-content:space-between @else justify-content:center @endif" class="px-2 py-1">
+            @if($product->offer_type)
                 
-                <div class="text-md @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                <div class="text-md @if($product->offer_type ) pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
                     {{$product->discount}} TK
                 </div>
 
-                <div>
+                <div class="text-xs">
                     <del>   
                         MRP {{$product->price}} TK    
                     </del>
                 </div>
 
             @else
-                <div class=" test-md @if($product->offer_type == 'yes') pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                <div class=" test-md @if($product->offer_type ) pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
                     {{$product->price}} TK
                 </div>
             @endif 

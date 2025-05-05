@@ -3,9 +3,11 @@
 namespace App\Livewire\Pages;
 
 use App\Models\cart;
+use App\Models\CartOrder;
 use App\Models\order;
 use Livewire\Component;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
@@ -44,26 +46,52 @@ class SingleProductOrder extends Component
     {
         $this->validate();
 
-        order::create(
-            [
-                'user_id' => auth()->user()->id,
-                'user_type' => 'user',
-                'belongs_to' => $this->product?->user_id,
-                'belongs_to_type' => 'reseller',
-                'status' => 'Pending',
-                'product_id' => $this->product?->id,
-                'size' => $this->size ?? 'Free Size',
-                'name' => $this->name,
-                'price' => $this->price,
-                'quantity' => $this->quantity,
-                'location' => $this->location,
-                'total' => $this->total,
-                'buying_price' => $this->product?->buying_price,
-                'phone' => $this->phone,
-            ]
-        );
-        $this->reset('name', 'phone', 'location');
-        $this->dispatch('success', "Product added to order list");
+        if (auth()->user()->id != $this->product->user_id) {
+
+            DB::transaction(function () {
+
+                $order = order::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'user_type' => 'user',
+                        'belongs_to' => $this->product?->user_id,
+                        'belongs_to_type' => 'reseller',
+                        'status' => 'Pending',
+                        // 'product_id' => $this->product?->id,
+                        // 'size' => $this->size ?? 'Free Size',
+                        // 'name' => $this->name,
+                        // 'price' => $this->price,
+                        'quantity' => $this->quantity,
+                        'location' => $this->location,
+                        'phone' => $this->phone,
+                        'total' => $this->total,
+                        // 'buying_price' => $this->product?->buying_price,
+                    ]
+                );
+
+                CartOrder::create(
+                    [
+                        'user_id' => auth()->user()->id,
+                        'user_type' => 'user',
+                        'belongs_to' => $this->product?->user_id,
+                        'belongs_to_type' => 'reseller',
+                        'order_id' => $order->id,
+                        'product_id' => $this->product->id,
+                        'size' => $this->size,
+                        'price' => $this->price,
+                        'total' => $this->total,
+                        'quantity' => $this->quantity,
+                        'buying_price' => $this->product?->buying_price ?? '0',
+                    ]
+                );
+                $this->reset('name', 'phone', 'location');
+                $this->dispatch('success', "Product added to order list");
+            });
+
+            $this->dispatch('error', 'have an error!');
+        } else {
+            $this->dispatch('warning', "You can't purchase your own product");
+        }
     }
 
 

@@ -13,20 +13,37 @@ class Order extends Model
         'user_type',
         'belongs_to', // vendor or reseller id
         'belongs_to_type', // 1: vendor, 2: reseller
-        'product_id',
-        'size',
-        'name',
-        'price',
+        // 'product_id',
+        // 'size',
+        // 'name',
+        // 'price',
         'quantity',
-        'location',
         'number',
         'total',
         'status',
+        'area_condition',
+        'district',
+        'upozila',
+        'location',
         'road_no',
         'house_no',
         'shipping',
-        'buying_price'
+        'delevery',
+        // 'buying_price'
     ];
+
+    // protected static function boot(): void
+    // {
+    //     parent::boot();
+
+    //     static::created(function (order $order) {
+    //         CartOrder::create(
+    //             [
+    //                 'order_id' => $order->id,
+    //             ]
+    //         );
+    //     });
+    // }
 
     public function user()
     {
@@ -49,22 +66,7 @@ class Order extends Model
     public function product()
     {
         // return $this->belongsTo(Product::class, 'product_id');
-        return $this->belongsTo(Product::class, 'product_id')->withDefault([
-            'id' => 0,
-            'name' => 'Product Not Found',
-            'title' => 'Product Not Found',
-            'slug' => 'product-not-found',
-            'description' => 'Product Not Found',
-            'price_in_usd' => 0,
-            'price_in_bdt' => 0,
-            'discount' => 0,
-            'buying_price' => 0,
-            'category_id' => 0,
-            'image' => 'product-not-found.jpg',
-            'offer_type' => 'no',
-            'unit' => '0',
-            'price_type' => 'bdt'
-        ]);
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     public function cartOrders()

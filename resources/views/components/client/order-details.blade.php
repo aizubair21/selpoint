@@ -27,7 +27,9 @@
                 @endif
                 
                 <x-input-field  wire:model.live="name" label="Your Name" error="name" name="name" />
-                <x-input-field type="number" wire:model.live="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
+                <div>
+                    <x-input-field type="number" wire:model.live="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
+                </div>
             </div>
 
             <div>
