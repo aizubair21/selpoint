@@ -54,7 +54,7 @@
             </x-dashboard.section.header>
         </x-dashboard.section>
         
-        <form wire:transition wire:submit.prevent="save">
+        <form wire:submit.prevent="save">
             <div class="md:flex jusfity-between">
                 <x-dashboard.section>
                     <x-dashboard.section.header>
@@ -136,24 +136,24 @@
             </x-dashboard.section>
             
             <x-dashboard.section>
-                <div class="md:flex justify-between">
+                <div class="md:flex flex-rowreverse justify-between">
                     <x-dashboard.section.header>
                         <x-slot name="title">
                             Image Thumbnail
                         </x-slot>
                         <x-slot name="content">
                             Provide a mendatory thumbnail image for your products. This image consider for the thumbnail for social media platform. 
-                            <input type="file" wire:model.live="thumb"  />
+                            <x-text-input type="file" wire:model.live="thumb" class="border p-1" />
                         </x-slot>
                     </x-dashboard.section.header>
                     
                     <x-dashboard.section.inner>
-                            @if ($products['thumbnail'] && !$thumb)
-                                <x-image src="{{asset('storage/'. $products['thumbnail'])}}" />
-                            @endif
-                            @if ($thumb)
-                                <img src="{{$thumb->temporaryUrl()}}" width="100px" height="200px" alt="">
-                            @endif
+                        @if ($products['thumbnail'] && !$thumb)
+                            <x-image src="{{asset('storage/'. $products['thumbnail'])}}" />
+                        @endif
+                        @if ($thumb)
+                            <img src="{{$thumb->temporaryUrl()}}" width="100px" height="200px" alt="">
+                        @endif
                     </x-dashboard.section.inner>
                 </div>
             </x-dashboard.section>
@@ -192,7 +192,7 @@
                             
                         @endforeach
                     </div>
-                    <x-text-input type="file" wire:model.live="newImage"  multiple />
+                    <x-text-input type="file" wire:model.live="newImage" class="border p-1" multiple />
                     <div class="text-xs">
                         Please choose all image at once, if you plan to upload multiple image.
                     </div>

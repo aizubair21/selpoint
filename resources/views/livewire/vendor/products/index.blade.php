@@ -17,11 +17,9 @@
 
 
             <x-dashboard.section.inner>
-                <x-nav-link href="{{route('vendor.products.create')}}" class=" rounded">
-                    <x-primary-button>
-                        Add Product
-                    </x-primary-button>
-                </x-nav-link>
+                <x-nav-link-btn href="{{route('vendor.products.create')}}">
+                    Add Product
+                </x-nav-link-btn>
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
@@ -111,7 +109,7 @@
                                         {{$product->created_at?->diffForHumans() ?? "N/A"}}    
                                     </td>
                                     <td >
-                                        <x-nav-link href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">edit</x-nav-link>
+                                        <x-nav-link-btn href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">view</x-nav-link-btn>
                                     </td>
                                 </tr>
                             @endforeach

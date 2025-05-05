@@ -23,6 +23,9 @@ new class extends Component
                 cart::create(
                     [
                         'product_id' => $this->product->id,
+                        'name' => $this->product?->title,
+                        'image' => $this->product?->thumbnail,
+                        'price' => $this->product?->offer_type ? $this->product?->discount : $this->product?->price,
                         'user_id' => auth()->user()->id,
                         'user_type' => 'user',
                         'belongs_to' => $this->product->user_id,

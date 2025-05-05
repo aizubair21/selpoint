@@ -1,9 +1,15 @@
 <?php 
 
 use Livewire\Volt\Component;
+use Livewire\Attributes\URL;
+use App\Models\cart;
+
 
 new class extends Component
 {
+    #[URL]
+    public $product;
+    
     public function addToCart()
     {
 
@@ -17,10 +23,13 @@ new class extends Component
             } else {
                 cart::create(
                     [
-                        'product_id' => $this->product->id,
+                        'product_id' => $this->product?->id,
+                        'name' => $this->product?->title,
+                        'image' => $this->product?->thumbnail,
+                        'price' => $this->product?->offer_type ? $this->product?->discount : $this->product?->price,
                         'user_id' => auth()->user()->id,
                         'user_type' => 'user',
-                        'belongs_to' => $this->product->user_id,
+                        'belongs_to' => $this->product?->user_id,
                         'belongs_to_type' => 'reseller',
                     ]
                 );
@@ -54,7 +63,7 @@ new class extends Component
                     </button>
                     @foreach ($product->showcase as $images)
                         <button class="p-1 rounded mb-1">
-                            <img class=" border p-1 rounded" onclick="previewImage(this)" src="{{asset('storage/'. $images?->image)}}" width="45px" height="45px" alt="">
+                            <img width="45px" height="45px"  class=" border p-1 rounded" onclick="previewImage(this)" src="{{asset('storage/'. $images?->image)}}" width="45px" height="45px" alt="">
                         </button>
                     @endforeach
                 </div>

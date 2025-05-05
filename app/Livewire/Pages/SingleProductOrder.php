@@ -16,15 +16,25 @@ class SingleProductOrder extends Component
     #[URL]
     public $slug;
 
-    public $product, $size;
+    public $product, $size, $total, $price;
 
     #[validate('required')]
     public $name, $location, $phone, $quantity = 1;
+
+    public function updated($property)
+    {
+        if ($property) {
+            $this->total = $this->price * $this->quantity;
+        }
+    }
+
 
     public function mount()
     {
         // dd($this->slug);
         $this->product = Product::where(['slug' => $this->slug, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
+        $this->price = $this->product?->offer_type ? $this->product?->discount : $this->product?->price;
+        $this->total = $this->price;
         // if (!$this->product) {
         //     return redirect('/');
         // }
@@ -38,20 +48,21 @@ class SingleProductOrder extends Component
             [
                 'user_id' => auth()->user()->id,
                 'user_type' => 'user',
-                'belongs_to' => $this->product->user_id,
+                'belongs_to' => $this->product?->user_id,
                 'belongs_to_type' => 'reseller',
                 'status' => 'Pending',
-                'product_id' => $this->product->id,
+                'product_id' => $this->product?->id,
                 'size' => $this->size ?? 'Free Size',
-                'name' => $this->product->name,
-                'price' => $this->product->offer_type ? $this->product->discount : $this->product->price,
-                'quantity' => 1,
+                'name' => $this->name,
+                'price' => $this->price,
+                'quantity' => $this->quantity,
                 'location' => $this->location,
-                'total' => $this->product->offer_type ? $this->product->discount : $this->product->price,
-                'buying_price' => $this->product->buying_price,
+                'total' => $this->total,
+                'buying_price' => $this->product?->buying_price,
+                'phone' => $this->phone,
             ]
         );
-
+        $this->reset('name', 'phone', 'location');
         $this->dispatch('success', "Product added to order list");
     }
 

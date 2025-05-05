@@ -23,19 +23,21 @@ class Edit extends Component
 
     public $data, $categories;
     public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];
+    // protected $Listeners = ["$refresh"];
 
-    #[On('refresh')]
+    // #[On('refresh')]
     public function mount()
     {
-        $ac = 'vendor';
-        $roles = auth()->user()->getRoleNames();
+        $this->data();
+    }
 
-        if (count($roles) > 2) {
-            $ac = auth()->user()->active_nav;
-        } else {
 
-            $ac = auth()->user()->isVendor() ? 'vendor' : 'reseller';
-        }
+    public function data()
+    {
+        // $ac = auth()->user()->account_type();
+        // $roles = auth()->user()->getRoleNames();
+
+
         // dd($this->account);
 
         $this->categories = auth()->user()->myCategory;
@@ -49,6 +51,8 @@ class Edit extends Component
         $this->relatedImage = $this->data->showcase->toArray();
         $this->attr = $this->data->attr->toArray();
     }
+
+
 
     public function save()
     {
@@ -123,7 +127,8 @@ class Edit extends Component
             FacadesStorage::disk('public')->delete($img->image);
         }
 
-        $this->dispatch('refresh');
+        // $this->dispatch('refresh');
+        $this->data();
         $this->dispatch('success', 'Image Deletd !');
     }
 
@@ -133,4 +138,3 @@ class Edit extends Component
         return view('livewire.vendor.products.edit');
     }
 }
-    

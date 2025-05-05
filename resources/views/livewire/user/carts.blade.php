@@ -68,7 +68,7 @@
                                 <td></td>
                                 <td></td>
                                 <td class="bold" >
-                                    <strong> {{$totalAmount}} TK</strong>
+                                    <strong> {{$totalAmount ?? "0"}} TK</strong>
                                 </td>
                             </tr>
                         </tbody>

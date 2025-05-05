@@ -9,8 +9,8 @@
                         @php
                             $arrayOfAttr = explode(',', $product->attr?->value);
                         @endphp
-                        <label style="width: 250px" for="size">{{ $product->attr?->name }}</label>
-                        <select name="size" class="">
+                        <x-input-label style="width: 250px" for="size">{{ $product->attr?->name }}</x-input-label>
+                        <select wire:model.live="size" class="rounded border-gray-300" required>
                             
                                     <option value="Size Less" selected disable>select size</option>
                             @if (count($arrayOfAttr) > 0)     
@@ -27,7 +27,7 @@
                 @endif
                 
                 <x-input-field  wire:model.live="name" label="Your Name" error="name" name="name" />
-                <x-input-field type="number"  wire:model.live="quantity" label="Quantiry" error="quantity" name="quantity" />
+                <x-input-field type="number" wire:model.live="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
             </div>
 
             <div>

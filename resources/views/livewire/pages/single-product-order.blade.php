@@ -13,7 +13,7 @@
                 </x-slot>
                 <x-slot name="content">
                     <strong>
-                        {{$product->price ?? '0'}} TK 
+                        {{ $total ?? '0'}} TK 
                     </strong>
                 </x-slot>
             </x-dashboard.section.header>

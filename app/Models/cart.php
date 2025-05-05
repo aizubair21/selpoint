@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Cart extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['product_id', 'user_id', 'user_type', 'belongs_to', 'belongs_to_type'];
+    protected $fillable = ['product_id', 'user_id', 'user_type', 'belongs_to', 'belongs_to_type', 'name', 'image', 'price', 'qty'];
 
     public function product()
     {

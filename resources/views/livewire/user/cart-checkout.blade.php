@@ -12,6 +12,11 @@
             </x-dashboard.section.header>
         </x-dashboard.section>
 
+        <pre>
+            @php
+                // print_r(auth()->user()->myCarts()->groupBy('belongs_to')->toArray() );
+            @endphp
+        </pre>
 
         {{-- <x-dashboard.section>
             <x-dashboard.foreach :data="auth()->user()->myCarts">
@@ -45,52 +50,65 @@
         </x-dashboard.section> --}}
 
 
-        <x-hr/>
-
-        <x-dashboard.foreach :data="$carts" >
-            <x-dashboard.table>
-                <thead>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </thead>
-
-                <tbody>
-                    @foreach ($carts as $cart)
+        <x-dashboard.section>
+            <x-dashboard.foreach :data="$carts" >
+                <x-dashboard.table>
+                    <thead>
+                        <th></th>
+                        <th></th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </thead>
+    
+                    <tbody>
                         @php
-                            $totalAmount =+ $cart->product?->price;
+                            $tprice = 0;
                         @endphp
+                        @foreach ($carts as $key => $cart)
+                            @php
+                                $sprice = $cart['price'] * $cart['qty'];
+                                $tprice =+ $sprice;
+                            @endphp
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                
+                                <td class="text-sm">
+                                    <x-nav-link href="{{route('products.details', ['id' => $cart['product_id'] ?? '',  'slug' => Str::slug($cart['name']) ?? ''])}}" >
+                                        <img width="30px" height="30px" src="{{asset('storage/'. $cart['image'])}}" alt="">
+                                        {{$cart['name'] ?? "N/A" }}
+                                    </x-nav-link>
+                                </td>
+                                <td>
+                                    <div class="flex justify-between px-1 py-0 border rounded" style="width: 120px">
+                                        <button class="p-1 text-lg" wire:click="decreaseQuantity({{$cart['id']}})" >-</-button>
+                                        <input style="width:50px" class="border-0 py-0 text-center w-sm rounded" min="1" type="text" @disabled(true) value="{{$cart['qty']}}"  />
+                                        <button class="p-1 text-lg" wire:click="increaseQuantity({{$cart['id']}})" >+</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{$cart['price']}} x {{$cart['qty']}} = {{ $sprice ?? "N/A" }}
+                                </td>
+                               
+                            </tr>
+                        @endforeach
                         <tr>
-                            <td>{{$loop->iteration}}</td>
-                            
-                            <td class="text-sm">
-                                <x-nav-link href="{{route('products.details', ['id' => $cart->product?->id ?? '',  'slug' => $cart->product?->slug ?? ''])}}" >
-                                    <img width="30px" height="30px" src="{{asset('storage/'. $cart->product?->thumbnail)}}" alt="">
-                                    {{$cart->product?->title ?? "N/A" }}
-                                </x-nav-link>
+                            <td>
+                                Total
                             </td>
                             <td>
-                                <x-text-input style="width:75px" type="number" wire:model="qty.$cart->id" />
                             </td>
-                            <td>{{$cart->product?->price ? $cart->product?->price * $cart->qty : "N/A" }}</td>
-                           
+                            <td>
+                                {{$q}}
+                            </td>
+                            <td class="bold" >
+                                <strong> {{$tp ?? "0"}} TK</strong>
+                            </td>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td>
-                            Total
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td class="bold" >
-                            <strong> {{$totalAmount}} TK</strong>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </x-dashboard.table>
-        </x-dashboard.foreach>
+                    </tbody>
+    
+                </x-dashboard.table>
+            </x-dashboard.foreach>
+        </x-dashboard.section>
     </x-dashboard.container>
 
 

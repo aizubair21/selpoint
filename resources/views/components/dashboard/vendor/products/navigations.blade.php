@@ -39,7 +39,13 @@ new class extends component
     </x-dashboard.section>
     @endvolt --}}
 
-    <x-nav-link href="{{route('vendor.products.edit', ['product' => $product, 'nav' => 'Active'])}}" :active="request()->routeIs('vendor.products.edit')">Product</x-nav-link>
-    <x-nav-link href="{{route('vendor.products.resell', ['product' => $product])}}" :active="request()->routeIs('vendor.products.resell')" >Resell</x-nav-link>
-    <x-nav-link href="{{route('vendor.products.orders', ['product' => $product])}}" :active="request()->routeIs('vendor.products.orders')">Orders</x-nav-link>
+    <div class="flex justify-between">
+
+        <x-nav-link href="{{route('vendor.products.edit', ['product' => $product, 'nav' => 'Product'])}}" :active="request()->routeIs('vendor.products.edit')">Product</x-nav-link>
+        
+        <div>
+            <x-nav-link href="{{route('vendor.products.orders', ['product' => $product])}}" :active="request()->routeIs('vendor.products.orders')">Orders</x-nav-link>
+            <x-nav-link href="{{route('vendor.products.resell', ['product' => $product])}}" :active="request()->routeIs('vendor.products.resell')" >Resell</x-nav-link>
+        </div>
+    </div>
 </div>
