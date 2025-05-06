@@ -22,4 +22,14 @@ class CartOrder extends Model
         'size',
         'status',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(order::class);
+    }
 }

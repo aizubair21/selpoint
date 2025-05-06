@@ -6,7 +6,7 @@ use App\Models\cart;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
-use App\Models\order;
+use App\Models\Order;
 use App\Models\CartOrder;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Reactive;
@@ -38,19 +38,19 @@ class CartCheckout extends Component
         // dd($this->carts);
     }
 
-    public function updated($property)
-    {
-        if ($property == $this->area_condition) {
-            $this->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;
-        }
-    }
-
-
-    // public function changeSize($id)
+    // public function updated($property)
     // {
-    //     dd($id);
-    //     auth()->user()->myCarts()->find($id)->size = $this->cart[$id]['size'];
+    //     if ($property == $this->area_condition) {
+    //         $this->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;
+    //     }
     // }
+
+
+    public function changeSize($id)
+    {
+        // dd($id);
+        auth()->user()->myCarts()->find($id)->size = $this->cart[$id]['size'];
+    }
 
 
     public function increaseQuantity($cartId)
@@ -81,7 +81,7 @@ class CartCheckout extends Component
             $ct = cart::where(['user_id' => auth()->user()->id])->get()->groupBy('belongs_to'); // get all cart group by belongs_to
             foreach ($ct as $reseller => $rp) {
                 // iterated by single reseller
-                $order = order::create(
+                $order = Order::create(
                     [
                         'user_id' => auth()->user()->id,
                         'user_type' => 'user',
@@ -89,7 +89,7 @@ class CartCheckout extends Component
                         'belongs_to_type' => 'reseller',
                         'status' => 'Pending',
                         // 'product_id' => $this->product?->id,
-                        // 'size' => $this->size ?? 'Free Size',
+                        'size' => 'Details',
                         'name' => 'Cart Order',
                         // 'price' => $this->tp,
                         'quantity' => $this->q,
@@ -104,7 +104,7 @@ class CartCheckout extends Component
                         'phone' => $this->phone,
                         'road_no' => $this->road_no,
                         'house_no' => $this->house_no,
-                        'shipping' => $this->shipping,
+                        'shipping' => $this->area_condition == 'Dhaka' ? 80 : 120,
                     ]
                 );
 
@@ -119,7 +119,7 @@ class CartCheckout extends Component
                             'product_id' => $item->product->id,
                             'size' => $item->size,
                             'price' => $item->price,
-                            'total' => $this->tp,
+                            'total' => $item->price * $item->qty,
                             'quantity' => $item->qty,
                             'buying_price' => $item->product?->buying_price ?? '0',
                         ]
@@ -131,6 +131,7 @@ class CartCheckout extends Component
         });
 
         // $this->reset('name', 'phone', 'location', 'district');
+        $this->redirectRoute('user.orders.view');
         $this->dispatch('refresh');
         $this->dispatch('success', "Product added to order list");
     }

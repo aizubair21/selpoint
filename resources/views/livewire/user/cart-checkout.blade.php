@@ -96,7 +96,7 @@
                                                 $arrayOfAttr = explode(',', auth()->user()->myCarts()->find($cart['id'])->product?->attr?->value);
                                             @endphp
                                             <x-input-label class="text-xs" for="size">{{ auth()->user()->myCarts()->find($cart['id'])->product?->attr?->name }}</x-input-label>
-                                            <select wire:model.live="carts.{{$key}}.size" wire:change="changeSize({{$key}})" class="text-sm rounded border-gray-300">
+                                            <select wire:model.live="carts.{{$key}}.size" class="text-sm rounded border-gray-300">
                                                 
                                                         {{-- <option value="Size Less" selected disable>{{ auth()->user()->myCarts()->find($cart['id'])->product?->attr?->name }}    </option> --}}
                                                 @if (count($arrayOfAttr) > 0)     

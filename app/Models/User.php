@@ -251,7 +251,7 @@ class User extends Authenticatable
 
     private function myOr()
     {
-        return $this->hasMany(order::class, 'user_id');
+        return $this->hasMany(Order::class, 'user_id');
     }
 
     public function myOrderAsUser()
@@ -265,6 +265,6 @@ class User extends Authenticatable
     public function orderToMe()
     {
         // return $this->hasMany(Order::class);
-        return order::where(['belongs_to' => auth()->user()->id]);
+        return Order::where(['belongs_to' => auth()->user()->id]);
     }
 }

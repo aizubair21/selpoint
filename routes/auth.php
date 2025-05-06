@@ -15,6 +15,7 @@ use App\Livewire\System\Users\Index as userIndexPage;
 use App\Livewire\User\CartCheckout;
 use App\Livewire\User\Carts;
 use App\Livewire\User\Dash as userPanel;
+use App\Livewire\User\Order\Details;
 use App\Livewire\User\Orders;
 use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
@@ -79,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('carts', Carts::class)->name('carts.view');
         Route::get('orders', Orders::class)->name('user.orders.view');
+        Route::get('orders/details/{id}', Details::class)->name('user.orders.details');
 
         Route::get('carts/checkout', CartCheckout::class)->name('user.carts.checkout');
     });

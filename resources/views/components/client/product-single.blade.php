@@ -17,7 +17,7 @@ new class extends Component
             $this->dispatch('warning', 'Login to add Cart');
         } else {
 
-            $isAlreadyInCart = auth()->user()->myCarts()->exists(['product_id' => $this->product->id]);
+            $isAlreadyInCart = auth()->user()->myCarts()->where(['product_id' => $this->product->id])->exists();
             if ($isAlreadyInCart) {
                 $this->dispatch('info', 'Product already in cart');
             } else {
