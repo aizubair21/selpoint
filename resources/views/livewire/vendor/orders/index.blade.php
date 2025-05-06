@@ -2,12 +2,7 @@
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <x-dashboard.page-header>
         Orders
-        <br>
-        <div>
-            <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
-            <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancelled</x-nav-link>
-            <x-nav-link href="?nav=Accepted" :active="$nav == 'Accepted'">Accepted</x-nav-link>
-        </div>
+        
     </x-dashboard.page-header>
 
 
@@ -18,7 +13,7 @@
                     Orders
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -26,7 +21,7 @@
                     Pending
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['status' => 'Pending'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Pending'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -34,7 +29,7 @@
                     Cancel
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['status' => 'Cancel'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancel'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -42,7 +37,7 @@
                     Accepted
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['status' => 'Accepted'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accepted'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -57,27 +52,82 @@
                     Your Order
                 </x-slot>
                 <x-slot name="content">
-                    Your order taken from the {{auth()->user()->isVendor() ? "Resellers" : "Users"}}
+                    <div>
+                        <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
+                        <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancelled</x-nav-link>
+                        <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accepted</x-nav-link>
+                    </div>
                 </x-slot>
             </x-dashboard.section.header>
 
             <x-dashboard.section.inner>
 
-                <x-dashboard.foreach :data="$order">
+                <x-dashboard.foreach :data="$data">
+                    {{$data->links()}}
                     <x-dashboard.table>
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th></th>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Product</th>
-                                <th>Quantity</th>
+                                <th>User</th>
+                                <th>Pd</th>
+                                <th>Unit</th>
                                 <th>Total</th>
                                 <th>Status</th>
-                                <th>A/C</th>
+                                <th>Date</th>
+                                <th>Shipping</th>
+                                <th>Contact</th>
                             </tr>
                         </thead>
+
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td> 
+                                        <x-nav-link-btn> view </x-nav-link-btn>    
+                                    </td>
+                                    <td> {{$item->id ?? "N/A"}} </td>
+                                    <td>
+                                        <div>
+                                            {{$item->user?->name ?? "N/A"}}
+                                        </div>
+                                    </td>
+                                    <td> 
+                                        {{$item->cartOrders()->count() ?? "N/A"}} 
+                                    </td>
+                                    <td>
+                                        {{$item->quantity ?? "N/A"}}
+                                    </td>
+                                    <td>
+                                        {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping == 'Dhaka' ? 80 : 120}}</span> 
+                                    </td>
+                                    <td>
+                                        {{$item->status ?? "Pending"}}
+                                    </td>
+                                    <td>
+                                        <div class="text-nowarp">
+                                            <div>
+                                                {{$item->created_at->diffForHumans()}}
+                                            </div>
+                                            <div class="text-xs">
+                                                {{$item->created_at->toFormattedDateString()}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p> {{$item->delevery}} </p> 
+                                        <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{ $item->area_condition == 'Dkaha' ? 'Dhaka' : 'Other' }}</p>
+                                    </td>
+                                    <td>
+                                        <span class="text-xs">
+                                            {{$item->number ?? "N/A"}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </x-dashboard.table>
                 </x-dashboard.foreach>
             </x-dashboard.section.inner>

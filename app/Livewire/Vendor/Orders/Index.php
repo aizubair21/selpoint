@@ -15,20 +15,25 @@ class Index extends Component
     use WithPagination;
     #[URL]
     public $nav = 'Pending';
-    public $order;
+
+    public $otme, $account;
 
     public function mount()
     {
         $this->getData();
+        $this->account = auth()->user()->account_type();
     }
 
 
-    public function getData() {}
+    public function getData()
+    {
+        // $this->otme = auth()->user()->orderToMe()->where(['belongs_to_type' => $this->account]);
+    }
 
 
     public function render()
     {
-        $order = auth()->user()->orderToMe()->where(['status' => $this->nav]);
-        return view('livewire.vendor.orders.index', compact('order'));
+        $data = auth()->user()->orderToMe()->where(['status' => $this->nav, 'belongs_to_type' => $this->account])->paginate(20);
+        return view('livewire.vendor.orders.index', compact('data'));
     }
 }

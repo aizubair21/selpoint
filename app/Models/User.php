@@ -170,7 +170,7 @@ class User extends Authenticatable
     }
     public function isReseller()
     {
-        return $this->requestsToBeReseller()?->where(['status' => 'Active'])->first();
+        return $this->requestsToBeReseller()?->where(['status' => 'Active'])->first() ? true : false;
     }
     public function isRider()
     {
