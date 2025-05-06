@@ -13,7 +13,7 @@ use Livewire\Attributes\Url;
 class Orders extends Component
 {
     #[URL]
-    public $nav = 'Pending', $trash;
+    public $nav = 'Pending';
     public $orders;
 
     #[On('refresh')]
@@ -28,10 +28,22 @@ class Orders extends Component
         $this->dispatch('refresh');
     }
 
+    public function cancelOrder($id)
+    {
+        Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user', 'id' => $id])->update(
+            [
+                'status' => 'Cancelled',
+            ]
+        );
+        $this->dispatch('refresh');
+    }
+
 
     public function getData()
     {
-        $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user'])->get();
+        if ($this->nav) {
+            $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user', 'status' => $this->nav])->get();
+        }
     }
 
     public function render()

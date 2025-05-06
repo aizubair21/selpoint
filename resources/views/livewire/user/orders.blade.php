@@ -11,10 +11,14 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    <x-nav-link href="?nav='Received'" :active="$nav == 'Received'">Received</x-nav-link>
-                    <x-nav-link href="?nav='Pending'" :active="$nav == 'Pending'">Pending</x-nav-link>
-                    <x-nav-link href="?nav='Rejected'" :active="$nav == 'Rejected'">Rejected</x-nav-link>
-                    <x-nav-link href="?trash" :active="$trash">Cancelled</x-nav-link>
+                    <div class="flex justify-between">
+                        <div>
+                            <x-nav-link href="?nav=Received" :active="$nav == 'Received'">Done</x-nav-link>
+                            <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
+                            <x-nav-link href="?nav=Rejected" :active="$nav == 'Rejected'">Reject</x-nav-link>
+                        </div>
+                        <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel</x-nav-link>
+                    </div>
                 </x-slot>
             </x-dashboard.section.header>
 
@@ -68,8 +72,8 @@
                                     {{$item->total ?? "N/A"}} TK
                                 </td>
                                 <td>
-                                    {{-- <x-secondary-button>cancel</x-secondary-button> --}}
-                                    <x-danger-button wire:click="remove({{$item->id}})">Cancel</x-danger-button>
+                                    <x-secondary-button wire:click="cancelOrder({{$item->id}})">cancel</x-secondary-button>
+                                    {{-- <x-danger-button wire:click="remove({{$item->id}})">Del</x-danger-button> --}}
                                 </td>
 
                             </tr>

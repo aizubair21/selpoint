@@ -4,7 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Models\cart;
 use App\Models\CartOrder;
-use App\Models\order;
+use App\Models\Order;
 use Livewire\Component;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +21,13 @@ class SingleProductOrder extends Component
     public $product, $size, $total, $price;
 
     #[validate('required')]
-    public $name, $location, $phone, $quantity = 1;
+    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 80, $delevery = 'Courier';
 
     public function updated($property)
     {
         if ($property) {
             $this->total = $this->price * $this->quantity;
+            $this->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;;
         }
     }
 
@@ -46,11 +47,11 @@ class SingleProductOrder extends Component
     {
         $this->validate();
 
-        if (auth()->user()->id != $this->product->user_id) {
+        if (auth()->user()->id !== $this->product->user_id) {
 
             DB::transaction(function () {
 
-                $order = order::create(
+                $order = Order::create(
                     [
                         'user_id' => auth()->user()->id,
                         'user_type' => 'user',
@@ -62,9 +63,17 @@ class SingleProductOrder extends Component
                         // 'name' => $this->name,
                         // 'price' => $this->price,
                         'quantity' => $this->quantity,
+                        'total' => $this->total,
+                        'delevery' => $this->delevery,
+                        'number' => $this->phone,
+                        'area_condition' => $this->area_condition,
+                        'district' => $this->district,
+                        'upozila' => $this->upozila,
                         'location' => $this->location,
                         'phone' => $this->phone,
-                        'total' => $this->total,
+                        'road_no' => $this->road_no,
+                        'house_no' => $this->house_no,
+                        'shipping' => $this->shipping,
                         // 'buying_price' => $this->product?->buying_price,
                     ]
                 );
@@ -84,11 +93,8 @@ class SingleProductOrder extends Component
                         'buying_price' => $this->product?->buying_price ?? '0',
                     ]
                 );
-                $this->reset('name', 'phone', 'location');
-                $this->dispatch('success', "Product added to order list");
+                $this->redirectRoute("user.orders.view");
             });
-
-            $this->dispatch('error', 'have an error!');
         } else {
             $this->dispatch('warning', "You can't purchase your own product");
         }
