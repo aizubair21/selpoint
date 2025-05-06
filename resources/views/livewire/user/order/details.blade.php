@@ -29,6 +29,7 @@
                             <th>Quantity</th>
                             <th>Size</th>
                             <th>Price</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +45,8 @@
                                     <td>{{ $order->product?->name ?? "Not Found !" }}</td>
                                     <td> {{$order->quantity}} </td>
                                     <td> {{$order->size}} </td>
-                                    <td> {{ $order->price * $order->quantity }} </td>
+                                    <td> {{ $order->price}} </td>
+                                    <td> {{ $order->total}} </td>
                                     {{-- <td> {{$order->product?->buying_price ?? "0" }} </td> --}}
                                 </tr>
                                 {{-- @php

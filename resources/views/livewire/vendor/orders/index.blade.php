@@ -34,10 +34,18 @@
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
                 <x-slot name="title">
+                    Cancel by User
+                </x-slot>
+                <x-slot name="content">
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancelled'])->count() ?? "0"}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
                     Accepted
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accepted'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accept'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -52,10 +60,16 @@
                     Your Order
                 </x-slot>
                 <x-slot name="content">
-                    <div>
-                        <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
-                        <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancelled</x-nav-link>
-                        <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accepted</x-nav-link>
+                    <div class="flex justify-between">
+                        <div>
+                            <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
+                            <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancelled</x-nav-link>
+                            <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accepted</x-nav-link>
+                            <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel by User</x-nav-link>
+                        </div>
+
+                        {{-- <x-nav-link href="?nav=Trash" :active="$nav == 'Trash'">Trash</x-nav-link> --}}
+
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
@@ -70,7 +84,7 @@
                                 <th>#</th>
                                 <th></th>
                                 <th>ID</th>
-                                <th>User</th>
+                                <th>Owner</th>
                                 <th>Pd</th>
                                 <th>Unit</th>
                                 <th>Total</th>
@@ -86,12 +100,13 @@
                                 <tr>
                                     <td> {{$loop->iteration}} </td>
                                     <td> 
-                                        <x-nav-link-btn> view </x-nav-link-btn>    
+                                        <x-nav-link-btn href="{{route('vendor.orders.view', ['order' => $item->id])}}"> view </x-nav-link-btn>    
+                                        <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint </x-nav-link>    
                                     </td>
                                     <td> {{$item->id ?? "N/A"}} </td>
                                     <td>
                                         <div>
-                                            {{$item->user?->name ?? "N/A"}}
+                                            U
                                         </div>
                                     </td>
                                     <td> 

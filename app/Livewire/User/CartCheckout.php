@@ -81,6 +81,8 @@ class CartCheckout extends Component
             $ct = cart::where(['user_id' => auth()->user()->id])->get()->groupBy('belongs_to'); // get all cart group by belongs_to
             foreach ($ct as $reseller => $rp) {
                 // iterated by single reseller
+                $qty = 0;
+                $total = 0;
                 $order = Order::create(
                     [
                         'user_id' => auth()->user()->id,
@@ -92,8 +94,8 @@ class CartCheckout extends Component
                         'size' => 'Details',
                         'name' => 'Cart Order',
                         // 'price' => $this->tp,
-                        'quantity' => $this->q,
-                        'total' => $this->tp,
+                        // 'quantity' => $rp->sum('qty'),
+                        // 'total' => $this->tp,
                         // 'buying_price' => $this->product?->buying_price,
                         'delevery' => $this->delevery,
                         'number' => $this->phone,
@@ -109,6 +111,9 @@ class CartCheckout extends Component
                 );
 
                 foreach ($rp as $key => $item) {
+                    $qty += $item->qty;
+                    $total += $item->price * $item->qty;
+
                     CartOrder::create(
                         [
                             'user_id' => auth()->user()->id,
@@ -127,6 +132,12 @@ class CartCheckout extends Component
 
                     auth()->user()->myCarts()->delete($item->id);
                 }
+                Order::find($order->id)->update(
+                    [
+                        'quantity' => $qty,
+                        'total' => $total,
+                    ]
+                );
             }
         });
 

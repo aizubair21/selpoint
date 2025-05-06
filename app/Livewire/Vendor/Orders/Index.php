@@ -33,7 +33,12 @@ class Index extends Component
 
     public function render()
     {
-        $data = auth()->user()->orderToMe()->where(['status' => $this->nav, 'belongs_to_type' => $this->account])->paginate(20);
+
+        if ($this->nav == 'Trashed') {
+            $data = auth()->user()->orderToMe()->where(['belongs_to_type' => $this->account])->onlyTrashed();
+        } else {
+            $data = auth()->user()->orderToMe()->where(['status' => $this->nav, 'belongs_to_type' => $this->account])->paginate(20);
+        }
         return view('livewire.vendor.orders.index', compact('data'));
     }
 }

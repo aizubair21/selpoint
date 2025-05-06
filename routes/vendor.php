@@ -39,6 +39,7 @@ Route::get('/products/resell', vendorProductsResellPage::class)->name('vendor.pr
 Route::prefix('/order')->group(function () {
     Route::get('/', vendorOrderIndexPage::class)->name('vendor.orders.index');
     Route::get('/view/{order}/', vendorOrderViewPage::class)->name('vendor.orders.view');
+    Route::get('/print/client/{order}', vendorOrderCPrintPage::class)->name('vendor.orders.cprint');
 });
 
 

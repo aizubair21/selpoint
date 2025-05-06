@@ -1,6 +1,7 @@
 <div>
     @props(['data'])
     @if (isset($data) && count($data) > 0)
+        
         {{$slot}}
        
     @else
