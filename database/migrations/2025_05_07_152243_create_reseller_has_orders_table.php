@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('reseller_has_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id', 10)->nullable();
+            $table->string('belongs_to', 10)->nullable();
+            $table->string('quantity', 10)->nullable();
+            $table->string('total', 10)->nullable();
+            $table->string('status', 10)->nullable()->default('Pending');
+            $table->string('district', 10)->nullable();
+            $table->string('upozila', 10)->nullable();
+            $table->string('location', 10)->nullable();
+            $table->string('house_no', 10)->nullable();
+            $table->string('road_no', 10)->nullable();
+            $table->string('area_condition', 10)->nullable();
+            $table->string('shipping', 10)->nullable();
+            $table->string('delevery', 10)->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
         });
     }

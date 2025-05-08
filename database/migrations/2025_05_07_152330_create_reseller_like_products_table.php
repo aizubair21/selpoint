@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('reseller_like_products', function (Blueprint $table) {
             $table->id();
+            $table->string('user_id', 50)->nullable();
+            $table->string('product_id', 50)->nullable();
+            $table->string('quantity', 50)->nullable();
+            $table->string('attr', 50)->nullable();
+            $table->string('reseller_price', 50)->nullable();
+            $table->string('note', 50)->nullable();
             $table->timestamps();
         });
     }
