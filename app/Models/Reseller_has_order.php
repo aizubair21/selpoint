@@ -8,6 +8,8 @@ class Reseller_has_order extends Model
 {
     protected $fillable =
     [
+        'name',
+        'phone',
         'user_id',
         'belongs_to',
         'quantity',

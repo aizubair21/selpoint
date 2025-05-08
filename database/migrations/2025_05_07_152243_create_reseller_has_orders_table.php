@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('reseller_has_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 191)->nullable();
+            $table->string('phone', 191)->nullable();
             $table->string('user_id', 10)->nullable();
             $table->string('belongs_to', 10)->nullable();
             $table->string('quantity', 10)->nullable();
