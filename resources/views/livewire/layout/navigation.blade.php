@@ -15,11 +15,11 @@ new class extends component
     public function mount() 
     {
         $this->roles = auth()->user()->getRoleNames();
-        if (auth()->user()->active_nav && auth()->user()->active_nav != $this->roles->contains(auth()->user()->active_nav)) {
+        // dd(auth()->user()->active_nav);
+        if (!$this->roles->contains(auth()->user()->active_nav)) {
             auth()->user()->active_nav = $this->roles[0];
             auth()->user()->save();
         }
-        
         // set default nav
         $this->get = auth()->user()->active_nav;     
 

@@ -10,11 +10,11 @@ new class extends Component
 
     public function mount()
     {
-        // 
+        $ac = auth()->user()->account_type();
         // dd( auth()->user()->myProducts()->count());
-        $this->p = auth()->user()->myProducts()?->count();
-        $this->ca = auth()->user()->myCategory()?->count();
-        $this->por = auth()->user()->orderToMe()?->count();
+        $this->p = auth()->user()->myProducts()->where(['belongs_to_type' => $ac])?->count();
+        $this->ca = auth()->user()->myCategory()->where(['belongs_to' => $ac])?->count();
+        $this->por = auth()->user()->orderToMe()->where(['belongs_to_type' => $ac, 'status' => 'Pending'])?->count();
         // $this->tp = auth()->user()->myProducts()->Trashed()?->count();
     }
 }
@@ -27,7 +27,7 @@ new class extends Component
             Products
         </x-slot>
         <x-slot name="content">
-            @volt('product')
+            @volt('p')
                 <div>{{$this->p ?? "0"}}</div>
             @endvolt
         </x-slot>

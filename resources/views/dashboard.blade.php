@@ -278,7 +278,7 @@ new class extends Component {
          
         {{-- reseller dashboard overview  --}}
         <x-has-role name="reseller">
-            @includeIf('layouts.reseller.reseller')
+            @livewire('reseller.dashboard', key('reseller_dash'))
         </x-has-role>   
      @endif
  

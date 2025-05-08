@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->nullable();
+        Schema::create('reseller_like_products', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -21,9 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            //
-            $table->string('slug');
-        });
+        Schema::dropIfExists('reseller_like_products');
     }
 };
