@@ -36,10 +36,11 @@ class Edit extends Component
     public function mount()
     {
         $this->getDate();
+        // dd($this->data);
 
-        if (empty($this->vendor) || empty($this->vendorDocument)) {
-            $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
-        }
+        // if (empty($this->vendor) || empty($this->vendorDocument)) {
+        //     $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
+        // }
     }
 
 
@@ -126,16 +127,16 @@ class Edit extends Component
 
 
         if ($this->shop_tin_image) {
-            $data['shop_tin_image'] = $this->handleImageUpload($this->shop_tin_image, 'vendor-document', $this->vendorDocument['shop_tin_image']);
+            $data['shop_tin_image'] = $this->handleImageUpload($this->shop_tin_image, 'upgrade-document', $this->vendorDocument['shop_tin_image']);
         }
         if ($this->shop_trade_image) {
-            $data['shop_trade_image'] = $this->handleImageUpload($this->shop_trade_image, 'vendor-document', $this->vendorDocument['shop_trade_image']);
+            $data['shop_trade_image'] = $this->handleImageUpload($this->shop_trade_image, 'upgrade-document', $this->vendorDocument['shop_trade_image']);
         }
         if ($this->nid_front) {
-            $data['nid_front'] = $this->handleImageUpload($this->nid_front, 'vendor-document', $this->vendorDocument['nid_front']);
+            $data['nid_front'] = $this->handleImageUpload($this->nid_front, 'upgrade-document', $this->vendorDocument['nid_front']);
         }
         if ($this->nid_back) {
-            $data['nid_back'] = $this->handleImageUpload($this->nid_back, 'vendor-document', $this->vendorDocument['nid_back']);
+            $data['nid_back'] = $this->handleImageUpload($this->nid_back, 'upgrade-document', $this->vendorDocument['nid_back']);
         }
 
         $vd->update($data);

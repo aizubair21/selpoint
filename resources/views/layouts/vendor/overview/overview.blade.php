@@ -4,21 +4,21 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\order;
 
-new class extends Component
-{
-    public $p, $tp, $ca, $tor, $por;
+// new class extends Component
+// {
+//     public $p, $tp, $ca, $tor, $por;
 
-    public function mount()
-    {
-        $ac = auth()->user()->account_type();
-        // dd( auth()->user()->myProducts()->count());
-        $this->p = auth()->user()->myProducts()->where(['belongs_to_type' => $ac])?->count();
-        $this->ca = auth()->user()->myCategory()->where(['belongs_to' => $ac])?->count();
-        $this->por = auth()->user()->orderToMe()->where(['belongs_to_type' => $ac, 'status' => 'Pending'])?->count();
-        // $this->tp = auth()->user()->myProducts()->Trashed()?->count();
-    }
-}
+//     public function mount()
+//     {
+//     }
+// }
 
+$ac = auth()->user()->account_type();
+// dd( auth()->user()->myProducts()->count());
+$p = auth()->user()->myProducts()->where(['belongs_to_type' => $ac])?->count();
+$ca = auth()->user()->myCategory()->where(['belongs_to' => $ac])?->count();
+$por = auth()->user()->orderToMe()->where(['belongs_to_type' => $ac, 'status' => 'Pending'])?->count();
+// $tp = auth()->user()->myProducts()->Trashed()?->count();
 
 ?>
 <x-dashboard.overview.section>
@@ -27,9 +27,9 @@ new class extends Component
             Products
         </x-slot>
         <x-slot name="content">
-            @volt('p')
-                <div>{{$this->p ?? "0"}}</div>
-            @endvolt
+            
+                <div>{{$p ?? "0"}}</div>
+            
         </x-slot>
     </x-dashboard.overview.div>
     
@@ -49,9 +49,9 @@ new class extends Component
             Total Category
         </x-slot>
         <x-slot name="content">
-            @volt('product')
-                <div>{{$this->ca ?? "0"}}</div>
-            @endvolt
+            
+                <div>{{$ca ?? "0"}}</div>
+            
         </x-slot>
     </x-dashboard.overview.div>
 
@@ -61,11 +61,11 @@ new class extends Component
             Pending Order
         </x-slot>
         <x-slot name="content">
-            @volt('order')
+            
                 <div>
-                    {{$this->por ?? "0"}}
+                    {{$por ?? "0"}}
                 </div>
-            @endvolt
+            
         </x-slot>
     </x-dashboard.overview.div>
 

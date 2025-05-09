@@ -15,23 +15,23 @@
             }
         @endphp
         @if ($authRequest->status == 'Pending')
-            <div class="alert alert-info">
+            <div class="text-sm py-1 border-b border-t" style="color:yellow">
                     <strong>Pending</strong>, Your account is under reveiw now. You are requested to stay with patience. 
             </div>
         @endif
         @if ($authRequest->status == 'Active')
-            <div class="alert alert-success">
+            <div class="text-sm py-1 border-b border-t" style="color:green">
                     Your Membership is now in <strong>{{$authRequest->status}}</strong> with <strong>{{$authRequest->system_get_comission ?? "0"}}%</strong> comission sharing . Now you can sell your products.
             </div>
         @endif
         @if ($authRequest->status == 'Disabled' || $authRequest->status == 'Suspended')
-            <div class="alert alert-warning">
+            <div class="text-sm py-1 border-b border-t" style="color:red">
                     Your Membership is now <strong>{{$authRequest->status}}</strong> . <strong>{{ $authRequest->rejected_for ?? "For unknown reason  " }}</strong>
             </div>
         @endif
 
         @if ($authRequest->documents && $authRequest->documents?->deatline > carbon\Carbon::now())
-            <div class="text-sm text-warning">
+            <div class="text-xs py-3 text-gray-400">
                     You are requested to fill your required document, with deatline of
                     <strong>
                         {{Carbon\Carbon::parse($authRequest->documents->deatline)->toFormattedDateString()}} *.
@@ -39,8 +39,5 @@
                     After successfully authorize your document, you will be able to do your vendor daily jobs. Otherwise, you will be suspended.
             </div>
         @endif
-
-        
-      
     </div>
 </div>

@@ -7,29 +7,30 @@ use App\Models\reseller;
 use App\Models\rider;
 use App\Models\Product;
 use App\Models\Category;
-use function Livewire\Volt\{placeholder, computed};
+// use function Livewire\Volt\{placeholder, computed};
 
-new class extends Component {
-    public $usercount = 0, $vd, $avd, $ri, $ari, $rs, $ars, $adm = 0, $aadm, $vp, $avp, $cat;
+// new class extends Component {
+//     public $usercount = 0, $vd, $avd, $ri, $ari, $rs, $ars, $adm = 0, $aadm, $vp, $avp, $cat;
 
-    public function mount()
-    {
-        $this->userCount = User::all()->count();
-        $this->vd = vendor::query()->get()->count();
-        $this->avd = vendor::query()->active()->get()->count();
-        // $this->riderCount = user::role('rider')->count();
-        $this->rs = reseller::query()->count();
-        $this->ars = reseller::query()->active()->count();
-        $this->ri = rider::query()->count();
-        $this->ari = rider::query()->active()->count();
-        $this->adm = user::role('admin')->count();
+//     public function mount()
+//     {
+        
+//     }
+// } 
 
-        $this->vp = Product::query()->get()->count();
+$userCount = User::all()->count();
+$vd = vendor::query()->get()->count();
+$avd = vendor::query()->active()->get()->count();
+// $riderCount = user::role('rider')->count();
+$rs = reseller::query()->count();
+$ars = reseller::query()->active()->count();
+$ri = rider::query()->count();
+$ari = rider::query()->active()->count();
+$adm = user::role('admin')->count();
 
-        $this->cat = Category::count();
+$vp = Product::query()->get()->count();
 
-    }
-} 
+$cat = Category::count();
 
 ?>
 
@@ -59,11 +60,11 @@ new class extends Component {
                         Admins
                     </x-slot>
                     <x-slot name="content">
-                        @volt('admin')
+                        
                             <div>
-                                {{$this->adm}}
+                                {{$adm}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
@@ -71,11 +72,11 @@ new class extends Component {
                         Vendors
                     </x-slot>
                     <x-slot name="content">
-                        @volt('vendor')
+                        
                             <div>
-                                {{$this->vd}} / {{$this->avd}}
+                                {{$vd}} / {{$avd}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
@@ -83,11 +84,11 @@ new class extends Component {
                         Resellers
                     </x-slot>
                     <x-slot name="content">
-                        @volt('reseller')
+                        
                             <div>
-                                {{$this->rs}} / {{$this->ars}}
+                                {{$rs}} / {{$ars}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
@@ -95,11 +96,11 @@ new class extends Component {
                         Riders
                     </x-slot>
                     <x-slot name="content">
-                        @volt('rider')
+                        
                             <div>
-                                {{$this->ri}} / {{$this->ari}}
+                                {{$ri}} / {{$ari}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
@@ -107,11 +108,11 @@ new class extends Component {
                         Users
                     </x-slot>
                     <x-slot name="content">
-                        @volt('user')
+                        
                             <div>
-                                {{$this->userCount}}
+                                {{$userCount}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 
@@ -121,11 +122,11 @@ new class extends Component {
                         Products
                     </x-slot>
                     <x-slot name="content">
-                        @volt('admin')
+                        
                             <div>
-                                {{$this->vp}}
+                                {{$vp}}
                             </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
                 <x-dashboard.overview.div>
@@ -133,11 +134,11 @@ new class extends Component {
                         Category
                     </x-slot>
                     <x-slot name="content">
-                        @volt('cat')
+                        
                         <div>
                             {{$cat}}
                         </div>
-                        @endvolt
+                        
                     </x-slot>
                 </x-dashboard.overview.div>
             </x-dashboard.overview.section>

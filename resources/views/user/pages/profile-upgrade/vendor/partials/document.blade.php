@@ -4,7 +4,7 @@
     <x-dashboard.section>
         <x-dashboard.section.inner>
             <x-input-field :data="$data->documents??[]" label="Your NID No" name="nid" error="nid" :required='true' />
-            <div class="flex">
+            <div class="md:flex">
                 <div style="width:250px">
                     <x-input-label> Your NID Front Image </x-input-label>
                 </div>
@@ -13,7 +13,7 @@
                     <x-text-input type="file" name="nid_front" />
                 </div>
             </div>
-            <div class="flex">
+            <div class="md:flex">
                 <div style="width:250px">
                     <x-input-label> Your NID Back Image </x-input-label>
                 </div>
@@ -25,7 +25,7 @@
     
             <x-hr/>
             <x-input-field :data="$data->documents??[]" label="Your TIN No" name="shop_tin" error="tin" :required='true' />
-            <div class="flex">
+            <div class="md:flex">
                 <div style="width:250px">
                     <x-input-label> Your TIN Image </x-input-label>
                 </div>

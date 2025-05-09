@@ -47,12 +47,12 @@
             <x-hr/>
 
             <x-input-file label="NID Image (front side)" error='nid_front'>
-                <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$vendorDocument->nid_front)}}" alt="">                
+                <img width="300px" height="200px" src="{{asset('storage/'.$vendorDocument->nid_front)}}" alt="">                
             </x-input-file>
             <x-hr/>
             
             <x-input-file label="NID Image (back side)" error='nid_back'>
-                <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$vendorDocument->nid_back)}}" alt="">                    
+                <img width="300px" height="200px" src="{{asset('storage/'.$vendorDocument->nid_back)}}" alt="">                    
             </x-input-file>
             <x-hr />
         </x-dashboard.section>
@@ -64,7 +64,7 @@
             <x-hr/>
 
             <x-input-file label="TIN Image" error='shop_tin'>
-                    <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_tin_image'])}}" alt="">                  
+                    <img width="300px" height="200px" src="{{asset('storage/'.$vendorDocument['shop_tin_image'])}}" alt="">                  
             </x-input-file>
             {{-- <x-hr /> --}}
         </x-dashboard.section>
@@ -77,7 +77,7 @@
             <x-hr/>
 
             <x-input-file label="Trade License Image" error='shop_trade_image'>
-                <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$vendorDocument['shop_trade_image'])}}" alt="">
+                <img width="300px" height="200px" src="{{asset('storage/'.$vendorDocument['shop_trade_image'])}}" alt="">
             </x-input-file>
 
            

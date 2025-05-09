@@ -12,12 +12,13 @@ class Edit extends Component
     #[URL]
     public $id, $filter, $nav = 'documents';
 
-    public $resellers, $deatline, $requestStatus;
+    public $resellers, $deatline, $requestStatus, $comission;
 
     // mount 
     public function mount()
     {
         $this->getData();
+        $this->comission = $this->resellers->system_get_comission ?? "0";
         if (!$this->resellers?->id) {
             $this->redirectIntended(route("system.reseller.index", ['filter' => $this->filter]), true);
         }
@@ -47,6 +48,15 @@ class Edit extends Component
 
         $this->dispatch('success', "Status Updated !");
         $this->dispatch('refresh');
+    }
+
+    public function setComission()
+    {
+        $this->resellers->system_get_comission = $this->comission;
+        $this->resellers->save();
+
+        $this->dispatch('refresh');
+        $this->dispatch('success', "Comission Set !");
     }
 
 

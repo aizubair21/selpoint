@@ -58,6 +58,23 @@
                             </div>
                         </form>
                     </div>
+
+                    <x-hr/>
+                    <div>
+                        <form wire:submit.prevent="setComission">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <input type="text" wire:model.live="comission" class="rounded shadow" id="">
+                                    <div class='text-xs'>
+                                        You take {{$resellers->system_get_comission ?? "0"}}% profit from this vendor revinew.
+                                    </div>
+                                </div>
+                                <div>
+                                    <x-primary-button>set</x-primary-button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -103,12 +120,12 @@
                 <x-hr/>
     
                 <x-input-file label="NID Image (front side)" error='nid_front'>
-                    <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$resellersDocument->nid_front)}}" alt="">                
+                    <img width="300px" height="200px" src="{{asset('storage/'.$resellersDocument->nid_front)}}" alt="">                
                 </x-input-file>
                 <x-hr/>
                 
                 <x-input-file label="NID Image (back side)" error='nid_back'>
-                    <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$resellersDocument->nid_back)}}" alt="">                    
+                    <img width="300px" height="200px" src="{{asset('storage/'.$resellersDocument->nid_back)}}" alt="">                    
                 </x-input-file>
                 <x-hr />
             </x-dashboard.section>
@@ -120,7 +137,7 @@
                 <x-hr/>
     
                 <x-input-file label="TIN Image" error='shop_tin'>
-                        <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$resellersDocument['shop_tin_image'])}}" alt="">                  
+                        <img width="300px" height="200px" src="{{asset('storage/'.$resellersDocument['shop_tin_image'])}}" alt="">                  
                 </x-input-file>
             </x-dashboard.section>
     
@@ -131,7 +148,7 @@
                 <x-hr/>
     
                 <x-input-file label="Trade License Image" error='shop_trade_image'>
-                    <img width="300px" height="200px" src="{{asset('/storage/vendor-document/'.$resellersDocument['shop_trade_image'])}}" alt="">
+                    <img width="300px" height="200px" src="{{asset('storage/'.$resellersDocument['shop_trade_image'])}}" alt="">
                 </x-input-file>
     
             

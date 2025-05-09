@@ -10,7 +10,7 @@ class reseller_has_document extends Model
     // protected $table = 'vendor_has_document';
     protected $fillable = [
         'user_id',
-        'vendor_id',
+        'reseller_id',
         'deatline',
 
         // verification 
