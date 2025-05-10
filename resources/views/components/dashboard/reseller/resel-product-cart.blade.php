@@ -98,11 +98,11 @@ new class extends Component
 
 <div>
     <div class="bg-white rounded shadow overflow-hidden relative">
-        <div class="h-[100px] shadow-md p-1">
-            <img height="100px" src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
+        <div class="h-[150px] overflow-hidden shadow-md p-1">
+            <img src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
         </div>
-        <div class="p-2">
-            <x-nav-link href="" >
+        <div class="p-2 bg-white">
+            <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}" >
                 <div class="text-sm">{{$pd->title ?? "N/A"}}</div>
             </x-nav-link>
             <div class="text-md bold">

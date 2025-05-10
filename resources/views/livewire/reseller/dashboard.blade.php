@@ -34,25 +34,27 @@
         </x-dashboard.overview.section>
 
 
-        <x-dashboard.section.header>
+        {{-- <x-dashboard.section.header>
             <x-slot name="title">
                 Resel Trending Products
             </x-slot>
             <x-slot name="content">
                 Resel from trending product of our store.
             </x-slot>
-        </x-dashboard.section.header>
+        </x-dashboard.section.header> --}}
 
-    <x-dashboard.section.inner>
-        
-        <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, 170px); grid-gap:10px">
-            @foreach ($products as $p)
-                @includeIf('components.dashboard.reseller.resel-product-cart', ['pd' => $p])
-            @endforeach
-        </div>
-
-
-    </x-dashboard.section.inner>
-
+        <x-dashboard.section.inner>
+            <x-hr/>
+            @livewire('reseller.resel.categories', key('resel_101'))
+            
+        </x-dashboard.section.inner>
+        <x-hr/>
+        <x-dashboard.section.inner>
+            <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, 170px); grid-gap:10px">
+                @foreach ($products as $p)
+                    @includeIf('components.dashboard.reseller.resel-product-cart', ['pd' => $p])
+                @endforeach
+            </div>
+        </x-dashboard.section.inner>
     </x-dashboard.container>
 </div>

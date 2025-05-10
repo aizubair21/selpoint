@@ -189,8 +189,8 @@
             });
         }
         
-         // copyPaymentNumber('paymentTo')
-         function copyPaymentNumber(e, elementId) 
+        // copyPaymentNumber('paymentTo')
+        function copyPaymentNumber(e, elementId) 
         {
             const paymentNumberInput = document.getElementById(elementId);
             const tempTextarea = document.createElement("textarea");
