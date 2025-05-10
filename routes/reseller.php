@@ -11,6 +11,7 @@ use App\Livewire\Reseller\Categories\Index as categoryIndexPage;
 
 use App\Livewire\Reseller\Resel\Products\Index as reselProductsIndexPage;
 use App\Livewire\Reseller\Resel\Products\View as reselProductViewPage;
+use App\Livewire\Reseller\Resel\Categories as reselCategoriesViewPage;
 
 
 Route::prefix('/r/')->group(function () {
@@ -27,4 +28,5 @@ Route::prefix('/r/')->group(function () {
     // resel product view 
     Route::get('/resel', reselProductsIndexPage::class)->name('reseller.resel-product.index');
     Route::get('/resel/product/{pd}', reselProductViewPage::class)->name('reseller.resel-product.veiw');
+    Route::get('/resel/categories', reselCategoriesViewPage::class)->name('reseller.resel-products.catgory');
 })->middleware(AbleTo::class . ":access_reseller_dashboard");
