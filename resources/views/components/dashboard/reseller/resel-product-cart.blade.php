@@ -98,7 +98,7 @@ new class extends Component
 
 <div>
     <div class="bg-white rounded shadow overflow-hidden relative">
-        <div class="h-[150px] overflow-hidden shadow-md p-1">
+        <div class="h-[120px] overflow-hidden shadow-md p-1">
             <img src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
         </div>
         <div class="p-2 bg-white">

@@ -205,6 +205,22 @@ new class extends component
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+             @includeif('layouts.responsive_navigation')
+
+            @if (auth()->user()->hasRole('vendor') && $this->get == 'vendor')
+                {{-- vendor primary nav  --}}
+                @includeif('layouts.vendor.navigation.primary')
+            @endif
+                
+            @if (auth()->user()->hasRole('reseller') && $this->get == 'reseller')
+                {{-- reseller primary nav  --}}
+                @includeif('layouts.reseller.navigation.primary')
+            @endif
+                
+            @if (auth()->user()->hasRole('rider') && $this->get == 'rider')
+                {{-- rider primary nav  --}}
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

@@ -116,19 +116,24 @@ $cat = Category::count();
                     </x-slot>
                 </x-dashboard.overview.div>
                 
-            
                 <x-dashboard.overview.div>
                     <x-slot name="title">
-                        Products
+                        <div class="flex">
+                            Products
+                            <x-nav-link href="">
+                                view
+                            </x-nav-link>
+                        </div>
                     </x-slot>
                     <x-slot name="content">
                         
-                            <div>
-                                {{$vp}}
-                            </div>
+                        <div>
+                            {{$vp}}
+                        </div>
                         
                     </x-slot>
                 </x-dashboard.overview.div>
+
                 <x-dashboard.overview.div>
                     <x-slot name="title">
                         Category

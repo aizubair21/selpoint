@@ -12,7 +12,7 @@
     @endcan
 
     @can('resellers_view')
-        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        <x-responsive-nav-link :href="route('system.reseller.index')" :active="request()->routeIs('system.reseller.*')">
             {{ __('Reseller') }}
         </x-responsive-nav-link>
     @endcan 
@@ -23,6 +23,11 @@
         </x-responsive-nav-link>
     @endcan
 
+    @can('role_list')
+        <x-responsive-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
+            {{ __('ViP') }}
+        </x-responsive-nav-link>
+    @endcan 
     @can('role_list')
         <x-responsive-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
             {{ __('Role') }}

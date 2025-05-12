@@ -172,7 +172,7 @@ new class extends Component
         <hr>
         <div class="py-1 my-2" style="">Quantity: {{$product->unit}}</div>
         
-        <div wire:show="!request()->routeIs('reseller.resel-product.view')" class="purchase-info md:flex justify-start items-center w-full">
+        <div class="purchase-info md:flex justify-start items-center w-full">
             <a wire:navigate type="button" class="sm:mb-2 md:mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
                 <i class="fas fa-arrow-right mx-2"></i>Buy Now 
             </a>

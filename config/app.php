@@ -126,9 +126,9 @@ return [
     /**
      * custom config
      */
-    'ref' => env('ref', 'REF101U'),
+    'ref' => env('REF', 'REF101U'),
     'comission' => env('COMISSION', true),
     'vip' => env('VIP', true),
-    'system_email' => env('SYSTEM_EMAIL', 'admin247@selpoint.com'),
+    'system_email' => env('SYSTEM_EMAIL', 'admin247@eruhi.com'),
 
 ];

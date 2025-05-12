@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\user_has_refs as uref;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +15,8 @@ new #[Layout('layouts.guest')] class extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
+    public $reference;
+    
 
     /**
      * Handle an incoming registration request.
@@ -25,6 +28,14 @@ new #[Layout('layouts.guest')] class extends Component
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
+
+        //validate the reference 
+        if ( !empty($this->reference) && uref::where(['ref' => $this->reference])->exists()) {
+            $validated['reference'] = $this->reference;
+            $validated['reference_accepted_at'] = \Carbon\Carbon::now();    
+        }else{
+            $validated['reference'] = config('app.ref');    
+        }
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -73,6 +84,17 @@ new #[Layout('layouts.guest')] class extends Component
                             name="password_confirmation" required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        {{-- referrence  --}}
+        <div class="mt-4">
+            <x-input-label for="reference" value='Reference'></x-input-label>
+
+            <x-text-input wire:model="reference" id="rejerence" class="block mt-1 w-full"
+                            type="number"
+                            name="reference" />
+
+            <x-input-error :messages="$errors->get('reference')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

@@ -26,6 +26,10 @@ use App\Livewire\System\Resellers\Edit as systemResellerEditPage;
 use App\Livewire\System\Riders\Index as systemRiderIndexPage;
 use App\Livewire\System\Riders\Edit as systemRiderEditPage;
 
+use App\Livewire\System\Vip\Package\Index as systemVipIndexPage;
+use App\Livewire\System\Vip\Users as systemVipUsersIndex;
+use App\Livewire\System\Vip\Package\Create as systemVipCreatePage;
+
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -95,4 +99,15 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
         Route::get('/', systemRiderIndexPage::class)->name("system.rider.index")->middleware(AbleTo::class . ":riders_view");
         Route::get('/{id}/edit', systemRiderEditPage::class)->name('system.rider.edit')->middleware(AbleTo::class . ":riders_edit");
     });
+
+
+    /** 
+     * VIP 
+     */
+    Route::get('vip/index', systemVipIndexPage::class)->name('system.vip.index');
+    Route::get('vip/create', systemVipCreatePage::class)->name('system.vip.crate');
+
+    // Route::get('vip/edit/{id}', )->name('system.vip.edit');
+
+    Route::get('vip/users', systemVipUsersIndex::class)->name('system.vip.users');
 });

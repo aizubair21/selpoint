@@ -2,6 +2,14 @@
     {{-- If your happiness depends on money, you will never be happy with yourself. --}}
     <x-dashboard.page-header>
         Orders
+        <br>
+        
+        @if (auth()->user()->active_nav == 'reseller')     
+            <div>
+                <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')" > To Me </x-nav-link>
+                <x-nav-link href="{{route('reseller.resel-order.index')}}" :active="request()->routeIs('reseller.resel-order.*')" > Resel </x-nav-link>
+            </div>
+        @endif
         
     </x-dashboard.page-header>
 
@@ -77,6 +85,7 @@
             <x-dashboard.section.inner>
 
                 <x-dashboard.foreach :data="$data">
+                    
                     {{$data->links()}}
                     <x-dashboard.table>
                         <thead>
@@ -146,6 +155,7 @@
                     </x-dashboard.table>
                 </x-dashboard.foreach>
             </x-dashboard.section.inner>
+
         </x-dashboard.section>
     </x-dashboard.container>
 </div>

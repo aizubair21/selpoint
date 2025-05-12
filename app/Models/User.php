@@ -177,7 +177,7 @@ class User extends Authenticatable
         return $this->requestsToBeRider()?->where(['status' => 'Active'])->first();
     }
 
-    private function myPd()
+    private function papp()
     {
         return $this->hasMany(Product::class);
     }
@@ -200,16 +200,16 @@ class User extends Authenticatable
 
     public function myProducts()
     {
-        return $this->myPd()->where(['belongs_to_type' => $this->account_type()]);
+        return $this->papp()->where(['belongs_to_type' => $this->account_type()]);
     }
 
     // public function myProductsAsVendor()
     // {
-    //     return $this->myPd()->where(['belongs_to_type' => 'vendor']);
+    //     return $this->papp()->where(['belongs_to_type' => 'vendor']);
     // }
     // public function myProductsAsReseller()
     // {
-    //     return $this->myPd()->where(['belongs_to_type' => 'reseller']);
+    //     return $this->papp()->where(['belongs_to_type' => 'reseller']);
     // }
 
 

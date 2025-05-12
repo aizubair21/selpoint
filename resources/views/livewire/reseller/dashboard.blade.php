@@ -10,7 +10,7 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    34q3
+                    {{$tp}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -19,7 +19,7 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    34q3
+                    {{$category}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -28,7 +28,7 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    34q3
+                    {{$vendor}}
                 </x-slot>
             </x-dashboard.overview.div>
         </x-dashboard.overview.section>
@@ -44,9 +44,10 @@
         </x-dashboard.section.header> --}}
 
        
+        <x-hr/>
     </x-dashboard.container>
-    <x-hr/>
     @livewire('reseller.resel.categories', key('resel_101'))
+
     <x-dashboard.container>
         <x-hr/>
         <x-dashboard.section.inner>

@@ -1,79 +1,91 @@
-@if(auth()->user()->hasAnyRole(['admin', 'system']))
 
-    @can('admin_view')
-        @if (Route::has('system.admin'))
-            <x-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
-                {{ __('Admins') }}
+    @if(auth()->user()->hasAnyRole(['admin', 'system']))
+    
+       
+        @can('vendors_view')     
+            @if (Route::has('system.vendor.index'))
+                <x-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
+                    {{ __('Vendor') }}
+                </x-nav-link>
+            @endif
+        @endcan
+    
+        @can('resellers_view')                  
+    
+            <x-nav-link :href="route('system.reseller.index')" :active="request()->routeIs('system.reseller.*')">
+                {{ __('Reseller') }}
             </x-nav-link>
-        @endif      
-    @endcan
+        @endcan 
 
-    @can('vendors_view')     
-        @if (Route::has('system.vendor.index'))
-            <x-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
-                {{ __('Vendor') }}
+        @can('users_view')
+            <x-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
+                {{ __('Users') }}
             </x-nav-link>
-        @endif
-    @endcan
+        @endcan
+    
+      
+    
+    @endif    
+    
+    
+    {{-- dropdown  --}}
+    @if (auth()->user()->hasRole('system'))    
+    
+        <div class="flex items-center">
+            <x-dropdown class="self-center">
+                <x-slot name="trigger">
+                    <x-secondary-button>more</x-secondary-button>
+                </x-slot>
+                <x-slot name="content">
 
-    @can('resellers_view')                  
+                    @can('admin_view')
+                        @if (Route::has('system.admin'))
+                            <x-dropdown-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
+                                {{ __('Admins') }}
+                            </x-dropdown-link>
+                        @endif      
+                    @endcan
 
-        <x-nav-link :href="route('system.reseller.index')" :active="request()->routeIs('system.reseller.*')">
-            {{ __('Reseller') }}
-        </x-nav-link>
-    @endcan 
-
-    @can('riders_view')
-        <x-nav-link :href="route('system.rider.index')" :active="request()->routeIs('system.rider.*')">
-            {{ __('Rider') }}
-        </x-nav-link>
-    @endcan
-
-@endif    
+                    @can('riders_view')
+                        <x-dropdown-link :href="route('system.rider.index')" :active="request()->routeIs('system.rider.*')">
+                            {{ __('Rider') }}
+                        </x-dropdown-link>
+                    @endcan
+                    <x-hr/>
+                    <x-dropdown-link href="">
+                        Products
+                    </x-dropdown-link>
+                    <x-hr/>
 
 
-{{-- dropdown  --}}
-@if (auth()->user()->hasRole('system'))    
-    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    {{ __('Role') }}
-    </x-nav-link>
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    {{ __('Permission') }}
-    </x-nav-link>
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    {{ __('Comission') }}
-    </x-nav-link>
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    {{ __('Withdraw') }}
-    </x-nav-link>
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-    {{ __('Store') }}
-    </x-nav-link> --}}
-
-    @can('role_list')
-                    
-    <x-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
-        {{ __('Role') }}
-    </x-nav-link>
-    @endcan
-
-    @can('users_view')
-    <x-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
-        {{ __('Users') }}
-    </x-nav-link>
-    @endcan
-
-    @can('withdraw_manage')
-    <x-nav-link :href="route('profile.edit')">
-        {{ __('Withdraw') }}
-    </x-nav-link>
-    @endcan
-
-    <x-nav-link :href="route('profile.edit')">
-        {{ __('Comission') }}
-    </x-nav-link>
-    <x-nav-link :href="route('profile.edit')">
-        {{ __('Store') }}
-    </x-nav-link>
-
-@endif
+                    @can('role_list')           
+                        <x-dropdown-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
+                            {{ __('VIP') }}
+                        </x-dropdown-link>
+                    @endcan
+                
+                    @can('role_list')           
+                        <x-dropdown-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
+                            {{ __('Role') }}
+                        </x-dropdown-link>
+                    @endcan
+                
+                    @can('withdraw_manage')
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Withdraw') }}
+                    </x-dropdown-link>
+                    @endcan
+                
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Comission') }}
+                    </x-dropdown-link>
+                    <x-dropdown-link :href="route('profile.edit')">
+                        {{ __('Store') }}
+                    </x-dropdown-link>
+        
+                </x-slot>
+            </x-dropdown>
+        </div>
+    
+    
+    @endif
