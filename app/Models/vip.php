@@ -41,7 +41,7 @@ class vip extends Model
 
     public function package()
     {
-        return $this->hasOne(VipPackage::class, 'id', 'package_id');
+        return $this->hasOne(Packages::class, 'id', 'package_id');
     }
 
     /**

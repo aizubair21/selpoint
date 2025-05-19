@@ -60,12 +60,12 @@
             </div>
 
             <div class="px-3 pb-3">
-                <hr>
+                <x-hr />
                 <div class="vip_price text_secondary" style="font-size: 35px; font-weight:bolder; line-height:40px">
                     {{
                         $item->price
                     }}
-                    <div class="vip_price_currency text-dark bold rounded-circle d-inline-block" style="font-size: 15px; text-align:left; line-height:5px; font-weight:300;">
+                    <div class="inline-block" style="font-size: 15px; text-align:left; line-height:5px; font-weight:300;">
                         TK
                     </div>
                 </div>
@@ -92,9 +92,10 @@
                         <i {{$attributes->class(['fa-check-circle'=> $isActive, 'fa-arrow-right' => !$isActive])->merge(['class' => 'fas mx-2'])}}></i> 
                     </a> --}}
 
-                     <a {{$attributes->class(['selected_btn disable' => $isActive])->merge(["class" => 'vip_button d-block text-center py-2 border'])}} href="{{$href}}"> View Details 
+                    {{-- <x-nav-link {{$attributes->class(['selected_btn disable' => $isActive])->merge(["class" => 'vip_button d-block text-center py-2 border'])}} href="{{$href}}"> View Details 
                         <i {{$attributes->class(['fa-check-circle'=> $isActive, 'fa-arrow-right' => !$isActive])->merge(['class' => 'fas mx-2'])}}></i> 
-                    </a>
+                    </x-nav-link> --}}
+                    <x-nav-link-btn href="{{route('user.package.checkout', ['id' => $item->id])}}" >View Details</x-nav-link-btn>
                 @endisset
             </div>
             
@@ -125,33 +126,6 @@
             transition: all linear .3s;
         }
     </style>
-    <div id="customModal" class="position-hidden w-100 h-100 d-flex justify-content-center align-items-center" style="background-color: #959595d3">
-        <div style="width: 100%; max-width:400px;" class="bg-white shadow rounded">
-            <div class="bold px-3 py-2 head border-bottom d-flex justify-content-between align-items-center">
-                <h4>
-                    Refer and Earn
-                </h4>
-
-                <button onclick="hideModal()" class="bg-white border-0 rounded text-danger">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="px-3 py-2 my-2">
-                <label class="" for="link">Your refer link</label>
-                <input type="text" value="htts://hrit.local/package/1/purchage?refer=a;sdjf;asfj;sffasd58768" id="refer_link_display" placeholder="Refer Link" class="form-control ">
-                <hr>
-                <div class="d-flex align-items-center">
-                    <button onclick="copy()" class="btn btn-md btn-info m-1">COPY <i class="fas fa-copy mx-2"></i> </button>
-                    {{-- <button class="btn btn-success btn-md m-1">SHARE <i class="fas fa-share mx-2"></i> </button> --}}
-                </div>
-            </div>
-
-            <div class="border-top px-3 py-2 text-right">
-                <button onclick="hideModal()" class="btn btn-default border btn-md">Close</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         function showModal() 

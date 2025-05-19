@@ -24,8 +24,10 @@ use App\Livewire\User\Upgrade\Vendor\Edit as upgradeToVendorEdit;
 use App\Livewire\User\Upgrade\Rider\Index as upgradeToRiderIndex;
 use App\Livewire\User\Upgrade\Rider\Edit as upgradeToRiderEdit;
 use App\Livewire\User\Upgrade\Rider\Create as upgradeToRiderCreate;
-
-
+use App\Livewire\User\Vip\Index;
+use App\Livewire\User\Vip\Package\Checkout;
+use App\Livewire\User\Vip\Package\Index as PackageIndex;
+use App\Livewire\User\Vip\Package\Purchase;
 
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
@@ -83,6 +85,11 @@ Route::middleware('auth')->group(function () {
         Route::get('orders/details/{id}', Details::class)->name('user.orders.details');
 
         Route::get('carts/checkout', CartCheckout::class)->name('user.carts.checkout');
+
+        // vip 
+        Route::get('vip', Index::class)->name('user.vip.index');
+        Route::get('vip/packages', PackageIndex::class)->name('user.vip.package');
+        Route::get('vip/packages/{id}', Checkout::class)->name('user.package.checkout');
     });
 
     // Route::prefix('/upgrade/reseller')->group(function () {
@@ -93,7 +100,6 @@ Route::middleware('auth')->group(function () {
     //     Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
     //     Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
     // });
-
 
     Route::prefix('dashboard')->group(function () {
 

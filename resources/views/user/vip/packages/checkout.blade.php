@@ -93,35 +93,7 @@
                             @endforeach
                         @endif
     
-                        {{-- <div class="p-2 rounded border mb-1">
-                            <div class="" for="">Bkash / Nogod / Roket</div>
-                            <div class="input-group w-100">
-                                <div type="text" id="paymentTo" class="border-0 form-control outline-0 shadow-0 bg-white py-2 text-dark bold"> +8801518391600 </div>
-                                <button class="btn btn-sm ml-5 py-0" id="" onclick="copyPaymentNumber(this, 'paymentTo')" >Copy</button>
-                            </div>
-                        </div>
-                        <div class="p-2 rounded border mb-1">
-                            <div class="" for="">Bkash / Nogod / Roket</div>
-                            <div class="input-group w-100">
-                                <div type="text" id="paymentTo" class="border-0 form-control outline-0 shadow-0 bg-white py-2 text-dark bold"> +8801518391600 </div>
-                                <button class="btn btn-sm ml-5 py-0" id="" onclick="copyPaymentNumber(this, 'paymentTo')" >Copy</button>
-                            </div>
-                        </div>
-
-                        <div class="p-2 rounded border mb-1">
-                            <div class="" for="">Bkash / Nogod / Roket</div>
-                            <div class="input-group w-100">
-                                <div type="text" id="paymentTo" class="border-0 form-control outline-0 shadow-0 bg-white py-2 text-dark bold"> +8801518391600 </div>
-                                <button class="btn btn-sm ml-5 py-0" id="" onclick="copyPaymentNumber(this, 'paymentTo')" >Copy</button>
-                            </div>
-                        </div> --}}
-                       
                         
-                        {{-- <div class=" my-2 border p-2">
-                            <div class="   text-center" for="">DBBL A/C</d>
-                            <input type="text" disabled id="backId" value="1511510297494" class="border-0 outline-0 shadow-0 bg-white form-control"> 
-                            <button class="btn btn-sm ml-5 py-0" id="" onclick="copyPaymentNumber(this, 'backId')" >Copy</button>
-                        </div> --}}
 
                     </div>
                 </div>

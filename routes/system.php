@@ -106,8 +106,7 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      */
     Route::get('vip/index', systemVipIndexPage::class)->name('system.vip.index');
     Route::get('vip/create', systemVipCreatePage::class)->name('system.vip.crate');
-
-    // Route::get('vip/edit/{id}', )->name('system.vip.edit');
+    // Route::get('vip/edit/{id}', systemVipEditPage::class)->name('system.vip.edit');
 
     Route::get('vip/users', systemVipUsersIndex::class)->name('system.vip.users');
 });
