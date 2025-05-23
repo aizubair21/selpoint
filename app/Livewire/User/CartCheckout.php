@@ -35,6 +35,10 @@ class CartCheckout extends Component
             $this->tp += $p;
         }
 
+        if (auth()->user()->myCarts->count() < 1) {
+            $this->redirectIntended('/', true);
+        }
+
         // dd($this->carts);
     }
 

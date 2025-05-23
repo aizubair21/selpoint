@@ -25,7 +25,7 @@ use App\Livewire\System\Resellers\Edit as systemResellerEditPage;
 
 use App\Livewire\System\Riders\Index as systemRiderIndexPage;
 use App\Livewire\System\Riders\Edit as systemRiderEditPage;
-
+use App\Livewire\System\Store\Index;
 use App\Livewire\System\Vip\Package\Index as systemVipIndexPage;
 use App\Livewire\System\Vip\Users as systemVipUsersIndex;
 use App\Livewire\System\Vip\Package\Create as systemVipCreatePage;
@@ -109,4 +109,11 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     // Route::get('vip/edit/{id}', systemVipEditPage::class)->name('system.vip.edit');
 
     Route::get('vip/users', systemVipUsersIndex::class)->name('system.vip.users');
+
+
+
+    /**
+     * system coin store management
+     */
+    Route::get('/coins', Index::class)->name('system.store.index');
 });

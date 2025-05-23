@@ -28,6 +28,7 @@ new class extends Component
                         'user_type' => 'user',
                         'belongs_to' => $this->product->user_id,
                         'belongs_to_type' => 'reseller',
+                        'qty' => 1,
                     ]
                 );
         

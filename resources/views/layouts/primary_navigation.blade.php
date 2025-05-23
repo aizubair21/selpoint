@@ -79,7 +79,7 @@
                     <x-dropdown-link :href="route('profile.edit')">
                         {{ __('Comission') }}
                     </x-dropdown-link>
-                    <x-dropdown-link :href="route('profile.edit')">
+                    <x-dropdown-link :href="route('system.store.index')">
                         {{ __('Store') }}
                     </x-dropdown-link>
         
