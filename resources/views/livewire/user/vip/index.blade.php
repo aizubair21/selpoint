@@ -19,7 +19,19 @@
 
     
         <div>
-            @includeIf('components.package-request', ['isRequestedAccepted' => $vip])
+            <x-dashboard.section>
+                <x-dashboard.section.header>
+                    <x-slot name="title">
+                        Your Subscription
+                    </x-slot>
+                    <x-slot name="content">
+                        You has subscribe our bellow package. To veiw details click on 'VIEW DETAILS' button, on package cart.  </strong>
+                    </x-slot>
+                </x-dashboard.section.header>
+                <x-dashboard.section.inner>
+                    @includeIf('components.package-request', ['isRequestedAccepted' => $vip])
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
             {{-- <x-package-request :isRequestedAccepted="$vip/> --}}
         
             @if (empty($vip) || !$vip)

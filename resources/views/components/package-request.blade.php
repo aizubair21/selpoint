@@ -60,8 +60,8 @@
                     </div> --}}
                 
                     @if(request()->routeIs('user.vip.*'))
-                    
-                        <div @class(['row jusitfy-content-between m-0 border p-1' => $req->status, 'block'])>
+            
+                        <div @class(['md:flex jusitfy-between items-start m-0' => $req->status, 'block'])>
                     
                             <div class='col-md-6 col-lg-4 mt-4'>
                                 <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); grid-gap:20px;" >
@@ -92,13 +92,31 @@
                                         <i class="fas fa-caret-right"></i>
                                     </a>
                     
-                                    <hr>
+                                    <x-hr/>
+                                    <div>
+                                        <div class="text-md">
+                                            Active From 
+                                        </div>
+                                        <div class="text-xs">
+                                            {{$req->package?->created_at->diffForHumans()}}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="text-md">
+                                            Validity 
+                                        </div>
+                                        <div class="text-xs">
+                                            {{$req->package?->valid_till?->diffForHumans() ?? 'Unlimited'}}
+                                        </div>
+                                    </div>
+
+                                    <x-hr/>
                                 </div>
                             </div>
                     
                             {{-- <div @class(["py-4 px-2 col-12 col-md-6 col-lg-4"]) style="display: grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); grid-gap:20px;" > --}}
-
-                            <div @class(["py-4 px-2 col-12 col-md-6 col-lg-4"]) >
+ 
+                            <div @class(["py-4 px-2 col-12 col-md-6 col-lg-4 text-sm"]) >
 
                                 <div class="mb-1 vip_item_info_box border">
                                     <div class="">
@@ -191,31 +209,39 @@
 
                     @endif
                 @else 
+                    {{-- if request is in progress --}}
                     
-                    <div class="flex items-start p-3 shadow  bg-white rounded-lg">
+                    <div class="flex items-start p-3 shadow border-gray-900 bg-white rounded-lg">
                         <i class="fas fa-info p-2 me-4"></i>
                         <div>
-                            <div class="bold font-bold">Request In Progress</div>
-                            <div>Recently you purchage an package. Your purchage request is in porgress. </div>
+                            <div class="bold font-bold text-red-900">Request In Progress</div>
+                            <div class="text-sm">Recently you purchage an package. Your purchage request is in porgress. </div>
                             <br>
-                            <table class="w-full">
-                                
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            {{-- <a href="{{route('user.package.checkout', ['id' => $req->package_id])}}" class="nav-item">
-                                                {{$req->package->name }}
-                                            </a> --}}
-                                            Package Name
-
-                                        </td>
-                                        <td>
-                                            {{\Carbon\Carbon::parse($req->created_at)->diffForHumans()}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <x-nav-link-btn href=""> Cancle </x-nav-link-btn>
+                           
+                            <div class=" rounded-lg p-3">
+                                <div class="mb-2">
+                                    <div class="text-md pb-1 text-indigo-900">
+                                        Package
+                                    </div>
+                                    <a href="{{route('user.package.checkout', ['id' => $req->package_id])}}" class="text-sm">
+                                        {{$req->package->name }}
+                                    </a>
+                                </div>
+                                <x-hr/>
+                                <div class="mb-2">
+                                    <div class="bold text-md pb-1">
+                                        Task Type
+                                    </div>
+                                    <div class="text-sm">
+                                        {{$req->package->task_type ?? 'daily'}}
+                                    </div>
+                                </div>
+                                <x-hr/>
+                                <div class="text-xs">
+                                    {{\Carbon\Carbon::parse($req->created_at)->diffForHumans()}}
+                                </div>
+                            </div>
+                            {{-- <x-nav-link href="{{route('user.package.cancle', ['id' => $req->id])}}"> Cancle </x-nav-link> --}}
                         </div>
                     </div>
                 @endif

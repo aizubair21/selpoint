@@ -2,15 +2,21 @@
 
 namespace App\Livewire\User\Vip\Package;
 
+use App\HandleImageUpload;
 use App\Models\Packages;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
+use App\Models\vip;
+use Illuminate\Support\Facades\Storage;
 
 #[layout('layouts.user.dash.userDash')]
 class Checkout extends Component
 {
+    use WithFileUploads, HandleImageUpload;
     #[URL]
     public $id;
     public $package, $ownerPackage;
@@ -26,7 +32,60 @@ class Checkout extends Component
 
     public function purchase()
     {
-        $this->validate();
+        $validate = $this->validate();
+        if (Auth::user()->vipPurchase?->package) {
+            // if already purchase one package, can't purchase another.
+            $this->dispatch('warning', 'You have already active package');
+        } else {
+
+            // check purchase package already purchase or not
+            if (vip::where(['user_id' => Auth::id(), 'package_id' => $this->package->id])->first()) {
+                $this->dispatch('warning', 'You already purchase this packages.');
+            } else {
+
+                try {
+                    //code...
+                    /**
+                     * else, process the purchase
+                     * store the request to database with status 0
+                     */
+                    $validate['status'] = 0;
+                    $validate['user_id'] = Auth::id();
+                    $validate['package_id'] = $this->package->id;
+
+                    /**
+                     * process the image upload
+                     * image saved to the $validate array
+                     */
+                    $validate['nid_front'] = $this->handleImageUpload($this->nid_front, 'vips', null);
+                    $validate['nid_back'] = $this->handleImageUpload($this->nid_back, 'vip', null);
+
+                    $userPackage = vip::create($validate);
+
+                    /**
+                     * if data not created
+                     * delete the related image from storage
+                     */
+                    if (!$userPackage) {
+                        if (file_exists(public_path('storage/' . $this->nid_front))) {
+                            Storage::disk('public')->delete($this->nid_front);
+                        }
+                        if (file_exists(public_path('storage/' . $this->nid_back))) {
+                            Storage::disk('public')->delete($this->nid_back);
+                        }
+                    }
+
+
+                    /**
+                     * redirect to user dash
+                     */
+                    $this->redirectIntended(route('user.vip.index'), true);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->dispatch('error', 'Have an error while purchasing, try again later.');
+                }
+            }
+        }
     }
 
     public function render()

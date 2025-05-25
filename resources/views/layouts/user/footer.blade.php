@@ -3,7 +3,7 @@
         <div class="block space-y-5 md:flex justify-between flex-wrap py-lg-4">
 
             <div class="py-4">
-                <div class="full">
+                <div class="w-full">
                     <div class="logo_footer">
                         <x-nav-link href="/"><img width="100px!important" src="{{asset('logo.png')}}" alt="#" /></x-nav-link>
                     </div>

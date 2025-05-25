@@ -46,7 +46,14 @@ new class extends Component {
 }
 ?>
 
+
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+
+    {{-- <div class="flex items-center justify-center w-full p-2 md:">
+        <x-text-input type="search" class="w-full rounded shadow" placeholder="Search by name ..." />
+    </div> --}}
+
     <!-- Primary Navigation Menu -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -58,49 +65,45 @@ new class extends Component {
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('Home') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
-                        {{ __('Products') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
-                        {{ __('Categories') }}
-                    </x-nav-link>
-
-                
+                <!-- search -->
+                <div class="hidden md:flex items-center justify-center w-full p-2">
+                    <x-text-input type="search" class="py-1 w-full mx:w-xl rounded shadow" placeholder="Search by name ..." />
                 </div>
+                
             </div>
 
+            {{-- <div class="flex items-center md:hidden flex-1">
+                @if(Auth::check() && count(auth()->user()->getRoleNames()) > 1)
+                    <x-nav-link href="">Dashboard</x-nav-link>
+                @endif
+            </div> --}}
+
             <!-- Settings Dropdown -->
-
             <div class="flex items-center">
-
-                <x-nav-link href="{{route('carts.view')}}" class="mr-3">
-                    <button type="button" class="btn flex items-center">
-                        <i class="fas fa-cart-plus"></i>
-                        <span id="displayCartItem" class="pb-3 text-green">
-                          @auth
-                            @volt('cart')
-                                <div>
-                                    {{$this->count ?? "0"}}
-                                </div>
-                            @endvolt
-                          @endauth
-                          @guest
-                              0
-                          @endguest
-                          {{-- <span class="visually-hidden">unread messages</span> --}}
-                        </span>
-                    </button>
-                </x-nav-link>
-    
+               
+                
                 @auth     
+                    <x-nav-link href="{{route('carts.view')}}" class="mr-3">
+                        <button type="button" class="btn flex items-center">
+                            <i class="fas fa-cart-plus"></i>
+                            <span id="displayCartItem" class="pb-3 text-green">
+                            @auth
+                                @volt('cart')
+                                    <div>
+                                        {{$this->count ?? "0"}}
+                                    </div>
+                                @endvolt
+                            @endauth
+                            @guest
+                                0
+                            @endguest
+                            {{-- <span class="visually-hidden">unread messages</span> --}}
+                            </span>
+                        </button>
+                    </x-nav-link>
+
                     <div class="flex">
-                        <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        <div class="flex sm:items-center sm:ms-6">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex items-center px-3 py-2 border border text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -146,21 +149,21 @@ new class extends Component {
                     </div>
                 @endauth
                 @guest
-                    <x-nav-link class=" px-3 text-md uppercase hidden md:block" :href="route('login')" >
+                    <x-nav-link class=" px-3 text-md uppercase " :href="route('login')" >
                         login
                     </x-nav-link>
                 @endguest
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            {{-- <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -186,18 +189,21 @@ new class extends Component {
             <div class="pt-4 pb-1 border-t border border-gray-200">
             
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profile.edit')">
-                        {{ __('Profile') }}
+                    <x-responsive-nav-link :href="route('user.index')">
+                        {{ __('User Panel') }}
                     </x-responsive-nav-link>
+                    
+                    @if (count(auth()->user()->getRoleNames()) > 1)    
+                        <x-responsive-nav-link :href="route('dashboard')" >
+                            {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
+                    @endif
 
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
-
-
-                    
                 </div>
             </div>
         @endauth
@@ -207,4 +213,23 @@ new class extends Component {
             </x-responsive-nav-link>
         @endguest
     </div>
+
+      <!-- search -->
+    <div class="md:hidden px-3 flex items-center justify-center w-full p-2">
+        <x-text-input type="search" class="py-1 w-full mx:w-xl rounded shadow" placeholder="Search by name ..." />
+    </div>
+    <div class="flex items-center justify-center">
+        <div class=" space-x-8 sm:-my-px sm:ms-10 flex">       
+            <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                {{ __('Home') }}
+            </x-nav-link>
+            <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.*')">
+                {{ __('Products') }}
+            </x-nav-link>
+            <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
+                {{ __('Categories') }}
+            </x-nav-link>
+        </div>
+    </div>
+
 </nav>

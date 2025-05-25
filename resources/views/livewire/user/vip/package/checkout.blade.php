@@ -269,7 +269,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-12">
                                     <x-input-label for="nid">Your NID Number</x-input-label>
-                                    <x-text-input type="number" value="{{old('nid')}}" name="nid" id="nid" class="w-full @error('nid')is-invalid @enderror" />
+                                    <x-text-input type="number" value="{{old('nid')}}" wire:model.live="nid" id="nid" class="w-full @error('nid')is-invalid @enderror" />
                                     @error('nid')
                                         <div class="text-xs" style="color:red">{{ $message }}</div>
                                     @enderror
@@ -281,9 +281,11 @@
                                     <div>
                                         Front Side Of NID
                                     </div>
-                                    <div class="w-100 nid_img_div">
-                                        <img id="front_image_prev" src="" height="50px" style="width: 100%; object-fit:contain" alt="">
-                                    </div>
+                                    @if ($nid_front)     
+                                        <div class="w-100 nid_img_div">
+                                            <img src="{{$nid_front->temporaryUrl()}}" height="100px" style="width: 100px; object-fit:contain" alt="">
+                                        </div>
+                                    @endif
 
                                     <div class="nid_img_file flex justify-between mt-2">
                                         <x-text-input onchange="previewImage(this, '#front_image_prev')" class="form-control border-0 image_file @error('nid_front')is-invalid @enderror" type="file" wire:model.live="nid_front" id="front_image_file" />
@@ -300,9 +302,11 @@
                                     <div>
                                         Back Side of NID
                                     </div>
-                                    <div class="w-100 nid_img_div">
-                                        <img id="back_image_prev" src="" height="50px" style="width: 100%; object-fit:contain" alt="">
-                                    </div>
+                                    @if ($nid_back)           
+                                        <div class="w-100 nid_img_div">
+                                            <img src="{{$nid_back->temporaryUrl()}}" height="100px" style="width: 100px; object-fit:contain" alt="">
+                                        </div>
+                                    @endif
 
                                     <div class="nid_img_file flex justify-between mt-2">
                                         <x-text-input onchange="previewImage(this, '#back_image_prev')" class="form-control border-0 image_file @error('nid_back')is-invalid @enderror" type="file" wire:model.live="nid_back" id="back_image_file" />

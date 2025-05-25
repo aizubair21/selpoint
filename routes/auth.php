@@ -28,6 +28,7 @@ use App\Livewire\User\Vip\Index;
 use App\Livewire\User\Vip\Package\Checkout;
 use App\Livewire\User\Vip\Package\Index as PackageIndex;
 use App\Livewire\User\Vip\Package\Purchase;
+use App\Models\vip;
 
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
@@ -90,6 +91,9 @@ Route::middleware('auth')->group(function () {
         Route::get('vip', Index::class)->name('user.vip.index');
         Route::get('vip/packages', PackageIndex::class)->name('user.vip.package');
         Route::get('vip/packages/{id}', Checkout::class)->name('user.package.checkout');
+        // Route::get('vip/packages/{id}/cancle', function ($id) {
+        //     dd(vip::find($id));
+        // })->name('user.package.cancle');
     });
 
     // Route::prefix('/upgrade/reseller')->group(function () {
