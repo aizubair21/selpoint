@@ -52,14 +52,14 @@
                         </x-dropdown-link>
                     @endcan
                     <x-hr/>
-                    <x-dropdown-link href="">
-                        Products
-                    </x-dropdown-link>
+                        <x-dropdown-link href="">
+                            Products
+                        </x-dropdown-link>
                     <x-hr/>
 
 
                     @can('role_list')           
-                        <x-dropdown-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
+                        <x-dropdown-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
                             {{ __('VIP') }}
                         </x-dropdown-link>
                     @endcan

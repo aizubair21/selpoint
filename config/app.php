@@ -130,5 +130,6 @@ return [
     'comission' => env('COMISSION', true),
     'vip' => env('VIP', true),
     'system_email' => env('SYSTEM_EMAIL', 'admin247@eruhi.com'),
+    'paginate' => 100,
 
 ];
