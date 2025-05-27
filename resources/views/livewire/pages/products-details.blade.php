@@ -61,7 +61,7 @@
                 </div>
                 <div x-show="tab == 'shop'" x-transition>
                     <div class="mx:w-[-350px] rounded border bg-gray-200 pt-2" >
-                    @if (auth()->user()->id == $product->user_id)
+                    @if (auth()?->user()?->id == $product->user_id)
                         <strong class="p-2 rounded border bg-sky-900 text-white">It's your product </strong>
                     @else 
                         <x-dashboard.section >

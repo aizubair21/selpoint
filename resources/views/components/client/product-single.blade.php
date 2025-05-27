@@ -12,7 +12,7 @@ new class extends Component
 
     public function mount() 
     {
-        $this->isAuthProductower = $this->product->user_id == Auth::user()->id ? true : false;    
+        $this->isAuthProductower = $this->product->user_id == Auth::user()?->id ? true : false;    
     }
     
     
