@@ -53,7 +53,14 @@
     <x-product-single :$product :key="$product->id" />
 </div>
 <hr>
-
+<div class="container">
+    <div class="row m-0">
+        <div class="col-12">
+            adsfasdf
+        </div>
+    </div>
+</div>
+<hr>
 <div class="container">
     <div class="row m-0">
         <div class="col-lg-8 py-3">

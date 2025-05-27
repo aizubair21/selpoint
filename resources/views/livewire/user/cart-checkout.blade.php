@@ -1,53 +1,34 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <x-dashboard.container>
+         <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    <b>
+                        Notice:
+                    </b>
+
+                    You're order from Multiple Shops
+                </x-slot>
+
+                <x-slot name="content">
+                    You have added product from more than one shop. Please nothe that, items from different shops are shipped seperately, which will result in <strong>Multiple Shipping Charges.
+                   </strong>  <br>
+                    To reduce delivery cost and ensure a smoother experience, we recommend placing orders from <strong>a single shop at a time.</strong> Review the shop name to your cart before placing orders.
+                </x-slot>
+            </x-dashboard.section.header>
+        </x-dashboard.section>
+
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     Checkout
                 </x-slot>
                 <x-slot name="content">
-                    view and order your cart produtct.
+                    view and order your cart produtct. <x-nav-link href="{{route('carts.view')}}"><i class="fa-solid fa-up-right-from-square me-2"></i> carts </x-nav-link>
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
-
-        <pre>
-            @php
-                // print_r(auth()->user()->myCarts()->groupBy('belongs_to')->toArray() );
-            @endphp
-        </pre>
-
-        {{-- <x-dashboard.section>
-            <x-dashboard.foreach :data="auth()->user()->myCarts">
-                <x-dashboard.table>
-                    <thead>
-                        <th></th>
-                        <th>product</th>
-                        <th>quantity</th>
-                        <th>price</th>
-                    </thead>
-    
-                    <tbody>
-                        @foreach (auth()->user()->myCarts as $cart)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>
-                                    <div class="flex">
-                                        <img width="30px" height="30px" src="{{asset('storage/' . $cart->thumbnail)}}" alt="">
-                                        {{$cart->product?->name ?? "N/A"}}
-                                    </div>
-                                </td>
-                                <td>
-                                    {{$cart->quantity ?? "0"}}
-                                </td>
-                                <td> {{$cart->total ?? "0"}} </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </x-dashboard.table>
-            </x-dashboard.foreach>
-        </x-dashboard.section> --}}
 
 
         <x-dashboard.section>
@@ -56,8 +37,9 @@
                     <thead>
                         <th></th>
                         <th></th>
+                        <th>Shop</th>
                         <th>Quantity</th>
-                        <th>Size</th>
+                        <th>Attr</th>
                         <th>Price</th>
                     </thead>
     
@@ -74,7 +56,7 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td class="text-sm">
                                     <x-nav-link href="{{route('products.details', ['id' => $cart['product_id'] ?? '',  'slug' => Str::slug($cart['name']) ?? ''])}}" >
-                                        <div class="block lg:flex">
+                                        <div class="block lg:flex items-center">
                                             <img width="30px" height="30px" src="{{asset('storage/'. $cart['image'])}}" alt="">
                                             <span class="text-xs ml-1 text-wrap" >
                                                 {{$cart['name'] ?? "N/A" }}
@@ -83,12 +65,21 @@
                                     </x-nav-link>
                                 </td>
                                 <td>
-                                    <div class="flex justify-between px-1 py-0 border rounded" style="width: 120px">
-                                        <button class="p-1 text-lg" wire:click="decreaseQuantity({{$cart['id']}})" >-</-button>
+                                    <x-nav-link>
+
+                                        <div class="text-xs px-1">
+                                            {{auth()->user()->myCarts[$key]->product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                                        </div>
+                                    </x-nav-link>
+                                </td>
+                                <td>
+                                    <div class="flex justify-between text-center px-1 py-0 border rounded" style="width: 120px">
+                                        <button class="p-1 text-md" wire:click="decreaseQuantity({{$cart['id']}})" >-</-button>
                                         <input style="width:50px" class="border-0 py-0 text-center text-sm w-sm rounded" min="1" type="text" @disabled(true) value="{{$cart['qty']}}"  />
-                                        <button class="p-1 text-lg" wire:click="increaseQuantity({{$cart['id']}})" >+</button>
+                                        <button class="p-1 text-md" wire:click="increaseQuantity({{$cart['id']}})" >+</button>
                                     </div>
                                 </td>
+                               
                                 <td>
                                     @if (!empty(auth()->user()->myCarts()->find($cart['id'])->product?->attr->value))
                                         <div class="">
@@ -169,12 +160,12 @@
         <x-dashboard.section>
             <form wire:submit.prevent="confirm">
 
-                <div class="md:flex justify-between">
+                <div>
                     
                     <div class="w-full md:w-1/2 pr-2">
 
                         {{-- <x-input-field  wire:model.live="name" label="Your Name" error="name" name="name" /> --}}
-                        <x-input-field  wire:model.live="phone" label="Your Active Phone" error="phone" name="phone" />
+                        <x-input-field wire:model.live="phone" class="w-full border-0" label="Your Active Phone" error="phone" name="phone" />
                         
                         <x-hr/>
                         <div class="px-2 bg-gray-200">
@@ -219,17 +210,19 @@
 
                     <div class="w-full md:w-1/2">
                         
-                        <x-input-field  wire:model.live="district" label="District" error="district" name="district" />
-                        <x-input-field  wire:model.live="upozila" label="Upozila" error="upozila" name="upozila" />
+                        <x-input-field class="w-full border-0"  wire:model.live="district" label="District" error="district" name="district" />
+                        <x-input-field class="w-full border-0"  wire:model.live="upozila" label="Upozila" error="upozila" name="upozila" />
                         <div>
-                            <x-input-field  wire:model.live="house_no" label="House No" error="house_no" name="house_no" />
-                            <x-input-field  wire:model.live="road_no" label="Road No" error="road_no" name="road_no" />
+                            <x-input-field class="w-full border-0"  wire:model.live="house_no" label="House No" error="house_no" name="house_no" />
+                            <x-input-field class="w-full border-0"  wire:model.live="road_no" label="Road No" error="road_no" name="road_no" />
                         </div>
-                        <x-primary-button >Confirm Order</x-primary-button>
-                        <br><br>
                     </div>
                 </div>
-            
+                
+                <x-hr/>
+                <div class="text-end">
+                    <x-primary-button >Confirm Order</x-primary-button>
+                </div>
             </form>
         </x-dashboard.section>
     </x-dashboard.container>

@@ -52,7 +52,7 @@
                         </x-dropdown-link>
                     @endcan
                     <x-hr/>
-                        <x-dropdown-link href="">
+                        <x-dropdown-link :href="route('system.products')">
                             Products
                         </x-dropdown-link>
                     <x-hr/>

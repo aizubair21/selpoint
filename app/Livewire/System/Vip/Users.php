@@ -24,10 +24,9 @@ class Users extends Component
 
     public function render()
     {
-
         $vip = vip::where(['status' => $this->nav == 'Pending' ? 0 : 1])->paginate(config('app.paginate'));
         if ($this->nav == 'Trash') {
-            $vip = vip::onlyTrashed()->get();
+            $vip = vip::onlyTrashed()->paginate(config('app.paginate'));
             // dd($vip);
         }
         return view('livewire.system.vip.users', compact('vip'));

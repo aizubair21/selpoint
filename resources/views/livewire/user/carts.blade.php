@@ -2,14 +2,21 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
     
     <x-dashboard.container>
-        <x-dashboard.section @class(['hidden' => request()->routeIs('user.carts.checkout')])>
+
+        <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Your Carts
+                    <b>
+                        Notice:
+                    </b>
+
+                    You're order from Multiple Shops
                 </x-slot>
-                
+
                 <x-slot name="content">
-                    view, remove your cart item from previous.
+                    You have added product from more than one shop. Please nothe that, items from different shops are shipped seperately, which will result in <strong>Multiple Shipping Charges.
+                   </strong>  <br>
+                    To reduce delivery cost and ensure a smoother experience, we recommend placing orders from <strong>a single shop at a time.</strong> Review the shop name to your cart before placing orders.
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -20,11 +27,12 @@
                     {{auth()->user()->myCarts()->count() ?? "0"}} items in cart
                 </x-slot>
                 <x-slot name="content">
-                    <x-nav-link @class(['hidden' => request()->routeIs('user.carts.checkout')]) href="{{route('user.carts.checkout')}}">
-                        <x-primary-button>
-                            checkout
-                        </x-primary-button>
-                    </x-nav-link>
+                    
+                    <x-nav-link-btn @class(['hidden' => request()->routeIs('user.carts.checkout')]) href="{{route('user.carts.checkout')}}">
+                        checkout
+                        {{-- <x-primary-button>
+                        </x-primary-button> --}}
+                    </x-nav-link-btn>
                 </x-slot>
             </x-dashboard.section.header>
             <x-dashboard.section.inner>
@@ -33,7 +41,9 @@
                         <thead>
                             <th></th>
                             <th></th>
+                            
                             <th>product</th>
+                            <th>Shop</th>
                             <th>price</th>
                             <th>date</th>
                             <th>A/C</th>
@@ -48,10 +58,15 @@
                                     <td></td>
                                     <td>{{$loop->iteration}}</td>
                                     
-                                    <td class="text-sm">
-                                        <x-nav-link href="{{route('products.details', ['id' => $cart->product?->id ?? '',  'slug' => $cart->product?->slug ?? ''])}}" >
+                                    <td >
+                                        <x-nav-link class="text-xs" href="{{route('products.details', ['id' => $cart->product?->id ?? '',  'slug' => $cart->product?->slug ?? ''])}}" >
                                             <img width="30px" height="30px" src="{{asset('storage/'. $cart->product?->thumbnail)}}" alt="">
-                                            {{$cart->product?->title ?? "N/A" }}
+                                            {{$cart->product?->name ?? "N/A" }}
+                                        </x-nav-link>
+                                    </td>
+                                    <td class="text-xs">
+                                        <x-nav-link>
+                                            {{$cart->product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
                                         </x-nav-link>
                                     </td>
                                     <td>{{$cart->product?->price ?? "N/A" }}</td>
@@ -77,5 +92,20 @@
                 </x-dashboard.foreach>
             </x-dashboard.section.inner>
         </x-dashboard.section>
+
+        {{-- <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Cart Summery
+                </x-slot>
+                <x-slot name="content">
+                    view your cart items and summery about different shops.
+                </x-slot>
+            </x-dashboard.section.header>
+
+            <x-dashboard.section.inner>
+
+            </x-dashboard.section.inner>
+        </x-dashboard.section> --}}
     </x-dashboard.container>
 </div>

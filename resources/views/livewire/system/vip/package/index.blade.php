@@ -4,8 +4,8 @@
         VIP
         <br>
         <div>
-            <x-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.index')"> Package </x-nav-link>
-            <x-nav-link :href="route('system.vip.users')" :active="request()->routeis('system.vip.users')"> User </x-nav-link>
+            <x-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.index')"> <i class="fa-solid fa-up-right-from-square me-2"></i> Package </x-nav-link>
+            <x-nav-link :href="route('system.vip.users')" :active="request()->routeis('system.vip.users')"> <i class="fa-solid fa-up-right-from-square me-2"></i> User </x-nav-link>
         </div>
     </x-dashboard.page-header>
 
@@ -104,7 +104,7 @@
                                     </td>
                                     <td>
                                         <div class="flex">
-                                            <x-nav-link-btn href="{{route('system.package.edit', ['packages' => $item])}}" class="me-2" >edit</x-nav-link-btn>
+                                            <x-nav-link-btn href="{{route('system.package.edit', ['packages' => $item])}}" class="me-2" >View</x-nav-link-btn>
                                             <x-danger-button>Trash</x-danger-button>
                                         </div>
                                     </td>

@@ -2,41 +2,160 @@
     {{-- The Master doesn't talk, he acts. --}}
 
     <x-dashboard.container>
-        <x-dashboard.section>
-            @includeIf('components.client.product-single')
-        </x-dashboard.section>
-
-
-        <div class="lg:flex justify-between items-start m-0">
-            <div class="lg:w-[80%] py-3">
+        <div class=" ">
+            <div class="">
                 <x-dashboard.section>
-                    <div class="bg-white p-2 w-full">
-                        {!! $product->description ?? "No Description Found !" !!}
-                    </div>
-                    <x-hr/>
-                    <div class="bg-white p-2 w-full">
-                        <div class="text-xs">
-                            Review Not Available
-                        </div>
-                    </div>
+                    @includeIf('components.client.product-single')
                 </x-dashboard.section>
-
             </div>
 
-            <div class="py-3 lg:w-[20%] product_section">
-              
-                <h4>You May Also Like</h4>
-                <div class="row p-0 m-0 mb-2">
+            {{-- <div class="lg:w-12 p-2">
+                <div class="py-2">Related Products</div>
+                @foreach($relatedProduct as $product)
+                    <div class="col-6 p-1 mb-3">
+                        <x-client.product-cart :$product :key="$product->id" />
+                    </div>
+                @endforeach
+            </div> --}}
+        </div>
+
+        
+        {{-- <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Related Products
+                </x-slot>
+                <x-slot name="content">
+
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+                <div class="">
                     @foreach($relatedProduct as $product)
                         <div class="col-6 p-1 mb-3">
                             <x-client.product-cart :$product :key="$product->id" />
                         </div>
                     @endforeach
                 </div>
-            
-                {{-- <x-product-card :$product :key="$product->id" /> --}}
+            </x-dashboard.section.inner>
+        </x-dashboard.section> --}}
 
-            </div>
-        </div>
+        {{-- summery and specifications  --}}
+        <x-dashboard.section x-data="{tab:'summery'}">
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Product Specification & Summery
+                </x-slot>
+                <x-slot name="content">
+                    <div class="w-full border-b flex items-center" style="height: 28px">
+                        <div class="px-2 cursor-pointer" x-on:click="tab = 'summery'" > Summery </div>
+                        <div class="px-2 cursor-pointer" x-on:click="tab = 'shop'"> About Shop </div>
+                    </div>
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+                <div x-show="tab == 'summery'" x-transition>
+                    <div class="bg-white p-2 w-full">
+                        {!! $product->description ?? "No Description Found !" !!}
+                    </div>
+                </div>
+                <div x-show="tab == 'shop'" x-transition>
+                    <div class="mx:w-[-350px] rounded border bg-gray-200 pt-2" >
+                    @if (auth()->user()->id == $product->user_id)
+                        <strong class="p-2 rounded border bg-sky-900 text-white">It's your product </strong>
+                    @else 
+                        <x-dashboard.section >
+                            <x-dashboard.section.header>
+                                <x-slot name="title">
+                                    Shop Details
+                                </x-slot>
+                                <x-slot name="content">
+                                    this product belongs to bellow shop. see about the shop.
+                                </x-slot>
+                            </x-dashboard.section.header>
+                
+                            <x-dashboard.section.inner>
+                                <div class="flex flex-wrap">
+                                    <div class=" border-b w-48 m-2 p-2">
+                                        <div class="text-sm font-normal">
+                                            Shop Name
+                                        </div>
+                                        <div class="text-md font-bold">
+                                            {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                                        </div>
+                                    </div>
+                                    <div class=" border-b w-48 m-2 p-2">
+                                        <div class="text-sm font-normal">
+                                            Shop Owner
+                                        </div>
+                                        <div class="text-md font-bold">
+                                            {{$product?->owner?->name ?? "N/A"}}
+                                        </div>
+                                    </div>
+                                    <div class=" border-b w-48 m-2 p-2">
+                                        <div class="text-sm font-normal">
+                                            Shop Location
+                                        </div>
+                                        <div class="text-md font-bold">
+                                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
+                                        </div>
+                                    </div>
+                                    <div class=" border-b w-48 m-2 p-2">
+                                        <div class="text-sm font-normal">
+                                            Shop Address
+                                        </div>
+                                        <div class="text-md font-bold">
+                                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="flex flex-wrap ">
+                                    <x-nav-link-btn href="">  Visit Shop</x-nav-link-btn>
+                                    <x-nav-link-btn href="" class="space-x-2 space-y-2">Shop Products</x-nav-link-btn>
+                                    <x-nav-link-btn href="">Report Against Shop</x-nav-link-btn>
+                                </div>
+                            </x-dashboard.section.inner>
+                        </x-dashboard.section>
+                    @endif
+                </div>
+                </div>
+            </x-dashboard.section.inner>
+
+        </x-dashboard.section>
+
+       
+
+        {{-- reveiws  --}}
+        <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Reviews & Ratings
+                </x-slot>
+                <x-slot name="content">
+
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+                
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
+       
+       
+       
+        {{-- Product Q/A  --}}
+        <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Product Q/A 
+                </x-slot>
+                <x-slot name="content">
+                    Han any question regarding this products?
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner> 
+                
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
     </x-dashboard.container>
 </div>

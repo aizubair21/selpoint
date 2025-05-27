@@ -34,6 +34,8 @@ use App\Livewire\System\Vip\Edit;
 
 use App\Livewire\System\Store\Index;
 
+use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
+
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
     // route for admin index to system dashboard
@@ -107,12 +109,12 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     /** 
      * VIP 
      */
-    Route::get('vip/index', systemVipIndexPage::class)->name('system.vip.index');
-    Route::get('vip/create', systemVipCreatePage::class)->name('system.vip.crate');
-    Route::get('/vip/{packages}', systemVipEditPage::class)->name('system.package.edit');
+    Route::get('/packages', systemVipIndexPage::class)->name('system.vip.index');
+    Route::get('/package/create', systemVipCreatePage::class)->name('system.vip.crate');
+    Route::get('/package/{packages}', systemVipEditPage::class)->name('system.package.edit');
 
-    Route::get('/vip/user/{vip}', Edit::class)->name('system.vip.edit');
-    Route::get('/vip/users', systemVipUsersIndex::class)->name('system.vip.users');
+    Route::get('/vip/{vip}', Edit::class)->name('system.vip.edit');
+    Route::get('/vips', systemVipUsersIndex::class)->name('system.vip.users');
 
 
 
@@ -120,4 +122,12 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      * system coin store management
      */
     Route::get('/coins', Index::class)->name('system.store.index');
+
+
+    /**
+     * routes for products management for system
+     */
+    Route::prefix('products')->group(function () {
+        Route::get('/', systemGlobalProductsIndexPage::class)->name('system.products');
+    });
 });

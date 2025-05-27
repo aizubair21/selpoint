@@ -26,16 +26,32 @@ new class extends Component{
 ?> 
 
 <style>
+    @media (max-width:991px){
+        .cart-count {
+            position: absolute;
+            top: 5px!important;
+            right: 0px!important;
+            background-color: green;
+            font-weight: bold;
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+            border-radius: 50%;
+            padding: 0px 4px;
+            transform: translate(50%, -50%);
+        }
+    }
     .cart-count {
         position: absolute;
-        top: 15px;
-        right: 14.9em;
-        background-color: red;
+        top: 5px;
+        right: 0px;
+        background-color: green;
+        font-weight: bold;
         color: white;
-        font-size: 12px;
+        font-size: 9px;
         font-weight: bold;
         border-radius: 50%;
-        padding: 2px 6px;
+        padding: 0px 4px;
         transform: translate(50%, -50%);
     }
 
@@ -54,14 +70,16 @@ new class extends Component{
                 <div class="" id="navbarSupportedContent">
                     <ul class="flex items-center">
         
-                        <li class="nav-item light">
-                            {{-- <x-nav-link class="py-2" :href="route('user.index')">
-                                Switch to Vendor
-                            </x-nav-link> --}}
-                            <x-nav-link wire:navigate class="py-2" :href="route('home')">
+                        <li>
+                            <x-nav-link :href="route('home')">
                                 Home
                             </x-nav-link>
                         </li> 
+                        <li class="px-2">
+                            <div class="relative">
+                                <x-nav-link class="nav-link " href="{{route('carts.view')}}"><i class="fas fa-shopping-cart" ></i> <span class="cart-count">{{auth()->user()->myCarts()->count() ?? "0"}}</span></x-nav-link>
+                            </div>
+                        </li>
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 mx-2  border rounded text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
@@ -78,14 +96,14 @@ new class extends Component{
                                 {{-- <x-dropdown-link>
                                     Cart
                                 </x-dropdown-link> --}}
-                                <x-dropdown-link href="{{route('carts.view')}}" class="mr-3">
+                                {{-- <x-dropdown-link href="{{route('carts.view')}}" class="mr-3">
                                     <button type="button" class="btn relative">
                                         <i class="fas fa-cart-plus"></i> Cart
                                         <span id="displayCartItem" class="ml-3 absolute top-0 start-100 translate-middle badge rounded-lg">
                                             {{auth()->user()->myCarts()->count() ?? "0"}}
                                         </span>
                                     </button>
-                                </x-dropdown-link>
+                                </x-dropdown-link> --}}
         
                                 {{--  role-based architecture  --}}
                                     @php

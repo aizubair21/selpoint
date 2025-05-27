@@ -23,12 +23,12 @@ class Index extends Component
     public function render()
     {
         // use cache here 
-        $users = User::query()->withoutAdmin()->orderBy('id', 'desc')->paginate(100);
+        $users = User::query()->withoutAdmin()->orderBy('id', 'desc')->paginate(config('app.paginate'));
         // $this->getData();
 
         if (!empty($this->search)) {
             // rider::where('name', 'like', '%' . $this->search . '%')->paginate(20);
-            $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('name', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->paginate(100);
+            $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('id', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->paginate(config('app.paginate'));
         }
         return view('livewire.system.users.index', compact('users'));
     }

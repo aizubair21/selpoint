@@ -15,7 +15,7 @@ use Livewire\Attributes\Validate;
 #[layout('layouts.user.dash.userDash')]
 class CartCheckout extends Component
 {
-    public $carts = [], $qty = [], $tp = 0, $q = 0;
+    public $carts = [], $qty = [], $tp = 0, $q = 0, $isMultiple, $selectedCarts;
 
     #[validate('required')]
     public $phone, $house_no, $road_no, $location, $area_condition = 'Dhaka', $district, $upozila, $shipping = 80, $delevery = 'Courier';

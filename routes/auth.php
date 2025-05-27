@@ -96,6 +96,12 @@ Route::middleware('auth')->group(function () {
         // })->name('user.package.cancle');
     });
 
+
+    /**
+     * view shop
+     */
+    // Route::get('/user/shops')->name('user.shops');
+
     // Route::prefix('/upgrade/reseller')->group(function () {
     //     Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
     //     Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');

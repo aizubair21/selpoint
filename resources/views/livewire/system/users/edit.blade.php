@@ -1,4 +1,9 @@
 <div>
+    <x-dashboard.page-header>
+        User Update
+        <br />
+        <x-nav-link href="{{route('system.users.view')}}"> <i class="fa-solid fa-up-right-from-square me-2"></i> Users </x-nav-link>
+    </x-dashboard.page-header>
     <x-dashboard.container x-data="{nav : 'profile'}">
         <x-dashboard.section>
             <x-dashboard.section.header>
@@ -10,7 +15,6 @@
                     <div>
                         <x-nav-link @click="nav = 'profile'">Profile</x-nav-link>
                         <x-nav-link @click="nav = 'role'" >Permission</x-nav-link>
-                        <x-nav-link @click="nav = 'vip'" >vip</x-nav-link>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>

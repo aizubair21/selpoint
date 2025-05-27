@@ -56,25 +56,25 @@ new class extends Component
             $discountedPrice = $product->discount;
             $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
             @endphp
-        <div class="discount-badge bg_primary" style="z-index:5">{{ round($discountPercentage, 0) }}%</div>
+        <div class="discount-badge bg_primary" style="">{{ round($discountPercentage, 0) }}%</div>
     @endif  
     <div class="option_container hidden lg:block" style="background-color:hsla(24, 100%, 90%, 0.419);; transform:blur(10px)">
         <div class="flex flex-col justify-between items-center" style="height:100%; width:100%">
 
-            <div class="flex flex-col justify-between flex-1">
+            <div class="flex flex-col justify-center w-full text-center flex-1">
                 
                 @volt('cartBtn')
                     <div>
-                        <button wire:click="addToCart" class="border-0 p-2 fs-4 bg-transfarent text-center w-100" type="submit">
+                        <button wire:click="addToCart" class="shadow p-2 text-sm mb-3 bg-transfarent text-center w-full" type="submit">
                             <i class="fas fa-cart-plus mx-2"></i> To Cart
                         </button>
                     </div>
                 @endvolt
                 
              
-                <x-nav-link href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-sm border-0 text-center py-1 text_secondary bold">
+                <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-xs">
                     View Details <i class="fas fa-arrow-right mx-2"></i>
-                </x-nav-link>
+                </a>
             </div>
             <x-nav-link class="py-2 text-center bg-white flex items-center justify-center" style="font-weight:bold;color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
                 Order Now <i class="fas fa-arrow-right mx-2"></i>
@@ -87,7 +87,7 @@ new class extends Component
     </div>
 
     {{-- card body  --}}
-    <div class="details_box">
+    <div class="details_box p-2 flex flex-col justify-between">
         
         <div class="w-full mb-2 flex items-start justify-between text-white" >
 
@@ -100,8 +100,8 @@ new class extends Component
             </div> --}}
 
 
-            <a href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-sm text-truncate w-100 mr-1 px-3 py-1 bold border-0 text-black">
-                {{ $product->name ?? "N/A"}}
+            <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-xs text-truncate text-black">
+                {{ $product->title ?? "N/A"}}
             </a>
 
             {{-- <div style="width:20%;" class="text-sm py-1 px-2 bg_primary">
@@ -110,7 +110,7 @@ new class extends Component
 
         </div>
         
-        <div style="height:32px; width:100%; display:flex; flex-direction:colums-reverse; align-items: end; font-size:14px; @if($product->offer_type)justify-content:space-between @else justify-content:center @endif" class="px-2 py-1">
+        <div style="height:32px; width:100%; display:flex; flex-direction:colums-reverse; align-items: end; font-size:14px; @if($product->offer_type)justify-content:space-between @else justify-content:center @endif" class=" py-1">
             @if($product->offer_type)
                 
                 <div class="text-md @if($product->offer_type ) pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
@@ -151,7 +151,7 @@ new class extends Component
             
         @else
         @endguest --}}
-        <a type="button" class="text-sm btn_hover hover_zoom d-block py-2 text-center flex items-center justify-center" style="font-weight:bold; color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
+        <a type="button" class="text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center" style="font-weight:bold; color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
             <i class="fas fa-cart-plus mx-2"></i>Order Now 
         </a>
         {{-- <form action="{{ route('cart.add', $product->id) }}" method="post" class="" >

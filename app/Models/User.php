@@ -150,6 +150,15 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * @return the referred user
+     */
+    public function referred()
+    {
+        return User::where(['refernce' => $this->referene]);
+    }
+
+
     public function requestsToBeVendor()
     {
         return $this->hasMany(vendor::class);
@@ -176,6 +185,18 @@ class User extends Authenticatable
     {
         return $this->requestsToBeRider()?->where(['status' => 'Active'])->first();
     }
+
+    public function resellerShop()
+    {
+        return $this->requestsToBeReseller()?->where(['status' => 'Active'])->first();
+    }
+    public function vendorShop()
+    {
+        return $this->requestsToBeVendor()?->where(['status' => 'Active'])->first();
+    }
+
+
+
 
     private function papp()
     {

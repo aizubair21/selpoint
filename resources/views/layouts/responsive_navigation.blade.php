@@ -22,7 +22,12 @@
             {{ __('Rider') }}
         </x-responsive-nav-link>
     @endcan
-
+        
+    <x-hr/>
+    <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
+        {{ __('Products') }}
+    </x-responsive-nav-link>
+    <x-hr/>
     @can('role_list')
         <x-responsive-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
             {{ __('ViP') }}

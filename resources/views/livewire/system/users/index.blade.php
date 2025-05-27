@@ -10,6 +10,7 @@
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
+                        Users
                         {{-- <x-nav-link href="" :active="true">Any Role</x-nav-link>
                         <x-nav-link href="">Admin Role</x-nav-link>
                         <x-nav-link href="">Vendor Role</x-nav-link>
@@ -21,8 +22,10 @@
                         <div class="flex justify-between">
                             <div></div>
                             <div class="flex">
+                                <x-primary-button  class="mx-1">
+                                    <i class="fa-solid fa-filter"></i>
+                                </x-primary-button>
                                 <x-text-input wire:model.live="search" type="search" placeholder="search" class="py-1"/>
-                                {{-- <x-primary-button  class="mx-1">Filter</x-primary-button> --}}
                             </div>
                         </div>
                     </x-slot>
@@ -57,8 +60,18 @@
                                         <tr>
                                             <td> {{$loop->iteration}} </td>
                                             <td> {{$user->id}} </td>
-                                            <td> {{$user->name }} </td>
-                                            <td> {{$user->reference ?? "Not Found" }} </td>
+                                            <td> 
+                                                {{$user->name }} 
+                                                <br>
+                                                <b class="text-xs">{{$user  ->email ?? "N/A" }}</b>
+                                            </td>
+                                            <td>
+                                                {{$user->getRef->ref ?? "N/A"}} 
+                                                <br>
+                                                <span class="px-2 text-xs rounded border">
+                                                    {{$user->reference ?? "Not Found" }} > {{$user->getReffOwner?->owner?->name}}
+                                                </span>
+                                            </td>
                                             <td> 
                                                 @php
                                                     $uroles = $user->getRoleNames();
@@ -83,7 +96,7 @@
                                                     <x-nav-link href="{{route('system.users.edit', ['id' => $user->id])}}" >                                           
                                                         Edit
                                                     </x-nav-link>
-                                                    
+                                                    <x-nav-link-btn>VIEW</x-nav-link-btn>
                                                 </div>
                                             </td>
                                         </tr>

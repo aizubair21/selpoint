@@ -3,7 +3,7 @@
     <x-dashboard.page-header>
         VIP Package Update 
         <br>
-        <x-nav-link href="{{route('system.vip.index')}}">  <i class="fa-solid fa-up-right-from-square me-2"></i>  VIP</x-nav-link>
+        <x-nav-link href="{{route('system.vip.index')}}">  <i class="fa-solid fa-up-right-from-square me-2"></i> Back To Packages</x-nav-link>
     </x-dashboard.page-header>
 
     <x-dashboard.container>
@@ -130,6 +130,13 @@
                 <br>
                 <x-primary-button wire:click="store">Update</x-primary-button>
             </x-dashboard.section.inner>
+       </x-dashboard.section>
+
+       <x-dashboard.section>
+            <x-nav-link href=''> <i class="fa-solid fa-up-right-from-square me-2"></i> Task Statatistics</x-nav-link>
+            <x-nav-link href=''> <i class="fa-solid fa-up-right-from-square me-2"></i> VIP Users</x-nav-link>
+            <x-nav-link href=''> <i class="fa-solid fa-up-right-from-square me-2"></i> Earnings</x-nav-link>
+            <x-nav-link href=''> <i class="fa-solid fa-up-right-from-square me-2"></i> </x-nav-link>
        </x-dashboard.section>
     </x-dashboard.container>
 </div>

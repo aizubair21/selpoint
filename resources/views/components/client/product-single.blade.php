@@ -8,7 +8,13 @@ use App\Models\cart;
 new class extends Component
 {
     #[URL]
-    public $product;
+    public $product, $isAuthProductower = false;
+
+    public function mount() 
+    {
+        $this->isAuthProductower = $this->product->user_id == Auth::user()->id ? true : false;    
+    }
+    
     
     public function addToCart()
     {
@@ -73,20 +79,17 @@ new class extends Component
         </div>
     </div>
 
-    <div class="w-full lg:w-1/2 py-3 lg:py-0 px-4 lg:px-0">
+    <div class="w-full lg:w-1/2 py-3 lg:py-0 lg:px-0">
         <div>
-            <div class="text_primary bold rounded" style="font-size: 12px">
-                {{-- @php
-                    $catName = DB::table("categories")->where(['id'=>$product->category_id])->select(['id', 'name'])->first();
-                @endphp --}}
-                <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->name])}}">
-                    {{$product->category?->name ?? "Undefined"}}
-                </a>
-                {{-- {{$catName->id}} --}}
-
+            {{-- Shop  --}}
+            <div class="text-green-900 w-auto text-xs">
+                Shop : 
+                <strong>
+                    {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                </strong>
             </div>
             <div style="font-size: 28px; font-weight:bold;">{{$product->title}}</div>
-            <div class="flex justify-between items-center" style="font-size: 14px">
+            <div class="flex justify-between items-center py-2 border-x" style="font-size: 14px">
                 
                 <div class="flex items-center">
                     <i class="text_primary fas fa-star"></i>
@@ -106,26 +109,24 @@ new class extends Component
 
             </div>
         </div>
-        <hr>
+
         
-
-        <div class="py-2 my-2">
-            {{-- <div style="font-size: 20px; font-weight:bold;">Available Options :</div> --}}
-            {{-- <div>
-                <div>Size</div>
-                <div class="d-flex justify-content-start align-items-center my-1">
-                    <div class="border rounded mr-2" style="width:45px; height:35px; align-content:center; text-align:center">S</div>
-                    <div class="border rounded mr-2" style="width:45px; height:35px; align-content:center; text-align:center">M</div>
-                    <div class="border rounded mr-2" style="width:45px; height:35px; align-content:center; text-align:center">L</div>
-                    <div class="border rounded mr-2" style="width:45px; height:35px; align-content:center; text-align:center">XL</div>
-                    <div class="border rounded mr-2" style="width:45px; height:35px; align-content:center; text-align:center">XXL</div>
-                </div>
-            </div> --}}
-
-            @if ($product->attr)
+        {{-- category  --}}
+        <div class="pt-3 flex items-center">
+            Category:  
+            <div class="ps-3 text_primary bold rounded">
+                <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->name])}}">
+                    {{$product->category?->name ?? "Undefined"}}
+                </a>
+            </div>
+        </div>
+        
+        
+        {{-- attr  --}}
+        <div class="py-2 my-3 border-y">
+            @if ($product->attr?->value)
                 <h4> {{ $product->attr?->name }} </h4>
                 @php
-                    //convert the string attr-value to array
                     $arrayOfAttr = explode(',', $product->attr?->value);
                 @endphp
                 <div class="flex justify-start items-center my-1" style="flex-wrap: wrap;gap: 10px;">
@@ -137,20 +138,13 @@ new class extends Component
                 </div>
             @endif
         </div>
-        <hr>
-        <div class="">
-            {{-- <div style="font-weight:bold;font-size:17px;">Price : @if($product->price_in_usd != null) ${{$product->price_in_usd}} @else {{$product->price_in_bdt}} tk @endif</div> --}}
+
+        {{-- price  --}}
+        <div class="py-3">
             
             @if($product->offer_type)
                 <div style="font-size:22px; margin-right:12px"> Price : <strong class="text_secondary bold"> {{$product->discount}} TK  </strong></div>
-                {{-- <div style="font-weight:bold;font-size:20px;">
-                    Discount Price : 
-                        @if($product->price_in_usd != null)                                
-                            ${{$product->discount}}
-                        @else 
-                            {{$product->discount}} tk 
-                        @endif    
-                </div> --}}
+               
 
                 <div class="" style="font-size: 14px">
                     MRP:
@@ -161,33 +155,32 @@ new class extends Component
                         $originalPrice = $product->price;
                         $discountedPrice = $product->discount;
                         $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+                        $isAuthProductower = $product->user_id == auth()->user()->id ? true : false;    
                     @endphp
                     <div >{{ round($discountPercentage, 0) }}% OFF</div>
                 </div>
             @else 
                 <div style="font-weight:bold;font-size:22px; color:var(--brand-primary); margin-right:12px"> Price : {{$product->price}} TK </div>
             @endif 
-            {{-- @if($product->offer_type == 'yes' && $product->discount)
-            @endif  --}}
+           
         </div>
-        <hr>
-        <div class="py-1 my-2" style="">Quantity: {{$product->unit}}</div>
+        <x-hr/>
         
-        <div class="purchase-info md:flex justify-start items-center w-full">
-            <a wire:navigate type="button" class="sm:mb-2 md:mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
+        <div class="purchase-info flex justify-evenly items-center w-full" >
+            <x-nav-link-btn wire:navigate class="mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
                 <i class="fas fa-arrow-right mx-2"></i>Buy Now 
-            </a>
+            </x-nav-link-btn>
             
             @volt('cartAdd')
-                <x-secondary-button wire:click="addToCart" type="button" class="option1">
-                    <i class="fas fa-cart-plus mx-2"></i> To Cart
-                </x-secondary-button>
+                <x-primary-button wire:click="addToCart" type="button" class="option1">
+                    <i class="fas fa-cart-plus mx-2"></i> <span class="hidden md:block">To Cart</span>
+                </x-primary-button>
             @endvolt
-            {{-- <button type="button" onclick="window.location.href='{{ route('order.single', ['id' => $product->id]) }}'"
-                class="btn" style="border-radius: 20px;">
-                    Order Now
-            </button> --}}
+           
         </div>
+        {{-- <div class="mt-3 text-center text-xs">
+            SHARE WITH YOUR FRIENDS
+        </div> --}}
     </div>
 
 
