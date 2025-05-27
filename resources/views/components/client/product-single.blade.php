@@ -8,13 +8,7 @@ use App\Models\cart;
 new class extends Component
 {
     #[URL]
-    public $product, $isAuthProductower = false;
-
-    public function mount() 
-    {
-        $this->isAuthProductower = $this->product->user_id == Auth::user()?->id ? true : false;    
-    }
-    
+    public $product;
     
     public function addToCart()
     {
@@ -155,7 +149,6 @@ new class extends Component
                         $originalPrice = $product->price;
                         $discountedPrice = $product->discount;
                         $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
-                        $isAuthProductower = $product->user_id == auth()->user()->id ? true : false;    
                     @endphp
                     <div >{{ round($discountPercentage, 0) }}% OFF</div>
                 </div>
