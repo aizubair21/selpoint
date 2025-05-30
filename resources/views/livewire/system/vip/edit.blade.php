@@ -123,6 +123,8 @@
             </div>
         </x-dashboard.section>
 
+
+        {{-- package udpate  --}}
         <div class=" md:flex justify-start items-start">
             <x-dashboard.section>
                 <x-dashboard.section.header>
@@ -136,7 +138,7 @@
                 <x-dashboard.section.inner>
                     @foreach ($vips as $item)
                         <div class="flex items-center mb-3 p-2 border rounded">
-                            <input type="checkbox" @checked($item->id == $vipData->package_id) name="" style="width:20px; height:20px" class="rounded mr-3" id="">
+                            <input type="radio" wire:model="package" value="{{$item->id}}" style="width:20px; height:20px" class="rounded mr-3" id="package_{{$item->id}}">
                             <div class="flex items-center">
                                 <x-input-label :value="$item->name" />
                                 <i class="fa-solid fa-arrow-right px-2"></i>
@@ -165,15 +167,15 @@
                 <x-dashboard.section.inner>
                     <div class="flex flex-wrap">
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="checkbox" @checked($vipData->task_type == 'daily') name="" style="width:20px; height:20px" class="rounded mr-3" id="">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="daily" class="rounded mr-3" id="valid_1">
                             <x-input-label value="Daily" />
                         </div>
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="checkbox" @checked($vipData->task_type == 'montyly') name="" style="width:20px; height:20px" class="rounded mr-3" id="">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="monthly" class="rounded mr-3" id="valid_2">
                             <x-input-label value="Monthly" />
                         </div>
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="checkbox" @checked($vipData->task_type == 'disabled') name="" style="width:20px; height:20px" class="rounded mr-3" id="">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="disabled" class="rounded mr-3" id="valid_3">
                             <x-input-label value="Disabled Task" />
                         </div>
                     </div>
@@ -189,6 +191,7 @@
 
         <x-hr/>
 
+        {{-- validation update  --}}
         <div class="md:flex justify-start items-start">
             <x-dashboard.section>
                 <x-dashboard.section.header>
@@ -196,15 +199,30 @@
                         Update Validation
                     </x-slot>
                     <x-slot name="content">
-                        Update validation time for next 360 days.
+                        Update validation time for next 360 days, or your custom days. Give the valid day in input.
                     </x-slot>
                 </x-dashboard.section.header>
                 
                 <x-dashboard.section.inner>
                     
-                    <x-primary-button>
-                        Update Validation
-                    </x-primary-button>
+                    <div class="p-3 my-2 border-b border-t md:flex flex-col items-start justify-start space-y-2 ">
+                        <div class="p-2 rounded shadow">
+                            Package purchase valid till <strong> {{ \Carbon\Carbon::parse($vipData->valid_till)->toFormattedDateString()}} </strong> ({{\Carbon\Carbon::parse($vipData->valid_till)->diffForHumans()}})
+                        </div>
+
+                        <x-hr/>
+
+                        <div class="" x-show="new">
+                            <x-input-label value="New Valid Days" />
+                            <x-text-input wire:model.live="vlid_days" class="w-full" />
+                        </div>
+                    </div>
+                    <div class="text-end">
+
+                        <x-primary-button type="button" wire:click.prevent="updateValidity">
+                            Update Validation
+                        </x-primary-button>
+                    </div>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
 

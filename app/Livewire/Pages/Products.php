@@ -18,7 +18,7 @@ class Products extends Component
     protected $listeners = ['refresh' => '$refresh'];
     public function render()
     {
-        $products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->paginate(20);
+        $products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', 'desc')->paginate(20);
         // dd($products);
         return view('livewire.pages.products', compact('products'));
     }

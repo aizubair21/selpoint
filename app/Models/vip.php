@@ -26,7 +26,6 @@ class vip extends Model
         'valid_from', //renew date
         'task_type', //montyly, daily
 
-
     ];
 
     public function user()

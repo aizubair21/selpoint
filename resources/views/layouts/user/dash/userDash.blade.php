@@ -7,8 +7,8 @@
       <meta name="keywords" content="" />
       <meta name="description" content="" />
       <meta name="author" content="" />
-      <link rel="shortcut icon" href="{{asset('logo.png')}}" type="">
-      <link rel="icon" href="{{asset('logo.png')}}" type="image/x-icon" />
+      <link rel="shortcut icon" href="{{asset('icon.png')}}" type="">
+      <link rel="icon" href="{{asset('icon.png')}}" type="image/x-icon" />
 
       <title>
          @isset($site_title)

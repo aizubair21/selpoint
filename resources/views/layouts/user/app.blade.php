@@ -11,7 +11,7 @@
 
       {{-- <x-site_icon />  --}}
 
-      <link rel="shortcut icon" href={{ asset("logo.png")}} type="">
+      <link rel="shortcut icon" href={{ asset("icon.png")}} type="">
 
       <x-site_title />
 

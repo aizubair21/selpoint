@@ -61,9 +61,9 @@
                 
                     @if(request()->routeIs('user.vip.*'))
             
-                        <div @class(['md:flex jusitfy-between items-start m-0' => $req->status, 'block'])>
+                        <div @class(['md:flex justify-between items-start m-0' => $req->status, 'block'])>
                     
-                            <div class='col-md-6 col-lg-4 mt-4'>
+                            <div class='mt-4'>
                                 <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); grid-gap:20px;" >
                                     <a href="" class="block bold border vip_item_info_box">
                                         
@@ -78,7 +78,7 @@
                                         <i class="fas fa-caret-right"></i>
                                     </a>
                     
-                                    <a href="" class="block bold border vip_item_info_box">
+                                    {{-- <a href="" class="block bold border vip_item_info_box">
                                         
                                         
                                         <div class="text-left"> 
@@ -90,7 +90,7 @@
                                             </span>
                                         </div>
                                         <i class="fas fa-caret-right"></i>
-                                    </a>
+                                    </a> --}}
                     
                                     <x-hr/>
                                     <div>
@@ -106,7 +106,7 @@
                                             Validity 
                                         </div>
                                         <div class="text-xs">
-                                            {{$req->package?->valid_till?->diffForHumans() ?? 'Unlimited'}}
+                                            {{\Carbon\Carbon::parse($req->valid_till)->diffForHumans() ?? 'Unlimited'}} at   {{\Carbon\Carbon::parse($req->valid_till)->toFormattedDateString()}}
                                         </div>
                                     </div>
 
@@ -114,11 +114,11 @@
                                 </div>
                             </div>
                     
-                            {{-- <div @class(["py-4 px-2 col-12 col-md-6 col-lg-4"]) style="display: grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); grid-gap:20px;" > --}}
+                            {{-- <div @class(["py-4 px-2 "]) style="display: grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); grid-gap:20px;" > --}}
  
-                            <div @class(["py-4 px-2 col-12 col-md-6 col-lg-4 text-sm"]) >
+                            <div @class(["py-4 px-2  text-sm"]) >
 
-                                <div class="mb-1 vip_item_info_box border">
+                                <div class="mb-1 vip_item_info_box border bg-indigo-900 text-white">
                                     <div class="">
                                         Package
                                     
@@ -129,7 +129,7 @@
                                     </div>
                                 </div>
 
-                                <div class="mb-1 vip_item_info_box border">
+                                {{-- <div class="mb-1 vip_item_info_box border">
                                     <div class="">
                                         Balance
                                     </div>
@@ -137,7 +137,7 @@
                                     <div style="font-weight: 600; font-size:18px" class="">
                                         {{$req->user?->coin ?? "0"}}
                                     </div>
-                                </div>
+                                </div> --}}
                         
                         
                                 {{-- <div class="mb-1 vip_item_info_box border">
@@ -182,27 +182,27 @@
 
                                 <div @class(["mb-1 vip_item_info_box border d-none", 'd-block' => $req->package?->refer_bonus_owner ?? "0"])>
                                     <div>
-                                        Refer Bonux <i class="fas fa-link mx-2"></i>
+                                        Refer Bonus <i class="fas fa-link mx-2"></i>
                                     </div>
                                     
                                     <div style="font-weight: 600; font-size:18px" class="">
-                                        {{$req->package?->refer_bonus_owner ?? "0"}} Min
+                                        {{$req->package?->ref_owner_get_coin ?? "0"}} TK
                                     </div>
                                 </div>
                         
-                                <div @class(["mb-1 vip_item_info_box border d-none", 'd-block' => $req->package?->refer_bonus_via_link ?? "0" ])>
+                                {{-- <div @class(["mb-1 vip_item_info_box border d-none", 'd-block' => $req->package?->refer_bonus_via_link ?? "0" ])>
                                     <div>
-                                        Give Refer Bonux <i class="fas fa-link mx-2"></i>
+                                        Give Refer Bonus <i class="fas fa-link mx-2"></i>
                                     </div>
                                     
                                     <div style="font-weight: 600; font-size:18px" class="">
                                         {{$req->package?->refer_bonus_via_link ?? "0"}} Min
                                     </div>
-                                </div>
+                                </div> --}}
                         
                             </div>
                     
-                            <div @class(['col-md-4 d-none d-lg-block mt-4'])>
+                            <div @class(['hidden lg:block mt-4'])>
                                 <x-vip-cart :item="$req->package" type='owner' :active="$req->package->id??''" />
                             </div>
                         </div>
