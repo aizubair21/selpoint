@@ -224,34 +224,26 @@
 
     @auth
 
-    @script
-        <script>
-            
-            let task = {{$taskNotCompletYet}};
-            let duration = {{$package->countdown}} * 60;            
-            
-            if (task) {
-                let min = 0, sec = 0;
-                let ct = {{$currentTaskTime}} ?? 0;
-                let counterLoop = setInterval(() => {
+        @script
+            <script>
+                
+                let task = {{$taskNotCompletYet}};
+                let duration = {{$package->countdown}} * 60;            
+                
+                if (task) {
+                    let min = 0, sec = 0;
+                    let ct = {{$currentTaskTime}} ?? 0;
+                    let counterLoop = setInterval(() => {
 
-                    if (ct > duration) {
-                        clearInterval(counterLoop);
-                    }
-                    // console.log(ct, duration);
-                    // min = Math.floor(ct/60);
-                    // sec = ct - (min * 60)
-                    
-                    // document.getElementById('min').innerText = min;
-                    // document.getElementById('sec').innerText = sec;
-                        $wire.dispatch("count-task");
-                    ct++;
-                }, 1000);
-            }
-
-            console.log('hello');
-        </script>
-    @endscript
+                        if (ct > duration) {
+                            clearInterval(counterLoop);
+                        }
+                            $wire.dispatch("count-task");
+                        ct++;
+                    }, 1000);
+                };
+            </script>
+        @endscript
 
     @endauth
 </div>

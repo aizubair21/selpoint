@@ -10,6 +10,7 @@ use Livewire\Attributes\On;
 use App\Models\Cart;
 use App\Models\user_task;
 use App\Models\vip;
+use Carbon\Month;
 use Illuminate\Console\View\Components\Task;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -22,15 +23,15 @@ class ProductsDetails extends Component
     #[URL]
     public $slug;
 
-    public $product, $relatedProduct, $vips, $duration, $currentTaskTime, $taskType = null, $currentTask = null, $taskNotCompletYet = true;
+    public $product, $relatedProduct, $vips, $duration, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
 
     public $min = 0, $sec = 0, $package;
 
     public function mount()
     {
         // dd(intval(30 / 60));
+        // dd(now()->shortLocaleMonth);
         $this->product = Product::where(['slug' => $this->slug, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
-
         $this->vips = auth()?->user()?->subscription()?->active()->valid()->first();
         $this->taskType = $this->vips?->task_type;
         $this->package = $this->vips?->package;
@@ -52,7 +53,6 @@ class ProductsDetails extends Component
             $this->taskNotCompletYet = $this->currentTask?->coin ? false : true;
             $this->currentTask?->save();
         } else {
-
             if ($this->currentTask && $this->taskNotCompletYet) {
                 $this->currentTask?->increment('time');
             } else {
@@ -79,9 +79,21 @@ class ProductsDetails extends Component
         if (Auth::check()) {
 
             $this->currentTask = user_task::where(['user_id' => auth()->user()->id, 'package_id' => $this->vips?->package_id])->whereDate('created_at', '=', today())->first();
+            $this->lastTask = user_task::where(['user_id' => auth()->user()->id, 'package_id' => $this->vips?->package_id])->latest()->first();
+            // dd(Carbon::parse($this->lastTask->created_at)->shortLocaleMonth == today()->shortLocaleMonth);
             $this->currentTaskTime = $this->currentTask?->time ?? 0;
             $this->taskNotCompletYet = $this->currentTask?->coin ? false : true;
             $this->duration = $this->package->countdown * 60;
+
+            /**
+             * check if task type is montyly
+             * and 
+             * latest task belongs to this running month, then
+             * make false the value of taskNotCompleteYet, means task already complete.
+             */
+            if ($this->taskType == 'monthly' && Carbon::parse($this->lastTask->created_at)->shortLocaleMonth == today()->shortLocaleMonth && $this->lastTask?->coin) {
+                $this->taskNotCompletYet = false;
+            }
 
             $min = intval($this->currentTaskTime / 60, 0);
             $sec = $this->currentTaskTime - ($min * 60);
