@@ -59,4 +59,9 @@ class Packages extends Model
     {
         return $this->hasMany(Package_pays::class, 'package_id', 'id');
     }
+
+    public function purchase()
+    {
+        return $this->hasMany(vip::class);
+    }
 }

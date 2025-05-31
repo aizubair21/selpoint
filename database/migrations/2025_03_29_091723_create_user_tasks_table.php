@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreignId('package_id')->constrained('packages')->onDelete('cascade');
             $table->foreignId('vip_id')->constrained('vips')->onDelete('cascade');
             $table->text('earn_by')->nullable();
-            $table->text('coin')->nullable();
-            $table->text('time')->nullable();
+            $table->integer('coin')->nullable();
+            $table->integer('time')->nullable();
             $table->timestamps();
         });
     }

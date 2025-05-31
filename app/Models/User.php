@@ -94,6 +94,8 @@ class User extends Authenticatable
                     ]
                 );
             }
+
+            $user->save();
         });
     }
 
@@ -269,7 +271,6 @@ class User extends Authenticatable
         return $this->uct()->where(['user_type' => 'reseller']);
     }
 
-
     private function myOr()
     {
         return $this->hasMany(Order::class, 'user_id');
@@ -287,5 +288,15 @@ class User extends Authenticatable
     {
         // return $this->hasMany(Order::class);
         return Order::where(['belongs_to' => auth()->user()->id]);
+    }
+
+
+    /**
+     * vip package
+     * @return vip 
+     */
+    public function subscription()
+    {
+        return $this->hasMany(vip::class);
     }
 }

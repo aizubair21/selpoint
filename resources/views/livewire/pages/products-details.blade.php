@@ -1,5 +1,46 @@
 <div>
     {{-- The Master doesn't talk, he acts. --}}
+    <style>
+        #taskPrev{
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            width: 70px;
+            height: 30px;
+            border: 1px solid rgb(25, 78, 46);
+            border-radius: 25px;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            /* box-shadow: 0px 0px 5px gray; */
+            font-size: 18px;
+            /* display: none; */
+
+        }
+
+        #taskPrev .badges{
+            position: absolute;
+            top: -12px;
+            left: 0px;
+            padding: 1px 5px;
+            background-color: green;
+            color: white;
+            font-size: 10px;
+            border-radius: 25px;
+        }
+
+        .price-alert{
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 9999;
+
+        }
+    </style>
 
     <x-dashboard.container>
         <div class=" ">
@@ -158,4 +199,59 @@
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
+
+
+    {{-- daily task counter  --}}
+    @if (!$taskNotCompletYet)
+        <div id="taskPrev" >
+            <div class="badges "> Task</div>
+            Done
+        </div>
+    @else
+        <div id="taskPrev">
+            <div class="badges" > {{$package->countdown ?? 0}} MIN</div>
+            <div id="min">
+                {{$min}}
+            </div>
+            :
+            <div id="sec">
+                {{$sec}}
+            </div>
+        </div>
+    @endif
+
+
+
+    @auth
+
+    @script
+        <script>
+            
+            let task = {{$taskNotCompletYet}};
+            let duration = {{$package->countdown}} * 60;            
+            
+            if (task) {
+                let min = 0, sec = 0;
+                let ct = {{$currentTaskTime}} ?? 0;
+                let counterLoop = setInterval(() => {
+
+                    if (ct > duration) {
+                        clearInterval(counterLoop);
+                    }
+                    // console.log(ct, duration);
+                    // min = Math.floor(ct/60);
+                    // sec = ct - (min * 60)
+                    
+                    // document.getElementById('min').innerText = min;
+                    // document.getElementById('sec').innerText = sec;
+                        $wire.dispatch("count-task");
+                    ct++;
+                }, 1000);
+            }
+
+            console.log('hello');
+        </script>
+    @endscript
+
+    @endauth
 </div>

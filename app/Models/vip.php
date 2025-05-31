@@ -40,7 +40,7 @@ class vip extends Model
 
     public function package()
     {
-        return $this->hasOne(Packages::class, 'id', 'package_id');
+        return $this->belongsTo(Packages::class);
     }
 
     /**
@@ -49,6 +49,15 @@ class vip extends Model
     public function active()
     {
         return $this->status == 1;
+    }
+
+    /**
+     * method return the active query
+     * @return vip
+     */
+    public function scopeActive($query)
+    {
+        return $query->where(['status' => 1]);
     }
 
     /**
