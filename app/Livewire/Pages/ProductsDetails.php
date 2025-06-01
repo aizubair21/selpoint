@@ -23,7 +23,7 @@ class ProductsDetails extends Component
     #[URL]
     public $slug;
 
-    public $product, $relatedProduct, $vips, $duration, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
+    public $product, $relatedProduct, $vips, $duration, $countdown = 0, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
 
     public $min = 0, $sec = 0, $package;
 
@@ -35,6 +35,7 @@ class ProductsDetails extends Component
         $this->vips = auth()?->user()?->subscription()?->active()->valid()->first();
         $this->taskType = $this->vips?->task_type;
         $this->package = $this->vips?->package;
+        $this->countdown = $this->package?->countdown ?? 0;
         $this->getData();
         $this->relatedProduct = Product::where(['category_id' => $this->product->category_id, 'status' => 'active', 'belongs_to_type' => 'reseller'])->limit(10)->get();
         // $this->vips = vip::where(['user_id' => Auth::id(), 'status' => 1])->whereDate('valid_till', '>', today())->first();
@@ -44,22 +45,58 @@ class ProductsDetails extends Component
     #[on('count-task')]
     public function countTask()
     {
+        /**
+         * this method run by client side livewire dispatch event
+         * when event ('count-task) dispatched from client side
+         */
+
+
         // if task found, and task time equal to package time
         // then set the coin to task
         // dd('tast');
 
-        if ($this->currentTaskTime >= $this->duration) {
-            $this->currentTask->coin = $this->package->coin;
-            $this->taskNotCompletYet = $this->currentTask?->coin ? false : true;
+
+        if ($this->currentTaskTime >= $this->duration && $this->taskNotCompletYet) {
+
+            /**
+             * if task is running and
+             * running counter time same to package timet then
+             * save the task reward and
+             * make the value false to taskNotCompletYet, means task complete done
+             */
+            $this->currentTask->coin = $this->package?->coin; // reward added to task
             $this->currentTask?->save();
+
+            auth()->user()->coin += $this->package?->coin; // added to user wallet
+            auth()->user()->save();
+
+            $this->taskNotCompletYet = $this->currentTask?->coin ? false : true;
         } else {
+
+            /**
+             * if task is running and
+             * running counter smaller than the package duration time
+             * duration time multiplied by 60
+             */
+
             if ($this->currentTask && $this->taskNotCompletYet) {
+
+                /**
+                 * if already task get in database.
+                 * increase the time
+                 */
+
                 $this->currentTask?->increment('time');
             } else {
+
+                /**
+                 * else create one instance for first time
+                 */
+
                 user_task::create(
                     [
                         'user_id' => Auth::id(),
-                        'package_id' => $this->package->id,
+                        'package_id' => $this->package?->id,
                         'vip_id' => $this->vips->id,
                         'earn_by' => 'task',
                         'time' => 0,
@@ -69,6 +106,9 @@ class ProductsDetails extends Component
         }
 
 
+        /**
+         * call getData function to get the latest values
+         */
         $this->getData();
     }
 
@@ -83,7 +123,7 @@ class ProductsDetails extends Component
             // dd(Carbon::parse($this->lastTask->created_at)->shortLocaleMonth == today()->shortLocaleMonth);
             $this->currentTaskTime = $this->currentTask?->time ?? 0;
             $this->taskNotCompletYet = $this->currentTask?->coin ? false : true;
-            $this->duration = $this->package->countdown * 60;
+            $this->duration = $this->package?->countdown * 60;
 
             /**
              * check if task type is montyly
