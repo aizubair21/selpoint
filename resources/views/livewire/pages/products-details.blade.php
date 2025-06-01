@@ -185,17 +185,57 @@
        
        
         {{-- Product Q/A  --}}
-        <x-dashboard.section>
+        <x-dashboard.section x-data={show:false}>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Product Q/A 
+                    <div class="flex justify-between items-center">
+                        Product Q/A 
+                        <button x-html="show ? 'collapse' : 'expand'" class="border text-xs p-2 rounded-lg" x-on:click="show = !show">
+                            
+                        </button>
+                    </div>
                 </x-slot>
                 <x-slot name="content">
-                    Han any question regarding this products?
+                    Have any question regarding this products?
                 </x-slot>
             </x-dashboard.section.header>
-            <x-dashboard.section.inner> 
-                
+            <x-dashboard.section.inner > 
+                <div class="mb-2">
+                    <div class="py-2 ">
+                        <div class="flex items-center text-xs mb-2">
+                            <div class="">Your Qestions</div>
+                        </div>
+
+                        {{-- quetion body  --}}
+                        <div class="p-2 border-l mb-3">
+                            <div class="text-sm text-bold text-gray-600">July 16, 2025</div>
+                            <div class="p-2">
+                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. A quaerat labore voluptatem rerum delectus vero iusto quia culpa voluptatum quae.
+                                <div class="text-gray-600 font-normal">
+                                    <i class="fa-solid fa-sync"></i>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, similique.
+                                    <i>replied by shop</i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- quetion body  --}}
+                    </div>
+                </div>
+                <div x-show="show" x-transition>
+                    <x-hr/>
+                    No More Question Found !
+                    <x-hr/>
+                </div>
+                @auth
+                    <div class="border rounded p-2 text-end">
+                        <textarea name="" id="" cols="3" class="w-full rounded border-0 mb-2" placeholder="ask a question "></textarea>
+                        <x-primary-button>ask</x-primary-button>
+                    </div>
+                @else
+                    <div class="border rounded p-2 text-center">
+                        login to ask question
+                    </div>
+                @endauth
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
@@ -228,22 +268,39 @@
             <script>
                 
                 let task = {{$taskNotCompletYet}};
-                let duration = {{$package->countdown}} * 60;            
+                let duration = {{$countdown}} * 60;            
                 
-                if (task) {
+                if (task && duration > 0) {
                     let min = 0, sec = 0;
                     let ct = {{$currentTaskTime}} ?? 0;
                     let counterLoop = setInterval(() => {
 
                         if (ct > duration) {
                             clearInterval(counterLoop);
+                            window.location.reload();
                         }
-                            $wire.dispatch("count-task");
-                        ct++;
+                        $wire.dispatch("count-task");
+                        console.log(ct, duration);
+                        
                     }, 1000);
                 };
+
             </script>
         @endscript
+        
+        {{-- <script>
+            let token = "{{csrf_token()}}";
+            let req = new XMLHttpRequest();
 
+            req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(JSON.parse(this.response));
+                    
+                }
+            };
+            req.open("get", "http://eruhi.local/http/test", true);
+            req.send();
+
+        </script> --}}
     @endauth
 </div>
