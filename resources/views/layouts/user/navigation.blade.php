@@ -219,7 +219,7 @@ new class extends Component {
         <x-text-input type="search" class="py-1 w-full mx:w-xl rounded shadow" placeholder="Search by name ..." />
     </div>
     <div class="flex items-center justify-center">
-        <div class=" space-x-8 sm:-my-px sm:ms-10 flex">       
+        <div class=" space-x-3 sm:-my-px sm:ms-10 flex">       
             <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
             </x-nav-link>
@@ -228,6 +228,9 @@ new class extends Component {
             </x-nav-link>
             <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.*')">
                 {{ __('Categories') }}
+            </x-nav-link>
+            <x-nav-link>
+                Shops
             </x-nav-link>
         </div>
     </div>

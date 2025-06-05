@@ -45,7 +45,7 @@ class Edit extends Component
             $this->vipData->save();
             $this->dispatch('success', 'Task Type Updated !');
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
     }
 

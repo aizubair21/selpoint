@@ -181,7 +181,7 @@
                     </div>
                     <br>
                     <div class="text-end">
-                        <x-danger-button>
+                        <x-danger-button type="button" wire:click.prevent="updateTask">
                             Update
                         </x-danger-button>
                     </div>

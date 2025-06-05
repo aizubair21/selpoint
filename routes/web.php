@@ -32,14 +32,6 @@ Route::middleware('auth')->prefix('/u/')->group(function () {
 });
 
 
-// other page route for user
-Route::get('about-us', function () {
-    //
-})->name('about.us');
-
-Route::get('about-policy', function () {
-    //
-})->name('about.policy');
 
 Route::get('products', userProductsPage::class)->name('products.index');
 Route::get('category/{cat}/products', userProductsForCategoryPage::class)->name('category.products');
@@ -47,20 +39,31 @@ Route::get('category', userCategoriesPage::class)->name('category.index');
 Route::get('product/{id}/{slug}', userProductsDetailsPage::class)->name('products.details');
 Route::get('product/{slug}', SingleProductOrder::class)->name('product.makeOrder')->middleware('auth');
 
+
+// other page route for user
+Route::get('about-us', function () {
+    return view('user.pages.about');
+})->name('about.us');
+
+Route::get('about-policy', function () {
+    return view('user.privacy.policies');
+})->name('about.policy');
+
+
 Route::get('earning', function () {
-    //
+    return view('user.pages.earn');
 })->name('about.earn');
 
 Route::get('terms', function () {
-    //
+    return view('user.pages.terms');
 })->name('about.terms');
 
 Route::get('return', function () {
-    //
+    return view('user.pages.return_refund');
 })->name('about.return');
 
 Route::get('contact', function () {
-    //
+    return view('contact');
 })->name('about.contact');
 
 require __DIR__ . '/auth.php';
@@ -71,3 +74,13 @@ require __DIR__ . '/auth.php';
 Route::get('/volt-test', function () {
     return view('livewire.test');
 })->name('test.volt');
+
+
+
+/**
+ * http test
+ */
+Route::get('/http/test', function () {
+
+    return response()->json(['hello'], 200);
+});

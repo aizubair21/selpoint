@@ -2,9 +2,9 @@
     {{-- Success is as dangerous as failure. --}}
     <x-dashboard.container>
         <div class="">
-            <div class="heading_container heading_center">
+            <div class="heading_container heading_center my-3">
                 <h2>
-                    Our <span>Categories</span>
+                    Eruhi <span>Categories</span>
                 </h2>
             </div>
             

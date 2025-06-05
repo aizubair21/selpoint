@@ -9,15 +9,10 @@ use App\Models\vendor;
 
 class Dashboard extends Component
 {
-    public $products = [], $tp = [],  $category = [], $vendor = [], $trands;
-
-    public function mount()
-    {
-        $this->getDate();
-    }
+    public $products = [], $tp,  $category, $vendor, $trands;
 
 
-    public function getDate()
+    public function getData()
     {
         $this->products = Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->limit('50')->get();
         $this->tp = Product::where(['belongs_to_type' => 'vendor'])->count();

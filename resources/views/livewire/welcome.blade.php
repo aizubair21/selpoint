@@ -186,17 +186,21 @@
 
     
     <x-dashboard.container>
-        <div class="product_section layout_padding">
-            {{-- @includeIf('components.client.common-heading') --}}
-            {{-- <x-client.products-loop :$products /> --}}
-            @if (count($products))     
-                <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(160px, auto)); grid-gap:10px">
-                    @foreach($products as $product)
-                        <x-client.product-cart :$product :key="$product->id" />
-                    @endforeach    
-                </div>
-            @endif
-    
+        <div x-init="$wire.getProducts">
+            
+            <div class="product_section layout_padding" x-loading.disabled x-transition>
+                {{-- @includeIf('components.client.common-heading') --}}
+                {{-- <x-client.products-loop :$products /> --}}
+                @if (count($products))     
+                    <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(160px, auto)); grid-gap:10px">
+                        @foreach($products as $product)
+                            <x-client.product-cart :$product :key="$product->id" />
+                        @endforeach    
+                    </div>
+                @endif
+        
+            </div>
+
         </div>
     
         <div class="text-center">

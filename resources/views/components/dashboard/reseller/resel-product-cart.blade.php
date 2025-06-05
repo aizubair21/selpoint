@@ -113,7 +113,7 @@ new class extends Component
             </div> --}}
             <x-hr/>
             <div class="flex justify-between items-center text-sm">
-                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">Resel</x-primary-button>
+                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">reseller order</x-primary-button>
                 {{-- <button>To Cart</button> --}}
             </div>
         </div>

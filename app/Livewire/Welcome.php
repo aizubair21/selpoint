@@ -12,10 +12,11 @@ use App\Models\Product;
 class Welcome extends Component
 {
 
-    public $products;
+    public $products = [];
 
-    public function mount()
+    public function getProducts()
     {
+
         $this->products =  Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', 'desc')->limit(20)->get();
     }
 
