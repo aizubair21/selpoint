@@ -16,36 +16,54 @@
                     height: auto;
                     z-index: 9;
                 }
+
+                @media (max-width:570px){
+                    .nv-shop-item{
+                        width:350px
+                    }
+                }
+                @media (min-width : 570px) and (max-width:990px)
+                {
+                    .nv-shop-item{
+                        width:570px;
+                    }
+                }
+                @media (min-width : 990px){
+                    .nv-shop-item {
+                        width:900px
+                    }
+                }
+
                 .nv-shop-btn:hover .nv-shop-item{
                     display: block;
                     transition: all linear .3s;
                 }
             </style>
-            <div class="pe-4 w-48 max-w-md nv-shop-btn relative" id="">
+            <div class="pe-4 max-w-md nv-shop-btn relative" id="" style="width:200px">
                 <div class="flex items-center justify-center cursor-pointer">
                     <div>Shop</div>
                     <i class=" px-3 pb-2 fas fa-sort-down"></i>
                 </div>
 
+                <div id="" class="nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
+                   <div class="">
+                        <div class=" flex flex-wrap items-start">
+                            
+                            <div class="text-start p-2 w-20 bg-gray-100" style="width:100px">
+                                <div class="font-bold pb-2">
+                                    Means
+                                </div>
 
-
-                <div id="" class="nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%" >
-                   <div class="flex flex-wrap justify-start items-start">
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
-                        <a href="">Home </a>
+                                <div class="block">
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                    <x-nav-link class="block">Link One</x-nav-link>
+                                </div>
+                            </div>
+                        </div>
                    </div>
                 </div>
             </div>
@@ -136,12 +154,12 @@
 </div>
 
 {{-- sticky nav  --}}
-<div class="bg-white w-full fixed z-50 top-0 left-0" id="sticky-nav">
+<div class="bg-white w-full fixed z-50 top-0 left-0" id="sticky-nav" x-data="{open:false}">
 
-    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center"> 
+    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" > 
         {{-- logo  --}}
         <div class="flex items-center">
-            <button class="border-r px-2">
+            <button class="border-r px-2" x-on:click="open = !open">
                 <i class="fas fa-align-justify text-lg"></i>
             </button>
             <div class="flex items-center">
@@ -252,6 +270,63 @@
                         login
                     </x-nav-link>
                 @endguest
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    {{-- other side nav  --}}
+    <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px; width:250px">
+        <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
+            {{-- btn  --}}
+            <button class="flex justify-between items-center w-full" x-on:click="display = !display">
+                Mens Fashion
+                <i x-show="display" class="fas fa-sort-up"></i>
+                <i x-show="!display" class="fas fa-sort-down"></i>
+            </button>
+
+            {{-- content  --}}
+            <div x-show="display">
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
+            {{-- btn  --}}
+            <button class="flex justify-between items-center w-full" x-on:click="display = !display">
+                Mens Fashion
+                <i x-show="display" class="fas fa-sort-up"></i>
+                <i x-show="!display" class="fas fa-sort-down"></i>
+            </button>
+
+            {{-- content  --}}
+            <div x-show="display">
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
+                <div class="py-1">
+                    <x-nav-link class="block">Home</x-nav-link>
+                </div>
             </div>
         </div>
     </div>
