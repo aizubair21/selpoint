@@ -10,7 +10,7 @@
         </div>
 
         {{-- search  --}}
-        <div class="hidden mb:block flex justify-start items-center flex-1 w-full px-4" id="search_content">
+        <div class="hidden md:flex justify-start items-center flex-1 w-full px-4" id="search_content">
             <style>
                 .nv-shop-item{
                     height: auto;
@@ -136,7 +136,7 @@
 </div>
 
 {{-- sticky nav  --}}
-<div class="bg-white w-full fixed z-10 top-0 left-0" id="sticky-nav">
+<div class="bg-white w-full fixed z-50 top-0 left-0" id="sticky-nav">
 
     <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center"> 
         {{-- logo  --}}
@@ -248,7 +248,7 @@
                     </div>
                 @endauth
                 @guest
-                    <x-nav-link class=" px-3 text-md uppercase " :href="route('login')" >
+                    <x-nav-link class=" px-3 text-md uppercase " href="/login" >
                         login
                     </x-nav-link>
                 @endguest
