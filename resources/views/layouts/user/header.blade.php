@@ -1,3 +1,52 @@
+<?php 
+
+ 
+use App\Models\cart;
+use App\Livewire\Actions\Logout;
+use Livewire\Volt\Component;
+use Livewire\Attributs\On;
+use function Livewire\Volt\{computed};
+ 
+// $count = computed(function () {
+//     return auth()->user() ? auth()->user()->myCarts()->count() : "0";
+// });
+
+new class extends Component {
+
+    public $count = 0;
+    protected $listeners = ['$refresh'];
+
+    public function mount() 
+    {
+        $this->count();    
+    }
+    
+    #[On('cart')]
+    public function count() 
+    {
+        $this->count = auth()->user() ? auth()->user()->myCarts()->count() : "0";
+        // $this->count ++;
+    }
+    
+    /**
+     * Log the current user out of the application.
+     */
+     public function logout(Logout $logout): void
+    {
+        $logout();
+
+        $this->redirect('/', navigate: true);
+    }
+
+    public function login() 
+    {
+        $this->redirect('/login', navigate:true);    
+    }
+    
+}
+?>
+
+
 <div class="bg-white text-center">
 
     {{-- normal nav on desktop --}}
@@ -49,7 +98,7 @@
                    <div class="">
                         <div class=" flex flex-wrap items-start">
                             
-                            <div class="text-start p-2 w-20 bg-gray-100" style="width:100px">
+                            <div class="text-start p-2 w-20" style="width:100px">
                                 <div class="font-bold pb-2">
                                     Means
                                 </div>
@@ -160,7 +209,8 @@
         {{-- logo  --}}
         <div class="flex items-center">
             <button class="border-r px-2" x-on:click="open = !open">
-                <i class="fas fa-align-justify text-lg"></i>
+                <i x-show="!open" class="fas fa-align-justify text-lg"></i>
+                <i x-show="open" class="fas fa-times text-lg"></i>
             </button>
             <div class="flex items-center">
                 <img height="40px" width="40px" src="{{asset('icon.png')}}" alt="">
@@ -279,7 +329,8 @@
 
 
     {{-- other side nav  --}}
-    <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px; width:250px">
+    <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px;width:250px;">
+       
         <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
             {{-- btn  --}}
             <button class="flex justify-between items-center w-full" x-on:click="display = !display">
