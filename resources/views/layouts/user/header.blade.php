@@ -66,7 +66,7 @@ new class extends Component {
                     z-index: 9;
                 }
 
-                @media (max-width:570px){
+                /* @media (max-width:570px){
                     .nv-shop-item{
                         width:350px
                     }
@@ -81,7 +81,7 @@ new class extends Component {
                     .nv-shop-item {
                         width:900px
                     }
-                }
+                } */
 
                 .nv-shop-btn:hover .nv-shop-item{
                     display: block;
@@ -94,9 +94,9 @@ new class extends Component {
                     <i class=" px-3 pb-2 fas fa-sort-down"></i>
                 </div>
 
-                <div id="" class="nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
+                <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
                    <div class="">
-                        <div class=" flex flex-wrap items-start">
+                        <div class=" flex items-start">
                             
                             <div class="text-start p-2 w-20" style="width:100px">
                                 <div class="font-bold pb-2">

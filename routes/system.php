@@ -36,6 +36,10 @@ use App\Livewire\System\Store\Index;
 
 use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
 
+use App\Livewire\System\Navigations\Index as NavigationsIndex;
+
+
+
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
     // route for admin index to system dashboard
@@ -130,4 +134,10 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     Route::prefix('products')->group(function () {
         Route::get('/', systemGlobalProductsIndexPage::class)->name('system.products');
     });
+
+
+    /**
+     * navigations
+     */
+    Route::get('/navigations/list', NavigationsIndex::class)->name('navigations.index');
 });

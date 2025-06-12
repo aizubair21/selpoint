@@ -75,6 +75,10 @@
                         {{ __('Withdraw') }}
                     </x-dropdown-link>
                     @endcan
+                   
+                    <x-dropdown-link :href="route('navigations.index')">
+                        {{ __('Navigations') }}
+                    </x-dropdown-link>
                 
                     <x-dropdown-link :href="route('profile.edit')">
                         {{ __('Comission') }}
