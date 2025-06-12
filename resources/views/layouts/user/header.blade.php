@@ -2,6 +2,7 @@
 
  
 use App\Models\cart;
+use App\Models\Navigations;
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use Livewire\Attributs\On;
@@ -13,12 +14,13 @@ use function Livewire\Volt\{computed};
 
 new class extends Component {
 
-    public $count = 0;
+    public $count = 0, $navigations = [];
     protected $listeners = ['$refresh'];
 
     public function mount() 
     {
-        $this->count();    
+        $this->count();
+        $this->navigations = Navigations::with('links')->get();
     }
     
     #[On('cart')]
@@ -96,23 +98,27 @@ new class extends Component {
 
                 <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
                    <div class="">
-                        <div class=" flex items-start">
-                            
-                            <div class="text-start p-2 w-20" style="width:100px">
-                                <div class="font-bold pb-2">
-                                    Means
-                                </div>
+                       @volt()
+                            <div class=" flex items-start">
 
-                                <div class="block">
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                    <x-nav-link class="block">Link One</x-nav-link>
-                                </div>
+                                @foreach ($navigations as $item)
+
+                                    <div class="text-start p-2 " style="width:150px">
+                                        <div class="font-bold pb-2">
+                                            {{$item->name ?? "N/A"}}
+                                        </div>
+
+                                        <div class="block">
+                                            @foreach ($item->links as $nl)    
+                                                <x-nav-link class="block">{{$nl->name ?? "N/A"}}</x-nav-link>
+                                            @endforeach
+                                            
+                                        </div>
+                                    </div>
+
+                                @endforeach
                             </div>
-                        </div>
+                        @endvolt
                    </div>
                 </div>
             </div>
@@ -330,56 +336,41 @@ new class extends Component {
 
     {{-- other side nav  --}}
     <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px;width:250px;">
-       
-        <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
-            {{-- btn  --}}
-            <button class="flex justify-between items-center w-full" x-on:click="display = !display">
-                Mens Fashion
-                <i x-show="display" class="fas fa-sort-up"></i>
-                <i x-show="!display" class="fas fa-sort-down"></i>
-            </button>
+        @volt()
+            <div>
 
-            {{-- content  --}}
-            <div x-show="display">
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
+                @foreach ($navigations as $item)    
+                    <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
+                        {{-- btn  --}}
+                        <button class="flex justify-between items-center w-full" x-on:click="display = !display">
+                            {{$item->name ?? "N/A"}}
+                            <i x-show="display" class="fas fa-sort-up"></i>
+                            <i x-show="!display" class="fas fa-sort-down"></i>
+                        </button>
+
+                        {{-- content  --}}
+                        <div x-show="display">
+                            @foreach ($item->links as $il)
+                                
+                                <div class="py-1">
+                                    <x-nav-link class="block"> {{$il->name ?? "N/A"}} </x-nav-link>
+                                </div>
+                            @endforeach
+                            {{-- <div class="py-1">
+                                <x-nav-link class="block">Home</x-nav-link>
+                            </div>
+                            <div class="py-1">
+                                <x-nav-link class="block">Home</x-nav-link>
+                            </div>
+                            <div class="py-1">
+                                <x-nav-link class="block">Home</x-nav-link>
+                            </div> --}}
+                        </div>
+                    </div>
+                @endforeach
             </div>
-        </div>
+        @endvolt
 
-        <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
-            {{-- btn  --}}
-            <button class="flex justify-between items-center w-full" x-on:click="display = !display">
-                Mens Fashion
-                <i x-show="display" class="fas fa-sort-up"></i>
-                <i x-show="!display" class="fas fa-sort-down"></i>
-            </button>
-
-            {{-- content  --}}
-            <div x-show="display">
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-                <div class="py-1">
-                    <x-nav-link class="block">Home</x-nav-link>
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>
