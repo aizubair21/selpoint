@@ -5,51 +5,115 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
+use App\ApiResponse;
+use App\Models\Navigations;
 
 
-$default_offset = 20;
-/**
- * @param offset item count every age
- * @param index get the single value of item
- * @param getCat to get product belongs to category
- * 
- * @return the products
- */
-Route::get('/products', function (Request $request) {
-    $products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', 'desc')->paginate($request->offset ?? 20);
-    $index = $request->index;
-    $category = $request->getCat;
-
-    // if 'index' query parameter is found, then get the index products.
-    if ($index) {
-        $products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active', 'id' => $index])->with('showcase', 'attr')->first();
+Route::get('navigations', function () {
+    // get all navigations with links
+    $navigations = Navigations::with('links')->get();
+    return ApiResponse::send($navigations);
+});
+Route::get('navigations/{id}', function ($id) {
+    // get all navigations with links
+    $nvs = Navigations::find($id);
+    if ($nvs) {
+        $navigations = $nvs->with('links')->get();
+        return ApiResponse::send($navigations);
+    } else {
+        return ApiResponse::notFound('No Navigations Found!');
     }
-
-    // if category found, then get the product belongs to those category.
-    if ($category) {
-        $products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active', 'category_id' => $category])->with('showcase', 'attr')->paginate($request->offset ?? 20);
-    }
-
-    return response()->json($products, 200);
 });
 
-/**
+
+Route::prefix('/products/')->group(function () {
+
+    Route::get('/', function (Request $request) {
+        $products = Product::query()->reseller()->active()->with('category', 'showcase', 'attr')->orderBy('id', 'desc')->paginate($request->paginate ?? config('app.paginate', 20));
+        return ApiResponse::send($products);
+    });
+
+    // product with id
+    Route::get('/{id}', function (Request $req, $id) {
+        $products = Product::query()->reseller()->active()->where(['id' => $id])->with('showcase', 'attr', 'category')->first();
+        return ApiResponse::send($products);
+    });
+
+    // product with category
+    Route::get('/where-category/{id}', function ($id) {
+        $products = Product::query()->reseller()->active()->where(['category_id' => $id])->with('category', 'showcase', 'attr')->orderBy('id', 'desc')->paginate($request->paginate ?? config('app.paginate', 20));
+        return ApiResponse::send($products);
+    });
+
+    // product by shop
+    Route::get('/user/{id}', function ($id) {
+        // Product get by shop user id
+        $products = Product::query()->reseller()->active()->where(['user_id' => $id])->with('category', 'showcase', 'attr')->orderBy('id', 'desc')->paginate($request->paginate ?? config('app.paginate', 20));
+        return ApiResponse::send($products);
+    });
+});
+
+
+
+Route::prefix('/shop')->group(function () {
+
+    Route::get('/', function () {
+        // get all shops;
+
+    });
+
+    Route::get('/{id}', function () {
+        // get an targeted shops
+
+    });
+
+    Route::post('/{id}/report', function () {
+        // report against shop
+
+    });
+
+    Route::get('/{id}/products', function () {
+        // get products by a shop id
+    });
+
+
+    Route::get('/{id}/categories', function () {
+        // get categories by a shop id
+
+    });
+});
+
+
+/**if
  * @param offset to limit the pagination
- * 
- * 
  * @return App\Models\Categories collection
  */
-Route::get('/categories', function (Request $request) {
-    $data = Category::where(['belongs_to' => 'reseller'])->paginate($request->offset ?? 20);
+Route::prefix('/category')->group(function () {
 
-    // if offset set to 'full' then get the all categories
-    if ($request->offset == 'full') {
-        $data = Category::where(['belongs_to' => 'reseller'])->get();
-    }
-    return response()->json($data, 200);
+    Route::get('/', function (Request $request) {
+        $data = Category::where(['belongs_to' => 'reseller'])->paginate($request->paginate ?? config('app.paginate', 20));
+
+        // if offset set to 'full' then get the all categories
+        if ($request->paginate == 'full') {
+            $data = Category::where(['belongs_to' => 'reseller'])->get();
+        }
+        return ApiResponse::send($data);
+    });
+
+    Route::get('/{id}', function ($id) {
+        // get a category
+        $data = Category::where(['belongs_to' => 'reseller', 'id' => $id])->first();
+        return ApiResponse::send($data);
+    });
+
+
 });
 
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+
+Route::prefix('me')->group(function () {
+
+    Route::get('/', function (Request $request) {
+        return $request->user();
+    });
+})->middleware('auth:sanctum');

@@ -80,10 +80,10 @@ class Product extends Model
         return $query->where(['status' => 'Draft']);
     }
 
-    // public function scopeSuspended($query)
-    // {
-    //     return $query->where(['status' => 'Suspended']);
-    // }
+    public function scopeReseller($query)
+    {
+        return $query->where(['belongs_to_type' => 'reseller']);
+    }
     // public function scopeDisabled($query)
     // {
     //     return $query->where(['status' => 'Disabled']);

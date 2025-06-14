@@ -130,6 +130,7 @@ return [
     'comission' => env('COMISSION', true),
     'vip' => env('VIP', true),
     'system_email' => env('SYSTEM_EMAIL', 'admin247@eruhi.com'),
-    'paginate' => 100,
+    'paginate' => 20,
+    'API_MASTER' => env('APP_API_MASTER_KEY', ''),
 
 ];
