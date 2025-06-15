@@ -66,18 +66,18 @@ new class extends Component{
         <div>
             <nav class="flex justify-between items-center">
               
-                <x-nav-link class="" href="/"><img style="height: 50px;" src="{{asset('logo.png')}}" alt="#" /></x-nav-link>
+                <a wire:navigate class="" href="/"><img style="height: 50px;" src="{{asset('logo.png')}}" alt="#" /></a>
                 <div class="" id="navbarSupportedContent">
                     <ul class="flex items-center">
         
                         <li>
-                            <x-nav-link :href="route('home')">
+                            <a wire:navigate href="{{route('home')}}">
                                 Home
-                            </x-nav-link>
+                            </a>
                         </li> 
                         <li class="px-2">
                             <div class="relative">
-                                <x-nav-link class="nav-link " href="{{route('carts.view')}}"><i class="fas fa-shopping-cart" ></i> <span class="cart-count">{{auth()->user()->myCarts()->count() ?? "0"}}</span></x-nav-link>
+                                <a wire:navigate class="nav-link " href="{{route('carts.view')}}"><i class="fas fa-shopping-cart" ></i> <span class="cart-count">{{auth()->user()->myCarts()->count() ?? "0"}}</span></a>
                             </div>
                         </li>
                         <x-dropdown align="right" width="48">

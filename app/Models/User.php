@@ -158,7 +158,7 @@ class User extends Authenticatable
      */
     public function referred()
     {
-        return User::where(['refernce' => $this->referene]);
+        return User::where(['reference' => $this->referene]);
     }
 
 

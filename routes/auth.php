@@ -17,6 +17,7 @@ use App\Livewire\User\Carts;
 use App\Livewire\User\Dash as userPanel;
 use App\Livewire\User\Order\Details;
 use App\Livewire\User\Orders;
+use App\Livewire\User\Refs;
 use App\Livewire\User\Upgrade\Vendor\Index as upgradeToVendorIndex;
 use App\Livewire\User\Upgrade\Vendor\Create as upgradeToVendorCreate;
 use App\Livewire\User\Upgrade\Vendor\Edit as upgradeToVendorEdit;
@@ -28,7 +29,12 @@ use App\Livewire\User\Vip\Index;
 use App\Livewire\User\Vip\Package\Checkout;
 use App\Livewire\User\Vip\Package\Index as PackageIndex;
 use App\Livewire\User\Vip\Package\Purchase;
+use App\Livewire\User\Wallet\Index as WalletIndex;
+use App\Livewire\User\Wallet\Withdraw\Index as WithdrawIndex;
+use App\Models\User;
 use App\Models\vip;
+
+use function Livewire\Volt\layout;
 
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
@@ -94,9 +100,18 @@ Route::middleware('auth')->group(function () {
         // Route::get('vip/packages/{id}/cancle', function ($id) {
         //     dd(vip::find($id));
         // })->name('user.package.cancle');
+
+
+        Route::get('/ref', Refs::class)->name('user.ref.view');
+
+        // user wallet
+        Route::get('/wallet', WalletIndex::class)->name('user.wallet.index');
+
+        // user withdraw 
+        Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
     });
 
-    
+
 
     /**
      * view shop

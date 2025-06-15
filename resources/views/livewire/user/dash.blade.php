@@ -25,7 +25,7 @@
                             </b>
                         </div>
                         {{-- <div class="col-md-2 co px-0"></div> --}}
-                        <x-nav-link wire:navigate href="" class="bold rounded-lg bg-gray-800 text-white p-1 pl-3 flex justify-between align-center">
+                        <x-nav-link wire:navigate href="{{route('user.wallet.index')}}" class="bold rounded-lg bg-gray-800 text-white p-1 pl-3 flex justify-between align-center">
                             <div>
                                 Earning
                             </div>
@@ -58,7 +58,7 @@
         
                         <div>    
                             <x-primary-button onclick="copyPaymentNumber(this, 'refID')" class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i> COPY</x-primary-button>
-                            <x-nav-link wire:navigate class="text-xs" href="">View Your Referred User</x-nav-link>
+                            <x-nav-link wire:navigate class="text-xs" href="{{route('user.ref.view')}}">View Your Referred User</x-nav-link>
                         </div>
                     </x-dashboard.section.inner>
                     

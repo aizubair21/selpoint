@@ -114,6 +114,6 @@ Route::prefix('/category')->group(function () {
 Route::prefix('me')->group(function () {
 
     Route::get('/', function (Request $request) {
-        return $request->user();
+        return ApiResponse::send($request->user());
     });
 })->middleware('auth:sanctum');

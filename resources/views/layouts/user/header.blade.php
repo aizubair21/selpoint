@@ -211,7 +211,7 @@ new class extends Component {
 {{-- sticky nav  --}}
 <div class="bg-white w-full fixed z-50 top-0 left-0" id="sticky-nav" x-data="{open:false}">
 
-    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" > 
+    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" x-data="{search:false}"> 
         {{-- logo  --}}
         <div class="flex items-center">
             <button class="border-r px-2" x-on:click="open = !open">
@@ -225,34 +225,21 @@ new class extends Component {
         </div>
 
         {{-- search  --}}
-        {{-- <div class="flex justify-start items-center flex-1 w-full px-4" id="search_content">
-            <style>
-                #nv-shop-btn:hover #nv-shop-item{
-                    display: block
-                }
-            </style>
-            <div class="pe-4 w-48 max-w-md flex items-center justify-center cursor-pointer relative group group/item h-20" id="nv-shop-btn">
-                <div>Shop</div>
-                <i class=" px-3 pb-2 fas fa-sort-down"></i>
-
-
-
-                <div id="nv-shop-item" class="group/edit hidden absolute bottom-0 left-0 w-48 h-48 border shadow bg-white group-hover/item:block" >
-
-                </div>
+        <div x-show="search" x-transition class="absolute bottom-0 left-0 flex justify-between items-center flex-1 w-full px-4  " id="search_content">
+            <div class="relative w-full flex-1 px-2">
+                <input type="search" name="" autofocus placeholder="Search Product By Title or Tasgs" class="border-0 shadow-0 blur:border-0 blur:shadow-0 w-full" id="">
             </div>
-
-            <div class="relative border flex-1">
-                <input type="search" name="" placeholder="Search Product By Title or Tasgs" class="border-0 shadow-0 focus:border-0 focus:shadow-0 w-full" id="">
-            </div>
-        </div> --}}
+            <button x-on:click="search = !search">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
 
 
         {{-- right content  --}}
         <div>
 
             <div class="flex items-center justify-between">
-                <button class="rounded mx-2">
+                <button class="rounded mx-2" x-on:click="search = !search">
                     <i class="fas fa-search text-md p-2"></i>
                 </button>
                 @auth     

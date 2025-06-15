@@ -126,7 +126,7 @@
 
          {{-- left asside  --}}
          
-         <div id="user_asside" class="rounded position-sm-absolute col-md-3 py-3 mb-4 bg-white shadow-sm ">
+         <div id="user_asside" class="rounded position-sm-absolute col-md-3 py-3 mb-4">
             <x-nav-link class="asside_link" :active="request()->routeIs('user.dash')" href="{{route('user.dash')}}">
                <i class="fas fa-home"></i>
                <span class="pl-2 hidden md:block">
@@ -145,13 +145,13 @@
                   Order ({{auth()->user()->myOrderAsUser()?->count() ?? "0"}})
                </span>
             </x-nav-link>
-            <x-nav-link class="asside_link vip" :active="request()->routeIs('user.vip.*')" href="{{route('user.vip.index')}}">
+            <x-nav-link  class="asside_link vip" :active="request()->routeIs('user.vip.*')" href="{{route('user.vip.index')}}">
                <i class="fas fa-user-check pr-2"></i>
                <span class="pl-2 hidden md:block">
                   VIP
                </span>
             </x-nav-link>
-            <x-nav-link class="asside_link vip @if(request()->routeIs('user.coin.*')) active @endif" href="">
+            <x-nav-link class="asside_link wallet" :active="request()->routeIs('user.wallet.*')" href="{{route('user.wallet.index')}}">
                <i class="fas fa-coins pr-2"></i>
                <span class="pl-2 hidden md:block">
                   Wallet

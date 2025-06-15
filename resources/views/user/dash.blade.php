@@ -96,7 +96,7 @@
 
                 <div class="d-flex justify-content-between align-items-center">    
                     <button onclick="copyPaymentNumber(this, 'refID')" class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i> COPY</button>
-                    <a class="btn btn-sm btn-outline-info" href="">View Your Referred User</a>
+                    <a wire:navigate href="{{route('user.ref.user')}}" class="btn btn-sm btn-outline-info" href="">View Your Referred User</a>
                 </div>
             </div>
         </div>
