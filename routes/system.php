@@ -140,4 +140,19 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      * navigations
      */
     Route::get('/navigations/list', NavigationsIndex::class)->name('navigations.index');
+
+
+    /**
+     * API Docs
+     */
+    Route::prefix('/api')->group(function () {
+
+        Route::get('/', function () {
+            return view('Api.start');
+        })->name('api.index');
+
+        Route::get('/auth', function () {
+            return view('Api.auth');
+        })->name('api.auth');
+    });
 });
