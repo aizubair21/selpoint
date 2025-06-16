@@ -6,15 +6,16 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
 use App\ApiResponse;
+use App\Http\Middleware\CheckApiMasterKey;
 use App\Models\Navigations;
 
 
-Route::get('navigations', function () {
+Route::middleware(CheckApiMasterKey::class)->get('navigations', function () {
     // get all navigations with links
     $navigations = Navigations::with('links')->get();
     return ApiResponse::send($navigations);
 });
-Route::get('navigations/{id}', function ($id) {
+Route::middleware(CheckApiMasterKey::class)->get('navigations/{id}', function ($id) {
     // get all navigations with links
     $nvs = Navigations::find($id);
     if ($nvs) {
@@ -26,7 +27,7 @@ Route::get('navigations/{id}', function ($id) {
 });
 
 
-Route::prefix('/products/')->group(function () {
+Route::middleware(CheckApiMasterKey::class)->prefix('/products/')->group(function () {
 
     Route::get('/', function (Request $request) {
         $products = Product::query()->reseller()->active()->with('category', 'showcase', 'attr')->orderBy('id', 'desc')->paginate($request->paginate ?? config('app.paginate', 20));
@@ -55,7 +56,7 @@ Route::prefix('/products/')->group(function () {
 
 
 
-Route::prefix('/shop')->group(function () {
+Route::middleware(CheckApiMasterKey::class)->prefix('/shop')->group(function () {
 
     Route::get('/', function () {
         // get all shops;
@@ -88,7 +89,7 @@ Route::prefix('/shop')->group(function () {
  * @param offset to limit the pagination
  * @return App\Models\Categories collection
  */
-Route::prefix('/category')->group(function () {
+Route::middleware(CheckApiMasterKey::class)->prefix('/category')->group(function () {
 
     Route::get('/', function (Request $request) {
         $data = Category::where(['belongs_to' => 'reseller'])->paginate($request->paginate ?? config('app.paginate', 20));
@@ -105,15 +106,13 @@ Route::prefix('/category')->group(function () {
         $data = Category::where(['belongs_to' => 'reseller', 'id' => $id])->first();
         return ApiResponse::send($data);
     });
-
-
 });
 
 
 
-Route::prefix('me')->group(function () {
+Route::middleware([CheckApiMasterKey::class, 'auth:sanctum'])->prefix('me')->group(function () {
 
     Route::get('/', function (Request $request) {
         return ApiResponse::send($request->user());
     });
-})->middleware('auth:sanctum');
+});

@@ -57,5 +57,54 @@
                     </tbody>
                 </x-dashboard.table>
         </x-dashboard.section>
+
+        <x-dashboard.section>
+            <x-dashboard.section.inner>
+                <div class="flex justify-between items-center space-y-3">
+                    <div>
+                        <p>
+                            Total
+                        </p>
+                        
+                    </div>
+                    
+                    <div>
+                        <p>
+                            {{$orders->total ?? "0"}} TK
+                        </p>
+                        
+                    </div>
+                </div>
+                <div class="flex justify-between items-center space-y-3">
+                    <div>
+                        <p>
+                            Shipping
+                        </p>
+                        
+                    </div>
+                    
+                    <div>
+                        <p>
+                            {{$orders->shipping ?? "120"}} TK
+                        </p>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center space-y-3 bg-gray-900 text-white">
+                    <div>
+                        <p>
+                            Payable
+                        </p>
+                        
+                    </div>
+                    
+                    <div>
+                        <p>
+                            {{$orders->shipping + $order->total}} TK
+                        </p>
+                    </div>
+                </div>
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
     </x-dashboard.container>
+
 </div>

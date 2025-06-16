@@ -23,7 +23,7 @@
                     
                     <div class="md:flex justify-between items-start">
                         
-                        <div class="w-full md:w-1/2 pr-2 sticky top-0">
+                        <div class="w-full md:w-1/2 pr-2 p-3">
                             <div class="p-4 rounded shadow">
                                 <div>
                                     <div class="text-xs">
@@ -72,8 +72,8 @@
                                     @endphp
                                     <x-input-label style="width: 350px" for="size">{{ $product->attr?->name }}</x-input-label>
                                     <select wire:model.live="size" class=" rounded border-gray-300" required>
-                                        
-                                                <option value="Size Less" selected disable>select size</option>
+
+                                        <option value="Size Less" selected disable>select size</option>
                                         @if (count($arrayOfAttr) > 0)     
                                             @foreach ($arrayOfAttr as $attr)
                                                 <option value="{{$attr ?? "Size Less"}}"  disable>{{ $attr ?? "Size Less" }}</option>
@@ -86,7 +86,7 @@
                                     @enderror
                                 </div>
                             @endif
-                            <x-input-field class="md:flex" type="number" wire:model.live="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
+                            <x-input-field class="md:flex" type="number" wire:model="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
                             
                             {{-- <x-input-field  wire:model.live="name" label="Your Name" error="name" name="name" /> --}}
                             <x-input-field class="md:flex" wire:model.live="phone" label="Your Active Phone" error="phone" name="phone" />
@@ -102,7 +102,7 @@
                                 @if ($errors->has('location'))
                                     <div class="text-sm text-red-600">{{ $errors->first('location') }}</div>
                                 @endif
-                                <textarea wire:model.live="location" id="" class="w-full rounded" cols="5" placeholder="Address"></textarea>
+                                <x-text-input wire:model.live="location" id="" class="w-full rounded" cols="5" placeholder="Address" />
                             </div>
                             <x-hr/>
                             
@@ -132,9 +132,9 @@
                                     </div>    
                                 </div>
                             </div>
+                            <br>
                             <x-primary-button >Confirm Order</x-primary-button>
                            
-                            <br><br>
                         </div>
                     </div>
                 
