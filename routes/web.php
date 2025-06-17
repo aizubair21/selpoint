@@ -74,13 +74,3 @@ require __DIR__ . '/auth.php';
 Route::get('/volt-test', function () {
     return view('livewire.test');
 })->name('test.volt');
-
-
-
-/**
- * http test
- */
-Route::get('/http/test', function () {
-
-    return response()->json(['hello'], 200);
-});

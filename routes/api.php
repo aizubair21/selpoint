@@ -6,11 +6,15 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
 use App\ApiResponse;
-use App\Http\Middleware\CheckApiMasterKey;
 use App\Livewire\User\Refs;
 use App\Models\Navigations;
 use App\Models\Packages;
+use App\Models\user_has_refs;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Pest\Plugins\Only;
 
 Route::middleware('auth.master')->get('navigations', function () {
     // get all navigations with links
@@ -120,39 +124,115 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
 
 
 // process to authenticated with custom logic
-Route::get('/login', function (Request $request) {
+Route::post('/login', function (Request $request) {
+
 
     $validated = $request->validate(['email' => 'required', 'password' => 'required']);
+    try {
+        if (Auth::attempt($validated)) {
 
-    // return $validated;;
-    if (Auth::attempt($validated)) {
+            $token = $request->user()->createToken(Auth::getName());
 
-        // token_name property comes from api
-        // it consider just the device name to identify.
+            // return ['token' => $token->plainTextToken];
+            return ApiResponse::success(['token' => $token->plainTextToken]);
+        } else {
+            return ApiResponse::unauthorized('invalid Credentials');
+        }
+    } catch (\Throwable $th) {
+        return ApiResponse::error('Login Error', $th->getMessage());
+    }
+})->middleware(['auth.master']);
 
-        $token = $request->user()->createToken($request->token_name);
+// process to register
+Route::post('/register', function (Request $request) {
+    // 
 
-        // return ['token' => $token->plainTextToken];
-        return ApiResponse::success(['token' => $token->plainTextToken]);
-    } else {
-        return ApiResponse::unauthorized('Invalid Credentials !');
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    ]);
+
+    $reference = null;
+    $isRef = null;
+
+
+    // active reference 
+    if (config('app.comission')) {
+        if ($request->reference && $request->reference != config('app.ref')) {
+            if (user_has_refs::where('ref', $request->reference)->exists()) {
+                $reference = $request->reference;
+                $isRef = today();
+            } else {
+                $reference = config('app.ref');
+                // $isRef = today();
+            }
+        } else {
+            $reference = config('app.ref'); // default reference
+        }
+    }
+
+    try {
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'reference' => $reference,
+            'reference_accepted_at' => $isRef,
+        ]);
+
+
+        if ($user) {
+            /**
+             * user has a ref code
+             */
+            if (config('app.comission')) {
+
+                $length = strlen($user->id);
+
+                if ($length >= 4) {
+                    $ref = $user->id;
+                } else {
+                    $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
+                }
+
+
+                user_has_refs::create([
+                    'ref' => date('ym') . $ref,
+                    'user_id' => $user->id,
+                    'status' => 1,
+                ]);
+            }
+            try {
+                //code...
+                Auth::attempt($request->Only(['email', 'password']));
+                $token = $request->user()->createToken(Auth::getName());
+
+                // return ['token' => $token->plainTextToken];
+                return ApiResponse::success(['token' => $token->plainTextToken]);
+            } catch (\Throwable $th) {
+                return ApiResponse::unauthorized($th->getMessage());
+            }
+        }
+    } catch (\Throwable $th) {
+        return ApiResponse::forbidden('Error While Register !');
     }
 })->middleware('auth.master');
 
-
-// after authenticated
-
-Route::get('/me', function (Request $request) {
-    return ApiResponse::send($request->user());
-})->middleware(['auth.master', 'auth:sanctum']);
-
-Route::get('/logout', function (Request $request) {
+Route::post('/logout', function (Request $request) {
     try {
         $request->user()->tokens()->delete();
         return ApiResponse::success('Logout Success');
     } catch (\Throwable $th) {
-        return ApiResponse::error('Something Wrong to logout', $th->getMessage());
+        return ApiResponse::notFound();
     };
+})->middleware(['auth.master', 'auth:sanctum']);
+
+
+// after authenticated
+Route::get('/me', function (Request $request) {
+    return ApiResponse::send($request->user());
 })->middleware(['auth.master', 'auth:sanctum']);
 
 
@@ -178,6 +258,9 @@ Route::middleware(['auth.master', 'auth:sanctum'])->prefix('my')->group(function
         }
     });
 
+
+
+
     Route::get('/packages/{id}', function (Request $request) {
         try {
             $package = Packages::find($request->id);
@@ -185,10 +268,5 @@ Route::middleware(['auth.master', 'auth:sanctum'])->prefix('my')->group(function
         } catch (\Throwable $th) {
             return ApiResponse::forbidden();
         }
-    });
-
-
-    Route::post('/test-post', function () {
-        return 'post re';
     });
 });
