@@ -32,6 +32,28 @@ class User extends Authenticatable
         'reference',
         'reference_accepted_at',
         'active_nav',
+        'gender',
+
+        'vip',
+        'phone',
+        'country',
+        'country_code',
+        'zip',
+        'state',
+        'city',
+        'line1',
+        'line2',
+
+        'currency',
+        'currency_sign',
+        'language',
+        'site_language',
+        'kyc_status',
+        'is_active',
+        'metadata',
+
+        'dob',
+        'bio',
     ];
 
     /**
@@ -42,6 +64,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'deleted_at',
+        'email_verified_at',
     ];
 
     /**
@@ -54,6 +78,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'metadata' => 'array',
         ];
     }
 
@@ -97,6 +122,14 @@ class User extends Authenticatable
             }
 
             $user->save();
+
+
+            // created user_has_address table belongs to user
+            User_has_address::create(
+                [
+                    'user_id' => $user->id,
+                ]
+            );
         });
     }
 
@@ -132,11 +165,21 @@ class User extends Authenticatable
     // Relations //
     ///////////////
 
+    /**
+     * user address
+     * 
+     * @return User_has_address
+     */
+    public function address()
+    {
+        return $this->hasMany(User_has_address::class);
+    }
+
 
     /**
      * @return reff_code
      */
-    public function getRef()
+    public function myRef()
     {
         return $this->hasOne(user_has_refs::class)->withDefault([
             'ref' => null,

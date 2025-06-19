@@ -6,9 +6,11 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
 use App\ApiResponse;
+use App\Http\Resources\UserResource;
 use App\Livewire\User\Refs;
 use App\Models\Navigations;
 use App\Models\Packages;
+use App\Models\reseller;
 use App\Models\user_has_refs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +34,23 @@ Route::middleware('auth.master')->get('navigations/{id}', function ($id) {
     }
 });
 
+
+// categories 
+Route::prefix('categories')->middleware('auth.master')->group(function () {
+    // return categories
+    Route::get('/', function () {
+        $category = Category::where(['belongs_to' => 'reseller'])->with('products')->orderBy('id', 'desc')->get();
+        return ApiResponse::send($category);
+    });
+
+    // get a single category
+    Route::get('/{id}', function ($id) {
+        $category = Category::where(['belongs_to' => 'reseller', 'id' => $id])->with('products')->first();
+        return ApiResponse::send($category);
+    });
+});
+
+
 // products 
 Route::middleware('auth.master')->prefix('/products/')->group(function () {
 
@@ -53,7 +72,7 @@ Route::middleware('auth.master')->prefix('/products/')->group(function () {
     });
 
     // product by shop
-    Route::get('/user/{id}', function ($id) {
+    Route::get('/where-reeller/{id}', function ($id) {
         // Product get by shop user id
         $products = Product::query()->reseller()->active()->where(['user_id' => $id])->with('category', 'showcase', 'attr')->orderBy('id', 'desc')->paginate($request->paginate ?? config('app.paginate', 20));
         return ApiResponse::send($products);
@@ -73,6 +92,14 @@ Route::middleware('auth.master')->prefix('/products/')->group(function () {
 Route::middleware('auth.master')->prefix('/shop')->group(function () {
 
     Route::get('/', function () {
+        try {
+
+            $shops = reseller::query()->active()->get();
+            return ApiResponse::send($shops);
+        } catch (\Throwable $th) {
+            //throw $th
+            return ApiResponse::error('Error Getting Shops Data', $th->getMessage(),);
+        }
         // get all shops;
 
     });
@@ -147,10 +174,14 @@ Route::post('/login', function (Request $request) {
 Route::post('/register', function (Request $request) {
     // 
 
-    $request->validate([
+    $validated = $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'country' => ['required', 'string', 'max:25'],
+        'gender' => ['required', 'max:10'],
+        'language' => ['requited'],
+        'phone' => ['required'],
+        'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
     ]);
 
     $reference = null;
@@ -232,7 +263,9 @@ Route::post('/logout', function (Request $request) {
 
 // after authenticated
 Route::get('/me', function (Request $request) {
-    return ApiResponse::send($request->user());
+    $au = User::find($request->user()->id);
+    $authUser = $au->load('myRef');
+    return ApiResponse::send(new UserResource($authUser));
 })->middleware(['auth.master', 'auth:sanctum']);
 
 

@@ -13,7 +13,7 @@ class ApiResponse
     public static function send($data = null)
     {
 
-        if ($data) {
+        if ($data->count()) {
             return self::success($data);
         } else {
             return self::notFound();

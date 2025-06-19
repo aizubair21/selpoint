@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('profile_photo_path')->nullable();
             $table->text('profile_photo_url')->nullable();
             $table->text('gender')->nullable();
-            $table->string('reference')->nullable()->default('REFU101');
+            $table->string('reference')->nullable()->default('REF101U');
             $table->string('coin')->nullable()->default(0);
             $table->dateTime('reference_accepted_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();

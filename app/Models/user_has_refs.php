@@ -14,7 +14,14 @@ class user_has_refs extends Model
         'status',
     ];
 
-
+    protected $hidden =
+    [
+        'id',
+        'user_id',
+        'status',
+        'created_at',
+        'updated_at',
+    ];
 
     /**
      * @return owner_of_ref

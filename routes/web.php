@@ -8,6 +8,7 @@ use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
 use App\Livewire\Pages\SingleProductOrder;
+use Illuminate\Http\Request;
 
 Route::get('/', Welcome::class)->name('home');
 
@@ -74,3 +75,10 @@ require __DIR__ . '/auth.php';
 Route::get('/volt-test', function () {
     return view('livewire.test');
 })->name('test.volt');
+
+
+
+Route::get('/user-agents', function (Request $request) {
+    // return response()->json($request);
+    // dd($request->all());
+});
