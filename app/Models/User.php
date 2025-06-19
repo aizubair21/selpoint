@@ -26,12 +26,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'profile_photo_path',
-        'profile_photo_url',
+        'profile_photo_path', // user uploaded photo
+        'profile_photo_url', // default photo
         'coin',
         'reference',
-        'reference_accepted_at',
-        'active_nav',
+        'reference_accepted_at', // backend_login
+        'active_nav', // backend_login
         'gender',
 
         'vip',
@@ -48,12 +48,12 @@ class User extends Authenticatable
         'currency_sign',
         'language',
         'site_language',
-        'kyc_status',
-        'is_active',
-        'metadata',
+        'kyc_status', // backend_login
+        'is_active', // backend_login 
+        'metadata', // backend_logic
 
-        'dob',
-        'bio',
+        'dob', // date of birth
+        'bio', // about 
     ];
 
     /**

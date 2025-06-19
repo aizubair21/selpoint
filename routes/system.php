@@ -143,6 +143,11 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
 
     /**
+     * slider
+     */
+    // Route::get('/sliders')->name('system.slider.index');
+
+    /**
      * API Docs
      */
     Route::prefix('/api')->group(function () {

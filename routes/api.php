@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Pest\Plugins\Only;
+use App\HandleImageUpload;
+use App\Http\Controllers\Api\Auth as ApiAuth;
+use App\Models\Slider;
 
 Route::middleware('auth.master')->get('navigations', function () {
     // get all navigations with links
@@ -88,7 +91,7 @@ Route::middleware('auth.master')->prefix('/products/')->group(function () {
 });
 
 
-
+// show
 Route::middleware('auth.master')->prefix('/shop')->group(function () {
 
     Route::get('/', function () {
@@ -126,6 +129,16 @@ Route::middleware('auth.master')->prefix('/shop')->group(function () {
 });
 
 
+// slider 
+Route::middleware('auth.master')->group(function () {
+
+    // slider
+    Route::get('/slider', function () {
+        $slider = Slider::query()->where(['status' => 1, 'placement' => 'apps'])->with('slides')->first();
+        return ApiResponse::send($slider);
+    });
+});
+
 /**if
  * @param offset to limit the pagination
  * @return App\Models\Categories collection
@@ -149,6 +162,10 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
     });
 });
 
+// create a CSRF token
+// Route::get('/csrf-cookie', function (Request $req) {
+//     return ApiResponse::success(csrf_token());
+// });
 
 // process to authenticated with custom logic
 Route::post('/login', function (Request $request) {
@@ -171,85 +188,7 @@ Route::post('/login', function (Request $request) {
 })->middleware(['auth.master']);
 
 // process to register
-Route::post('/register', function (Request $request) {
-    // 
-
-    $validated = $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-        'country' => ['required', 'string', 'max:25'],
-        'gender' => ['required', 'max:10'],
-        'language' => ['requited'],
-        'phone' => ['required'],
-        'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
-    ]);
-
-    $reference = null;
-    $isRef = null;
-
-
-    // active reference 
-    if (config('app.comission')) {
-        if ($request->reference && $request->reference != config('app.ref')) {
-            if (user_has_refs::where('ref', $request->reference)->exists()) {
-                $reference = $request->reference;
-                $isRef = today();
-            } else {
-                $reference = config('app.ref');
-                // $isRef = today();
-            }
-        } else {
-            $reference = config('app.ref'); // default reference
-        }
-    }
-
-    try {
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'reference' => $reference,
-            'reference_accepted_at' => $isRef,
-        ]);
-
-
-        if ($user) {
-            /**
-             * user has a ref code
-             */
-            if (config('app.comission')) {
-
-                $length = strlen($user->id);
-
-                if ($length >= 4) {
-                    $ref = $user->id;
-                } else {
-                    $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
-                }
-
-
-                user_has_refs::create([
-                    'ref' => date('ym') . $ref,
-                    'user_id' => $user->id,
-                    'status' => 1,
-                ]);
-            }
-            try {
-                //code...
-                Auth::attempt($request->Only(['email', 'password']));
-                $token = $request->user()->createToken(Auth::getName());
-
-                // return ['token' => $token->plainTextToken];
-                return ApiResponse::success(['token' => $token->plainTextToken]);
-            } catch (\Throwable $th) {
-                return ApiResponse::unauthorized($th->getMessage());
-            }
-        }
-    } catch (\Throwable $th) {
-        return ApiResponse::forbidden('Error While Register !');
-    }
-})->middleware('auth.master');
+Route::post('/register', [ApiAuth::class, 'register'])->middleware('auth.master');
 
 Route::post('/logout', function (Request $request) {
     try {

@@ -22,8 +22,27 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'reference' => $this->reference,
             'wallet' => $this->coin,
-            'profile_photo_path' => $this->profile_photo_path,
-            'profile_photo_url' => $this->profile_photo_url,
+            'profile_photo' => $this->profile_photo_path,
+            'default_profile_photo' => $this->profile_photo_url,
+
+            'country' => $this->country,
+            'country_code' => $this->ocuntry_code,
+
+            'city' => $this->city,
+            'state' => $this->state,
+            'number' => $this->phone,
+            'zip' => $this->zip,
+            'line1' => $this->line1,
+            'line2' => $this->line2,
+
+            'language' => $this->language,
+            'site_language' => $this->site_language,
+
+            'currency' => $this->currency,
+            'currency_sign' => $this->currency_sign,
+
+            'about' => $this->bio,
+
             'gender' => $this->gender,
             'my_ref' => $this->whenLoaded('myRef'),
             'my_order' => $this->whenLoaded('myOrderAsUser'),
