@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 class Auth extends Controller
 {
     use HandleImageUpload;
-
+    private $userId;
     public function register(Request $request)
     {
         $request->validate([
@@ -52,7 +52,7 @@ class Auth extends Controller
 
             DB::transaction(function () use ($request, $reference, $isRef) {
 
-                $user = User::create([
+                $this->userId = User::insertGetId([
                     'name' => $request->name,
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
@@ -63,40 +63,39 @@ class Auth extends Controller
                     'profile_photo_path' => $this->handleImageUpload($request->profile_photo, 'profile', null),
                     'reference_accepted_at' => $isRef,
                 ]);
-
-                if ($user) {
-                    /**
-                     * user has a ref code
-                     */
-                    if (config('app.comission')) {
-
-                        $length = strlen($user->id);
-
-                        if ($length >= 4) {
-                            $ref = $user->id;
-                        } else {
-                            $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
-                        }
-
-
-                        user_has_refs::create([
-                            'ref' => date('ym') . $ref,
-                            'user_id' => $user->id,
-                            'status' => 1,
-                        ]);
-                    }
-                    try {
-                        //code...
-                        AuthP::attempt($request->Only(['email', 'password']));
-                        $token = $request->user()->createToken(AuthP::getName());
-
-                        // return ['token' => $token->plainTextToken];
-                        return ApiResponse::success(['token' => $token->plainTextToken]);
-                    } catch (\Throwable $th) {
-                        return ApiResponse::unauthorized($th->getMessage());
-                    }
-                }
             });
+            if ($this->userId) {
+                /**
+                 * user has a ref code
+                 */
+                if (config('app.comission')) {
+
+                    $length = strlen($this->userId);
+
+                    if ($length >= 4) {
+                        $ref = $this->userId;
+                    } else {
+                        $ref = str_pad($this->userId, 3, '0', STR_PAD_LEFT);
+                    }
+
+
+                    user_has_refs::create([
+                        'ref' => date('ym') . $ref,
+                        'user_id' => $this->userId,
+                        'status' => 1,
+                    ]);
+                }
+                try {
+                    //code...
+                    AuthP::attempt($request->Only(['email', 'password']));
+                    $token = $request->user()->createToken(AuthP::getName());
+
+                    // return ['token' => $token->plainTextToken];
+                    return ApiResponse::success(['token' => $token->plainTextToken]);
+                } catch (\Throwable $th) {
+                    return ApiResponse::unauthorized($th->getMessage());
+                }
+            }
         } catch (\Throwable $th) {
             return ApiResponse::error('Error While Register', $th->getMessage(), 422);
         }
