@@ -18,11 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias(
             [
                 'auth.master' => CheckApiMasterKey::class,
-                'method.get' => CheckApiRequestIsGet::class,
-                'method.post' => CheckApiRequestIsPost::class,
             ]
         );
-        $middleware->statefulApi();
+        // $middleware->statefulApi();
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
