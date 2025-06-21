@@ -37,8 +37,8 @@ use App\Livewire\System\Store\Index;
 use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
 
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
-
-
+use App\Livewire\System\Slider\Slider;
+use App\Livewire\System\Slider\Slides;
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -145,7 +145,8 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     /**
      * slider
      */
-    // Route::get('/sliders')->name('system.slider.index');
+    Route::get('/sliders', Slider::class)->name('system.slider.index');
+    Route::get('/sliders/slides', Slides::class)->name('system.slider.slides');
 
     /**
      * API Docs

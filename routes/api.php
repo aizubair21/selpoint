@@ -162,10 +162,6 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
     });
 });
 
-// create a CSRF token
-// Route::get('/csrf-cookie', function (Request $req) {
-//     return ApiResponse::success(csrf_token());
-// });
 
 // process to authenticated with custom logic
 Route::post('/login', function (Request $request) {
@@ -195,7 +191,7 @@ Route::post('/logout', function (Request $request) {
         $request->user()->tokens()->delete();
         return ApiResponse::success('Logout Success');
     } catch (\Throwable $th) {
-        return ApiResponse::notFound();
+        return ApiResponse::forbidden();
     };
 })->middleware(['auth.master', 'auth:sanctum']);
 
