@@ -59,9 +59,9 @@
                                     @foreach ($users as $key => $user)
                                         <tr>
                                             <td> {{$loop->iteration}} </td>
-                                            <td> {{$user->id}} </td>
+                                            <td> {{$user->id ?? "N/A"}} </td>
                                             <td> 
-                                                {{$user->name }} 
+                                                {{$user->name ?? "N/A" }} 
                                                 <br>
                                                 <b class="text-xs">{{$user  ->email ?? "N/A" }}</b>
                                             </td>
@@ -74,7 +74,7 @@
                                             </td>
                                             <td> 
                                                 @php
-                                                    $uroles = $user->getRoleNames();
+                                                    $uroles = $user?->getRoleNames();
                                                 @endphp
                                                 <div class="flex">
             
@@ -89,7 +89,7 @@
                                             <td> {{count($user->order?? []) ?? "0"}} </td>
                                             <td> {{$user->coin ?? "0"}} </td>
                                             <td>
-                                                {{$user->created_at->toFormattedDateString()}}
+                                                {{$user->created_at?->toFormattedDateString() ?? ""}}
                                             </td>
                                             <td>
                                                 <div class="flex">
