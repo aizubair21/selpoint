@@ -76,6 +76,10 @@
                     </x-dropdown-link>
                     @endcan
                    
+                    <x-dropdown-link :href="route('system.slider.index')" >
+                        {{ __('Slider') }}
+                    </x-dropdown-link>
+
                     <x-dropdown-link :href="route('navigations.index')">
                         {{ __('Navigations') }}
                     </x-dropdown-link>

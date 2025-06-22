@@ -20,6 +20,7 @@ use Pest\Plugins\Only;
 use App\HandleImageUpload;
 use App\Http\Controllers\Api\Auth as ApiAuth;
 use App\Models\Slider;
+use App\Models\Slider_has_slide;
 
 Route::middleware('auth.master')->get('navigations', function () {
     // get all navigations with links
@@ -161,6 +162,17 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
         return ApiResponse::send($data);
     });
 });
+
+
+// slider start
+Route::middleware('auth.master')->get('/slider', function () {
+
+    // get the apps slider from database
+    $slider = Slider::query()->where(['status' => true])->whereNot('placement', '=', 'web')->get('id');
+    return ApiResponse::send($slider);
+});
+// slider end 
+
 
 
 // process to authenticated with custom logic

@@ -2,15 +2,22 @@
     <x-dashboard.page-header>
         Slider
     </x-dashboard.page-header>
-
+    
     <x-dashboard.container>
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="flex justify-between items-center">
-                        <div>Sliders</div>
 
-                        <x-secondary-button x-on:click="$dispatch('open-modal', 'open-slider-modal')">Add</x-secondary-button>
+                        <div>
+
+                            <x-nav-link href="?nav=web" :active="$nav=='web'" >Web</x-nav-link>
+                            <x-nav-link href="?nav=apps" :active="$nav=='apps'" >App</x-nav-link>
+                            <x-nav-link href="?nav=both" :active="$nav=='both'" >Both</x-nav-link>
+                            
+                        </div>
+
+                        <x-secondary-button x-on:click="$dispatch('open-modal', 'open-slider-modal')"> <i class="fas fa-plus pr-2"></i> Add</x-secondary-button>
                     </div>
                     
                 </x-slot>
@@ -21,14 +28,13 @@
 
 
             <x-dashboard.section.inner>
-                <x-dashboard.table>
+                <x-dashboard.table :data="$slider">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Status</th>
                             <th>Placement</th>
-                            <th>Data</th>
+                            <th></th>
                             <th>A/C</th>
                         </tr>
                     </thead>
@@ -38,10 +44,15 @@
                             <tr>
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$item->name}} </td>
-                                <td> {{$item->status ? "Active" : "Deactive"}} </td>
                                 <td> {{$item->placement}} </td>
                                 <td>
-                                    {{$item->created_at->diffForHumans()}}
+                                    @if ($item->status)
+                                    <input type="checkbox" checked wire:change="updateStatusFalse({{$item->id}})" name="" style="width:20px; height:20px" id="">
+                                    @else 
+                                    <input type="checkbox" wire:change="updateStatusTrue({{$item->id}})" name="" style="width:20px; height:20px" id="">
+                                    
+                                    @endif
+                                    {{$item->status ? "Active" : "Deactive"}}
                                 </td>
                                 <td>
                                     <div class="flex space-x-2">
@@ -49,7 +60,7 @@
                                             <i class="fas fa-trash"></i>
                                         </x-danger-button>
                                         
-                                        <x-primary-button x-on:click="$dispatch('open-modal', 'open-slides-modal')" >
+                                        <x-primary-button wire:click="openUpdateModal({{$item->id}})" >
                                             <i class="fas fa-edit"></i>
                                         </x-primary-button>
                                         <x-nav-link href="{{route('system.slider.slides', ['id' => $item->id])}}" >slides</x-nav-link>
@@ -83,7 +94,7 @@
                 @enderror
 
                 <br>
-                <div>  
+                {{-- <div>  
                     @if ($sliderImage)
                         <img src="{{$sliderImage->temporaryUrl()}}"  height="20" alt="" srcset="">
                         <br>
@@ -92,7 +103,7 @@
                 </div>
                 @error('sliderImage')
                     <span class="text-xs text-red-900">{{$message }}</span>
-                @enderror
+                @enderror --}}
                 <div class="flex justify-start items-center my-2 border-t border-b py-2">
                     <input type="checkbox" id="active" wire:model="status" width="25px" height="25px" class="me-3" />
                     <x-input-label class="py-0 my-0" for="active" value="Active Now "/>
@@ -109,36 +120,46 @@
         </div>
     </x-modal>
 
-    <x-modal name="open-slides-modal">
-        <div class="px-3 py-2">Slides</div>
-        <hr>
+    <x-modal name="open-slides-modal" maxWidth="sm">
+        <div class="px-3 py-2">Edit Slider</div>
         <div class="p-3">
-            @foreach ($slides as $key => $item)
-                <div class="border rounded p-3 flex mb-1">
-                    <div class="p-2">
-                       {{-- {{$slides[$key]['main_title']}} --}}
-                        @if ($slides[$key]['image'])
-                            <img src="{{$slides[$key]['image']->temporaryUrl()}}" style="height:40px" alt="">
-                        @endif
-                        <input type="file" accept="jpg, jpeg, png" max="500" class="border p-1 w-full" wire:model="slides.{{$key}}.image">
-                    </div>
-                    <div class="py-2 space-y-2">
-                        <x-text-input type="text" wire:model="slides.{{$key}}.main_title" class="w-full" placeholder="Main Title" />
-                        <x-text-input type="text"  wire:model="slides.{{$key}}.sub_title" class="w-full" placeholder="Sub Title" />
-                        <textarea name="" id=""  wire:model="slides.{{$key}}.des" class="w-full" rows="3"></textarea>
-                    </div>
-                  
+             <form wire:submit.prevent="updateSlider">
+                <div class="">
+                    <x-input-label value="Name" />
+                    <x-text-input wire:model="updateable.name" class="rounded-0 py-1 w-full" placeholder="Give Slider Name" />
                 </div>
-            @endforeach
-            <br>
-            <div class="text-end">
-                <x-primary-button wire:click="addNewSlides"> <i class="fas fa-plus"></i> </x-primary-button>
-            </div>
-                <hr class="py-2">
-            <div class="flex justify-between text-end">
-                <x-secondary-button x-on:click="$dispatch('close-modal', 'open-slides-modal')">close</x-secondary-button>
-                <x-primary-button wire:click="update" > update </x-primary-button>
-            </div>
+                @error('sliderName')
+                    <span class="text-xs text-red-900">{{$message }}</span>
+                @enderror
+
+              
+                <div class="py-2">
+                    <div class="flex py-1 border rounded px-2 mb-1">
+                        <input type="radio" wire:model="updateable.placement" value="web" class="h-5 w-5 me-3" id="web">
+                        <label for="Web">For Web</label>
+                    </div>
+                    <div class="flex py-1 border rounded px-2 mb-1">
+                        <input type="radio" wire:model="updateable.placement" value="apps" class="h-5 w-5 me-3" id="apps">
+                        <label for="Web">For Apps</label>
+                    </div>
+                    <div class="flex py-1 border rounded px-2 mb-1">
+                        <input type="radio" wire:model="updateable.placement" value="both" class="h-5 w-5 me-3" id="both">
+                        <label for="Web">Both (Web & Apps) </label>
+                    </div>
+                </div>
+                {{-- <div class="flex justify-start items-center my-2 border-t border-b py-2">
+                    <input type="checkbox" id="active" wire:model="status" width="25px" height="25px" class="me-3" />
+                    <x-input-label class="py-0 my-0" for="active" value="Active Now "/>
+                </div>
+                @error('status')
+                    <span class="text-xs text-red-900">{{$message }}</span>
+                @enderror --}}
+                <div class="flex justify-between">
+
+                    <x-secondary-button x-on:click="$dispatch('close-modal', 'open-slides-modal')" type="button" class="mt-2">Cancel</x-secondary-button>
+                    <x-primary-button class="mt-2">Update</x-primary-button>
+                </div>
+            </form>
         </div>
     </x-modal>
 </div>

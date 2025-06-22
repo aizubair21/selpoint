@@ -11,17 +11,19 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 
 #[layout('layouts.app')]
 class Slider extends Component
 {
     use WithFileUploads, HandleImageUpload;
-
+    #[URL]
+    public $nav = 'web';
     public $slider = [];
 
     #[validate('required')]
     public $sliderName;
-    public $sliderImage, $sliderPlacement = 'web', $status = true, $sler = '', $slides = [], $ss;
+    public $sliderImage, $sliderPlacement = 'web', $status = true, $sler = '', $slides = [], $ss, $updateable = [];
 
 
     public function mount()
@@ -32,7 +34,7 @@ class Slider extends Component
     #[On('refresh')]
     public function getData()
     {
-        $this->slider = sliderModel::with('slides')->orderBy('id', 'desc')->get();
+        $this->slider = sliderModel::where(['placement' => $this->nav])->with('slides')->orderBy('id', 'desc')->get();
     }
 
     public function createNewSlider()
@@ -77,6 +79,28 @@ class Slider extends Component
         }
     }
 
+    public function updateStatusTrue(sliderModel $slider)
+    {
+        try {
+            $slider->status = true;
+            $slider->save();
+        } catch (\Throwable $th) {
+            // throw $th;
+        }
+
+        $this->dispatch('refresh');
+    }
+    public function updateStatusFalse(sliderModel $slider)
+    {
+        try {
+            $slider->status = false;
+            $slider->save();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        $this->dispatch('refresh');
+    }
+
 
     public function deleteSide($id)
     {
@@ -90,9 +114,22 @@ class Slider extends Component
     }
 
 
-    public function update()
+    public function openUpdateModal($id)
     {
-        // Slider_has_slide::query()->where(['slider_id' => ])
+        $this->updateable = sliderModel::find($id)->toArray();
+        // dd($this->updateable);
+        $this->dispatch('open-modal', 'open-slides-modal');
+    }
+
+
+    public function updateSlider()
+    {
+        $sl = sliderModel::find($this->updateable['id']);
+        $sl->update([
+            'name' => $this->updateable['name'],
+            'placement' => $this->updateable['placement'],
+        ]);
+        $this->dispatch('refresh');
     }
 
 
