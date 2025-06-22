@@ -34,6 +34,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Placement</th>
+                            <th>Slides</th>
                             <th></th>
                             <th>A/C</th>
                         </tr>
@@ -45,6 +46,9 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td> {{$item->name}} </td>
                                 <td> {{$item->placement}} </td>
+                                <td>
+                                    {{$item->slides->count() ?? "0"}} Slides
+                                </td>
                                 <td>
                                     @if ($item->status)
                                     <input type="checkbox" checked wire:change="updateStatusFalse({{$item->id}})" name="" style="width:20px; height:20px" id="">

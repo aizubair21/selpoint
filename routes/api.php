@@ -130,16 +130,6 @@ Route::middleware('auth.master')->prefix('/shop')->group(function () {
 });
 
 
-// slider 
-Route::middleware('auth.master')->group(function () {
-
-    // slider
-    Route::get('/slider', function () {
-        $slider = Slider::query()->where(['status' => 1, 'placement' => 'apps'])->with('slides')->first();
-        return ApiResponse::send($slider);
-    });
-});
-
 /**if
  * @param offset to limit the pagination
  * @return App\Models\Categories collection
@@ -168,8 +158,9 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
 Route::middleware('auth.master')->get('/slider', function () {
 
     // get the apps slider from database
-    $slider = Slider::query()->where(['status' => true])->whereNot('placement', '=', 'web')->get('id');
-    return ApiResponse::send($slider);
+    $slider = Slider::query()->where(['status' => true])->whereNot('placement', '=', 'web')->orderBy('id', 'desc')->get('id')->pluck('id');
+    $slides = Slider_has_slide::query()->whereIn('slider_id', $slider)->orderBy('id', 'desc')->get('image')->pluck('image');
+    return ApiResponse::send($slides);
 });
 // slider end 
 

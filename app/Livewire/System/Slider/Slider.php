@@ -39,29 +39,27 @@ class Slider extends Component
 
     public function createNewSlider()
     {
-
         $this->validate();
         try {
 
+            // if ($this->status) {
 
+            //     switch ($this->sliderPlacement) {
+            //         case 'both':
+            //             sliderModel::query()->where(['placement' => 'both'])->orWhere(['status' => true])->update(['status' => false]);
+            //             break;
 
-            // 
-            if ($this->status) {
+            //         case 'apps':
+            //             sliderModel::query()->where(['placement' => 'apps'])->update(['status' => false]);
+            //             sliderModel::query()->where(['placement' => 'both', 'status'])->update(['placement' => 'web']);
+            //             break;
 
-                switch ($this->sliderPlacement) {
-                    case 'both':
-                        sliderModel::query()->update(['stauts' => false]);
-                        break;
-
-                    case 'apps':
-                        sliderModel::query()->where(['placement' => 'apps'])->update(['status' => false]);
-                        break;
-
-                    case 'web':
-                        sliderModel::query()->where(['placement' => 'web'])->update(['status' => false]);
-                        break;
-                }
-            }
+            //         case 'web':
+            //             sliderModel::query()->where(['placement' => 'web'])->update(['status' => false]);
+            //             sliderModel::query()->where(['placement' => 'both', 'status' => true])->update(['placement' => 'apps']);
+            //             break;
+            //     }
+            // }
             DB::transaction(function () {
 
                 sliderModel::create([
@@ -82,6 +80,7 @@ class Slider extends Component
     public function updateStatusTrue(sliderModel $slider)
     {
         try {
+            // sliderModel::query()->where(['placement' => $slider->placement])->update(['status' => false]);
             $slider->status = true;
             $slider->save();
         } catch (\Throwable $th) {
@@ -93,6 +92,7 @@ class Slider extends Component
     public function updateStatusFalse(sliderModel $slider)
     {
         try {
+            // sliderModel::query()->where(['placement' => $slider->placement])->update(['status' => false]);
             $slider->status = false;
             $slider->save();
         } catch (\Throwable $th) {
@@ -125,11 +125,31 @@ class Slider extends Component
     public function updateSlider()
     {
         $sl = sliderModel::find($this->updateable['id']);
+
+        // switch ($this->updateable['placement']) {
+        //     case 'both':
+        //         // sliderModel::query()->where(['status' => true])->update(['stauts' => false]);
+        //         sliderModel::query()->where(['placement' => 'both'])->orWhere(['status' => true])->update(['status' => false]);
+        //         break;
+
+        //     case 'apps':
+        //         sliderModel::query()->where(['placement' => 'apps'])->update(['status' => false]);
+        //         sliderModel::query()->where(['placement' => 'both', 'status' => true])->update(['placement' => 'web']);
+        //         break;
+
+        //     case 'web':
+        //         sliderModel::query()->where(['placement' => 'web'])->update(['status' => false]);
+        //         sliderModel::query()->where(['placement' => 'both', 'status' => true])->update(['placement' => 'apps']);
+        //         break;
+        // };
+
         $sl->update([
             'name' => $this->updateable['name'],
             'placement' => $this->updateable['placement'],
+            'status' => true,
         ]);
-        $this->dispatch('refresh');
+
+        $this->getData();
     }
 
 
