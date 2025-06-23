@@ -13,7 +13,7 @@ class ApiResponse
     public static function send($data = null)
     {
 
-        if ($data->count()) {
+        if ($data && $data->count()) {
             return self::success($data);
         } else {
             return self::notFound();
@@ -47,6 +47,11 @@ class ApiResponse
     public static function forbidden(string $message = 'Forbidden'): JsonResponse
     {
         return self::error($message, 403);
+    }
+
+    public static function serverError(string $message = 'Internal Server Error')
+    {
+        return self::error($message, 500);
     }
 
     public static function notFound(string $message = 'Resource not found'): JsonResponse

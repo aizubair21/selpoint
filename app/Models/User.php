@@ -341,6 +341,6 @@ class User extends Authenticatable
      */
     public function subscription()
     {
-        return $this->hasMany(vip::class);
+        return $this->hasOne(vip::class);
     }
 }

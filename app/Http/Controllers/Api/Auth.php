@@ -24,7 +24,7 @@ class Auth extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'country' => ['required', 'string', 'max:25'],
             'gender' => ['nullable', 'max:10'],
-            'phone' => ['required', 'string'],
+            'phone' => ['required'],
             'profile_photo' => 'required',
             'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
         ]);

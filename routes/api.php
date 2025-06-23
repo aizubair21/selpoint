@@ -21,6 +21,7 @@ use App\HandleImageUpload;
 use App\Http\Controllers\Api\Auth as ApiAuth;
 use App\Models\Slider;
 use App\Models\Slider_has_slide;
+use App\Models\vip;
 
 Route::middleware('auth.master')->get('navigations', function () {
     // get all navigations with links
@@ -29,12 +30,12 @@ Route::middleware('auth.master')->get('navigations', function () {
 });
 Route::middleware('auth.master')->get('navigations/{id}', function ($id) {
     // get all navigations with links
-    $nvs = Navigations::find($id);
-    if ($nvs) {
+    try {
+        $nvs = Navigations::find($id);
         $navigations = $nvs->with('links')->get();
         return ApiResponse::send($navigations);
-    } else {
-        return ApiResponse::notFound('No Navigations Found!');
+    } catch (\Throwable $th) {
+        return ApiResponse::serverError($th->getMessage());
     }
 });
 
@@ -158,6 +159,7 @@ Route::middleware('auth.master')->prefix('/category')->group(function () {
 Route::middleware('auth.master')->get('/slider', function () {
 
     // get the apps slider from database
+
     $slider = Slider::query()->where(['status' => true])->whereNot('placement', '=', 'web')->orderBy('id', 'desc')->get('id')->pluck('id');
     $slides = Slider_has_slide::query()->whereIn('slider_id', $slider)->orderBy('id', 'desc')->get('image')->pluck('image');
     return ApiResponse::send($slides);
@@ -194,7 +196,7 @@ Route::post('/logout', function (Request $request) {
         $request->user()->tokens()->delete();
         return ApiResponse::success('Logout Success');
     } catch (\Throwable $th) {
-        return ApiResponse::forbidden();
+        return ApiResponse::serverError($th->getMessage());
     };
 })->middleware(['auth.master', 'auth:sanctum']);
 
@@ -207,6 +209,25 @@ Route::get('/me', function (Request $request) {
 })->middleware(['auth.master', 'auth:sanctum']);
 
 
+// rotue for package
+Route::get('/packages', function () {
+    try {
+        $packages = Packages::all();
+        return ApiResponse::send($packages);
+    } catch (\Throwable $th) {
+        return ApiResponse::serverError($th->getMessage());
+    }
+});
+
+Route::get('/packages/{id}', function (Request $request) {
+    try {
+        $package = Packages::find($request->id);
+        return ApiResponse::send($package);
+    } catch (\Throwable $th) {
+        return ApiResponse::serverError($th->getMessage());
+    }
+});
+
 Route::middleware(['auth.master', 'auth:sanctum'])->prefix('my')->group(function () {
 
     Route::get('/tokens', function (Request $request) {
@@ -218,26 +239,26 @@ Route::middleware(['auth.master', 'auth:sanctum'])->prefix('my')->group(function
     });
 
 
-
-    // rotue for package
-    Route::get('/packages', function () {
+    // user subscripe package
+    Route::get('/subscription', function (Request $request) {
+        // get user subscribed package
         try {
-            $packages = Packages::all();
-            return ApiResponse::send($packages);
-        } catch (\Throwable $th) {
-            return ApiResponse::forbidden();
-        }
-    });
-
-
-
-
-    Route::get('/packages/{id}', function (Request $request) {
-        try {
-            $package = Packages::find($request->id);
+            $package = vip::query()->where(['user_id' => $request->user()->id, 'status' => 1])->with('package')->get();
             return ApiResponse::send($package);
         } catch (\Throwable $th) {
-            return ApiResponse::forbidden();
+            return ApiResponse::serverError($th->getMessage());
         }
     });
+
+    // cart start
+    Route::get('/cart', function () {
+        try {
+            $cart = auth()->user()->myCarts();
+            return ApiResponse::send($cart);
+        } catch (\Throwable $th) {
+            return ApiResponse::serverError($th->getMessage());
+        }
+    });
+
+    // cart end 
 });
