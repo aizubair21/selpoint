@@ -25,11 +25,11 @@
                             </b>
                         </div>
                         {{-- <div class="col-md-2 co px-0"></div> --}}
-                        <x-nav-link wire:navigate href="{{route('user.wallet.index')}}" class="bold rounded-lg bg-gray-800 text-white p-1 pl-3 flex justify-between align-center">
+                        <x-nav-link href="{{route('user.wallet.index')}}" class="border rounded-lg shadow px-3 text-indigo-900 ring-1">
                             <div>
-                                Earning
+                                Wallet
                             </div>
-                            <div class="d-block px-3 py-1 " href="">
+                            <div class="d-block pl-3 py-1 ">
                                 {{auth()->user()->coin ?? "0"}} TK
                             </div>
                         </x-nav-link>
@@ -53,7 +53,7 @@
                     <x-dashboard.section.inner>
     
                         <div class=" w-100">
-                            <input type="text" disabled readonly id="refID" class=" form-control rounded" value="{{auth()->user()->getRef->ref ?? ""}}" >
+                            <input type="text" disabled readonly id="refID" class=" form-control rounded" value="{{auth()->user()->myRef->ref ?? ""}}" >
                         </div>
         
                         <div>    

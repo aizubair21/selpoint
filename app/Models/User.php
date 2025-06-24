@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
 use App\Models\user_has_refs;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -159,6 +160,29 @@ class User extends Authenticatable
     }
 
 
+    public function abailCoin()
+    {
+        return $this->coin - 500;
+    }
+
+    /**
+     * @return Array
+     */
+    public function haveEnoughBalance($balance): array
+    {
+        $data = array();
+        $data['status'] = false;
+        $data['message'] = "Too Low Balance";
+        $data['mb'] = $this->abailCoin(); // get the usable balance after substruct of 500
+        $data['cb'] = $this->abailCoin() - $balance; // balance after substruct
+
+        if ($this->abailCoin() > $balance && $data['cb'] > 0) {
+            $data['status'] = true;
+            $data['message'] = 'Continue Process';
+        }
+
+        return $data;
+    }
 
 
     //////////////// 
@@ -342,5 +366,11 @@ class User extends Authenticatable
     public function subscription()
     {
         return $this->hasOne(vip::class);
+    }
+
+
+    public function myWithdraw()
+    {
+        return $this->hasMany(Withdraw::class);
     }
 }

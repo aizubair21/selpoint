@@ -192,7 +192,7 @@
                 {{-- @includeIf('components.client.common-heading') --}}
                 {{-- <x-client.products-loop :$products /> --}}
                 @if (count($products))     
-                    <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(160px, auto)); grid-gap:10px">
+                    <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
                         @foreach($products as $product)
                             <x-client.product-cart :$product :key="$product->id" />
                         @endforeach    

@@ -14,7 +14,7 @@ class Refs extends Component
 
     public function render()
     {
-        $refUser = User::where(['reference' => auth()->user()->getRef->ref])->paginate(100);
+        $refUser = User::where(['reference' => auth()->user()->myRef->ref])->paginate(100);
         return view('livewire.user.refs', compact('refUser'));
     }
 }

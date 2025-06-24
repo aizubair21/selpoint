@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemUsersController;
 use App\Http\Controllers\System\VendorController;
+use App\Http\Controllers\WithdrawController;
 use App\Livewire\Actions\Logout;
 use App\Http\Middleware\AbleTo;
 use Livewire\Volt\Volt;
@@ -30,6 +31,7 @@ use App\Livewire\User\Vip\Package\Checkout;
 use App\Livewire\User\Vip\Package\Index as PackageIndex;
 use App\Livewire\User\Vip\Package\Purchase;
 use App\Livewire\User\Wallet\Index as WalletIndex;
+use App\Livewire\User\Wallet\Withdraw\Create;
 use App\Livewire\User\Wallet\Withdraw\Index as WithdrawIndex;
 use App\Models\User;
 use App\Models\vip;
@@ -109,6 +111,8 @@ Route::middleware('auth')->group(function () {
 
         // user withdraw 
         Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
+        Route::get('/withdraw/create', Create::class)->name('user.wallet.withdraw.create');
+        Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
     });
 
 
