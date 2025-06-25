@@ -28,6 +28,8 @@ Route::middleware('auth.master')->get('navigations', function () {
     $navigations = Navigations::with('links')->get();
     return ApiResponse::send($navigations);
 });
+
+
 Route::middleware('auth.master')->get('navigations/{id}', function ($id) {
     // get all navigations with links
     try {
@@ -90,6 +92,12 @@ Route::middleware('auth.master')->prefix('/products/')->group(function () {
 
 
     // products user questions 
+
+
+    // add product to cart
+    Route::get('/products/to-carts', function (Request $request) {
+        return ApiResponse::success('Method to add product to user cart');
+    })->middleware('auth.sanctum');
 });
 
 
@@ -251,7 +259,7 @@ Route::middleware(['auth.master', 'auth:sanctum'])->prefix('my')->group(function
     });
 
     // cart start
-    Route::get('/cart', function () {
+    Route::get('/carts', function () {
         try {
             $cart = auth()->user()->myCarts();
             return ApiResponse::send($cart);

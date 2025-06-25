@@ -10,7 +10,7 @@ class Order extends Model
     use SoftDeletes;
     protected $fillable = [
         'user_id', // the user, who made the order
-        'user_type',
+        'user_type', // user / reseller
         'belongs_to', // vendor or reseller id
         'belongs_to_type', // 1: vendor, 2: reseller
         // 'product_id',
