@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\ProductComissions;
+use App\Http\Controllers\ProductComissionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Welcome;
@@ -9,6 +10,8 @@ use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
 use App\Livewire\Pages\SingleProductOrder;
+use App\Models\Order;
+use App\Models\TakeComissions;
 use Illuminate\Http\Request;
 
 Route::get('/', Welcome::class)->name('home');
@@ -80,5 +83,17 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
-    return ProductComissions::dispatch(1);
+    // return ProductComissions::dispatch(1);
+    // TakeComissions:: 
+    // $Tc = TakeComissions::query()->where(['order_id' => 1])->pending()->first();
+    // $Tc->distributes;
+    // return Order::query()->first()->id;
+    try {
+
+        $pcc = new ProductComissionController();
+        $pcc->roleBackDistributedComissions(Order::query()->first()->id);
+        return 'success';
+    } catch (\Throwable $th) {
+        throw $th;
+    }
 });

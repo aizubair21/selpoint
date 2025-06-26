@@ -30,6 +30,7 @@ return new class extends Migration
 
             $table->boolean('confirmed')->nullable()->default(false);
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

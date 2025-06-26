@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('amount')->nullable();
             $table->string('range')->nullable();
             $table->string('info')->nullable();
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

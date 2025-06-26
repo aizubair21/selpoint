@@ -13,6 +13,19 @@ return new class extends Migration
     {
         Schema::create('reseller_resell_profits', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('from')->nullable();
+            $table->bigInteger('to')->nullable();
+            $table->bigInteger('product_id')->nullable();
+            $table->bigInteger('order_id')->nullable();
+
+
+            $table->string('profit')->nullable();
+            $table->string('buy')->nullable();
+            $table->string('sel')->nullable();
+
+            $table->boolean('confirmed')->nullable()->default(false);
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

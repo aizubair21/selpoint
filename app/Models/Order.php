@@ -44,9 +44,9 @@ class Order extends Model
             //     ]
             // );
 
-            // if (config('app.comission')) {
-            //     ProductComissions::dispatch($order->id);
-            // }
+            if (config('app.comission')) {
+                ProductComissions::dispatch($order->id);
+            }
         });
     }
 
@@ -88,4 +88,15 @@ class Order extends Model
     // {
     //     return $query->where('status', 'Confirm');
     // }
+
+
+    public function comissionsInfo()
+    {
+        return $this->hasMany(TakeComissions::class);
+    }
+
+    public function comissionsDistributor()
+    {
+        return $this->hasMany(DistributeComissions::class);
+    }
 }
