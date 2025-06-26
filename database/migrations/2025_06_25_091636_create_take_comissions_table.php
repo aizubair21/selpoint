@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('profit')->nullable(); // 100
             $table->string('comission_range')->nullable(); // 20%
 
+            $table->boolean('confirmed')->nullable()->default(false);
+
             $table->timestamps();
         });
     }

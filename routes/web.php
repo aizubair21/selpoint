@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ProductComissions;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Livewire\Welcome;
@@ -79,6 +80,5 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
-    // return response()->json($request);
-    // dd($request->all());
+    return ProductComissions::dispatch(1);
 });

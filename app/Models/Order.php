@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ProductComissions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,18 +33,22 @@ class Order extends Model
         // 'buying_price'
     ];
 
-    // protected static function boot(): void
-    // {
-    //     parent::boot();
+    protected static function boot(): void
+    {
+        parent::boot();
 
-    //     static::created(function (order $order) {
-    //         CartOrder::create(
-    //             [
-    //                 'order_id' => $order->id,
-    //             ]
-    //         );
-    //     });
-    // }
+        static::created(function ($order) {
+            // CartOrder::create(
+            //     [
+            //         'order_id' => $order->id,
+            //     ]
+            // );
+
+            // if (config('app.comission')) {
+            //     ProductComissions::dispatch($order->id);
+            // }
+        });
+    }
 
     public function user()
     {

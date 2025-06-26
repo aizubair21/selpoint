@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('product_id')->nullable();
             $table->bigInteger('order_id')->nullable();
             $table->bigInteger('parent_id')->nullable();
+            $table->boolean('confirmed')->nullable()->default(false);
             $table->string('amount')->nullable();
             $table->string('range')->nullable();
             $table->string('info')->nullable();
