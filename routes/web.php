@@ -10,9 +10,11 @@ use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
 use App\Livewire\Pages\SingleProductOrder;
+use App\Models\DistributeComissions;
 use App\Models\Order;
 use App\Models\TakeComissions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', Welcome::class)->name('home');
 
@@ -92,7 +94,14 @@ Route::get('/user-agents', function (Request $request) {
 
         $pcc = new ProductComissionController();
         $pcc->roleBackDistributedComissions(Order::query()->first()->id);
+        // $pcc->confirmTakeComissions(Order::query()->first()->id);
         return 'success';
+        // return DistributeComissions::query()
+        //     ->where('order_id', 1)
+        //     ->pending()
+        //     ->groupBy('user_id')
+        //     ->select('user_id', DB::raw('SUM(amount) as total_amount'))
+        //     ->get();
     } catch (\Throwable $th) {
         throw $th;
     }

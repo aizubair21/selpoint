@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ProductComissions;
 use App\Http\Controllers\UserWalletController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,16 +12,30 @@ class TakeComissions extends Model
     // use SoftDeletes;
     //
 
+    protected $fillable = ['confirmed'];
+
 
     protected static function booted()
     {
+        static::created(function ($takeComissions) {
+            ProductComissions::dispatch($takeComissions->id);
+        });
+
         static::updated(function ($takeComissions) {
             if ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == true) {
-                DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->pending()->update(['confirmed' => true]);
                 UserWalletController::remove($takeComissions->user_id, $takeComissions->take_comission);
+                $dct = DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->pending()->get();
+                foreach ($dct as $dcti) {
+                    $dcti->confirmed = true;
+                    $dcti->save();
+                }
             } elseif ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == false) {
-                DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->confirmed()->update(['confirmed' => false]);
                 UserWalletController::add($takeComissions->user_id, $takeComissions->take_comission);
+                $dc = DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->confirmed()->get();
+                foreach ($dc as $dci) {
+                    $dci->confirmed = false;
+                    $dci->save();
+                }
             }
         });
     }
@@ -44,6 +59,6 @@ class TakeComissions extends Model
 
     public function scopeConfirmed($query)
     {
-        return $query->where(['confirmed' => 1]);
+        return $query->where(['confirmed' => true]);
     }
 }

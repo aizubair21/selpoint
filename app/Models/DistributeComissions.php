@@ -11,14 +11,14 @@ class DistributeComissions extends Model
     // use SoftDeletes;
     //
 
-    protected static function booted()
+    protected $fillable = ['confirmed'];
+
+    protected static function booted(): void
     {
+        // parent::boot();
         static::updated(function ($distributeComissions) {
             $takeCom = $distributeComissions->take;
 
-            if ($takeCom->distributes->where('confirmed', true)->count() == 0) {
-                $takeCom->update(['confirmed' => false]);
-            }
 
             if ($distributeComissions->isDirty('confirmed')) {
                 try {
@@ -32,6 +32,11 @@ class DistributeComissions extends Model
                     // $distributeComissions->confirmed = false;
                     // $distributeComissions->save();
                 }
+            }
+
+            if (DistributeComissions::query()->where(['parent_id' => $distributeComissions->parent_id])->confirmed()->count() == 0) {
+                $takeCom->confirmed = false;
+                $takeCom->save();
             }
         });
     }

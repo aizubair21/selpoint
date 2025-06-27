@@ -12,7 +12,7 @@ class UserWalletController extends Controller
         try {
 
             $user = User::find($user_id);
-            $user->coin += $amount;
+            $user->coin += floatval($amount);
             $user->save();
             return ['success' => true];
         } catch (\Throwable $th) {
@@ -26,20 +26,11 @@ class UserWalletController extends Controller
         try {
 
             $user = User::find($user_id);
-            if ($user->abailCoin > $amount) {
-
-                $user->coin -= $amount;
-                $user->save();
-                return ['success' => true];
-            } else {
-
-                return ['success' => false];
-            }
+            $user->coin -= floatval($amount);
+            $user->save();
+            return ['success' => true];
         } catch (\Throwable $th) {
             return ['success' => false];
         }
     }
-
-
-    
 }
