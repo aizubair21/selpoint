@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 #[layout('layouts.app')]
 class Index extends Component
 {
-    public $pc = 0, $pcc = 0, $ps = 0, $pg = 0, $cc = 0, $ccc = 0, $profit = 0, $take = 0, $give = 0, $store = 0, $return = 0, $tgen = 0, $ttake = 0, $tgive = 0, $tstore = 0, $treturn = 0;
+    public $pc = 0, $pcc = 0, $ps = 0, $pg = 0, $cc = 0, $ccc = 0, $profit = 0, $take = 0, $give = 0, $store = 0, $return = 0, $tgen = 0, $ttake = 0, $tgive = 0, $tstore = 0, $treturn = 0, $today;
     public $todaysTakeComissions = [];
     public function mount()
     {
@@ -24,23 +24,14 @@ class Index extends Component
         //     ->get();
 
 
-        $this->todaysTakeComissions = TakeComissions::query()
-            ->whereDate('created_at', now()->yesterday())
-            ->groupBy('order_id', 'confirmed')
-            ->select(
-                'order_id',
-                'confirmed',
-                DB::raw('SUM(take_comission) as take'),
-                DB::raw('SUM(distribute_comission) as distribute'),
-                DB::raw('SUM(store) as store'),
-            )
-            ->get();
-        // dd($this->todaysTakeComissions);
     }
 
     public function getData()
     {
-        $confirmed =  TakeComissions::query()->confirmed();
+        $this->todaysTakeComissions = TakeComissions::query()->whereDate('created_at', today())->get();
+        // dd($this->todaysTakeComissions);\
+
+
         $this->pc = TakeComissions::query()->pending()->count();
         $this->pcc = TakeComissions::query()->pending()->sum('take_comission');
         $this->pg = TakeComissions::query()->pending()->sum('distribute_comission');
@@ -48,6 +39,8 @@ class Index extends Component
         $this->cc = TakeComissions::query()->confirmed()->count();
         $this->ccc = TakeComissions::query()->confirmed()->sum('take_comission');
 
+        // confirmed
+        $confirmed =  TakeComissions::query()->confirmed();
         $this->give = $confirmed->sum('distribute_comission');
         $this->store = $confirmed->sum('store');
         $this->return = $confirmed->sum('return');

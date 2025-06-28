@@ -23,8 +23,8 @@
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"> --}}
         
     </head>
-    <body class="font-sans antialiased h-screen overflow-hidden">
-        <div class="flex flex-col h-screen bg-gray-100">
+    <body class="font-sans h-screen antialiased  overflow-x-hidden">
+        <div class="h-full bg-gray-100 ">
 
             @livewire('layout.navigation')
             {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
@@ -35,18 +35,51 @@
             {{-- @include('layouts.navigation') --}}
     
             <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-6xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+            <div class="flex px-2 sm:px-6 lg:px-8">
+                <div class="w-48 hidden md:block h-auto">
+                    <div class="pt-2 pb-3 space-y-1">
+                        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                            {{ __('Dashboard') }}
+                        </x-responsive-nav-link>
+
+                        @php
+                                  $get = auth()->user()->active_nav;   
+                        @endphp
+
+                        @includeif('layouts.responsive_navigation')
+
+                        @if (auth()->user()->hasRole('vendor') && $get == 'vendor')
+                            {{-- vendor primary nav  --}}
+                            @includeif('layouts.vendor.navigation.responsive')
+                        @endif
+                            
+                        @if (auth()->user()->hasRole('reseller') && $get == 'reseller')
+                            {{-- reseller primary nav  --}}
+                            @includeif('layouts.reseller.navigation.responsive')
+                        @endif
+                            
+                        @if (auth()->user()->hasRole('rider') && $get == 'rider')
+                            {{-- rider primary nav  --}}
+                        @endif
                     </div>
-                </header>
-            @endif
-    
-            <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto">
-                {{ $slot }}
-            </main>
+                </div>
+                <div class="w-full ">
+
+                    @if (isset($header))
+                        <header class="">
+                            <div class="w-full px-2 mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endif
+            
+                    <!-- Page Content -->
+                    <main class="overflow-y-auto">
+                        {{ $slot }}
+                    </main>
+
+                </div>
+            </div>
         </div>
     </body>
     

@@ -94,7 +94,9 @@
                 Today's Overview
             </div>
 
-            <x-text-input type="date"/>
+            <div class="flex">
+                <x-text-input class="bg-transparent py-1" type="date"/>
+            </div>
         </div>
 
         <x-dashboard.overview.section>
@@ -145,20 +147,28 @@
         </x-dashboard.overview.section>
 
         <x-dashboard.section>
-            @foreach ($todaysTakeComissions as $item)
+            <x-dashboard.table>
+                           
+                @foreach ($todaysTakeComissions as $item)
+                    
+                    <div @class(["border-b mb-1 rounded py-1 flex justify-between items-end text-red-900"], [$item->confirmed => 'text-green-900'])>
+                        <div>
+                            <p class="text-xs"> {{ $item->created_at->toFormattedDateString() }} TK</p>
+                            <p class="text-lg font-bold"> {{ $item->take_comission }} </p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <div> {{$item->distribute_comission}} </div> /
+                            <div> {{ $item->store }} </div>
+                        </div>
+                        <div>
+                            <x-nav-link href=""> Details </x-nav-link>
+                        </div>
+                    </div>
                 
-                <div class="border-b mb-1 rounded py-1 flex justify-between items-center">
-                    <div>
-                        
-                    </div>
-    
-                    <div>
-                        <x-nav-link href=""> Details </x-nav-link>
-                    </div>
-                </div>
-            
-            @endforeach
-        </x-dashboard.section>
+                @endforeach
+            </x-dashboard.table>
+        </x-dashboard.section> 
+
     </x-dashboard.container>
 
 </div>
