@@ -5,6 +5,7 @@ use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
+use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -147,6 +148,10 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
      */
     Route::get('/sliders', Slider::class)->name('system.slider.index');
     Route::get('/sliders/slides', Slides::class)->name('system.slider.slides');
+
+
+    Route::get('/comissions', ComissionsIndex::class)->name('system.comissions.index');
+
 
     /**
      * API Docs

@@ -47,13 +47,13 @@
 @endif
 
 @if (auth()->user()->hasRole('system'))    
-    <x-responsive-nav-link :href="route('dashboard')">
+    <x-responsive-nav-link :href="route('system.comissions.index')">
         {{ __('Comission') }}
     </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('dashboard')">
         {{ __('Withdraw') }}
     </x-responsive-nav-link>
-    <x-responsive-nav-link :href="route('dashboard')">
+    <x-responsive-nav-link :href="route('system.store.index')">
         {{ __('Store') }}
     </x-responsive-nav-link>
 @endif

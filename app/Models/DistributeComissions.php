@@ -11,8 +11,6 @@ class DistributeComissions extends Model
     // use SoftDeletes;
     //
 
-    protected $fillable = ['confirmed'];
-
     protected static function booted(): void
     {
         // parent::boot();
@@ -45,6 +43,7 @@ class DistributeComissions extends Model
     /**
      * scope
      */
+
     public function scopePending($query)
     {
         return $query->where(['confirmed' => false]);
@@ -62,5 +61,20 @@ class DistributeComissions extends Model
     public function take()
     {
         return $this->belongsTo(TakeComissions::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

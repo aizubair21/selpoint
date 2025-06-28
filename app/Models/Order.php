@@ -33,17 +33,11 @@ class Order extends Model
         // 'buying_price'
     ];
 
-    protected static function boot(): void
+    protected static function booted(): void
     {
-        parent::boot();
+        // parent::boot();
 
         static::created(function ($order) {
-            // CartOrder::create(
-            //     [
-            //         'order_id' => $order->id,
-            //     ]
-            // );
-
             if (config('app.comission')) {
                 ProductComissions::dispatch($order->id);
             }

@@ -114,4 +114,16 @@ class Product extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * product has comission take and distributors
+     */
+    public function comissionsTake()
+    {
+        return $this->hasMany(TakeComissions::class);
+    }
+    public function comissionsDistributor()
+    {
+        return $this->hasMany(DistributeComissions::class);
+    }
 }

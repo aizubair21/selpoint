@@ -76,15 +76,15 @@
                     </x-dropdown-link>
                     @endcan
                    
-                    <x-dropdown-link :href="route('system.slider.index')" >
+                    <x-dropdown-link :href="route('system.slider.index')" :active="request()->routeIs('system.slider.*')" >
                         {{ __('Slider') }}
                     </x-dropdown-link>
 
-                    <x-dropdown-link :href="route('navigations.index')">
+                    <x-dropdown-link :href="route('navigations.index')" :active="request()->routeIs('navigations.index')">
                         {{ __('Navigations') }}
                     </x-dropdown-link>
                 
-                    <x-dropdown-link :href="route('profile.edit')">
+                    <x-dropdown-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
                         {{ __('Comission') }}
                     </x-dropdown-link>
                     <x-dropdown-link :href="route('system.store.index')">

@@ -7,8 +7,9 @@
 
     <x-dashboard.container>
         <x-dashboard.section>
-            <div class="flex justify-between">
-               <x-dropdown align="left" maxWidth='sm'>
+            <div class="flex justify-between items-center space-y-2">
+                
+                <x-dropdown align="left" maxWidth='sm'>
                     <x-slot name="trigger">
                         <x-primary-button>
                             {{$orders->status}}
@@ -27,10 +28,56 @@
                             </div>
                         </div>
                     </x-slot>
-               </x-dropdown>
-               {{-- <x-nav-link >Print</x-nav-link> --}}
+                </x-dropdown>
+
+                <div class="flex justify-end items-center space-x-2">
+                    <x-nav-link>COMISSIONS</x-nav-link>
+                </div>
+                {{-- <x-nav-link >Print</x-nav-link> --}}
             </div>
         </x-dashboard.section>
+        
+        @if (auth()->user()->active_nav == 'vendor')                
+            <x-dashboard.section>
+        
+            </x-dashboard.section>    
+        @endif
+        
+        <x-dashboard.overview.section>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Order ID
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->id}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Products
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->count() ?? "0"}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Sub Product
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->sum('quantity') ?? "0"}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Profit
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->sum('quantity') ?? "0"}}
+                </x-slot>
+            </x-dashboard.overview.div>
+        </x-dashboard.overview.section>
+
         <x-dashboard.section>
             <div class="flex justify-between items-start px-5">
                 <div class="order-info">
@@ -54,10 +101,10 @@
                             <br>
                             {{$orders->number_1}}
     
+                            <div>
+                                {{now()->toDayDateTimeString()}}
+                            </div>
                         </p>
-                        <div>
-                            Today : {{now()->toDayDateTimeString()}}
-                        </div>
                         </tr>
                         <tr>
                             {{-- <th>House</th>
@@ -72,12 +119,9 @@
                     </table>
                 </div>
             </div>
-        </x-dashboard.section>
-
-
-        <x-dashboard.section>
-          
+            
             <x-dashboard.table>
+                
                 <thead>
                     <tr>
                         <th>#</th>
@@ -90,12 +134,14 @@
                         <th>Buy</th>
                     </tr>
                 </thead>
+            
+                <tbody>
                     @foreach ($orders->cartOrders as $item)
                         <tr>
                             <td> {{$loop->iteration}} </td>
                             <td> {{$item->id ?? "N/A"}} </td>
                             <td> 
-                                <div class="flex items-start">
+                                <div class=" ">
                                     <img width="30px" height="30px" src="{{asset('storage/' . $item->product?->thumbnail)}}" alt="">
                                     <div>
                                         {{$item->product?->title ?? "N/A"}} 
@@ -103,28 +149,51 @@
                                 </div>
                             </td>
                             <td>
-                                {{$item->price}}
+                                {{$item->price}} TK
                             </td>
                             <td>
                                 {{$item->quantity}}
                             </td>
                             <td>
-                                {{$item->total}}
+                                {{$item->total}} TK
                             </td>
                             <td>
                                 {{$item->size ?? "N/A"}}
                             </td>
                             <td>
-                                {{$item->product?->buying_price ?? "N/A"}}
+                                {{$item->product?->buying_price ?? "N/A"}} TK
                             </td>
                         </tr>
                     @endforeach
                 <tbody>
-
-                </tbody>
+            
+                <tfoot>
+                    <tr class="border-t">
+                        <td colspan="5" class="text-right">Sub Total</td>
+                        <td>
+                            {{ $orders->sum('total')}} Tk
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="text-right">Shipping</td>
+                        <td>
+                            {{ $orders->shipping ?? 0}} Tk
+                        </td>
+                    </tr>
+                    <tr class="border-t font-bold text-lg bg-gray-100">
+                        <td colspan="5" class="text-right">Total</td>
+                        <td>
+                            {{ $orders->shipping + $orders->sum('total')}} Tk
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            
             </x-dashboard.table>
 
         </x-dashboard.section>
+
+
 
     </x-dashboard.container>
 </div>

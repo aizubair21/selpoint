@@ -15,29 +15,32 @@ class ProductComissionController extends Controller
 
     public function confirmTakeComissions($id)
     {
-        $order = Order::find($id);
-        $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get();
-        if ($tc) {
-            foreach ($tc as $item) {
-                $item->confirmed = true;
-                $item->save();
+        $order = Order::findOrFail($id);
+        if ($order) {
+            $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get();
+
+            if ($tc) {
+                foreach ($tc as $item) {
+                    $item->confirmed = true;
+                    $item->save();
+                }
             }
-        }
 
-        if ($order->user_type == 'reseller') {
-            // ResellerResellProfits::query()->where(['order_id' => $order->id])->pending()->update(['confirmed' => true]);
-            $rcp = ResellerResellProfits::query()->where(['order_id' => $order->id])->pending()->get();
-            foreach ($rcp as $rcpi) {
+            if ($order->user_type == 'reseller') {
+                // ResellerResellProfits::query()->where(['order_id' => $order->id])->pending()->update(['confirmed' => true]);
+                $rcp = ResellerResellProfits::query()->where(['order_id' => $order->id])->pending()->get();
+                foreach ($rcp as $rcpi) {
 
-                $rcpi->confirmed = true;
-                $rcpi->save();
+                    $rcpi->confirmed = true;
+                    $rcpi->save();
+                }
             }
         }
     }
 
 
     public function distributeComissions($id)
-    {;
+    {
         $distributes = DistributeComissions::query()
             ->where('order_id', $id)
             ->pending()

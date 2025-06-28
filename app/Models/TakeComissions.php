@@ -12,14 +12,11 @@ class TakeComissions extends Model
     // use SoftDeletes;
     //
 
-    protected $fillable = ['confirmed'];
-
-
     protected static function booted()
     {
-        static::created(function ($takeComissions) {
-            ProductComissions::dispatch($takeComissions->id);
-        });
+        // static::created(function ($takeComissions) {
+        //     ProductComissions::dispatch($takeComissions->id);
+        // });
 
         static::updated(function ($takeComissions) {
             if ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == true) {
@@ -39,16 +36,6 @@ class TakeComissions extends Model
             }
         });
     }
-
-    /**
-     * has multipe distrubute comissions 
-     */
-    public function distributes()
-    {
-        return $this->hasMany(DistributeComissions::class, 'parent_id', 'id');
-    }
-
-
     /**
      * scope
      */
@@ -60,5 +47,34 @@ class TakeComissions extends Model
     public function scopeConfirmed($query)
     {
         return $query->where(['confirmed' => true]);
+    }
+
+    /**
+     * belogs to user
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+
+
+
+    /**
+     * has multipe distrubute comissions 
+     */
+    public function distributes()
+    {
+        return $this->hasMany(DistributeComissions::class, 'parent_id', 'id');
     }
 }
