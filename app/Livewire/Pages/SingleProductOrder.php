@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Pages;
 
+use App\Events\ProductComissions;
+use App\Http\Controllers\ProductComissionController;
 use App\Models\cart;
 use App\Models\CartOrder;
 use App\Models\Order;
@@ -45,12 +47,13 @@ class SingleProductOrder extends Component
 
     public function confirm()
     {
+        // ProductComissions::dispatch(6);
         $this->validate();
 
         if (auth()->user()->id !== $this->product->user_id) {
 
-            DB::transaction(function () {
-
+            try {
+                //code...
                 $order = Order::create(
                     [
                         'user_id' => auth()->user()->id,
@@ -94,7 +97,14 @@ class SingleProductOrder extends Component
                     ]
                 );
                 $this->redirectRoute("user.orders.view");
-            });
+
+                // dispatch comissions
+                // ProductComissions::dispatch($order->id);
+
+                ProductComissionController::dispatchProductComissionsListeners($order->id);
+            } catch (\Throwable $th) {
+                $this->dispatch('error', $th->getMessage());
+            }
         } else {
             $this->dispatch('warning', "You can't purchase your own product");
         }

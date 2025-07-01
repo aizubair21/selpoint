@@ -66,7 +66,7 @@
                                                 <b class="text-xs">{{$user  ->email ?? "N/A" }}</b>
                                             </td>
                                             <td>
-                                                {{$user->getRef->ref ?? "N/A"}} 
+                                                {{$user->myRef->ref ?? "N/A"}} 
                                                 <br>
                                                 <span class="px-2 text-xs rounded border">
                                                     {{$user->reference ?? "Not Found" }} > {{$user->getReffOwner?->owner?->name}}

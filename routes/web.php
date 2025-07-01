@@ -85,17 +85,17 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
-    // return ProductComissions::dispatch(1);
     // TakeComissions:: 
     // $Tc = TakeComissions::query()->where(['order_id' => 1])->pending()->first();
     // $Tc->distributes;
     // return Order::query()->first()->id;
     try {
+        // return ProductComissions::dispatch(5);
 
-        $pcc = new ProductComissionController();
-        $pcc->roleBackDistributedComissions(Order::query()->first()->id);
+        // $pcc = new ProductComissionController();
+        // $pcc->roleBackDistributedComissions(Order::query()->first()->id);
         // $pcc->confirmTakeComissions(Order::query()->first()->id);
-        return 'success';
+        // return 'success';
         // return DistributeComissions::query()
         //     ->where('order_id', 1)
         //     ->pending()

@@ -210,12 +210,12 @@ new class extends component
 
             @if (auth()->user()->hasRole('vendor') && $this->get == 'vendor')
                 {{-- vendor primary nav  --}}
-                @includeif('layouts.vendor.navigation.primary')
+                @includeif('layouts.vendor.navigation.responsive')
             @endif
                 
             @if (auth()->user()->hasRole('reseller') && $this->get == 'reseller')
                 {{-- reseller primary nav  --}}
-                @includeif('layouts.reseller.navigation.primary')
+                @includeif('layouts.reseller.navigation.responsive')
             @endif
                 
             @if (auth()->user()->hasRole('rider') && $this->get == 'rider')

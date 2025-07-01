@@ -27,9 +27,10 @@
     <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
         {{ __('Products') }}
     </x-responsive-nav-link>
+
     <x-hr/>
     @can('role_list')
-        <x-responsive-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
+        <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
             {{ __('ViP') }}
         </x-responsive-nav-link>
     @endcan 
@@ -47,13 +48,13 @@
 @endif
 
 @if (auth()->user()->hasRole('system'))    
-    <x-responsive-nav-link :href="route('system.comissions.index')">
+    <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
         {{ __('Comission') }}
     </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('dashboard')">
         {{ __('Withdraw') }}
     </x-responsive-nav-link>
-    <x-responsive-nav-link :href="route('system.store.index')">
+    <x-responsive-nav-link :href="route('system.store.index')" :active="request()->routeIs('system.store.*')">
         {{ __('Store') }}
     </x-responsive-nav-link>
 @endif

@@ -12,6 +12,8 @@ use App\Models\vendor;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use PHPUnit\Event\Code\Throwable;
 
 class TakeProductComissions
 {
@@ -34,20 +36,17 @@ class TakeProductComissions
         $buyer = User::find($orderData->user_id); // product buyer
         $seller = User::find($orderData->belongs_to); // product seller
 
-        $belongToInfo = [];
+        $shop = [];
 
-        switch ($seller->account_type()) {
+        switch ($seller?->account_type()) {
             case 'reseller':
-                $belongToInfo = reseller::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
+                // $shop = reseller::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
+                $shop = $seller?->resellerShop();
                 break;
 
             case 'vendor':
-                $belongToInfo = vendor::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
-                # code...
-                break;
-
-            default:
-                $belongToInfo = [];
+                // $shop = vendor::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
+                $shop = $seller->vendorShop();
                 break;
         }
 
@@ -55,15 +54,15 @@ class TakeProductComissions
             $products = $ord->product; // get the relevent products from order details
             // echo $products->id;
             $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
-            $comission = round(($profit * $belongToInfo->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
+            $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
             $distribute = round(($comission * 30) / 100, 2);
 
-            if ($products && $belongToInfo->system_get_comission) {
+            if ($products && $shop->system_get_comission) {
 
                 // take the comissions and store in databse
                 $takeComissions = new TakeComissions();
                 DB::transaction(function ()
-                use ($takeComissions, $ord, $profit, $comission, $orderData, $distribute, $belongToInfo, $products) {
+                use ($takeComissions, $ord, $profit, $comission, $orderData, $distribute, $shop, $products) {
                     $takeComissions->forceFill(
                         [
                             'user_id' => $ord->belongs_to,
@@ -77,7 +76,7 @@ class TakeProductComissions
                             'return' => $profit - $comission,
                             'profit' => $profit,
                             'confirmed' => false,
-                            'comission_range' => $belongToInfo->system_get_comission,
+                            'comission_range' => $shop->system_get_comission,
                         ]
                     );
                 });
@@ -180,5 +179,15 @@ class TakeProductComissions
                 }
             }
         }
+    }
+
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(ProductComissions $event, Throwable $exception): void
+    {
+        Log::error($exception);
+        throw $exception;
     }
 }

@@ -3,12 +3,12 @@
     <x-dashboard.page-header>
         <div class="flex justify-between">
             <div>
-                comissions
+                Comissions
             </div>
 
-            <x-secondary-button>
-                <i class="fas fa-filter" ></i>
-            </x-secondary-button>
+            <x-nav-link-btn href="{{route('system.comissions.takes')}}">
+                Shops
+            </x-nav-link-btn>
         </div>
     </x-dashboard.page-header>
 
@@ -85,6 +85,30 @@
                     {{$return}}
                 </x-slot>
             </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Seller
+                </x-slot>
+                <x-slot name="content">
+                    {{$seller}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Product
+                </x-slot>
+                <x-slot name="content">
+                    {{$product}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Order
+                </x-slot>
+                <x-slot name="content">
+                    {{$order}}
+                </x-slot>
+            </x-dashboard.overview.div>
           
         </x-dashboard.overview.section>
         <x-hr/>
@@ -148,24 +172,59 @@
 
         <x-dashboard.section>
             <x-dashboard.table>
-                           
-                @foreach ($todaysTakeComissions as $item)
-                    
-                    <div @class(["border-b mb-1 rounded py-1 flex justify-between items-end text-red-900"], [$item->confirmed => 'text-green-900'])>
-                        <div>
-                            <p class="text-xs"> {{ $item->created_at->toFormattedDateString() }} TK</p>
-                            <p class="text-lg font-bold"> {{ $item->take_comission }} </p>
-                        </div>
-                        <div class="flex space-x-2">
-                            <div> {{$item->distribute_comission}} </div> /
-                            <div> {{ $item->store }} </div>
-                        </div>
-                        <div>
-                            <x-nav-link href=""> Details </x-nav-link>
-                        </div>
-                    </div>
                 
-                @endforeach
+                <thead>
+                    <th>ID</th>
+                    <th>Order</th>
+                    <th>Product</th>
+                    <th>Buy</th>
+                    <th>Sell</th>
+                    <th>Profit</th>
+                    <th>Rate</th>
+                    <th>Take</th>
+                    <th>Give</th>
+                    <th>Store</th>
+                    <th>Return</th>
+                    <th>Confirmed</th>
+                    <th>
+                        A/C
+                    </th>
+                </thead>
+
+                <tbody>
+
+                    @foreach ($todaysTakeComissions as $item)
+                        <tr >
+                            <td> {{$item->id ?? "N/A"}} </td>
+                            <td> {{$item->order_id ?? 0}} </td>
+                            <td> {{$item->product_id ?? 0}} </td>
+                            <td> {{$item->buying_price ?? 0}} </td>
+                            <td> {{$item->selling_price ?? 0}} </td>
+                            <td> {{$item->profit ?? "0"}} </td>
+                            <td> {{$item->comission_range ?? "0"}} % </td>
+                            <td> {{$item->take_comission ?? "0"}}</td>
+                            <td> {{$item->distribute_comission ?? "0"}}</td>
+                            <td> {{$item->store ?? "0"}}</td>
+                            <td> {{$item->return ?? "0"}}</td>
+                            <td>
+                                @if ($item->Confirmed)
+                                    <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
+                                @else 
+                                    <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="flex space-x-2">
+                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" x-show="$wire.item.confirm" > Refund </x-nav-link>
+                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}" x-show="!$wire.item.confirm" > Confirm </x-nav-link>
+                                    <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">Details</x-nav-link>
+                                </div>
+                            </td>
+                        </tr>    
+                    @endforeach
+                
+                </tbody>
+                
             </x-dashboard.table>
         </x-dashboard.section> 
 

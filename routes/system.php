@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\ProductComissionController;
 use App\Http\Controllers\System\VendorController;
 use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
 use App\Livewire\System\Comissions\Index as ComissionsIndex;
+use App\Livewire\System\Comissions\Takes;
+use App\Livewire\System\Comissions\TakesDetails;
+use App\Livewire\System\Comissions\TakesDistributes;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -40,6 +44,8 @@ use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
 use App\Livewire\System\Slider\Slider;
 use App\Livewire\System\Slider\Slides;
+use App\Models\DistributeComissions;
+use App\Models\TakeComissions;
 
 Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
@@ -151,6 +157,59 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
 
 
     Route::get('/comissions', ComissionsIndex::class)->name('system.comissions.index');
+    Route::get('/comissions/take', Takes::class)->name('system.comissions.takes');
+    Route::get('/comissions/{id}', TakesDetails::class)->name('system.comissions.details');
+    Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('system.comissions.distributes');
+
+    Route::get('/comissions/confirm/order/{id}', function ($id) {
+        // 
+        try {
+
+            $cc = new ProductComissionController();
+            $cc->confirmTakeComissions($id);
+            return redirect()->back()->with('success', 'Comissions Confirmed!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th);
+        }
+    })->name('system.comissions.take.confirm');
+
+
+    Route::get('/comissions/refund/order/{id}', function ($id) {
+        // 
+        try {
+
+            $cc = new ProductComissionController();
+            $cc->roleBackDistributedComissions($id);
+            return redirect()->back()->with('success', 'Comissions Confirmed!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th);
+        }
+    })->name('system.comissions.take.refund');
+
+
+    Route::get('/comissions/confirm/distribute/{id}', function ($id) {
+
+        try {
+            $dis = DistributeComissions::findOrFail($id);
+            $dis->confirmed = true;
+            $dis->save();
+            return redirect()->back()->with('success', 'Comissions Confirmed!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th);
+        }
+    })->name('system.comissions.distribute.confirm');
+
+    Route::get('/comissions/refund/distribute/{id}', function ($id) {
+        try {
+            $dis = DistributeComissions::findOrFail($id);
+            $dis->confirmed = false;
+            $dis->save();
+            return redirect()->back()->with('success', 'Comissions Confirmed!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th);
+        }
+    })->name('system.comissions.distribute.refund');
+
 
 
     /**

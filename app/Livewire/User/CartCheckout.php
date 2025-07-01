@@ -2,6 +2,8 @@
 
 namespace App\Livewire\User;
 
+use App\Events\ProductComissions;
+use App\Http\Controllers\ProductComissionController;
 use App\Models\cart;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -81,38 +83,68 @@ class CartCheckout extends Component
     public function confirm()
     {
         $this->validate();
-        DB::transaction(function () {
+
+        try {
+
             $ct = cart::where(['user_id' => auth()->user()->id])->get()->groupBy('belongs_to'); // get all cart group by belongs_to
             foreach ($ct as $reseller => $rp) {
                 // iterated by single reseller
                 $qty = 0;
                 $total = 0;
-                $order = Order::create(
-                    [
-                        'user_id' => auth()->user()->id,
-                        'user_type' => 'user',
-                        'belongs_to' => $reseller,
-                        'belongs_to_type' => 'reseller',
-                        'status' => 'Pending',
-                        // 'product_id' => $this->product?->id,
-                        'size' => 'Details',
-                        'name' => 'Cart Order',
-                        // 'price' => $this->tp,
-                        // 'quantity' => $rp->sum('qty'),
-                        // 'total' => $this->tp,
-                        // 'buying_price' => $this->product?->buying_price,
-                        'delevery' => $this->delevery,
-                        'number' => $this->phone,
-                        'area_condition' => $this->area_condition,
-                        'district' => $this->district,
-                        'upozila' => $this->upozila,
-                        'location' => $this->location,
-                        'phone' => $this->phone,
-                        'road_no' => $this->road_no,
-                        'house_no' => $this->house_no,
-                        'shipping' => $this->area_condition == 'Dhaka' ? 80 : 120,
-                    ]
-                );
+                $order = 0;
+
+                // $order = Order::create(
+                //     [
+                //         ]
+                //         'user_id' => auth()->user()->id,
+                //         'user_type' => 'user',
+                //         'belongs_to' => $reseller,
+                //         'belongs_to_type' => 'reseller',
+                //         'status' => 'Pending',
+                //         // 'product_id' => $this->product?->id,
+                //         'size' => 'Details',
+                //         'name' => 'Cart Order',
+                //         // 'price' => $this->tp,
+                //         // 'quantity' => $rp->sum('qty'),
+                //         // 'total' => $this->tp,
+                //         // 'buying_price' => $this->product?->buying_price,
+                //         'delevery' => $this->delevery,
+                //         'number' => $this->phone,
+                //         'area_condition' => $this->area_condition,
+                //         'district' => $this->district,
+                //         'upozila' => $this->upozila,
+                //         'location' => $this->location,
+                //         'phone' => $this->phone,
+                //         'road_no' => $this->road_no,
+                //         'house_no' => $this->house_no,
+                //         'shipping' => $this->area_condition == 'Dhaka' ? 80 : 120,
+                // );
+                $order = new Order();
+                $order->user_id = auth()->user()->id;
+                $order->user_type = 'user';
+                $order->belongs_to = $reseller;
+                $order->belongs_to_type = 'reseller';
+                $order->status = 'Pending';
+                // $order->/ 'product_id = $this->product?->id;
+                $order->size = 'Details';
+                $order->name = 'Cart Order';
+                // $order->/ 'price = $this->tp;
+                // $order->/ 'quantity = $rp->sum('qty');
+                // $order->/ 'total = $this->tp;
+                // $order->/ 'buying_price = $this->product?->buying_price;
+                $order->delevery = $this->delevery;
+                $order->number = $this->phone;
+                $order->area_condition = $this->area_condition;
+                $order->district = $this->district;
+                $order->upozila = $this->upozila;
+                $order->location = $this->location;
+                $order->phone = $this->phone;
+                $order->road_no = $this->road_no;
+                $order->house_no = $this->house_no;
+                $order->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;
+                $order->save();
+
+
 
                 foreach ($rp as $key => $item) {
                     $qty += $item->qty;
@@ -136,14 +168,23 @@ class CartCheckout extends Component
 
                     auth()->user()->myCarts()->delete($item->id);
                 }
+
                 Order::find($order->id)->update(
                     [
                         'quantity' => $qty,
                         'total' => $total,
                     ]
                 );
+                
+                // dispatch comissions
+                ProductComissionController::dispatchProductComissionsListeners($order->id);
             }
-        });
+        } catch (\Throwable $th) {
+            $this->dispatch('error', $th->getMessage());
+        }
+
+
+
 
         // $this->reset('name', 'phone', 'location', 'district');
         $this->redirectRoute('user.orders.view');

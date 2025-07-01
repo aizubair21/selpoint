@@ -15,22 +15,25 @@ class Users extends Component
     #[URL]
     public $nav = 'Pending', $search = '';
 
-    // public $vip;
-
-    // public function mount()
-    // {
-    //     $this->vip = vip::where(['status' => $this->nav == 'Pending' ? 0 : 1])->get();
-    // }
-
     public function render()
     {
-        $vip = vip::where(['status' => $this->nav == 'Pending' ? 0 : 1])->paginate(config('app.paginate'));
-        if (isset($this->search)) {
-            $vip = vip::where('name', 'like', '%' . $this->search . '%')->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(config('app.paginate'));
+        $st = false;
+        if ($this->nav !== 'Pending') {
+            $st = true;
+        } else {
+            $st = false;
         }
+
         if ($this->nav == 'Trash') {
             $vip = vip::onlyTrashed()->paginate(config('app.paginate'));
+        } else {
+            $vip = vip::query()->where(['status' => $st])->paginate(config('app.paginate'));
         }
+
+        if (isset($this->search) && !empty($this->search)) {
+            $vip = vip::where('name', 'like', '%' . $this->search . '%')->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(config('app.paginate'));
+        }
+
         return view('livewire.system.vip.users', compact('vip'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\ProductComissions;
+use App\Http\Controllers\ProductComissionController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,16 +34,16 @@ class Order extends Model
         // 'buying_price'
     ];
 
-    protected static function booted(): void
-    {
-        // parent::boot();
 
-        static::created(function ($order) {
-            if (config('app.comission')) {
-                ProductComissions::dispatch($order->id);
-            }
-        });
-    }
+    // protected static function booted(): void
+    // {
+    //     parent::booted();
+    //     static::created(function (Order $order) {
+    //         logger("Order Model Booted $order->id");
+    //         ProductComissionController::dispatchProductComissionsListeners($order->id);
+    //     });
+    // }
+
 
     public function user()
     {
@@ -53,7 +54,6 @@ class Order extends Model
             'password' => "user not found",
             'coin' => 0,
             'reference' => 0,
-
         ]);
     }
 
