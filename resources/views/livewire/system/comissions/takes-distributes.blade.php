@@ -4,68 +4,132 @@
     </x-dashboard.page-header>
 
     <x-dashboard.container>
-        <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    Seller Info
-                </x-slot>
-                <x-slot name="content">
+        <div class="flex space-x-2">
+            <x-primary-button>Seller</x-primary-button>
+            <x-primary-button>Buyer</x-primary-button>
+            <x-primary-button>Product</x-primary-button>
+            {{-- <x-dashboard.section>
+                <x-dashboard.section.inner>
+                    <x-dashboard.table>
+                        <thead>
+                            <tr>
+                                <th> Seller </th>
+                                <th> Shop </th>
+                                <th> Wallet </th>
+                                <th> Comission Rate </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> 
+                                    {{$takes?->user?->name ?? "N/A"}} ref by <strong>{{ $takes?->user?->getReffOwner?->owner?->name ?? $takes?->user?->reference }}</strong>
+                                </td>
+                                <td>
+                                    <span class="px-1 rounded-lg text-white bg-indigo-900"> {{$takes?->user?->account_type()}} </span>
+    
+                                    @php
+                                        $shop;
+                                    @endphp
+                                    @if ($takes?->user?->account_type() == 'vendor')
+                                        @php
+                                            $shop = $takes?->user?->vendorShop();
+                                        @endphp
+                                        <x-nav-link href="{{route('system.vendor.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
+                                            {{$shop->shop_name_en ?? "N/A"}} 
+                                            - 
+                                            {{$shop->shop_name_bn ?? "N/A"}} <span class="px-1 text-indigo-900 text-xs mx-1 rounded-xl border "> {{$shop->status}} </span>
+                                            
+                                        </x-nav-link>
+                                    @endif 
+                                    @if ($takes?->user?->account_type() == 'reseller')
+                                        @php
+                                            $shop = $takes?->user?->resellerShop();
+                                        @endphp
+                                        <x-nav-link href="{{route('system.reseller.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
+                                            {{$shop->shop_name_en ?? "N/A"}} 
+                                            -
+                                            {{$shop->shop_name_bn ?? "N/A"}} <span class="px-1 text-indigo-900 text-xs mx-1 rounded-xl border "> {{$shop->status}} </span>
+                                        </x-nav-link>
+                                    
+                                    @endif
+                                    
+                                </td>
+                                <td>
+                                    {{$takes?->user?->coin ?? 0}}
+                                </td>
+                                <td> {{ $shop->system_get_comission ?? 0}} % </td>
+                            </tr>
+                        </tbody>
+                    </x-dashboard.table>
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
+            
+            <x-dashboard.section>
+                <x-dashboard.section.header>
+                    <x-slot name="title">
+                        Seller Info
+                    </x-slot>
+                    <x-slot name="content">
+    
+                    </x-slot>
+                </x-dashboard.section.header>
+                <x-dashboard.section.inner>
+                    <x-dashboard.table>
+                        <thead>
+                            <tr>
+                                <th> Seller </th>
+                                <th> Shop </th>
+                                <th> Wallet </th>
+                                <th> Comission Rate </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> 
+                                    {{$takes?->user?->name ?? "N/A"}} ref by <strong>{{ $takes?->user?->getReffOwner?->owner?->name ?? $takes?->user?->reference }}</strong>
+                                </td>
+                                <td>
+                                    <span class="px-1 rounded-lg text-white bg-indigo-900"> {{$takes?->user?->account_type()}} </span>
+    
+                                    @php
+                                        $shop;
+                                    @endphp
+                                    @if ($takes?->user?->account_type() == 'vendor')
+                                        @php
+                                            $shop = $takes?->user?->vendorShop();
+                                        @endphp
+                                        <x-nav-link href="{{route('system.vendor.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
+                                            {{$shop->shop_name_en ?? "N/A"}} 
+                                            - 
+                                            {{$shop->shop_name_bn ?? "N/A"}} <span class="px-1 text-indigo-900 text-xs mx-1 rounded-xl border "> {{$shop->status}} </span>
+                                            
+                                        </x-nav-link>
+                                    @endif 
+                                    @if ($takes?->user?->account_type() == 'reseller')
+                                        @php
+                                            $shop = $takes?->user?->resellerShop();
+                                        @endphp
+                                        <x-nav-link href="{{route('system.reseller.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
+                                            {{$shop->shop_name_en ?? "N/A"}} 
+                                            -
+                                            {{$shop->shop_name_bn ?? "N/A"}} <span class="px-1 text-indigo-900 text-xs mx-1 rounded-xl border "> {{$shop->status}} </span>
+                                        </x-nav-link>
+                                    
+                                    @endif
+                                    
+                                </td>
+                                <td>
+                                    {{$takes?->user?->coin ?? 0}}
+                                </td>
+                                <td> {{ $shop->system_get_comission ?? 0}} % </td>
+                            </tr>
+                        </tbody>
+                    </x-dashboard.table>
+                </x-dashboard.section.inner>
+            </x-dashboard.section> --}}
 
-                </x-slot>
-            </x-dashboard.section.header>
-            <x-dashboard.section.inner>
-                <x-dashboard.table>
-                    <thead>
-                        <tr>
-                            <th> Seller </th>
-                            <th> Shop </th>
-                            <th> Wallet </th>
-                            <th> Comission Rate </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> 
-                                {{$takes?->user?->name ?? "N/A"}} 
-                            </td>
-                            <td>
-                                @php
-                                    $shop;
-                                @endphp
-                                @if ($takes?->user?->account_type() == 'vendor')
-                                    @php
-                                        $shop = $takes?->user?->vendorShop();
-                                    @endphp
-                                    <x-nav-link href="{{route('system.vendor.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
-                                        {{$shop->shop_name_en ?? "N/A"}} 
-                                        - 
-                                        {{$shop->shop_name_bn ?? "N/A"}} 
-                                        
-                                    </x-nav-link>
-                                @endif 
-                                @if ($takes?->user?->account_type() == 'reseller')
-                                    @php
-                                        $shop = $takes?->user?->resellerShop();
-                                    @endphp
-                                    <x-nav-link href="{{route('system.reseller.edit', ['id' => $shop->id ?? 0, 'filter' => 'Active'])}}">
-                                        {{$shop->shop_name_en ?? "N/A"}} 
-                                        -
-                                        {{$shop->shop_name_bn ?? "N/A"}} 
-                                    </x-nav-link>
-                                
-                                @endif
-                                <span class="px-1 rounded-lg text-white bg-indigo-900"> {{$takes?->user?->account_type()}} </span>
-                                
-                            </td>
-                            <td>
-                                {{$takes?->user?->coin ?? 0}}
-                            </td>
-                            <td> {{ $shop->system_get_comission ?? 0}} % </td>
-                        </tr>
-                    </tbody>
-                </x-dashboard.table>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
+
+        </div>
 
         <x-dashboard.section>
              <x-dashboard.section.header>
@@ -114,7 +178,8 @@
                                 <td> {{$takes->id ?? "N/A"}} </td>
                                 <td> {{$takes->order_id ?? 0}} </td>
                                 <td>
-                                    {{$takes->product_id ?? 0}}
+                                    <img src="{{asset('storage/') . $takes?->product?->thumbnail}}" alt="">
+                                    {{$takes->product?->name ?? 0}}
                                 </td>
                                 <td> {{$takes->buying_price ?? 0}} </td>
                                 <td> {{$takes->selling_price ?? 0}} </td>
@@ -151,7 +216,7 @@
         <x-dashboard.section>
            
             <x-dashboard.section.inner>
-                <x-dashboard.table>
+                <x-dashboard.table :data="$distributes">
                     <thead>
                         <tr>
                             <th>#</th>

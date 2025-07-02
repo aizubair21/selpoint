@@ -14,7 +14,7 @@
                                 <option value="product_id">Product</option>
                                 <option value="user_id">Shop</option>
                             </select>
-                            <x-text-input class="border-0 rounded-none" placeholder="ID's" wie:model="id" />
+                            <x-text-input class="border-0 rounded-none" placeholder="ID's" wire:model="qry" />
                         </div>
                     </form>
 
@@ -29,10 +29,44 @@
             <x-slot name="content"></x-slot>
         </x-dashboard.section.header>
         <x-dashboard.section>
-            <x-dashboard.table>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    Total Overview
+                </x-slot>
+                <x-slot name="content">
+
+                </x-slot>
+            </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+                <x-dashboard.table :data="$takes" >
+                    <thead>
+                        <tr>
+                            <th>Profit</th>
+                            <th>Take</th>
+                            <th>Give</th>
+                            <th>Store</th>
+                            <th>Return</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td> {{$takes->sum('profit') ?? 0}} </td>
+                            <td> {{$takes->sum('take_comission') ?? 0}} </td>
+                            <td> {{$takes->sum('distribute_comission') ?? 0}} </td>
+                            <td> {{$takes->sum('store') ?? 0}} </td>
+                            <td> {{$takes->sum('return') ?? 0}} </td>
+                        </tr>
+                    </tbody>
+                </x-dashboard.table>
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
+        <x-dashboard.section >
+            <x-dashboard.table :data="$takes">
                 
                 <thead>
                     <th>ID</th>
+                    <th>Seller</th>
                     <th>Order</th>
                     <th>Product</th>
                     <th>Buy</th>
@@ -43,6 +77,7 @@
                     <th>Give</th>
                     <th>Store</th>
                     <th>Return</th>
+                    <th>Date</th>
                     <th>Confirmed</th>
                     <th>
                         A/C
@@ -54,8 +89,13 @@
                     @foreach ($takes as $item)
                         <tr >
                             <td> {{$item->id ?? "N/A"}} </td>
+                            <th>
+                                {{$item->user_id}}
+                            </th>
                             <td> {{$item->order_id ?? 0}} </td>
-                            <td></td>
+                            <td>
+                                 {{$item->product_id ?? 0}}     
+                            </td>
                             <td> {{$item->buying_price ?? 0}} </td>
                             <td> {{$item->selling_price ?? 0}} </td>
                             <td> {{$item->profit ?? "0"}} </td>
@@ -64,6 +104,9 @@
                             <td> {{$item->distribute_comission ?? "0"}}</td>
                             <td> {{$item->store ?? "0"}}</td>
                             <td> {{$item->return ?? "0"}}</td>
+                            <td>
+                                {{ $item->created_at?->toFormattedDateString() }}
+                            </td>
                             <td>
                                 @if ($item->Confirmed)
                                     <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
@@ -88,15 +131,29 @@
     </x-dashboard.container>
 
 
-    <x-modal name="filter-modal" >
+    <x-modal name="filter-modal" maxWidth="lg">
         <div class="p-2">
-            <h5 class="">
+            <div>
                 Filter
-            </h5>
+            </div>
             <x-hr/>
             <div>
-
+                <div class="md:flex space-y-2 justify-between items-center">
+                    <div>
+                        <div class="">
+                            <x-input-label class=" capitalize pb-2" value="Date From" />
+                            <x-text-input type="date" wire:model="start_date" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="">
+                            <x-input-label class=" capitalize pb-2" value="Date To" />
+                            <x-text-input type="date" wire:model="end_date" vale="{{today()}}" />
+                        </div>
+                    </div>
+                </div>
             </div>
+            <x-hr/>
         </div>
     </x-modal>
 </div>

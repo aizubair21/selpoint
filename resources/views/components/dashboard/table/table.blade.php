@@ -1,4 +1,7 @@
-<div {{$attributes}} class="overflow-x-scroll ">
+
+@props(['data' => ''])
+
+<div {{$attributes}} class="">
     <!-- Life is available only in the present moment. - Thich Nhat Hanh -->
     <style>
         thead th {
@@ -14,7 +17,12 @@
         }
        
     </style>
-    <table id="myTable" class="w-full mb-2">
+
+    @if (isset($data) || count($data) > 0)
+        <table id="myTable" class="w-full mb-2">
             {{$slot}}
-    </table>
+        </table>
+    @else
+        <div class="alert alert-danger">No Data Found !</div>
+    @endif
 </div>

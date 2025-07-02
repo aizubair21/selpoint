@@ -7,7 +7,7 @@
             </div>
 
             <x-nav-link-btn href="{{route('system.comissions.takes')}}">
-                Shops
+                Track
             </x-nav-link-btn>
         </div>
     </x-dashboard.page-header>
