@@ -35,14 +35,14 @@ class Order extends Model
     ];
 
 
-    // protected static function booted(): void
-    // {
-    //     parent::booted();
-    //     static::created(function (Order $order) {
-    //         logger("Order Model Booted $order->id");
-    //         ProductComissionController::dispatchProductComissionsListeners($order->id);
-    //     });
-    // }
+    protected static function booted(): void
+    {
+        parent::booted();
+        // static::created(function (Order $order) {
+        //     logger("Order Model Booted $order->id");
+        //     ProductComissionController::dispatchProductComissionsListeners($order->id);
+        // });
+    }
 
 
     public function user()

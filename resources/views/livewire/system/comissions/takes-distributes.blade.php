@@ -137,7 +137,7 @@
                     Comissions of Products In Order
                 </x-slot>
                 <x-slot name="content">
-                    <div class="flex items-center">
+                    {{-- <div class="flex items-center">
                         <label for="shop">Shop</label>
                         <select name="" id="shop" class="border-0">
                             <option value="1">1</option>
@@ -148,7 +148,7 @@
                             <option value="1">1</option>
                         </select>
                         
-                    </div>
+                    </div> --}}
                 </x-slot>
             </x-dashboard.section.header>
 
@@ -242,7 +242,7 @@
                                 <td> {{$item->amount ?? 0}} </td>
                                 <td> {{$item->range ?? 0}} % </td>
                                 <td>
-                                     @if ($item->confirmed == true)
+                                    @if ($item->confirmed == true)
                                         <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
                                         <x-nav-link href="{{route('system.comissions.distribute.refund', ['id' => $item->id])}}"> Refund </x-nav-link>
                                     @else 

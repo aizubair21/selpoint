@@ -23,23 +23,26 @@ class View extends Component
         $this->orders = Order::find($this->order);
     }
 
-    public function computed() {
-        
-    }
-    
+    public function computed() {}
+
 
     public function updateStatus($status)
     {
-        if ($this->order->status != 'Accept') {
+        // dd($this->orders);
+        if ($this->orders->status != 'Accept') {
             $this->orders->status = $status;
             $this->orders->save();
+
+            $ct = new ProductComissionController(); // instance
+            $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
+
             $this->dispatch('refresh');
         }
 
-        if ($this->order->status == 'Accept') {
-            $pcc = new ProductComissionController();
-            $pcc->confirmTakeComissions($this->order->id);
-        }
+        // if ($this->orders->status == 'Accept') {
+        //     $pcc = new ProductComissionController();
+        //     $pcc->confirmTakeComissions($this->order->id);
+        // }
     }
 
 

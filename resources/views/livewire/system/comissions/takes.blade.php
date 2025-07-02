@@ -12,7 +12,7 @@
                             <select wire:model="query_for" id="query_for" class="border-0 text-xs ">
                                 <option value="order_id">Order</option>
                                 <option value="product_id">Product</option>
-                                <option value="user_id">Shop</option>
+                                {{-- <option value="user_id">Shop</option> --}}
                             </select>
                             <x-text-input class="border-0 rounded-none" placeholder="ID's" wire:model="qry" />
                         </div>
@@ -108,16 +108,16 @@
                                 {{ $item->created_at?->toFormattedDateString() }}
                             </td>
                             <td>
-                                @if ($item->Confirmed)
+                                @if ($item->confirmed == true)
                                     <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
+                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" > Refund </x-nav-link>
                                 @else 
                                     <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
+                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm </x-nav-link>
                                 @endif
                             </td>
                             <td>
                                 <div class="flex space-x-2">
-                                     <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" x-show="$wire.item.confirm" > Refund </x-nav-link>
-                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}" x-show="!$wire.item.confirm" > Confirm </x-nav-link>
                                     <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">Details</x-nav-link>
                                 </div>
                             </td>
@@ -153,7 +153,12 @@
                     </div>
                 </div>
             </div>
-            <x-hr/>
+            <div class="" wire:show="ord">
+                <x-hr/>
+                    <x-input-label class=" capitalize pb-2" value='Shop ID' for="shop_id" />
+                    <x-text-input type="text" wire:model="qry" />
+                <x-hr/>
+            </div>
         </div>
     </x-modal>
 </div>

@@ -184,6 +184,34 @@ class ProductComissionController extends Controller
     }
 
 
+    public function confirmSingleTakeComissions($takeId)
+    {
+        try {
+            $tc = TakeComissions::query()->where(['id' => $takeId])->pending()->get();
+
+            if ($tc) {
+                foreach ($tc as $item) {
+                    $item->confirmed = true;
+                    $item->save();
+                }
+            }
+
+            if ($tc->order?->user_type == 'reseller') {
+                // ResellerResellProfits::query()->where(['order_id' => $order->id])->pending()->update(['confirmed' => true]);
+                $rcp = ResellerResellProfits::query()->where(['order_id' => $tc->order_id])->pending()->get();
+                foreach ($rcp as $rcpi) {
+
+                    $rcpi->confirmed = true;
+                    $rcpi->save();
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+
+
     public function distributeComissions($id)
     {
         $distributes = DistributeComissions::query()
@@ -258,7 +286,7 @@ class ProductComissionController extends Controller
         $isResellerOrderToVendor = $order->user_type == 'reseller' ? true : false;
 
         if ($isResellerOrderToVendor) {
-            $rrp = ResellerResellProfits::query()->where(['order_id' => $order_id]);
+            $rrp = ResellerResellProfits::query()->where(['order_id' => $order_id])->get();
             $totalReturnableProfit = $rrp->sum('profit');
 
             // cut the balance from vendor
@@ -274,6 +302,7 @@ class ProductComissionController extends Controller
                 $rrp->update(['confirmed' => true]);
             }
         }
+        return redirect()->back();
     }
 
 
@@ -310,11 +339,41 @@ class ProductComissionController extends Controller
         }
     }
 
+
     /**
      * role back a single comissions
      */
     public function roleBackComissions()
     {
         //
+    }
+
+
+    /**
+     * transfer reseller profit from vendor
+     */
+    public function refundResellerResellProfit($order_id)
+    {
+        $order = Order::find($order_id);
+        $isResellerOrderToVendor = $order->user_type == 'reseller' ? true : false;
+        if ($isResellerOrderToVendor) {
+            $rrp = ResellerResellProfits::query()->where(['order_id' => $order_id, 'confirmed' => true])->get();
+            $totalReturnableProfit = $rrp->sum('profit');
+
+            // cut the balance from vendor
+            $res = UserWalletController::add($order->belongs_to, $totalReturnableProfit);
+            if ($res['success']) {
+
+                // add balance to reseller
+                $res = UserWalletController::remove($order->user_id, $totalReturnableProfit);
+            }
+
+            // udpate confirmed
+            if ($res['success']) {
+                $rrp->update(['confirmed' => false]);
+            }
+        }
+
+        return redirect()->back();
     }
 }

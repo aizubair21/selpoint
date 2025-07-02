@@ -161,12 +161,12 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     Route::get('/comissions/{id}', TakesDetails::class)->name('system.comissions.details');
     Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('system.comissions.distributes');
 
-    Route::get('/comissions/confirm/order/{id}', function ($id) {
+    Route::get('/comissions/confirm/take/{id}', function ($id) {
         // 
         try {
 
             $cc = new ProductComissionController();
-            $cc->confirmTakeComissions($id);
+            $cc->confirmSingleTakeComissions($id);
             return redirect()->back()->with('success', 'Comissions Confirmed!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th);
@@ -174,7 +174,7 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     })->name('system.comissions.take.confirm');
 
 
-    Route::get('/comissions/refund/order/{id}', function ($id) {
+    Route::get('/comissions/refund/take/{id}', function ($id) {
         // 
         try {
 

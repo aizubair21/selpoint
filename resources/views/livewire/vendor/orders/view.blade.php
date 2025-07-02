@@ -31,7 +31,7 @@
                 </x-dropdown>
 
                 <div class="flex justify-end items-center space-x-2">
-                    <x-nav-link>COMISSIONS</x-nav-link>
+                    <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link>
                 </div>
                 {{-- <x-nav-link >Print</x-nav-link> --}}
             </div>
@@ -39,7 +39,7 @@
         
         @if (auth()->user()->active_nav == 'vendor')                
             <x-dashboard.section>
-        
+                
             </x-dashboard.section>    
         @endif
         
@@ -73,7 +73,19 @@
                     Profit
                 </x-slot>
                 <x-slot name="content">
-                    {{$orders->sum('quantity') ?? "0"}}
+                    @php
+                        $buy = $orders->cartOrders->sum('buying_price');
+                        $total = $orders->cartOrders->sum('total');
+                    @endphp
+                    {{ $total - $buy ?? "0"}}
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Comissions
+                </x-slot>
+                <x-slot name="content">
+                    {{ $orders->comissionsInfo->sum('take_comission') ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
         </x-dashboard.overview.section>

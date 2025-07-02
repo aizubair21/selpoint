@@ -6,7 +6,7 @@
                 Comissions
             </div>
 
-            <x-nav-link-btn href="{{route('system.comissions.takes')}}">
+            <x-nav-link-btn href="{{route('system.comissions.takes', ['ord' => true])}}">
                 Track
             </x-nav-link-btn>
         </div>
@@ -207,16 +207,16 @@
                             <td> {{$item->store ?? "0"}}</td>
                             <td> {{$item->return ?? "0"}}</td>
                             <td>
-                                @if ($item->Confirmed)
+                                @if ($item->confirmed == true)
                                     <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
+                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" > Refund </x-nav-link>
                                 @else 
                                     <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
+                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}" > Confirm </x-nav-link>
                                 @endif
                             </td>
                             <td>
                                 <div class="flex space-x-2">
-                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" x-show="$wire.item.confirm" > Refund </x-nav-link>
-                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}" x-show="!$wire.item.confirm" > Confirm </x-nav-link>
                                     <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">Details</x-nav-link>
                                 </div>
                             </td>

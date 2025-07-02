@@ -11,15 +11,15 @@ use Livewire\Attributes\Url;
 class Takes extends Component
 {
     #[URL]
-    public $query_for = 'order_id', $qry = '', $start_date, $end_date;
+    public $query_for = 'order_id', $qry = '', $start_date, $end_date, $ord = false;
     public $takes = [];
 
     public function mount()
     {
         // $this->takes = TakeComissions::query()->where([$this->query_for => $this->qry])->whereBetween('created_at', )->get();
-        $this->check();
         $this->end_date = today();
         $this->start_date = today()->subDays(30);
+        $this->check();
     }
 
     public function updated()
