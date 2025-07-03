@@ -39,12 +39,25 @@
                     <div class="space-y-3 w-48">
                         <div class="rounded-lg p-3 shadow-md">
                             <div>
-                                <div class=" ">Comission</div>
+                                <div class=" ">Earn Comission</div>
                             </div>
                             
-                            <div class="text-lg pt-2 font-bold text-indigo-900">340 TK</div>
+                            <div class="text-lg pt-2 font-bold text-indigo-900">{{$comission}} TK</div>
                             <div class="text-xs">
-                                <a href="" class="text-gray-600">View All</a>
+                                <a href="{{route('user.wallet.earn-comissions')}}" class="text-gray-600">View All</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 w-48">
+                        <div class="rounded-lg p-3 shadow-md">
+                            <div>
+                                <div class=" ">Cut Comission</div>
+                            </div>
+                            
+                            <div class="text-lg pt-2 font-bold text-indigo-900">{{$cut}} TK</div>
+                            <div class="text-xs">
+                                <a href="{{route('user.wallet.earn-comissions', ['nav' => 'system'])}}" class="text-gray-600">View All</a>
                             </div>
                         </div>
                     </div>
