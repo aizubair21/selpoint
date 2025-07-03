@@ -1,14 +1,7 @@
 <div>
     {{-- The whole world belongs to you. --}}
 
-    <x-dashboard.page-header>
-        Resel Products
-        <br>
-        
 
-        
-    </x-dashboard.page-header>
-    
     <x-dashboard.container>
         <x-dashboard.section>
             <x-dashboard.section.header>
@@ -223,15 +216,30 @@
                 </div>
             </div>
             <x-hr/>
-            <x-input-label value="Resel Price" />
-            <x-text-input min="{{$products->price}}" type="number" wire:model.live="reselPrice" class="w-full" />
+            <div class="md:flex justify-between ">
+                <div class="mb-2">
+
+                    <x-input-label value="Resel Price" />
+                    <x-text-input min="{{$products->price}}" type="number" wire:model.live="reselPrice" class="w-full" />
+                </div>
+
+                <div>
+                    <x-input-label value="Reseller Category" />
+                    <select wire:model="resellerCat" id="" class="rounded border w-full">
+                        <option value="">Select Category</option>
+                        @foreach (auth()->user()->myCategory as $item)
+                            <option value="{{$item->id}}"> {{$item->name}} </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
                 <div>
                     Profit : {{$reselPrice - $products->price}}
                 </div>
-            <p class="p-2 mt-2 bg-gray-500 text-white font-bold">
+            {{-- <p class="p-2 mt-2 bg-gray-500 text-white font-bold">
                 Your are able to update product price just once. Other information won't be ommitable.
                 <br>
-            </p>
+            </p> --}}
             For procced, click to confirm button.
             <div class="flex justify-end items-start space-x-3">
                 <x-primary-button type="button" wire:click="confirmClone">Confirm</x-primary-button>

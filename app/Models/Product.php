@@ -126,4 +126,20 @@ class Product extends Model
     {
         return $this->hasMany(DistributeComissions::class);
     }
+
+    /**
+     * determined is the  product resell for reseller
+     */
+    public function isResel()
+    {
+        return $this->hasOne(Reseller_resel_product::class);
+    }
+
+    /**
+     * fined by whon product is being resell    
+     */
+    public function resel()
+    {
+        return $this->hasMany(Reseller_resel_product::class, 'parent_id', 'id');
+    }
 }
