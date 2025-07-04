@@ -4,6 +4,7 @@ namespace App\Livewire\Reseller\Resel\Products;
 
 use App\Http\Controllers\ResellerController;
 use App\Models\Product;
+use App\Models\product_has_image;
 use App\Models\Reseller_resel_product;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -20,7 +21,7 @@ class View extends Component
     public function mount()
     {
         $this->products = Product::where(['belongs_to_type' => 'vendor', 'id' => $this->pd, 'status' => 'Active'])->first();
-        $this->forResel = $this->products->only('name', 'title', 'slug', 'description', 'thunbnail', 'price', 'meta_title', 'meta_description', 'meta_tags', 'keyword', 'meta_thunbnail');
+        $this->forResel = $this->products->only('name', 'title', 'slug', 'description', 'thumbnail', 'price', 'meta_title', 'meta_description', 'meta_tags', 'keyword', 'meta_thunbnail');
         $this->reselPrice = $this->forResel['price'];
         if (!$this->products) {
             return redirect()->back();
@@ -61,11 +62,23 @@ class View extends Component
                 );
                 $rrp->save();
 
+                if ($rrp) {
+                    foreach ($this->products->showcase as $value) {
+                        product_has_image::created(
+                            [
+                                'product_id' => $newProduct->id,
+                                'image' => $value->image,
+                            ]
+                        );
+                    }
+                }
 
                 // Reseller_resel_product::forcefill()
 
 
-                $this->redirectIntended('reseller.products.edit', true);
+                // $this->redirectIntended('reseller.products.edit', true);
+                $this->dispatch('close-modal', 'confirm-resel');
+                $this->dispatch('success', 'Successfully cloned !');
             } else {
                 $this->dispatch('error', 'Price and Category must be defined !');
             }

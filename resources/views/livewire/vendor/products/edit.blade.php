@@ -5,7 +5,7 @@
         Product Edit
         <br>
         {{-- <x-dashboard.vendor.products.navigations :nav="$nav" /> --}}
-        @include('components.dashboard.vendor.products.navigations')
+        @include('components.dashboard.vendor.products.navigations')    
     </x-dashboard.page-header>
 
 
@@ -24,6 +24,7 @@
                             @else 
                                 {{$products['status'] ? "Active" : "Drafted"}} | {{ Carbon\Carbon::parse($products['created_at'])->diffForHumans()}}
                             @endif
+                           
                         </div>
                         <div>
                             @if ($products['deleted_at'])
@@ -40,15 +41,33 @@
                 </x-slot>
                 
                 <x-slot name="content">
-                    <div>
-                        <x-image src="{{asset('storage/'.$products['thumbnail'])}}" />
-                    </div>
-                    <div>
-                        {{$products['title'] ?? "N/A"}}
-                    </div>
+                    <div class="flex justify-between">
+                        <div>
 
-                    <div class="text-sm">
-                        category : <strong> {{$data['category']?->name ?? "N/A"}} </strong>
+                            <div>
+                                <x-image src="{{asset('storage/'.$products['thumbnail'])}}" />
+                            </div>
+                            <div>
+                                {{$products['title'] ?? "N/A"}}
+                            </div>
+        
+                            <div class="text-sm">
+                                Category : <strong> {{$data['category']?->name ?? "N/A"}} </strong>
+                            </div>
+                        </div>
+                        <div>
+                            
+                            <div class="text-sm">
+                                Type : 
+                                @if ($products['is_resel'])
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> 
+                                        Resel 
+                                    </span>
+                                @else 
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Owner </span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>

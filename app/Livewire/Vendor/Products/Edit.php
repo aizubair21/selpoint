@@ -43,6 +43,7 @@ class Edit extends Component
         $this->categories = auth()->user()->myCategory;
 
         $this->data = auth()->user()->myProducts()->withTrashed()->find(decrypt($this->product));
+        $this->data->load('isResel');
         // if ($this->data->trashed()) {
         //     $this->redirectIntended(route('vendor.products.view'), true);
         // }
@@ -112,7 +113,7 @@ class Edit extends Component
     public function moveToTrash()
     {
         $this->data->delete();
-        $this->dispatch('success', "Restore From Trash");
+        $this->dispatch('success', "Product moved to trashed");
         $this->dispatch('refresh');
     }
 

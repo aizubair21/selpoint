@@ -13,11 +13,18 @@ class Resell extends Component
     #[URL]
     public $product;
 
-    public $products;
+    public $products, $act;
 
     public function mount()
     {
         $this->products = Product::find(decrypt($this->product));
+        $this->act = auth()->user()->account_type();
+
+        // if ($this->act == 'reseller') {
+
+        //     $this->vendors = $this->products->isResel?->owner?->vendorShop();
+        // }
+        // dd($this->vendors);
     }
 
 

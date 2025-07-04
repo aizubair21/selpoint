@@ -266,8 +266,6 @@ class User extends Authenticatable
     }
 
 
-
-
     private function papp()
     {
         return $this->hasMany(Product::class);
