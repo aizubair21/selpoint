@@ -8,13 +8,15 @@
             <x-slot name="title">
                 <div class="md:flex justify-between">
                     <form wire:submit.prevent="check">
-                        <div class="flex bg-white">
+                        <div class="flex">
                             <select wire:model="query_for" id="query_for" class="border-0 text-xs ">
+                                <option selected value="">Chose Option</option>
                                 <option value="order_id">Order</option>
                                 <option value="product_id">Product</option>
                                 {{-- <option value="user_id">Shop</option> --}}
                             </select>
-                            <x-text-input class="border-0 rounded-none" placeholder="ID's" wire:model="qry" />
+                            <x-text-input class="border-0 rounded-none w-24" placeholder="ID's" wire:model="qry" />
+                            <x-primary-button class="my-1" type="submit">check</x-primary-button>
                         </div>
                     </form>
 
@@ -28,6 +30,7 @@
             </x-slot>
             <x-slot name="content"></x-slot>
         </x-dashboard.section.header>
+        
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
@@ -41,9 +44,9 @@
                 <x-dashboard.table :data="$takes" >
                     <thead>
                         <tr>
-                            <th>Profit</th>
-                            <th>Take</th>
-                            <th>Give</th>
+                            <th>Seller Total Profit</th>
+                            <th>Cut comission</th>
+                            <th>Distribute</th>
                             <th>Store</th>
                             <th>Return</th>
                         </tr>
@@ -61,6 +64,7 @@
                 </x-dashboard.table>
             </x-dashboard.section.inner>
         </x-dashboard.section>
+
         <x-dashboard.section >
             <x-dashboard.table :data="$takes">
                 
@@ -110,14 +114,14 @@
                             <td>
                                 @if ($item->confirmed == true)
                                     <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
-                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" > Refund </x-nav-link>
+                                    <x-nav-link wire:show="ord" href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" > Refund </x-nav-link>
                                 @else 
                                     <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
-                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm </x-nav-link>
+                                    <x-nav-link wire:show="ord" href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm </x-nav-link>
                                 @endif
                             </td>
                             <td>
-                                <div class="flex space-x-2">
+                                <div class="flex space-x-2" wire:show="ord">
                                     <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">Details</x-nav-link>
                                 </div>
                             </td>

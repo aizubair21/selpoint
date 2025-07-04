@@ -10,6 +10,6 @@
     Orders
 </x-responsive-nav-link>
 
-<x-responsive-nav-link href='' >
+<x-responsive-nav-link href="{{route('reseller.comissions.index')}}" :active="request()->routeIs('reseller.comissions.*')" >
     Comissions
 </x-responsive-nav-link>

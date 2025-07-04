@@ -96,12 +96,12 @@
                                 <th>ID</th>
                                 <th>Owner</th>
                                 <th>Pd</th>
-                                <th>Unit</th>
                                 <th>Total</th>
                                 <th>Status</th>
                                 <th>Date</th>
                                 <th>Shipping</th>
                                 <th>Contact</th>
+                                <th>Com</th>
                             </tr>
                         </thead>
 
@@ -115,16 +115,16 @@
                                     </td>
                                     <td> {{$item->id ?? "N/A"}} </td>
                                     <td>
-                                        <div>
-                                            U
-                                        </div>
+                                        @if ($item->products?->is_resel)
+                                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resel </span>
+                                        @else 
+                                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                        @endif
                                     </td>
                                     <td> 
-                                        {{$item->cartOrders()->count() ?? "N/A"}} 
+                                        {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
                                     </td>
-                                    <td>
-                                        {{$item->quantity ?? "N/A"}}
-                                    </td>
+                                    
                                     <td>
                                         {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping == 'Dhaka' ? 80 : 120}}</span> 
                                     </td>
@@ -150,6 +150,9 @@
                                             {{$item->number ?? "N/A"}}
                                         </span>
                                     </td>
+                                    <th>
+                                        {{ $item->comissionsInfo?->sum('take_comission') }}
+                                    </th>
                                 </tr>
                             @endforeach
                         </tbody>

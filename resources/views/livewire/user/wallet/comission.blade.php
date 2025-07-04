@@ -54,7 +54,7 @@
                             <td>{{ $take->id }}</td>
                             <td>{{ $take->take_comission }}</td>
                             <td>{{ $take->product?->name ?? "N/A" }}</td>
-                            <td>{{ $take->order ?? "N/A" }}</td>
+                            <td>{{ $take->order_id ?? "N/A" }}</td>
                             <td> {{ $take->updated_at?->toFormattedDateString()}} </td>
                         </tr>
                     @endforeach

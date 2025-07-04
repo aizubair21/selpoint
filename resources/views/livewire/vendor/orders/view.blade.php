@@ -31,7 +31,8 @@
                 </x-dropdown>
 
                 <div class="flex justify-end items-center space-x-2">
-                    <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link>
+                    {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
+                    <x-secondary-button x-on:click="$dispatch('open-modal', 'comission-modal')">comissions</x-secondary-button>
                 </div>
                 {{-- <x-nav-link >Print</x-nav-link> --}}
             </div>
@@ -144,6 +145,8 @@
                         <th>Total</th>
                         <th>Attr</th>
                         <th>Buy</th>
+                        <th>Profit</th>
+                        <th>Comissions</th>
                     </tr>
                 </thead>
             
@@ -175,6 +178,12 @@
                             <td>
                                 {{$item->product?->buying_price ?? "N/A"}} TK
                             </td>
+                            <td>
+                                {{ ($item->price - $item->buying_price) * $item->quantity }}
+                            </td>
+                            <th>
+                                {{$item->order->comissionsInfo?->sum('take_comission')}}
+                            </th>
                         </tr>
                     @endforeach
                 <tbody>
@@ -205,7 +214,31 @@
 
         </x-dashboard.section>
 
+        <x-modal name="comission-modal" >
+            <div class="p-2">
+                COMISSIONS
+                <x-hr/>
 
+                <x-dashboard.table :data="$orders->comissionsInfo" >
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Amount</th>
+                            <th>Product</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders->comissionsInfo as $item)
+                            <tr>
+                                <td> {{$loop->iteration}} </td>
+                                <td> {{$item->take_comission ?? 0}} </td>
+                                <td> {{$item->product?->name ?? "N/A"}} </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-dashboard.table>
+            </div>
+        </x-modal>
 
     </x-dashboard.container>
 </div>
