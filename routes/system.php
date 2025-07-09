@@ -6,6 +6,7 @@ use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
+use App\Livewire\Reseller\Orders\Index as OrdersIndex;
 use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
@@ -42,6 +43,7 @@ use App\Livewire\System\Store\Index;
 use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
 
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
+use App\Livewire\System\Orders\Index as SystemOrdersIndex;
 use App\Livewire\System\Slider\Slider;
 use App\Livewire\System\Slider\Slides;
 use App\Models\DistributeComissions;
@@ -215,7 +217,11 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     /**
      * system order management
      */
-    
+    Route::prefix('orders')->name('system.orders.')->group(
+        function () {
+            Route::get('/', SystemOrdersIndex::class)->name('index');
+        }
+    );
 
 
 

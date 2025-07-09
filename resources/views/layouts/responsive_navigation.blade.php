@@ -27,6 +27,10 @@
     <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
         {{ __('Products') }}
     </x-responsive-nav-link>
+  
+    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
+        {{ __('Orders') }}
+    </x-responsive-nav-link>
 
     <x-hr/>
     @can('role_list')
