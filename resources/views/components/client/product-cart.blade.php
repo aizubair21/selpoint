@@ -76,7 +76,7 @@ new class extends Component
                     View Details <i class="fas fa-arrow-right mx-2"></i>
                 </a>
             </div>
-            <x-nav-link class="py-2 text-center bg-white flex items-center justify-center" style="font-weight:bold;color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
+            <x-nav-link class="py-2 text-center bg-white flex items-center justify-center" style="font-weight:bold;color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
                 Order Now <i class="fas fa-arrow-right mx-2"></i>
             </x-nav-link>
         </div>
@@ -151,7 +151,7 @@ new class extends Component
             
         @else
         @endguest --}}
-        <a type="button" class="text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center" style="font-weight:bold; color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
+        <a type="button" class="text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center" style="font-weight:bold; color:var(--brand-primary); width:100%" href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
             <i class="fas fa-cart-plus mx-2"></i>Order Now 
         </a>
         {{-- <form action="{{ route('cart.add', $product->id) }}" method="post" class="" >

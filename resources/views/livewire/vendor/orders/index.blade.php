@@ -94,7 +94,6 @@
                                 <th>#</th>
                                 <th></th>
                                 <th>ID</th>
-                                <th>Owner</th>
                                 <th>Pd</th>
                                 <th>Total</th>
                                 <th>Status</th>
@@ -114,19 +113,13 @@
                                         <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint </x-nav-link>    
                                     </td>
                                     <td> {{$item->id ?? "N/A"}} </td>
-                                    <td>
-                                        @if ($item->products?->is_resel)
-                                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resel </span>
-                                        @else 
-                                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
-                                        @endif
-                                    </td>
+                                   
                                     <td> 
                                         {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
                                     </td>
                                     
                                     <td>
-                                        {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping == 'Dhaka' ? 80 : 120}}</span> 
+                                        {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping}}</span> 
                                     </td>
                                     <td>
                                         {{$item->status ?? "Pending"}}
@@ -143,7 +136,7 @@
                                     </td>
                                     <td>
                                         <p> {{$item->delevery}} </p> 
-                                        <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{ $item->area_condition == 'Dkaha' ? 'Dhaka' : 'Other' }}</p>
+                                        <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{ $item->area_condition }}</p>
                                     </td>
                                     <td>
                                         <span class="text-xs">

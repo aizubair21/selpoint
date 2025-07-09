@@ -8,6 +8,11 @@ use App\Models\Reseller_like_product;
 use App\Models\Reseller_resel_product;
 use App\Models\Reseller_has_order;
 use App\Models\Reseller_order_details;
+use App\Models\Order;
+use App\Models\CartOrder;
+
+use App\Http\Controllers\ProductComissionController;
+
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 
@@ -15,8 +20,9 @@ use Livewire\Attributes\Validate;
 new class extends Component 
 {
     public $pd, $alreadyLiked = false;
+
     #[validate('required')]
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $note, $name, $phone, $house_no, $road_no;
+    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no;
 
     public function mount() 
     {
@@ -51,16 +57,20 @@ new class extends Component
     public function order()     
     {
         $this->validate();
-        DB::transaction(function () {
-            
-            $order = Reseller_has_order::create(
+        try {
+            //code...
+            $order = order::create(
                 [
                     'user_id' => auth()->user()->id,
+                    'user_type' => 'reseller',
                     'belongs_to' => $this->pd->user_id,
+                    'belongs_to_type' => 'vendor',
+                    
                     'quantity' => $this->quantity,
                     'total' => $this->quantity * $this->rprice,
                     'status' => 'Pending',
-    
+
+                    'name' => $this->name,
                     'district' => $this->district,
                     'upozila' => $this->upozila,
                     'location' => $this->location,
@@ -68,28 +78,42 @@ new class extends Component
                     'road_no' => $this->road_no,
                     'area_condition' => $this->area_condition,
                     'delevery' => $this->delevery,
-                    'note' => $this->note,
+                    'number' => $this->phone,
+                    'shipping' => $this->area_condition == 'Dhaka' ? 80 : 120,
                 ]
             );
     
-            Reseller_order_details::create(
+            $cor = CartOrder::create(
                 [
-                    'order_id' => $order->id,
+                    'user_id' => Auth::id(),
+                    'user_type' => 'reseller',
                     'belongs_to' => $this->pd->user_id,
+                    'belongs_to_type' => 'vendor',
+                    'order_id' => $order->id,
                     'product_id' => $this->pd->id,
-                    'reseller_price' => $this->rprice,
-                    'original_price' => $this->pd->price,
                     'quantity' => $this->quantity,
+                    'price' => $this->rprice,
+                    'size' => $this->attr,
                     'total' => $this->quantity * $this->rprice,
-                    'attr' => $this->attr,
+                    'buying_price' => $this->pd->price,
+                    'status' => 'Pending',
                 ]
             );
-
-
+            
+            
             $this->dispatch('refresh');
             $this->dispatch('success', 'Order Done');
-        });
-        $this->dispatch('info', 'Have an Error. Try again');
+
+            if ($order->id && $cor->id) {
+                # code...
+                ProductComissionController::dispatchProductComissionsListeners($order->id);
+                
+            }
+   
+        } catch (\Throwable $th) {
+            throw $th;
+            $this->dispatch('info', 'Have an Error');
+        }
     }
 }
 
@@ -154,17 +178,18 @@ new class extends Component
 
                 <x-hr/>
                 <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity" name="quantity" error="quantity" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Product Attr" wire:model.live="attr" name="attr" error="attr" />
-                <x-input-field inputClass="w-full" label="Reseller Note" name="note" wire:model.live="note" error="note" />
+                <x-input-field inputClass="w-full" class="md:flex" label="Product Size/Attribute" wire:model.live="attr" name="attr" error="attr" />
                 <x-hr/>
-                <x-input-file label="Area Condition" name="area_condition" error='area_condition'>
+                <x-input-file label="Area Condition" error='area_condition'>
                     <select wire:model.live="area_condition" id="" >
+                        <option value="">Select Area</option>
                         <option value="Dhaka">Inside Dhaka</option>
                         <option value="Other">Out side of Dhaka</option>
                     </select>
                 </x-input-file>
                 <x-input-file label="Delevery Method" name="delevery" error="delevery" >
                     <select wire:model.live="delevery" id="" >
+                        <option value="">Select Shipping Type</option>
                         <option value="Courier">Courier</option>
                         <option value="Home">Home Delevery</option>
                     </select>

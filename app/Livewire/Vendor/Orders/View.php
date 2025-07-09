@@ -29,14 +29,20 @@ class View extends Component
     public function updateStatus($status)
     {
         // dd($this->orders);
-        if ($this->orders->status != 'Accept') {
-            $this->orders->status = $status;
-            $this->orders->save();
+        if ($this->orders->status == 'Pending') {
 
-            $ct = new ProductComissionController(); // instance
-            $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
+            if( auth()->user()->abailCoin() > $this->orders->comissionsInfo->sum('take_comission')) {
 
-            $this->dispatch('refresh');
+                $this->orders->status = $status;
+                $this->orders->save();
+                
+                $ct = new ProductComissionController(); // instance
+                $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
+                
+                $this->dispatch('refresh');
+            }else{
+                $this->dispatch('warning', "You Don't have requried balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission') . " balance to procces the order ");
+            }
         }
 
         // if ($this->orders->status == 'Accept') {

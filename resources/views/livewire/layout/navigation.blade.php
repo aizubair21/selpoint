@@ -130,10 +130,15 @@ new class extends component
 
                     <x-slot name="content">
 
-                        @if ($this->hasMultipleRole)
+                        {{-- @if ($this->hasMultipleRole)
     
                         
-                        @endif
+                        @endif --}}
+                        <div class="flex justify-between px-2 " >
+                            <div>Wallet</div>
+                            <div> {{ auth()->user()->abailCoin()}} </div>
+                        </div>
+                        <x-hr/> 
                         @if (auth()->user()->hasRole('vendor') )
                             <x-dropdown-link wire:click="getNavigation('vendor')"> 
                                 @if ($this->get == 'vendor')
@@ -202,6 +207,13 @@ new class extends component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden md:hidden">
         <div class="pt-2 pb-3 space-y-1">
+
+            <div class="flex justify-between px-2 " >
+                <div>Wallet</div>
+                <div> {{ auth()->user()->abailCoin()}} </div>
+            </div>
+            <x-hr/> 
+
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>

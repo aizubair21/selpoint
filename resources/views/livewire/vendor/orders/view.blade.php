@@ -1,7 +1,7 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <x-dashboard.page-header>
-        View Orders
+        View Orders 
     </x-dashboard.page-header>
 
 
@@ -58,7 +58,7 @@
                     Products
                 </x-slot>
                 <x-slot name="content">
-                    {{$orders->count() ?? "0"}}
+                    {{$orders->cartOrders->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -66,7 +66,7 @@
                     Sub Product
                 </x-slot>
                 <x-slot name="content">
-                    {{$orders->sum('quantity') ?? "0"}}
+                    {{$orders->cartOrders->sum('quantity') ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -112,11 +112,9 @@
                             <br>
                             {{ $orders->house_no ?? 'Not Defined !' }},</> {{$orders->road_no ?? "Not Defined !"}}
                             <br>
-                            {{$orders->number_1}}
+                            {{$orders->number}}
     
-                            <div>
-                                {{now()->toDayDateTimeString()}}
-                            </div>
+                        
                         </p>
                         </tr>
                         <tr>
@@ -140,6 +138,7 @@
                         <th>#</th>
                         <th>ID</th>
                         <th>Product</th>
+                        <th>Owner</th>
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
@@ -162,6 +161,13 @@
                                         {{$item->product?->title ?? "N/A"}} 
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                @if ($item->product?->isResel)
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resel </span>
+                                @else 
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                @endif
                             </td>
                             <td>
                                 {{$item->price}} TK
@@ -192,7 +198,7 @@
                     <tr class="border-t">
                         <td colspan="5" class="text-right">Sub Total</td>
                         <td>
-                            {{ $orders->sum('total')}} Tk
+                            {{ $orders->cartOrders->sum('total')}} Tk
                         </td>
                     </tr>
                     <tr>
@@ -204,13 +210,15 @@
                     <tr class="border-t font-bold text-lg bg-gray-100">
                         <td colspan="5" class="text-right">Total</td>
                         <td>
-                            {{ $orders->shipping + $orders->sum('total')}} Tk
+                            {{ $orders->shipping + $orders->cartOrders->sum('total')}} Tk
                         </td>
-                        <td colspan="2"></td>
+                        <td colspan="5"></td>
                     </tr>
                 </tfoot>
             
             </x-dashboard.table>
+
+            
 
         </x-dashboard.section>
 

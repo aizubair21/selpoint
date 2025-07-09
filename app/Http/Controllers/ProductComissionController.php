@@ -18,16 +18,16 @@ class ProductComissionController extends Controller
     public static function dispatchProductComissionsListeners($id)
     {
         // echo 'hellow';
-        logger("ProductComissionsTake Function Called");
+        // logger("ProductComissionsTake Function Called");
         try {
             $orderData = Order::findOrFail($id); // get order table
             $cartOrders = $orderData->cartOrders; // a single order has multiple products.
-            $buyer = User::find($orderData->user_id); // product buyer
-            $seller = User::find($orderData->belongs_to); // product seller
+            $buyer = User::findOrFail($orderData->user_id); // product buyer
+            $seller = User::findOrFail($orderData->belongs_to); // product seller
 
             $shop = [];
 
-            switch ($seller?->account_type()) {
+            switch ($orderData->belongs_to_type) {
                 case 'reseller':
                     // $shop = reseller::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
                     $shop = $seller?->resellerShop();
@@ -35,7 +35,7 @@ class ProductComissionController extends Controller
 
                 case 'vendor':
                     // $shop = vendor::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
-                    $shop = $seller->vendorShop();
+                    $shop = $seller?->vendorShop();
                     break;
             }
 
@@ -45,6 +45,35 @@ class ProductComissionController extends Controller
                 $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
                 $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
                 $distribute = round(($comission * 30) / 100, 2);
+
+                // calculate reseller profit from vendor if the seller is vendor
+                if ($ord->user_type == 'reseller' && $ord->belongs_to_type == 'vendor') {
+                    $profit = 0;
+                    $p = ($ord->price - $ord->buying_price) * $ord->quantity;
+                    $profit += $p;
+
+                    $rrp = new  ResellerResellProfits();
+
+                    DB::transaction(
+                        function () use ($rrp, $ord, $profit) {
+                            $rrp->forceFill(
+                                [
+                                    'product_id' => $ord->product_id,
+                                    'order_id' => $ord->order_id,
+                                    'from' => $ord->belongs_to,
+                                    'buy' => $ord->buying_price,
+                                    'sel' => $ord->price,
+                                    'to' => $ord->user_id,
+                                    'profit' => $profit,
+                                    'confirmed' => false,
+                                ]
+                            );
+                        }
+                    );
+
+                    $rrp->save();
+                }
+                // reseller profit end
 
                 if ($products && $shop->system_get_comission) {
 
@@ -83,9 +112,9 @@ class ProductComissionController extends Controller
                          */
                         $data = array(
                             'buyer' => $buyer,
-                            'buyerRef' => $buyer->getReffOwner->owner,
+                            'buyerRef' => $buyer->getReffOwner?->owner,
                             'seller' => $seller,
-                            'sellerRef' => $seller->getReffOwner->owner,
+                            'sellerRef' => $seller->getReffOwner?->owner,
                         );
 
                         // $distributeData = array(
@@ -154,7 +183,7 @@ class ProductComissionController extends Controller
             logger("ProductComissionsTake Done");
         } catch (\Throwable $th) {
             // throw $th;
-            logger("ProductComissionsTake $th->getMessage()");
+            logger("ProductComissionsTake $th");
         }
     }
 

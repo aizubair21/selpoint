@@ -159,14 +159,14 @@ new class extends Component
         </div>
         <x-hr/>
         
-        <div class="purchase-info flex justify-evenly items-center w-full" >
-            <x-nav-link-btn wire:navigate class="mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['slug' => $product->slug])}}">
+        <div class="purchase-info flex justify-start items-center w-full" >
+            <x-nav-link-btn wire:navigate class="mr-2 rounded px-3 py-1 text-center" href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
                 <i class="fas fa-arrow-right mx-2"></i>Buy Now 
             </x-nav-link-btn>
             
             @volt('cartAdd')
                 <x-primary-button wire:click="addToCart" type="button" class="option1">
-                    <i class="fas fa-cart-plus mx-2"></i> <span class="hidden md:block">To Cart</span>
+                    <i class="fas fa-cart-plus"></i> <span class="hidden md:block"></span>
                 </x-primary-button>
             @endvolt
            

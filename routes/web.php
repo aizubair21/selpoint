@@ -13,6 +13,7 @@ use App\Livewire\Pages\SingleProductOrder;
 use App\Models\DistributeComissions;
 use App\Models\Order;
 use App\Models\TakeComissions;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -44,7 +45,7 @@ Route::get('products', userProductsPage::class)->name('products.index');
 Route::get('category/{cat}/products', userProductsForCategoryPage::class)->name('category.products');
 Route::get('category', userCategoriesPage::class)->name('category.index');
 Route::get('product/{id}/{slug}', userProductsDetailsPage::class)->name('products.details');
-Route::get('product/{slug}', SingleProductOrder::class)->name('product.makeOrder')->middleware('auth');
+Route::get('product/order/{id}/{slug}', SingleProductOrder::class)->name('product.makeOrder')->middleware('auth');
 
 
 // other page route for user
@@ -85,6 +86,7 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
+    // return User::find(Order::find(27)->belongs_to)->account_type();
     // TakeComissions:: 
     // $Tc = TakeComissions::query()->where(['order_id' => 1])->pending()->first();
     // $Tc->distributes;
@@ -92,8 +94,9 @@ Route::get('/user-agents', function (Request $request) {
     try {
         // return ProductComissions::dispatch(5);
 
-        // $pcc = new ProductComissionController();
+        $pcc = new ProductComissionController();
         // $pcc->roleBackDistributedComissions(Order::query()->first()->id);
+        return $pcc->dispatchProductComissionsListeners(27);
         // $pcc->confirmTakeComissions(Order::query()->first()->id);
         // return 'success';
         // return DistributeComissions::query()

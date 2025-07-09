@@ -64,4 +64,37 @@ class ResellerController extends Controller
             return redirect()->back()->with('error', "Error While cloning Product");
         }
     }
+
+
+    public function productOrder(Request $req)
+    {
+        $validate = $req->validate(
+            [
+                'name' => 'reqired',
+                'phone' => 'required',
+                'size' => 'required',
+                'price' => 'required',
+                'quantity' => 'required',
+                'location' => 'required',
+                'district' => 'required',
+                'upozila' => 'required',
+                'delevery' => 'required',
+                'area_condition' => 'required',
+                'road_no' => 'required',
+                'house_no' => 'required',
+            ]
+        );
+
+
+
+        $product = Product::where(['id' => $req->product_id, 'belongs_to_type' => 'vendor'])->first();
+        $data = array(
+            'user' => Auth::id(),
+            'user_type' => 'reseller',
+            'belongs_to' => $product->user_id,
+            'belongs_to_type' => 'vendor',
+            'status' => 'Pending',
+
+        );
+    }
 }

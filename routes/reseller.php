@@ -34,4 +34,7 @@ Route::prefix('/r/')->group(function () {
 
     // comissions
     Route::get('/comissions', Index::class)->name('reseller.comissions.index');
+
+
+    Route::get('/product/{id}/order', [ResellerController::class, 'productOrder'])->name('reseller.product.order');
 })->middleware(AbleTo::class . ":access_reseller_dashboard");

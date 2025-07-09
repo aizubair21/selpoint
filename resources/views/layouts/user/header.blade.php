@@ -55,10 +55,10 @@ new class extends Component {
     <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" id="desktop-nav">
         
         {{-- logo  --}}
-        <div class="flex items-center">
+        <a wire:navigate href="/" class="flex items-center">
             <img height="50px" width="60px" src="{{asset('icon.png')}}" alt="">
             <div class="ps-2 text-2xl font-bold">ERUHI</div>
-        </div>
+        </a>
 
         {{-- search  --}}
         <div class="hidden md:flex justify-start items-center flex-1 w-full px-4" id="search_content">

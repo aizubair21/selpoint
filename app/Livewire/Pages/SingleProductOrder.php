@@ -18,7 +18,7 @@ use Livewire\Attributes\Validate;
 class SingleProductOrder extends Component
 {
     #[URL]
-    public $slug;
+    public $slug, $id;
 
     public $product, $size, $total, $price;
 
@@ -37,7 +37,7 @@ class SingleProductOrder extends Component
     public function mount()
     {
         // dd($this->slug);
-        $this->product = Product::where(['slug' => $this->slug, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
+        $this->product = Product::where(['id' => $this->id, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
         $this->price = $this->product?->offer_type ? $this->product?->discount : $this->product?->price;
         $this->total = $this->price;
         // if (!$this->product) {
