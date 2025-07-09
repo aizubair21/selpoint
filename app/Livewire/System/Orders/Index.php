@@ -19,7 +19,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->date = 'today';
+        // $this->date = 'today';
         $this->pagn = config('app.paginate');
     }
 
@@ -50,7 +50,7 @@ class Index extends Component
                     $query->whereDate('created_at', today()->subDay());
                     break;
 
-                
+
                 case 'between':
                     if ($this->sd && $this->ed) {
                         $query->whereBetween('created_at', [$this->sd, $this->ed]);
@@ -71,5 +71,12 @@ class Index extends Component
         $orders = $query->orderBy('id', 'desc')->paginate($this->pagn);
 
         return view('livewire.system.orders.index', compact('orders'));
+    }
+
+    public function delete($id)
+    {
+        // dd($id);
+        Order::destroy($id);
+        $this->dispatch('refresh');
     }
 }

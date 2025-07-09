@@ -43,6 +43,7 @@ use App\Livewire\System\Store\Index;
 use App\Livewire\Vendor\Products\Index as systemGlobalProductsIndexPage;
 
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
+use App\Livewire\System\Orders\Details;
 use App\Livewire\System\Orders\Index as SystemOrdersIndex;
 use App\Livewire\System\Slider\Slider;
 use App\Livewire\System\Slider\Slides;
@@ -220,6 +221,7 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     Route::prefix('orders')->name('system.orders.')->group(
         function () {
             Route::get('/', SystemOrdersIndex::class)->name('index');
+            Route::get('/{id}', Details::class)->name('details');
         }
     );
 

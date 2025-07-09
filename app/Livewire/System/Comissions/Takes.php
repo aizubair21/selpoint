@@ -17,8 +17,8 @@ class Takes extends Component
     public function mount()
     {
         // $this->takes = TakeComissions::query()->where([$this->query_for => $this->qry])->whereBetween('created_at', )->get();
-        $this->end_date = today();
-        $this->start_date = today()->subDays(30);
+        // $this->end_date = today();
+        // $this->start_date = today()->subDays(30);
         $this->check();
     }
 
@@ -32,9 +32,16 @@ class Takes extends Component
     public function check()
     {
         // dd('check');
+        // $takes = [];
+        $query = TakeComissions::query();
         if (isset($this->qry)) {
-            $this->takes = TakeComissions::query()->where([$this->query_for => $this->qry])->whereBetween('created_at', [$this->start_date, $this->end_date])->orderBy('id', 'desc')->get();
+            $query->where([$this->query_for => $this->qry]);;
         }
+
+        if ($this->start_date && $this->end_date) {
+            $query->whereBetween('created_at', [$this->start_date, $this->end_date]);
+        }
+        $this->takes = $query->orderBy('id', 'desc')->get();
     }
 
 

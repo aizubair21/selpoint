@@ -130,8 +130,8 @@
                                     <td>
                                         <div class="flex">
     
-                                            <x-nav-link>Details</x-nav-link>
-                                            <x-danger-button>
+                                            <x-nav-link href="{{route('system.orders.details', ['id' => $item->id])}}">Details</x-nav-link>
+                                            <x-danger-button wire:click="delete({{$item->id}})">
                                                 <i class="fas fa-trash"></i>
                                             </x-danger-button>
                                         </div>
