@@ -328,7 +328,7 @@ class ProductComissionController extends Controller
 
             // udpate confirmed
             if ($res['success']) {
-                $rrp->update(['confirmed' => true]);
+                ResellerResellProfits::query()->where(['order_id' => $order_id])->update(['confirmed' => true]);
             }
         }
         return redirect()->back();
@@ -399,7 +399,7 @@ class ProductComissionController extends Controller
 
             // udpate confirmed
             if ($res['success']) {
-                $rrp->update(['confirmed' => false]);
+                ResellerResellProfits::query()->where(['order_id' => $order_id])->update(['confirmed' => false]);
             }
         }
 

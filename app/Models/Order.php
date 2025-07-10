@@ -93,4 +93,9 @@ class Order extends Model
     {
         return $this->hasMany(DistributeComissions::class);
     }
+
+    public function resellerProfit()
+    {
+        return $this->hasMany(ResellerResellProfits::class);
+    }
 }

@@ -278,9 +278,11 @@
                         if (ct > duration) {
                             clearInterval(counterLoop);
                             window.location.reload();
+                        }else{
+
+                            $wire.dispatch("count-task");
+                            console.log(ct, duration);
                         }
-                        $wire.dispatch("count-task");
-                        console.log(ct, duration);
                         
                     }, 1000);
                 };

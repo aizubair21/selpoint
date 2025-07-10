@@ -20,7 +20,7 @@
             
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Your Resell Product
+                    Your Resell Product Order
                 </x-slot>
                 
                 <x-slot name="content">
@@ -29,16 +29,16 @@
             </x-dashboard.section.header>
 
             <x-dashboard.section.inner>
-                <x-dashboard.foreach :data="$od" >
+                <x-dashboard.foreach :$data>
 
                     <x-dashboard.table>
                         <thead>
                             <tr>
                                 <th>  </th>
-                                <th> # </th>
-                                <th> Pd </th>
+                                <th> ID </th>
+                                <th> Total </th>
                                 <th> Profit </th>
-                                <th> Com (10%) </th>
+                                <th> Shipping </th>
                                 <th> Date </th>
                                 <th> Status </th>
                                 <th> A/C </th>
@@ -46,40 +46,28 @@
                         </thead>
     
                         <tbody>
-                            @if ($od)
-                                
-                                @foreach ($od as $item)
-                                
-                                    <tr>
-                                        <td>0002</td>
-                                        <td>01</td>
-                                        <td>
-                                            <div class="flex ">
-                                                <img src="" style="height:20px; width:20px" alt="">
-                                                <div class="pl-1"> Lorem Ipsum </div>
-                                            </div>
-                                        </td>
-                                        <td> 
-                                            1300 - 900 = 400    
-                                        </td>
-                                        <td>
-                                            40
-                                        </td>
-                                        <td>
-                                            23 May, 2001
-                                        </td>
-                                        <td>
-                                            Pending
-                                        </td>
-                                        <td>
-                                            <x-nav-link>view</x-nav-link>
-                                            <x-nav-link>Print</x-nav-link>
-                                        </td>
-                                    </tr>
-                                
-                                @endforeach
-
-                            @endif
+                            @foreach ($data as $item)
+                            
+                                <tr>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td> {{$item->id}} </td>
+                                    <td> {{$item->total ?? 0}} </td>
+                                    <td class="font-bold">
+                                        {{
+                                            $item->resellerProfit()->sum('profit') ?? 0
+                                        }}
+                                    </td>
+                                    <td> {{$item->shipping ?? 0}} </td>
+                                    <td> {{$item->created_at?->toFormattedDateString() ?? 0}} </td>
+                                    <td> {{$item->status ?? 0}} </td>
+                                    <td>
+                                        <x-nav-link href="{{route('vendor.orders.view', ['order' => $item->id])}}" >view</x-nav-link>
+                                        <x-nav-link href="{{route('vendor.orders.print', ['order' => $item->id])}}">Print</x-nav-link>
+                                    </td>
+                                </tr>
+                            
+                            @endforeach
+                            
                         </tbody>
                     </x-dashboard.table>
              

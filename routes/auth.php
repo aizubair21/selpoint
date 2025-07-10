@@ -35,7 +35,7 @@ use App\Livewire\User\Wallet\Withdraw\Create;
 use App\Livewire\User\Wallet\Withdraw\Index as WithdrawIndex;
 use App\Livewire\User\Wallet\Comission as EarnComissions;
 use app\Livewire\User\Wallet\SystemTakeComission;
-
+use App\Livewire\User\Wallet\Task;
 use App\Models\User;
 use App\Models\vip;
 use Livewire\Livewire;
@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
         // user wallet
         Route::get('/wallet', WalletIndex::class)->name('user.wallet.index');
         Route::get('/wallet/comissions/earn', EarnComissions::class)->name('user.wallet.earn-comissions');
+        Route::get('/wallet/tasks', Task::class)->name('user.wallet.tasks');
         // Route::get('/wallet/comissions/cut', SystemTakeComission::class)->name('user.wallet.system-comissions');
 
         // user withdraw 

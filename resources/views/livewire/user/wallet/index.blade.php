@@ -30,7 +30,7 @@
                             
                             <div class="text-lg pt-2 font-bold text-indigo-900">{{$task->coin ?? "0"}} TK</div>
                             <div class="text-xs">
-                                <a href="" class="text-gray-600">View All</a>
+                                <a wire:navigate href="{{route('user.wallet.tasks')}}" class="text-gray-600">View All</a>
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             
                             <div class="text-lg pt-2 font-bold text-indigo-900">{{$comission}} TK</div>
                             <div class="text-xs">
-                                <a href="{{route('user.wallet.earn-comissions')}}" class="text-gray-600">View All</a>
+                                <a wire:navigate href="{{route('user.wallet.earn-comissions')}}" class="text-gray-600">View All</a>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             
                             <div class="text-lg pt-2 font-bold text-indigo-900">{{$cut}} TK</div>
                             <div class="text-xs">
-                                <a href="{{route('user.wallet.earn-comissions', ['nav' => 'system'])}}" class="text-gray-600">View All</a>
+                                <a wire:navigate href="{{route('user.wallet.earn-comissions', ['nav' => 'system'])}}" class="text-gray-600">View All</a>
                             </div>
                         </div>
                     </div>

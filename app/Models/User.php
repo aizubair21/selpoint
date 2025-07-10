@@ -344,12 +344,23 @@ class User extends Authenticatable
 
     public function myOrderAsUser()
     {
-        $this->myOr()->where(
+        return $this->myOr()->where(
             [
                 'belongs_to_type' => 'reseller'
             ]
         );
     }
+
+    public function myOrdersAsReseller()
+    {
+        return $this->myOr()->where(
+            [
+                'user_type' => 'reseller'
+            ]
+        );
+    }
+
+
     public function orderToMe()
     {
         // return $this->hasMany(Order::class);
@@ -371,6 +382,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Withdraw::class);
     }
-
-    
 }

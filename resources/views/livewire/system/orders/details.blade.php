@@ -176,8 +176,18 @@
 
         @if ($nav == 'profit')
             <div class=""> Total Reseller Profit : {{$resellerProfit->sum('profit')}} </div>
+
             <x-hr/>
             <x-dashboard.section>
+                <x-dashboard.section.header>
+                    <x-slot name="title">
+                        <div class="flex">
+                            <x-primary-button wire:click="confirmResellerProfit">Confirm</x-primary-button>
+                            <x-danger-button wire:click="retundResellerProfit">Refund</x-danger-button>
+                        </div>
+                    </x-slot>
+                    <x-slot name="content"></x-slot>
+                </x-dashboard.section.header>
                 <x-dashboard.table>
                     <thead>
                         <tr>

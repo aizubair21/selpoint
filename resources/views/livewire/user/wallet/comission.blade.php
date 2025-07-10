@@ -15,29 +15,61 @@
             </x-dashboard.section.inner>
         </x-dashboard.section>
 
+        <x-nav-link href="?nav=earn&set=com" :active="$set=='com'" > Comissions </x-nav-link>
+        <x-nav-link href="?nav=earn&set=prof" :active="$set == 'prof'" > Profits </x-nav-link>
+        
         {{$data->links()}}
-        @if ($nav == 'earn')
-            <x-dashboard.table :data>
+        @if ($nav == 'earn' && $set == 'com')
+            <x-dashboard.section>
+                <x-dashboard.table :data>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $earn)
+                            <tr>
+                                <td> {{$loop->iteration}} </td>
+                                <td> {{$earn->id}} </td>
+                                <td> {{$earn->product?->name ?? 0}}  </td>
+                                <td> {{$earn->amount ?? 0}}  </td>
+                                <td> {{$earn->updated_at?->toFormattedDateString() ?? 0}}  </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </x-dashboard.table>
+            </x-dashboard.section>
+        @endif
+        @if ($set == 'prof')
+            <x-dashboard.table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Amount</th>
+                        <th>ID</th>
                         <th>Product</th>
+                        <th>Profit</th>
                         <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($data as $earn)
                         <tr>
+                            <td> {{$loop->iteration}} </td>
                             <td> {{$earn->id}} </td>
-                            <td> {{$earn->amount ?? 0}}  </td>
                             <td> {{$earn->product?->name ?? 0}}  </td>
+                            <td> {{$earn->profit ?? 0}}  </td>
                             <td> {{$earn->updated_at?->toFormattedDateString() ?? 0}}  </td>
                         </tr>
                     @endforeach
                 </tbody>
             </x-dashboard.table>
-        @else 
+        @endif
+        @if($nav == 'system') 
             <x-dashboard.table :data>
                 <thead>
                     <tr>

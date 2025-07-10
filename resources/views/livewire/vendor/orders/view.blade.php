@@ -2,6 +2,10 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <x-dashboard.page-header>
         View Orders 
+        <br>
+        <div class="text-xs font-normal">
+            {{$orders->user_type}} <i class="fas fa-arrow-right mx-2"></i> {{ $orders->belongs_to_type}}
+        </div>
     </x-dashboard.page-header>
 
 
@@ -30,12 +34,13 @@
                     </x-slot>
                 </x-dropdown>
 
-                <div class="flex justify-end items-center space-x-2">
-                    {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
-                    <x-secondary-button x-on:click="$dispatch('open-modal', 'comission-modal')">comissions</x-secondary-button>
-                </div>
-                {{-- <x-nav-link >Print</x-nav-link> --}}
             </div>
+            <div class="flex justify-end items-center space-x-2">
+                {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
+                <x-secondary-button x-on:click="$dispatch('open-modal', 'comission-modal')"> Resel Profit </x-secondary-button>
+                <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'" x-on:click="$dispatch('open-modal', 'comission-modal')"> comission </x-secondary-button>
+            </div>
+            {{-- <x-nav-link >Print</x-nav-link> --}}
         </x-dashboard.section>
         
         @if (auth()->user()->active_nav == 'vendor')                
@@ -182,7 +187,7 @@
                                 {{$item->size ?? "N/A"}}
                             </td>
                             <td>
-                                {{$item->product?->buying_price ?? "N/A"}} TK
+                                {{$item->buying_price ?? "N/A"}} TK
                             </td>
                             <td>
                                 {{ ($item->price - $item->buying_price) * $item->quantity }}

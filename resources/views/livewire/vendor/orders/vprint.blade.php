@@ -11,8 +11,8 @@
             <div class="flex justify-between items-start px-5">
                 <div class="order-info">
                     <div class="flex items-center">
-                        <img width='30px' height="30px" src="{{asset('logo.png')}}" alt="">
-                        {{config('app.name')}}
+                        {{-- <img width='30px' height="30px" src="{{asset('logo.png')}}" alt="">
+                        {{config('app.name')}} --}}
                     </div>
                     {{-- <div>Order ID   : {{ $orders->id }}</div> --}}
                     <div>Order Date : <span class="text-xs"> {{ $orders->created_at->toDayDateTimeString() }}</span> </div>
