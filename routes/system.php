@@ -164,7 +164,21 @@ Route::middleware(Authenticate::class)->prefix('system')->group(function () {
     Route::get('/comissions/{id}', TakesDetails::class)->name('system.comissions.details');
     Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('system.comissions.distributes');
 
-    Route::get('/comissions/confirm/take/{id}', function ($id) {
+    Route::post('/comissions/delete', [ProductComissionController::class, 'deleteComissions'])->name('system.comissions.destroy');
+    Route::delete('/comissions/reseller-profit/delete/{id}', [ProductComissionController::class, 'deleteResellerProfit'])->name('system.reseller-profit.destroy');
+
+    Route::post('/comissions/order/{id}', function ($id) {
+        $cc = new ProductComissionController();
+        $cc->dispatchProductComissionsListeners($id);
+
+        if (empty($cc)) {
+            return redirect()->back()->with('success', 'Comission Confirmed');
+        } else {
+            return redirect()->back()->with('error', 'Have an error, see the log file');
+        }
+    })->name('system.comissions.confirm');
+
+    Route::post('/comissions/confirm/take/{id}', function ($id) {
         // 
         try {
 

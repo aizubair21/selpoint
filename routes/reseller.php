@@ -13,6 +13,9 @@ use App\Livewire\Reseller\Resel\Products\Index as reselProductsIndexPage;
 use App\Livewire\Reseller\Resel\Products\View as reselProductViewPage;
 use App\Livewire\Reseller\Resel\Categories as reselCategoriesViewPage;
 use App\Livewire\Reseller\Resel\Orders\Index as reselOrderIndexPage;
+
+use App\Livewire\Reseller\Orders\Index as resellerOrderIndex;
+use App\Livewire\Reseller\Orders\View;
 use App\Livewire\Vendor\Comissions\Index;
 
 Route::prefix('/r/')->group(function () {
@@ -24,6 +27,11 @@ Route::prefix('/r/')->group(function () {
     Route::get('/categories', categoryIndexPage::class)->name('reseller.categories.list')->middleware(AbleTo::class . ":category_view");
 
     // route for categories
+
+    Route::prefix('orders')->name('reseller.order.')->group(function () {
+        Route::get('/', resellerOrderIndex::class)->name('index');
+        Route::get('/{order}', View::class)->name('view');
+    });
 
 
     // resel product view 

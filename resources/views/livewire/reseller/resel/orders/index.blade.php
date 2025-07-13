@@ -61,7 +61,7 @@
                                     <td> {{$item->created_at?->toFormattedDateString() ?? 0}} </td>
                                     <td> {{$item->status ?? 0}} </td>
                                     <td>
-                                        <x-nav-link href="{{route('vendor.orders.view', ['order' => $item->id])}}" >view</x-nav-link>
+                                        <x-nav-link href="{{route('reseller.order.view', ['order' => $item->id])}}" >view</x-nav-link>
                                         <x-nav-link href="{{route('vendor.orders.print', ['order' => $item->id])}}">Print</x-nav-link>
                                     </td>
                                 </tr>

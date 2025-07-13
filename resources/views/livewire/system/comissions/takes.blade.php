@@ -1,30 +1,28 @@
 <div>
     <x-dashboard.page-header>
         Comission Takes
+        <br>
+        <form wire:submit.prevent="check">
+            <div class="flex">
+                <select wire:model="query_for" id="query_for" class="border-0 text-xs ">
+                    <option selected value="">Chose Option</option>
+                    <option value="order_id">Order</option>
+                    <option value="product_id">Product</option>
+                    {{-- <option value="user_id">Shop</option> --}}
+                </select>
+                <x-text-input class="border-0 rounded-none w-24" placeholder="ID's" wire:model="qry" />
+                <x-primary-button class="my-1" type="submit">check</x-primary-button>
+            </div>
+        </form>
+
     </x-dashboard.page-header>
 
     <x-dashboard.container>
         <x-dashboard.section.header>
             <x-slot name="title">
                 <div class="md:flex justify-between">
-                    <form wire:submit.prevent="check">
-                        <div class="flex">
-                            <select wire:model="query_for" id="query_for" class="border-0 text-xs ">
-                                <option selected value="">Chose Option</option>
-                                <option value="order_id">Order</option>
-                                <option value="product_id">Product</option>
-                                {{-- <option value="user_id">Shop</option> --}}
-                            </select>
-                            <x-text-input class="border-0 rounded-none w-24" placeholder="ID's" wire:model="qry" />
-                            <x-primary-button class="my-1" type="submit">check</x-primary-button>
-                        </div>
-                    </form>
 
-                    <div>
-                        <x-primary-button x-on:click="$dispatch('open-modal', 'filter-modal')">
-                            <i class="fas fa-filter"></i>
-                        </x-primary-button>
-                    </div>
+                    
 
                 </div>
             </x-slot>

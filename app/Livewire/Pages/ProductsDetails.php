@@ -87,7 +87,8 @@ class ProductsDetails extends Component
                  */
 
                 $this->currentTask?->increment('time');
-            } else {
+            }
+            if (!$this->currentTask && $this->taskNotCompletYet) {
 
                 /**
                  * else create one instance for first time

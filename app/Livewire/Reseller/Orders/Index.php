@@ -21,17 +21,18 @@ class Index extends Component
 
     public function mount()
     {
-        $this->getData();
+        // $this->getData();
         $this->account = auth()->user()->account_type();
     }
 
     public function render()
     {
-        $if ($this->nav == 'Trashed') {
-            $data = auth()->user()->orderToMe()->where(['belongs_to_type' => $this->account])->onlyTrashed();
+        $data = [];
+        if ($this->nav == 'Trashed') {
+            $data = auth()->user()->orderToMe()->where(['belongs_to_type' => $this->account])->orderBy('id', 'desc')->onlyTrashed();
         } else {
-            $data = auth()->user()->orderToMe()->where(['status' => $this->nav, 'belongs_to_type' => $this->account])->paginate(20);
+            $data = auth()->user()->orderToMe()->where(['status' => $this->nav, 'belongs_to_type' => $this->account])->orderBy('id', 'desc')->paginate(20);
         }
-        return view('livewire.reseller.orders.index', compact('orders'));
+        return view('livewire.reseller.orders.index', compact('data'));
     }
 }

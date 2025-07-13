@@ -142,4 +142,12 @@ class Product extends Model
     {
         return $this->hasMany(Reseller_resel_product::class, 'parent_id', 'id');
     }
+
+    /**
+     * comments
+     */
+    public function comments()
+    {
+        return $this->hasMany(Products_has_comments::class);
+    }
 }

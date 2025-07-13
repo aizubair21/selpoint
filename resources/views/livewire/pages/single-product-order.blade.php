@@ -1,6 +1,6 @@
 <div>
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
-    <x-dashboard.container class="relative">
+    <x-dashboard.container>
         <x-dashboard.section>
             @includeIf('components.client.product-single')
         </x-dashboard.section>
@@ -21,9 +21,9 @@
             <x-dashboard.section.inner>
                 <form wire:submit.prevent="confirm">
                     
-                    <div class="md:flex justify-between items-start">
+                    <div class="md:flex justify-between items-start ">
                         
-                        <div class="w-full md:w-1/2 pr-2 p-3">
+                        <div class="w-48 bg-indigo-900 text-white pr-2 p-3">
                             <div class="p-4 rounded shadow">
                                 <div>
                                     <div class="text-xs">
@@ -106,31 +106,40 @@
                             </div>
                             <x-hr/>
                             
-                            <div class="p-1 rounded bg-indigo-200 mt-4">
+                            <div class="p-3 rounded bg-indigo-200 mt-4">
                                 <x-input-label>Develery Option</x-input-label>
-                                <div class="px-2 bg-gray-200">
-                                    <div class="flex items-center py-3">
-                                        <input type="radio" wire:model.live="delevery" value="Home" style="width: 20px; height:20px" class="m-0 mr-3" id="">
-                                        <x-input-label class="">Home Delevery</x-input-label>    
-                                    </div>    
-                                    <hr>
-                                    <div class="flex items-center py-3">
-                                        <input type="radio" wire:model.live="delevery" value="Courier" style="width: 20px; height:20px" class="m-0 mr-3" id="">
-                                        <x-input-label class="">Courier</x-input-label>    
-                                    </div>    
+
+                                <div class="md:flex justify-between">
+                                    <div class="px-2">
+                                        <div class="flex items-center py-3">
+                                            <input type="radio" wire:model.live="delevery" value="Home" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                            <x-input-label class="">Home Delevery</x-input-label>    
+                                        </div>    
+                                        <hr>
+                                        <div class="flex items-center py-3">
+                                            <input type="radio" wire:model.live="delevery" value="Courier" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                            <x-input-label class="">Courier</x-input-label>    
+                                        </div>    
+                                        <hr>
+                                        <div class="flex items-center py-3">
+                                            <input type="radio" wire:model.live="delevery" value="Shop" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                            <x-input-label class="">Hand to Hand</x-input-label>    
+                                        </div>    
+                                    </div>
+                                    <div class="px-2">
+                                        <div class="flex items-center py-3">
+                                            <input type="radio" wire:model.live="area_condition" value="Dhaka" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
+                                            <x-input-label class="m-0 p-0">Inside Dhaka</x-input-label>    
+                                        </div>    
+                                        <hr>
+                                        <div class="flex items-center py-3">
+                                            <input type="radio" wire:model.live="area_condition" value="Other" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
+                                            <x-input-label class="m-0 p-0">Outside of Dhaka</x-input-label>    
+                                        </div>    
+                                    </div>
+
                                 </div>
                                 <span class="text-xs">Define delevary type you chose.  You might be consider extra delevary charged for <strong>Home Delevary</strong> outside of Dhaka</span>
-                                <div class="px-2 bg-gray-200">
-                                    <div class="flex items-center py-3">
-                                        <input type="radio" wire:model.live="area_condition" value="Dhaka" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
-                                        <x-input-label class="m-0 p-0">Inside Dhaka</x-input-label>    
-                                    </div>    
-                                    <hr>
-                                    <div class="flex items-center py-3">
-                                        <input type="radio" wire:model.live="area_condition" value="Other" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
-                                        <x-input-label class="m-0 p-0">Outside of Dhaka</x-input-label>    
-                                    </div>    
-                                </div>
                             </div>
                             <br>
                             <x-primary-button >Confirm Order</x-primary-button>

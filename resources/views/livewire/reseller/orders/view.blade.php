@@ -37,7 +37,6 @@
             </div>
             <div class="flex justify-end items-center space-x-2">
                 {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
-                <x-secondary-button x-on:click="$dispatch('open-modal', 'profit-modal')"> Resel Profit {{$orders->resellerProfit?->sum('profit') ?? 0}} TK </x-secondary-button>
                 <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'" x-on:click="$dispatch('open-modal', 'comission-modal')"> comission {{$orders->comissionsInfo?->sum('take_comission') ?? 0}} TK </x-secondary-button>
             </div>
             {{-- <x-nav-link >Print</x-nav-link> --}}
@@ -80,8 +79,8 @@
                 </x-slot>
                 <x-slot name="content">
                     @php
-                        $buy = $orders->cartOrders->sum('product.buying_price');
-                        $total = $orders->cartOrders->sum('buying_price');
+                        $buy = $orders->cartOrders->sum('buying_price');
+                        $total = $orders->cartOrders->sum('total');
                     @endphp
                     {{ $total - $buy ?? "0"}}
                 </x-slot>
@@ -148,8 +147,7 @@
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Attr</th>
-                        <th>Sell</th>
-                        <th>Buy</th>
+                        <th>Net Price</th>
                         <th>Profit</th>
                         <th>Comissions</th>
                     </tr>
@@ -190,10 +188,7 @@
                             <td>
                                 {{$item->buying_price ?? "N/A"}} TK
                             </td>
-                            <td>
-                                {{$item->product?->buying_price ?? "N/A"}} TK
-
-                            </td>
+                           
                             <td>
                                 {{ ($item->price - $item->buying_price) * $item->quantity }}
                             </td>
@@ -206,23 +201,23 @@
             
                 <tfoot>
                     <tr class="border-t">
-                        <td colspan="5" class="text-right">Sub Total</td>
+                        <td colspan="6" class="text-right">Sub Total</td>
                         <td>
                             {{ $orders->cartOrders->sum('total')}} Tk
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="text-right">Shipping</td>
+                        <td colspan="6" class="text-right">Shipping</td>
                         <td>
                             {{ $orders->shipping ?? 0}} Tk
                         </td>
                     </tr>
                     <tr class="border-t font-bold text-lg bg-gray-100">
-                        <td colspan="5" class="text-right">Total</td>
+                        <td colspan="6" class="text-right">Total</td>
                         <td>
                             {{ $orders->shipping + $orders->cartOrders->sum('total')}} Tk
                         </td>
-                        <td colspan="5"></td>
+                        <td colspan="6"></td>
                     </tr>
                 </tfoot>
             

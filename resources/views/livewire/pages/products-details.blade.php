@@ -85,12 +85,12 @@
         <x-dashboard.section x-data="{tab:'summery'}">
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Product Specification & Summery
+                    {{-- Product Specification & Summery --}}
                 </x-slot>
                 <x-slot name="content">
                     <div class="w-full border-b flex items-center" style="height: 28px">
-                        <div class="px-2 cursor-pointer" x-on:click="tab = 'summery'" > Summery </div>
-                        <div class="px-2 cursor-pointer" x-on:click="tab = 'shop'"> About Shop </div>
+                        <div class="px-2 cursor-pointer" :class="{'font-bold bg-indigo-900 text-white' : tab == 'summery'}" x-on:click="tab = 'summery'" > Summery </div>
+                        <div class="px-2 cursor-pointer" :class="{'font-bold bg-indigo-900 text-white' : tab == 'shop'}"  x-on:click="tab = 'shop'"> About Shop </div>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="flex flex-wrap ">
+                                <div class="flex flex-wrap space-x-2 ">
                                     <x-nav-link-btn href="">  Visit Shop</x-nav-link-btn>
                                     <x-nav-link-btn href="" class="space-x-2 space-y-2">Shop Products</x-nav-link-btn>
                                     <x-nav-link-btn href="">Report Against Shop</x-nav-link-btn>
@@ -171,21 +171,65 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Reviews & Ratings
+                    Comments
                 </x-slot>
                 <x-slot name="content">
 
                 </x-slot>
             </x-dashboard.section.header>
             <x-dashboard.section.inner>
-                
+                @foreach ($product->comments as $item)
+                    
+                    <div class="px-2 py-3 bg-gray-100 mb-1">
+                        <div class="flex justify-between">
+                            <div class="text-xs"> <span class="text-indigo-900">{{$item->user?->name}} </span> at {{$item->created_at?->diffForHumans()}} </div>
+                            @if (Auth::user()?->hasRole('manage-comment') || Auth::id() == $item->user_id)
+                                <form action="{{route('user.comment.destroy', ['id' => $item->id])}}" method="post">
+                                    @csrf
+                                    <button class="mt-1 rounded bg-white border text-xs" > <i class="fas fa-trash"></i> </button>
+                                </form>
+                            @endif
+
+                        </div>
+                        <div class="ps-2">
+                            {{$item?->comments}}
+                        </div>
+                        </div >
+                @endforeach
             </x-dashboard.section.inner>
+            
+            <x-hr/>
+            @if (Auth::check())
+                
+                <x-dashboard.section.inner>
+                    <form action="{{route('user.comment.store')}}" method="post">
+                        @csrf
+                        <div class="">
+                            <div>
+                                <div class="text-xs">
+                                    @error('comments')
+                                        {{$message}}
+                                    @enderror
+                                </div>
+                                <x-text-input class="" name="comments" placeholder="write your comments" />
+                            </div>
+                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                            <x-primary-button>submit</x-primary-button>
+                        </div>
+                    </form>    
+                </x-dashboard.section.inner>
+            @else
+                <div>
+                    Log In to add comment
+                </div>
+            @endif
+            
         </x-dashboard.section>
        
        
        
         {{-- Product Q/A  --}}
-        <x-dashboard.section x-data={show:false}>
+        {{-- <x-dashboard.section x-data={show:false}>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="flex justify-between items-center">
@@ -206,7 +250,6 @@
                             <div class="">Your Qestions</div>
                         </div>
 
-                        {{-- quetion body  --}}
                         <div class="p-2 border-l mb-3">
                             <div class="text-sm text-bold text-gray-600">July 16, 2025</div>
                             <div class="p-2">
@@ -214,11 +257,10 @@
                                 <div class="text-gray-600 font-normal">
                                     <i class="fa-solid fa-sync"></i>
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, similique.
-                                    <i>replied by shop</i>
+                                    <i>seller</i>
                                 </div>
                             </div>
                         </div>
-                        {{-- quetion body  --}}
                     </div>
                 </div>
                 <div x-show="show" x-transition>
@@ -237,7 +279,7 @@
                     </div>
                 @endauth
             </x-dashboard.section.inner>
-        </x-dashboard.section>
+        </x-dashboard.section> --}}
     </x-dashboard.container>
 
 
@@ -267,7 +309,7 @@
         @script
             <script>
                 
-                let task = {{$taskNotCompletYet}};
+                let task = {{$taskNotCompletYet ?? ''}};
                 let duration = {{$countdown}} * 60;            
                 
                 if (task && duration > 0) {
@@ -277,11 +319,12 @@
 
                         if (ct > duration) {
                             clearInterval(counterLoop);
+                            console.log('finished  : ' + ct, duration);
                             window.location.reload();
                         }else{
 
                             $wire.dispatch("count-task");
-                            console.log(ct, duration);
+                            console.log('continue : ' +ct, duration);
                         }
                         
                     }, 1000);

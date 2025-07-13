@@ -14,176 +14,209 @@ use Illuminate\Support\Facades\Log;
 
 class ProductComissionController extends Controller
 {
+    public function deleteComissions(Request $request)
+    {
+        $tc = TakeComissions::where(['order_id' => $request->id])->exists();
+        if ($tc && !$tc->confirmed == true) {
+            $tc->delete();
+            return redirect()->back()->with('success', 'Deleted comissions');
+        } else {
+            return redirect()->back()->with('error', 'Nothing Found or You need to role back first');
+        }
+    }
+
+    public function deleteResellerProfit(Request $request)
+    {
+        $pc = ResellerResellProfits::where(['order_id' => $request->id])->exists();
+        if ($pc && !$pc->confirmed == true) {
+            $pc->delete();
+            return redirect()->back()->with('success', 'Receller Profit Deleted');
+        } else {
+            return redirect()->back()->with('error', 'Nothing Found or You need to role back first');
+        }
+    }
+
 
     public static function dispatchProductComissionsListeners($id)
     {
-        // echo 'hellow';
-        // logger("ProductComissionsTake Function Called");
-        try {
-            $orderData = Order::findOrFail($id); // get order table
-            $cartOrders = $orderData->cartOrders; // a single order has multiple products.
-            $buyer = User::findOrFail($orderData->user_id); // product buyer
-            $seller = User::findOrFail($orderData->belongs_to); // product seller
+        if (!TakeComissions::where(['order_id' => $id])->exists()) {
+            # code...
+            // echo 'hellow';
+            // logger("ProductComissionsTake Function Called");
+            try {
+                $orderData = Order::findOrFail($id); // get order table
+                $cartOrders = $orderData->cartOrders; // a single order has multiple products.
+                $buyer = User::findOrFail($orderData->user_id); // product buyer
+                $seller = User::findOrFail($orderData->belongs_to); // product seller
 
-            $shop = [];
+                $shop = [];
 
-            switch ($orderData->belongs_to_type) {
-                case 'reseller':
-                    // $shop = reseller::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
-                    $shop = $seller?->resellerShop();
-                    break;
+                switch ($orderData->belongs_to_type) {
+                    case 'reseller':
+                        // $shop = reseller::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
+                        $shop = $seller?->resellerShop();
+                        break;
 
-                case 'vendor':
-                    // $shop = vendor::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
-                    $shop = $seller?->vendorShop();
-                    break;
-            }
-
-            foreach ($cartOrders as $ord) {
-                $products = $ord->product; // get the relevent products from order details
-                // echo $products->id;
-                $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
-                $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
-                $distribute = round(($comission * 30) / 100, 2);
-
-                // calculate reseller profit from vendor if the seller is vendor
-                if ($ord->user_type == 'reseller' && $ord->belongs_to_type == 'vendor') {
-                    $profit = 0;
-                    $p = ($ord->price - $ord->buying_price) * $ord->quantity;
-                    $profit += $p;
-
-                    $rrp = new  ResellerResellProfits();
-
-                    DB::transaction(
-                        function () use ($rrp, $ord, $profit) {
-                            $rrp->forceFill(
-                                [
-                                    'product_id' => $ord->product_id,
-                                    'order_id' => $ord->order_id,
-                                    'from' => $ord->belongs_to,
-                                    'buy' => $ord->buying_price,
-                                    'sel' => $ord->price,
-                                    'to' => $ord->user_id,
-                                    'profit' => $profit,
-                                    'confirmed' => false,
-                                ]
-                            );
-                        }
-                    );
-
-                    $rrp->save();
+                    case 'vendor':
+                        // $shop = vendor::query(['user_id' => $orderData->belongs_to])->first('system_get_comission');
+                        $shop = $seller?->vendorShop();
+                        break;
                 }
-                // reseller profit end
 
-                if ($products && $shop->system_get_comission) {
+                foreach ($cartOrders as $ord) {
+                    $products = $ord->product; // get the relevent products from order details
+                    // echo $products->id;
 
-                    // take the comissions and store in databse
-                    $takeComissions = new TakeComissions();
-                    $takeComissions->forceFill(
-                        [
-                            'user_id' => $ord->belongs_to,
-                            'product_id' => $products->id,
-                            'order_id' => $orderData->id,
-                            'buying_price' => $products->buying_price,
-                            'selling_price' => $ord->total, // 
-                            'take_comission' => $comission,
-                            'distribute_comission' => $distribute,
-                            'store' => round($comission - $distribute, 2),
-                            'return' => $profit - $comission,
-                            'profit' => $profit,
-                            'confirmed' => false,
-                            'comission_range' => $shop->system_get_comission,
-                        ]
-                    );
+                    if ($orderData->belongs_to_type == 'vendor') {
+                        $profit = ($ord->product?->price - $ord->product?->buying_price) * $ord->quantity; // total profit of selling product
+                    } else {
+                        $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
+                    }
+                    $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
+                    $distribute = round(($comission * 30) / 100, 2);
 
-                    $takeComissions->save();
+                    // calculate reseller profit from vendor if the seller is vendor
+                    if ($ord->user_type == 'reseller' && $ord->belongs_to_type == 'vendor') {
+                        $rprofit = 0;
+                        $p = ($ord->price - $ord->buying_price) * $ord->quantity;
+                        $rprofit += $p;
 
-                    // distribute the comissions
-                    // if $takeComissions id geet
-                    if ($takeComissions->id) {
+                        $rrp = new  ResellerResellProfits();
 
-                        /**
-                         * comission distributed among those ....
-                         * 
-                         * buyer
-                         * buyer referrer user
-                         * seller and 
-                         * seller reffer user
-                         */
-                        $data = array(
-                            'buyer' => $buyer,
-                            'buyerRef' => $buyer->getReffOwner?->owner,
-                            'seller' => $seller,
-                            'sellerRef' => $seller->getReffOwner?->owner,
+                        DB::transaction(
+                            function () use ($rrp, $ord, $rprofit) {
+                                $rrp->forceFill(
+                                    [
+                                        'product_id' => $ord->product_id,
+                                        'order_id' => $ord->order_id,
+                                        'from' => $ord->belongs_to,
+                                        'buy' => $ord->buying_price,
+                                        'sel' => $ord->price,
+                                        'to' => $ord->user_id,
+                                        'profit' => $rprofit,
+                                        'confirmed' => false,
+                                    ]
+                                );
+                            }
                         );
 
-                        // $distributeData = array(
-                        //     'product_id' => $products->id,
-                        //     'order_id' => $orderData->id,
-                        //     'parent_id' => $ord->id,
-                        //     $data,
-                        // );
+                        if (!ResellerResellProfits::where(['order_id' => $ord->order_id])->exists()) {
+                            # code...
+                            $rrp->save();
+                        }
+                    }
+                    // reseller profit end
 
-                        foreach ($data as $key => $item) {
-                            $dcm = new DistributeComissions();
-                            $info = '';
-                            $am = '';
-                            $rng = '';
+                    if ($products && $shop->system_get_comission) {
 
+                        // take the comissions and store in databse
+                        $takeComissions = new TakeComissions();
+                        $takeComissions->forceFill(
+                            [
+                                'user_id' => $ord->belongs_to,
+                                'product_id' => $products->id,
+                                'order_id' => $orderData->id,
+                                'buying_price' => $products->buying_price,
+                                'selling_price' => $orderData->belongs_to_type == 'vendor' ? $products->price : $ord->total, // 
+                                'take_comission' => $comission,
+                                'distribute_comission' => $distribute,
+                                'store' => round($comission - $distribute, 2),
+                                'return' => $profit - $comission,
+                                'profit' => $profit,
+                                'confirmed' => false,
+                                'comission_range' => $shop->system_get_comission,
+                            ]
+                        );
 
-                            if ($key == 'buyer' || $key == 'seller') {
-                                $rng = 10;
-                                $am = round(($comission * $rng) / 100, 2);
-                            } else {
-                                $rng = 5;
-                                $am = round(($comission * $rng) / 100, 2);
-                            }
+                        $takeComissions->save();
 
-                            switch ($key) {
-                                case 'buyer':
-                                    $info = 'Purchase Product';
-                                    break;
-                                case 'seller':
-                                    $info = 'Sel Product';
-                                    break;
+                        // distribute the comissions
+                        // if $takeComissions id geet
+                        if ($takeComissions->id) {
 
-                                case 'buyerRef':
-                                    $info = 'Ref User Purchase Product';
-                                    break;
-
-                                case 'sellerRef':
-                                    $info = 'Ref Uer Sell Product';
-                                    break;
-
-                                default:
-                                    $info = 'Comissions';
-                                    break;
-                            }
-
-
-                            $dcm->forceFill(
-                                [
-                                    'product_id' => $products->id,
-                                    'order_id' => $orderData->id,
-                                    'parent_id' => $takeComissions->id,
-                                    'user_id' => $item->id,
-                                    'info' => $info,
-                                    'range' => $rng,
-                                    'amount' => $am,
-                                ]
+                            /**
+                             * comission distributed among those ....
+                             * 
+                             * buyer
+                             * buyer referrer user
+                             * seller and 
+                             * seller reffer user
+                             */
+                            $data = array(
+                                'buyer' => $buyer,
+                                'buyerRef' => $buyer->getReffOwner?->owner,
+                                'seller' => $seller,
+                                'sellerRef' => $seller->getReffOwner?->owner,
                             );
 
+                            // $distributeData = array(
+                            //     'product_id' => $products->id,
+                            //     'order_id' => $orderData->id,
+                            //     'parent_id' => $ord->id,
+                            //     $data,
+                            // );
+
+                            foreach ($data as $key => $item) {
+                                $dcm = new DistributeComissions();
+                                $info = '';
+                                $am = '';
+                                $rng = '';
 
 
-                            $dcm->save();
+                                if ($key == 'buyer' || $key == 'seller') {
+                                    $rng = 10;
+                                    $am = round(($comission * $rng) / 100, 2);
+                                } else {
+                                    $rng = 5;
+                                    $am = round(($comission * $rng) / 100, 2);
+                                }
+
+                                switch ($key) {
+                                    case 'buyer':
+                                        $info = 'Purchase Product';
+                                        break;
+                                    case 'seller':
+                                        $info = 'Sel Product';
+                                        break;
+
+                                    case 'buyerRef':
+                                        $info = 'Ref User Purchase Product';
+                                        break;
+
+                                    case 'sellerRef':
+                                        $info = 'Ref Uer Sell Product';
+                                        break;
+
+                                    default:
+                                        $info = 'Comissions';
+                                        break;
+                                }
+
+
+                                $dcm->forceFill(
+                                    [
+                                        'product_id' => $products->id,
+                                        'order_id' => $orderData->id,
+                                        'parent_id' => $takeComissions->id,
+                                        'user_id' => $item->id,
+                                        'info' => $info,
+                                        'range' => $rng,
+                                        'amount' => $am,
+                                    ]
+                                );
+
+
+
+                                $dcm->save();
+                            }
                         }
                     }
                 }
+                logger("ProductComissionsTake Done");
+            } catch (\Throwable $th) {
+                // throw $th;
+                logger("ProductComissionsTake $th");
             }
-            logger("ProductComissionsTake Done");
-        } catch (\Throwable $th) {
-            // throw $th;
-            logger("ProductComissionsTake $th");
         }
     }
 

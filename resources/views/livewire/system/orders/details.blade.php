@@ -9,7 +9,10 @@
         <div>
             <x-nav-link href="?nav=tab" :active="$nav == 'tab'">Details</x-nav-link>
             <x-nav-link href="?nav=earn" :active="$nav == 'earn'" >comissions</x-nav-link>
-            <x-nav-link href="?nav=profit" :active="$nav=='profit'" >Reseller Profit</x-nav-link>
+
+            @if ($order->user_type == 'reseller')
+                <x-nav-link href="?nav=profit" :active="$nav=='profit'" >Reseller Profit</x-nav-link>
+            @endif
         </div>
     </x-dashboard.page-header> 
     
@@ -59,7 +62,15 @@
                         </div>
                     </div>
                 </x-slot>
-                <x-slot name="content"></x-slot>
+                <x-slot name="content">
+                    <div class="flex">
+
+                        
+
+                        <form action=""></form>
+                        
+                    </div>
+                </x-slot>
             </x-dashboard.section.header>
         
             {{-- <x-dashboard.section>
@@ -133,7 +144,36 @@
                                 {{ ($item->price - $item->buying_price) * $item->quantity }}
                             </td>
                             <th>
-                                {{$item->order->comissionsInfo?->sum('take_comission')}}
+                                
+                                
+                                <div class="flex rounded border justify-between bg-gray-200">
+
+                                    <div class="bg-white px-1 rounded">
+                                        {{$item->order->comissionsInfo?->sum('take_comission')}}
+
+                                    </div>
+
+                                    <div class="flex space-x-1 px-1">
+
+                                        <form action="{{route('system.comissions.destroy')}}" method="post" class="px-2">
+                                            @csrf 
+                                            @method('POST')
+                                            <input type="hidden" name="id" value="{{$order?->id}}">
+                                            <button>
+                                                <i class="fas fa-trash"></i> 
+                                            </button>
+                                        </form>
+                                        
+                                        <form method="post" action="{{route('system.comissions.confirm', ['id' => $order?->id])}}">
+                                            @method('post')
+                                            @csrf 
+                                            <button >
+                                                <i class="fas fa-sync"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
                             </th>
                         </tr>
                     @endforeach

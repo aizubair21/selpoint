@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SystemUsersController;
@@ -36,6 +37,7 @@ use App\Livewire\User\Wallet\Withdraw\Index as WithdrawIndex;
 use App\Livewire\User\Wallet\Comission as EarnComissions;
 use app\Livewire\User\Wallet\SystemTakeComission;
 use App\Livewire\User\Wallet\Task;
+use App\Models\Products_has_comments;
 use App\Models\User;
 use App\Models\vip;
 use Livewire\Livewire;
@@ -120,6 +122,23 @@ Route::middleware('auth')->group(function () {
         Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
         Route::get('/withdraw/create', Create::class)->name('user.wallet.withdraw.create');
         Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
+
+
+        /**
+         * add comment to product
+         */
+
+        Route::post('/products/comments', [ProductController::class, 'storeComment'])->name('user.comment.store');
+        Route::post('/products/comments/{id}/destroy', function ($id) {
+            try {
+                //code...
+                Products_has_comments::destroy($id);
+            } catch (\Throwable $th) {
+                //throw $th;
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+            return redirect()->back();
+        })->name('user.comment.destroy');
     });
 
 

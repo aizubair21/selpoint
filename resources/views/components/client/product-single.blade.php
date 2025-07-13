@@ -52,13 +52,13 @@ new class extends Component
 <div class="lg:flex justify-between item-start p-2">
     <!-- card left -->
     <div class="w-full lg:w-1/2 ">
-        <div class="img-display">
+        <div class="img-display sm:flex md:justify-between itemsstart lg:block">
             <div class="img-showcase">
                 <img id="preview" class=" p-2 rounded" style="width: 100%; object-fit:contain; max-width:400px; height:300px" height="400" src="{{ asset('storage/' . $product?->thumbnail) }}"alt="image">
             </div>
 
             @if ($product->showcase)
-                <div class="d-flex align-items-center" style="flex-wrap: wrap">
+                <div class="flex items-center md:block  lg:flex flex-wrap">
                     <button class="p-1 rounded mb-1">
                         <img class=" border p-1 rounded" onclick="previewImage(this)" src="{{asset('storage/'. $product?->thumbnail)}}" width="45px" height="45px" alt="">
                     </button>
@@ -82,8 +82,8 @@ new class extends Component
                     {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
                 </strong>
             </div>
-            <div style="font-size: 28px; font-weight:bold;">{{$product->title}}</div>
-            <div class="flex justify-between items-center py-2 border-x" style="font-size: 14px">
+            <div style="font-size: 28px; font-weight:bold;" class="capitalize" >{{$product->title}}</div>
+            {{-- <div class="flex justify-between items-center py-2" style="font-size: 14px">
                 
                 <div class="flex items-center">
                     <i class="text_primary fas fa-star"></i>
@@ -101,12 +101,12 @@ new class extends Component
                     <div>save for later</div>
                 </div>
 
-            </div>
+            </div> --}}
         </div>
 
         
         {{-- category  --}}
-        <div class="pt-3 flex items-center">
+        <div class=" text-xs flex items-center">
             Category:  
             <div class="ps-3 text_primary bold rounded">
                 <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->name])}}">
@@ -117,7 +117,7 @@ new class extends Component
         
         
         {{-- attr  --}}
-        <div class="py-2 my-3 border-y">
+        <div class="py-2 my-3 ">
             @if ($product->attr?->value)
                 <h4> {{ $product->attr?->name }} </h4>
                 @php
