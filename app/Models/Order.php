@@ -98,4 +98,19 @@ class Order extends Model
     {
         return $this->hasMany(ResellerResellProfits::class);
     }
+
+
+    /**
+     * order belongs to a shop
+     */
+    public function shop()
+    {
+        if ($this->belongs_to_type == 'reseller') {
+            return $this->belongsTo(reseller::class, 'belongs_to', 'user_id');
+        }
+
+        if ($this->belongs_to_type == 'vendor') {
+            return $this->belongsTo(vendor::class, 'belongs_to', 'user_id');
+        }
+    }
 }

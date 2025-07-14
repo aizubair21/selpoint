@@ -66,7 +66,11 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Your Order
+                    <div class="flex justify-between items-center">
+                        <x-secondary-button x-on:click.prevent="$dispatch('open-modal', 'filter-order')">
+                            <i class="fas fa-filter"></i>
+                        </x-secondary-button>
+                    </div>
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex justify-between">
@@ -77,7 +81,7 @@
                             <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel by User</x-nav-link>
                         </div>
 
-                        {{-- <x-nav-link href="?nav=Trash" :active="$nav == 'Trash'">Trash</x-nav-link> --}}
+                        <x-nav-link href="?nav=Trash" :active="$nav == 'Trash'">Trash</x-nav-link>
 
                     </div>
                 </x-slot>
@@ -155,4 +159,86 @@
 
         </x-dashboard.section>
     </x-dashboard.container>
+
+    <x-modal name="filter-order" maxWidth="xl">
+        <div class="p-2">
+            <div>
+                Filter 
+            </div>
+            <x-hr/>
+            <div class="md:flex">
+                <div>
+                    <div>
+    
+                        <div>
+                            Delevery Type
+                        </div>
+                        <div class="px-2">
+                            <div class="flex items-center mb-2 rounded-md border p-2">
+                                <input id="home_del" value="Home" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Home Delebery </label>
+                            </div>
+                            <div class="flex items-center mb-2 rounded-md border p-2">
+                                <input id="home_del" value="Courier" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Courier Delebery </label>
+                            </div>
+                            <div class="flex items-center mb-2 rounded-md border p-2">
+                                <input id="home_del" value="Shop" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Hand To Hand from shop </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+        
+                    <div class="mt-2">
+                        <div>
+                            Delevery Area 
+                        </div>
+                        <div class="px-2">
+                            <div class="flex items-center mb-2 rounded-md border p-2">
+                                <input id="home_del" value="Dhaka" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Inside Dhaka </label>
+                            </div>
+                            <div class="flex items-center mb-2 rounded-md border p-2">
+                                <input id="home_del" value="Other" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Outside of Dhaka </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2">
+                
+                    <div class=" border rounded-md">
+                        <div class=" p-2 ">
+                            
+                            <div class="flex items-center p-2 ">
+                                <input id="home_del" value="date" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Date </label>
+                            </div>
+                            <div class="flex items-center p-2 ">
+                                <input id="home_del" value="between" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <label for="home_del" class="p-0 m-0"> Date Between </label>
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-2 ">
+                            <div>
+                                Start
+                                <input class="rounded-md" type="date" name="start_date" id="">
+                            </div>
+                            <div>
+                                End
+                                <input class="rounded-md" type="date" name="end_date" id="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </x-modal>
 </div>

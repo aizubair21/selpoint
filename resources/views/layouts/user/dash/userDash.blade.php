@@ -116,13 +116,13 @@
       </style> 
       @stack('style')
 </head>
-   <body>
+   <body style="margin-bottom: 100px">
 
    
       
    @include('layouts.user.dash.header')
    <x-dashboard.container>
-      <div class="flex" >
+      <div class="flex"  >
 
          {{-- left asside  --}}
          
@@ -160,7 +160,7 @@
          </div>
 
          {{-- right content  --}}
-         <div id="user_content" class="col-md-9 py-2 p-lg-3 w-full">
+         <div id="user_content" class="col-md-9 py-2 p-lg-3 w-full mb-[50px]">
             {{$slot}}
          </div>
       </div>

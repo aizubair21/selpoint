@@ -8,7 +8,7 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    {{$orders->created_at->diffForHumans()}}
+                    {{$orders->created_at->toFormattedDateString()}} at {{$orders->created_at?->format('H:i a')}}
                     <div>
                         Order Id : {{$orders->id}}
                     </div>
@@ -23,11 +23,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>ID</th>
                             <th>Product</th>
-                            <th>Name</th>
                             <th>Quantity</th>
-                            <th>Size</th>
+                            <th>Attr</th>
                             <th>Price</th>
                             <th>Total</th>
                         </tr>
@@ -38,11 +36,14 @@
                             @foreach ($orders->cartOrders as $key => $order)
                                 <tr>
                                     <td>{{ $loop->iteration ++ }}</td>
-                                    <td>{{ $order->product_id }}</td>
+                             
                                     <td>
-                                        <img src="{{asset('storage/'.$order->product?->thumbnail)}}" style="width:50px; height:50ps" alt="">
+                                        {{-- {{ $order->product?->name ?? "Not Found !" }} --}}
+                                        <x-nav-link class="text-xs" href="{{route('products.details', ['id' => $order->product?->id ?? '',  'slug' => $order->product?->slug ?? ''])}}" >
+                                            <img width="30px" height="30px" src="{{asset('storage/'. $order->product?->thumbnail)}}" alt="">
+                                            {{$order->product?->name ?? "N/A" }}
+                                        </x-nav-link>
                                     </td>
-                                    <td>{{ $order->product?->name ?? "Not Found !" }}</td>
                                     <td> {{$order->quantity}} </td>
                                     <td> {{$order->size}} </td>
                                     <td> {{ $order->price}} </td>
@@ -55,56 +56,59 @@
                                 @endphp --}}
                             @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr class="bg-gray-100">
+                            <td colspan="5" class="text-right">Total</td>
+                            <td colspan="2" class=""> {{$orders->total ?? "0"}} TK </td>
+                        </tr>
+                      
+                        <tr>
+                            <td colspan="5" class="text-right">Shipping</td>
+                            <td colspan="2" class="">{{$orders->shipping ?? "120"}} Tk </td>
+                        </tr>
+                     
+                        <tr class="bg-gray-200">
+                            <td colspan="5" class="text-right">Payable</td>
+                            <td colspan="2" class="">{{$orders->shipping + $order->total}}  TK </td>
+                        </tr>
+                      
+                    </tfoot>
                 </x-dashboard.table>
         </x-dashboard.section>
 
-        <x-dashboard.section>
-            <x-dashboard.section.inner>
-                <div class="flex justify-between items-center space-y-3">
-                    <div>
-                        <p>
-                            Total
-                        </p>
-                        
-                    </div>
+        <div x-data="{'shipping' : false}" class="max-w-md">
+            <x-dashboard.section>
                     
-                    <div>
-                        <p>
-                            {{$orders->total ?? "0"}} TK
-                        </p>
-                        
-                    </div>
-                </div>
-                <div class="flex justify-between items-center space-y-3">
-                    <div>
-                        <p>
+                    <div class="flex justify-between items-center" @click="shipping = !shipping">
+                        <div>
                             Shipping
-                        </p>
-                        
+                        </div>
+                        <div>
+                            <div class="px-2 py-1 bg-indigo-900 text-white rounded-lg">
+                                {{$orders->shipping ?? "0"}} TK
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div>
-                        <p>
-                            {{$orders->shipping ?? "120"}} TK
-                        </p>
+
+                    <div class="py-2">
+
+                        <div class="text-xs flex items-center sapce-x-2">
+                            {{$orders->delevery }} Delevery {{$orders->area_condition == 'Dhaka' ? 'in Dhaka' : 'Outside of Dhaka'}} 
+                        </div>
                     </div>
-                </div>
-                <div class="flex justify-between items-center space-y-3 bg-gray-900 text-white">
-                    <div>
-                        <p>
-                            Payable
-                        </p>
-                        
+                    <x-hr/>
+
+                    <div class="pt-2 mb-10">
+                        {{$orders->location ?? "N/A"}}
+                        <br>
+                        {{$orders->number ?? "N/A"}}
                     </div>
-                    
-                    <div>
-                        <p>
-                            {{$orders->shipping + $order->total}} TK
-                        </p>
-                    </div>
-                </div>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
+           
+            </x-dashboard.section>
+        </div>
+
     </x-dashboard.container>
+
+
 
 </div>

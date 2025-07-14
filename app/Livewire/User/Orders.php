@@ -7,11 +7,12 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
-
+use Livewire\WithPagination;
 
 #[layout('layouts.user.dash.userDash')]
 class Orders extends Component
 {
+    use WithPagination;
     #[URL]
     public $nav = 'Pending';
     public $orders;
@@ -42,7 +43,7 @@ class Orders extends Component
     public function getData()
     {
         if ($this->nav) {
-            $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user', 'status' => $this->nav])->get();
+            $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user'])->get();
         }
     }
 

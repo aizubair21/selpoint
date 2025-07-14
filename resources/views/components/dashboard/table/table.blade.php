@@ -1,7 +1,7 @@
 
 @props(['data' => ''])
 
-<div {{$attributes}} class="">
+<div {{$attributes}} class="overflow-hidden overflow-x-scroll">
     <!-- Life is available only in the present moment. - Thich Nhat Hanh -->
     <style>
         thead th {

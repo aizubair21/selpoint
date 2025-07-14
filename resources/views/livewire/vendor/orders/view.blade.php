@@ -3,8 +3,12 @@
     <x-dashboard.page-header>
         View Orders 
         <br>
-        <div class="text-xs font-normal">
+        <div class="text-sm font-normal">
             {{$orders->user_type}} <i class="fas fa-arrow-right mx-2"></i> {{ $orders->belongs_to_type}}
+        </div>
+          
+        <div class="text-xs flex items-center sapce-x-2">
+            {{$orders->delevery }} Delvevery <i class="fas fa-caret-right px-2"></i> {{$orders->area_condition == 'Dhaka' ? 'Inside Dhaka' : 'Outside of Dhaka'}} 
         </div>
     </x-dashboard.page-header>
 
@@ -231,6 +235,8 @@
             
 
         </x-dashboard.section>
+
+       
 
         <x-modal name="comission-modal" >
             <div class="p-2">
