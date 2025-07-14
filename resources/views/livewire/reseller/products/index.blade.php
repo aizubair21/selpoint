@@ -1,38 +1,25 @@
 <div>
     <x-dashboard.page-header>
-        Products
+        <div class="flex justify-between items-start">
+            Products
+
+            <x-nav-link-btn href="{{route('reseller.resel-product.index')}}" >Recel from vendor</x-nav-link-btn>
+        </div>
+        <br>
+
+        @php
+            $nav = request('nav') ?? 'own';
+        @endphp
+        <x-nav-link href="{{url()->current()}}/?nav=own" :active="$nav == 'own'">
+            Your Product
+        </x-nav-link>
+        <x-nav-link href="{{url()->current()}}/?nav=resel" :active="$nav == 'resel'">
+            Resel Product
+        </x-nav-link>
     </x-dashboard.page-header>
 
     <x-dashboard.container>
 
-        <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    Products List
-                </x-slot>
-                <x-slot name="content">
-                    Product those have insert in the system or resell form vendor.
-                    <x-nav-link class="shadow rounded px-2 py-1" href="{{route('vendor.products.create')}}">
-                        {{-- <x-primary-button>
-                            New
-                        </x-primary-button> --}}
-                        Add New
-                    </x-nav-link>
-                </x-slot>
-            </x-dashboard.section.header>
-
-            <x-dashboard.section.inner>
-                    @php
-                        $nav = request('nav') ?? 'own';
-                    @endphp
-                    <x-nav-link href="{{url()->current()}}/?nav=own" :active="$nav == 'own'">
-                        Your Product
-                    </x-nav-link>
-                    <x-nav-link href="{{url()->current()}}/?nav=resel" :active="$nav == 'resel'">
-                        Resel Product
-                    </x-nav-link>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>   
     
         <x-dashboard.section>
             <x-dashboard.section.header>
@@ -103,7 +90,7 @@
                                         {{$product->created_at?->diffForHumans() ?? "N/A"}}    
                                     </td>
                                     <td >
-                                        <x-nav-link href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">edit</x-nav-link>
+                                        <x-nav-link href="{{route('reseller.products.edit', ['id' => encrypt($product->id) ])}}">edit</x-nav-link>
                                     </td>
                                 </tr>
                             @endforeach

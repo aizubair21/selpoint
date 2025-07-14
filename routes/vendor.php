@@ -27,6 +27,7 @@ use App\Livewire\Vendor\Orders\Cprint as vendorOrderCPrintPage;
 
 
 // Route::get('/','VendorController@index')->name('vendor.index');
+
 Route::get('products/view', vendorProductsIndexPage::class)->name("vendor.products.view")->middleware(AbleTo::class . ":product_view");
 Route::get('products', vendorProductsEditPage::class)->name("vendor.products.edit")->middleware(AbleTo::class . ":product_edit");
 Route::get('products/create', vendorProductsCreatePage::class)->name("vendor.products.create")->middleware(AbleTo::class . ":product_add");

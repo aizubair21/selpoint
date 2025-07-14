@@ -5,14 +5,14 @@
         Resel Products
         <br>    
         <div>
-            <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link>
-            <x-nav-link href="{{route('reseller.resel-product.index')}}" :active="request()->routeIs('reseller.resel-product.*')" >Vendor Product</x-nav-link>
-            <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-products.*')" >Vendor Category</x-nav-link>
+            {{-- <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link> --}}
+            <x-nav-link href="{{route('reseller.resel-product.index')}}" :active="request()->routeIs('reseller.resel-product.*')" > Product</x-nav-link>
+            <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-products.*')" > Category</x-nav-link>
         </div>
     </x-dashboard.page-header>
 
     <x-dashboard.container>
-        <x-dashboard.section>
+        {{-- <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="text-md">Product for Resel</div>
@@ -25,28 +25,49 @@
 
             <x-dashboard.section.inner>
                 
-                {{-- @includeIf('components.client.product-single', ['product' => $data]) --}}
                 
-                <div wire:show="cat">
-                    Display category category : {{$targetCat->name ?? "n/a"}}
-                    <x-primary-button wire:show="cat" wire:click.prevent="vieAll">View All Products</x-primary-button>
-                </div>
                 <div wire:show="!cat">
                     <div class="flex items-center">
                         <x-text-input type="search" class="py-1 mx:w-48" placeholder="Search By Name .."></x-text-input>
                     </div>
                 </div>
             </x-dashboard.section.inner>
-        </x-dashboard.section>
-        <x-hr/> 
-        @if ($products->links())
-            {{$products->links()}}
-        @endif
-        <div style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(170px, auto)); grid-gap:10px" >
-            @foreach ($products as $pd)
-                @includeIf('components.dashboard.reseller.resel-product-cart')
-            @endforeach
+            
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    
+                </x-slot>
+                <x-slot name="content"></x-slot>
+            </x-dashboard.section.header>
+        </x-dashboard.section> --}}
+        {{-- <div wire:show="cat">
+            Display from <span class="px-2 border rounded mx-1 font-bold"> {{$targetCat->name ?? "n/a"}}  </span> category.
+            <x-primary-button wire:show="cat" wire:click.prevent="vieAll">View All Products</x-primary-button>
+        </div> --}}
+
+        <div class="md:flex justify-start">
+            <div class="overflow-x-scroll block md:hidden" style="height: 140px">
+                @livewire('reseller.resel.categories', ['cat' => $cat])
+            </div>
+            <div class="hidden md:block text-start" style="width:140px; text-aling:left">
+                <div>
+                    @livewire('reseller.resel.categories', ['cat' => $cat])
+                </div>
+            </div>
+
+            <div>
+
+                @if ($products->links())
+                    {{$products->links()}}
+                @endif
+                <div style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px" >
+                    @foreach ($products as $pd)
+                        @includeIf('components.dashboard.reseller.resel-product-cart')
+                    @endforeach
+                </div>
+            </div>
         </div>
+     
 
     </x-dashboard.container>
 </div>

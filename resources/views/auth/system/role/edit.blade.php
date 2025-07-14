@@ -17,9 +17,9 @@
                     <x-hr />
                     <div class=" space-x-2 space-y-2">
 
-                        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'role-add-modal')">
+                        {{-- <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'role-add-modal')">
                             Add User
-                        </x-primary-button>
+                        </x-primary-button> --}}
 
                         {{-- <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'permissions-add-modal')">
                             Give Permission
@@ -51,7 +51,10 @@
                         // $isPermit = $role->hasPermissionTo($perm->name) ? true : false;
                         $userPermissions = $role->getPermissionNames();
                     @endphp
-                    <x-permissions-to-user :$userPermissions />
+                    <div x-init>
+                        <x-permissions-to-user :$userPermissions />
+                    </div>
+
                     {{-- <input type="hidden" name="role" value="{{$role}}"> --}}
                     {{-- <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
                         @foreach ($permissions as $perm)
@@ -77,7 +80,7 @@
         </x-dashboard.section>
     </x-dashboard.container>
 
-    <x-dashboard.container>
+    {{-- <x-dashboard.container>
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
@@ -96,7 +99,12 @@
                     <input type="hidden" name="role" value="{{$role->name}}">
                     <input type="hidden" name="force_delete" value="true">
                     <div style="display: grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
-                        @foreach ($role->users as $user)
+                        @php
+                            $offset = 0;
+                            $limit = 20;
+                            $usr = $role->users()->offset($offset * $limit)->limit(20)->get();;
+                        @endphp
+                        @foreach ($usr as $user)
 
                             <div class="flex items-center space-x-2">
                                 <x-text-input type='checkbox' class="m-0" name="user[]" id="perm_{{$user->id}}" value="{{$user->id}}" />
@@ -104,6 +112,9 @@
                             </div>
 
                         @endforeach
+                    </div>
+                    <div class="mt-2">
+
                     </div>
                     
                     <x-hr />
@@ -117,7 +128,7 @@
                 </form>
             </x-dashboard.section.inner>
         </x-dashboard.section>
-    </x-dashboard.container>
+    </x-dashboard.container> --}}
 
 
     {{-- role add modal  --}}
@@ -132,12 +143,12 @@
                 </x-slot>
             </x-dashboard.section.header>
 
-            <x-dashboard.section.inner >
+            <x-dashboard.section.inner x-data="{offset:0, limit:20}">
                 <form action="{{route('system.role.to-user')}}" method="post">
                     @csrf
                     <input type="hidden" name="role" value="{{$role->name}}">
                     
-                    @foreach ($users as $user)
+                    {{-- @foreach ($users as $user)
     
                         <div class="flex items-start border-b px-3 space-y-3 mb-2">
                             <x-text-input type='checkbox' id="perm_{{$user->id}}" name="user[]" value="{{$user->id}}" />
@@ -149,7 +160,7 @@
                             </x-input-label>
                         </div>
     
-                    @endforeach
+                    @endforeach --}}
                     <x-primary-button type="submit"> 
                         Update
                     </x-primary-button>

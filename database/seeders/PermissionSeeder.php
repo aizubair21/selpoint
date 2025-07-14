@@ -98,9 +98,16 @@ class PermissionSeeder extends Seeder
             /**
              * vendor permissions
              */
-            'vendor_sell_product',
-            'vendor_manage_order',
+            'shop_sell_product',
+            'shop_manage_order',
+            'shop_view_shops',
 
+            /**
+             * reseller
+             */
+
+            'reseller_view_vendors_products',
+            'reseller_view_vendors_categories',
 
             /**
              * permission for admin task
@@ -136,6 +143,7 @@ class PermissionSeeder extends Seeder
             'users_update',
 
 
+
             /**
              * category permission for vendor and admin
              */
@@ -153,6 +161,11 @@ class PermissionSeeder extends Seeder
             'product_edit',
             'product_update',
             'product_delete',
+
+
+            /**
+         * user management
+         */
 
         ];
 

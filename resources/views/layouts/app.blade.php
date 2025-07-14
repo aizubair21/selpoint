@@ -23,8 +23,8 @@
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"> --}}
         
     </head>
-    <body class="font-sans h-screen antialiased overflow-x-hidden">
-        <div class="h-full bg-gray-100 overflow-y-auto">
+    <body class="font-sans h-screen antialiased overflow-x-hidden bg-gray-100">
+        <div class="h-full  overflow-y-auto">
 
             @livewire('layout.navigation')
             {{-- @livewire('component', ['user' => $user], key($user->id)) --}}

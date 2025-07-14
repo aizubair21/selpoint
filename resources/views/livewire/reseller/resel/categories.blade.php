@@ -8,21 +8,16 @@
         </div>
     </x-dashboard.page-header>
 
-    <x-dashboard.container>
-        <x-dashboard.section>
-            
-            <x-dashboard.section.inner>
-                <div style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(100px, auto)); grid-gap:10px">
-                    @foreach ($categories as $cat)
-                        <a href="{{route('reseller.resel-product.index', ['cat' => $cat->id])}}" style="height: 100px" class="relative bg-white rounded shadow">
-                            <img style="height:100px; width:100px" class="rounded" src="{{asset('storage/'. $cat->image)}}" alt="">
-                            <div class="absolute bottom-0 text-center w-full px-1 bg-gray-200">
-                                {{$cat->name}}
-                            </div>
-                        </a>
-                    @endforeach
+
+    <div style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill,100px); grid-gap:10px">
+        {{-- {{$cat}} --}}
+        @foreach ($categories as $item)
+            <a href="{{route('reseller.resel-product.index', ['cat' => $item->id])}}" style="height: 100px" @class(['relative bg-white rounded'])>
+                <img style="height:100px; width:100px" class="rounded" src="{{asset('storage/'. $item->image)}}" alt="">
+                <div @class(['absolute bottom-0 text-center w-full px-1 bg-gray-200', 'bg-indigo-900 text-white' => $cat && $cat == $item->id])>
+                    {{$item->name}}
                 </div>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
-    </x-dashboard.container>
+            </a>
+        @endforeach
+    </div>
 </div>

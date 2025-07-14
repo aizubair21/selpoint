@@ -1,3 +1,3 @@
 <div>
-    {{-- Do your work, then step back. --}}
+    @livewire('vendor.products.edit', ['product' => $id])
 </div>

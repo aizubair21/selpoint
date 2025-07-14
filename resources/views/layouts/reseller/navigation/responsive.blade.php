@@ -1,5 +1,8 @@
 <x-responsive-nav-link href="{{route('reseller.products.list')}}" :active="request()->routeIs('reseller.products.*')" >
-    Products
+    Your Products
+</x-responsive-nav-link>
+<x-responsive-nav-link href="{{route('reseller.resel-product.index')}}" :active="request()->routeIs('reseller.resel-product.*')" >
+    Resel From Vendor
 </x-responsive-nav-link>
 
 <x-responsive-nav-link href="{{route('vendor.category.view')}}" :active="request()->routeIs('vendor.category.*')">

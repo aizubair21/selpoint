@@ -183,7 +183,7 @@
                     <div class="px-2 py-3 bg-gray-100 mb-1">
                         <div class="flex justify-between">
                             <div class="text-xs"> <span class="text-indigo-900">{{$item->user?->name}} </span> at {{$item->created_at?->diffForHumans()}} </div>
-                            @if (Auth::user()?->hasRole('manage-comment') || Auth::id() == $item->user_id)
+                            @if (Auth::user()?->can('users_manage') || Auth::id() == $item->user_id)
                                 <form action="{{route('user.comment.destroy', ['id' => $item->id])}}" method="post">
                                     @csrf
                                     <button class="mt-1 rounded bg-white border text-xs" > <i class="fas fa-trash"></i> </button>

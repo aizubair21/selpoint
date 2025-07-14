@@ -17,7 +17,9 @@
                     @if ($act == 'vendor')
                         {{$products->resel?->count()}} Seller.
                     @else 
-                        Resel from <strong>{{$products->isResel?->owner->vendorShop()->shop_name_en}}</strong> at {{$products->isResel?->created_at?->toFormattedDateString()}}
+                        @if ($products->isResel)
+                            Resel from <strong>{{$products->isResel?->owner->vendorShop()->shop_name_en}}</strong> at {{$products->isResel?->created_at?->toFormattedDateString()}}
+                        @endif
                     @endif
                     <div class="flex">
                         {{-- <div>
