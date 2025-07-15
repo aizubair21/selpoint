@@ -35,14 +35,18 @@
       <link href="{{asset('assets/user/css/style.css')}}" rel="stylesheet" />
       <link href="{{asset('assets/user/css/responsive.css')}}" rel="stylesheet" />
       
-      @vite(['resources/css/app.css', 'resources/js/app.js'])
+      {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+      {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script> --}}
+      
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      @vite(['resources/css/app.css', 'resources/js/app.js'])
       
       {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
       {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
       {{-- <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/checkout/"> --}}
       {{-- <link href="../../dist/css/bootstrap.min.css" rel="stylesheet"> --}}
       {{-- <link href="form-validation.css" rel="stylesheet"> --}}
+
       <style>
          body{
             background-color: #f0f0f0!important;
@@ -92,15 +96,42 @@
       {{-- <script src="{{asset('assets/user/js/jquery-3.4.1.min.js')}}"></script> --}}
       {{-- <script src="{{asset('assets/user/js/popper.min.js')}}"></script> --}}
       {{-- <script src="{{asset('assets/user/js/bootstrap.js')}}"></script> --}}
+      {{-- <script src="{{asset('assets/js/plugin/owl-carousel/owl.carousel.min.js')}}"></script> --}}
       {{-- <script src="{{asset('assets/user/js/custom.js')}}"></script> --}}
       {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> --}}
       {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
-      
+      {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" ></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" ></script> --}}
 </body>
 
    <script>
 
+      
+      
       document.addEventListener('DOMContentLoaded', function () {
+         
+         // const slides = document.querySelectorAll(".slide");
+         // const prevBtn = document.querySelector(".prev");
+         // const nextBtn = document.querySelector(".next");
+   
+         // let current = 0;
+   
+         // function showSlide(index) {
+         //    slides.forEach(slide => slide.classList.remove("active"));
+         //    slides[index].classList.add("active");
+         // }
+   
+         // prevBtn.addEventListener("click", () => {
+         //    current = (current - 1 + slides.length) % slides.length;
+         //    showSlide(current);
+         // });
+   
+         // nextBtn.addEventListener("click", () => {
+         //    current = (current + 1) % slides.length;
+         //    showSlide(current);
+         // });
+
+
          Livewire.on('cart', (data) => {
             document.getElementById('displayCartItem').innerHTML = data;
             // Swal.fire({
@@ -159,8 +190,8 @@ document.getElementById('sticky-nav').style.display = 'none';
 document.addEventListener('scroll', (e) => 
 {
    if(document.documentElement.scrollTop > 150) {
-      console.log('scrolled');
-      console.log(document.getElementById('sticky-nav'));
+      // console.log('scrolled');
+      // console.log(document.getElementById('sticky-nav'));
       
       document.getElementById('desktop-nav').style.dispaly = 'none';
       document.getElementById('sticky-nav').style.display = 'block';

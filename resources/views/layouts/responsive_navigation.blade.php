@@ -27,19 +27,20 @@
     <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
         {{ __('Products') }}
     </x-responsive-nav-link>
-  
+
     <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
         {{ __('Orders') }}
     </x-responsive-nav-link>
+    
     @if (auth()->user()->hasRole('system'))
         
         <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
             {{ __('Comission') }}
         </x-responsive-nav-link>
 
+        <x-hr/>
     @endif
     
-    <x-hr/>
     @can('role_list')
         <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
             {{ __('ViP') }}
