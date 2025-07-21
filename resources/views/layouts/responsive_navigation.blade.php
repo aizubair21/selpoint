@@ -35,34 +35,23 @@
     @endcan 
         
     <x-hr/>
+    @can('product_view')
     <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
         {{ __('Products') }}
     </x-responsive-nav-link>
+    @endcan
 
-    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
-        {{ __('Orders') }}
-    </x-responsive-nav-link>
     
-    @if (auth()->user()->hasRole('system'))
+    {{-- @if (auth()->user()->hasRole('system'))
         
-        <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
-            {{ __('Comission') }}
-        </x-responsive-nav-link>
-
-        <x-hr/>
-    @endif
     
-    @can('role_list')
-        <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
-            {{ __('ViP') }}
-        </x-responsive-nav-link>
-    @endcan 
-
-@endif
+    @endif --}}
     
-@if (auth()->user()->hasRole('system'))    
-    <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
-        {{ __('Withdraw') }}
+    {{-- @can('role_list')
+    @endcan  --}}
+    
+    <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
+        {{ __('ViP') }}
     </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('system.slider.index')" :active="request()->routeIs('system.slider.*')">
         {{ __('Slider') }}
@@ -72,5 +61,18 @@
     </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('system.store.index')" :active="request()->routeIs('system.store.*')">
         {{ __('Store') }}
+    </x-responsive-nav-link>
+@endif
+        
+@if (auth()->user()->hasRole('system'))    
+    <x-hr/>
+    <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
+        {{ __('Comission') }}
+    </x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
+        {{ __('Orders') }}
+    </x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
+        {{ __('Withdraw') }}
     </x-responsive-nav-link>
 @endif

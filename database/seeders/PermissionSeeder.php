@@ -45,6 +45,7 @@ class PermissionSeeder extends Seeder
             'sync_role_to_user',
             'sync_permission_to_role',
             'sync_permision_to_user',
+            'sync_settings',
 
             /**
              * admin must have hold the access point permission 
@@ -60,6 +61,16 @@ class PermissionSeeder extends Seeder
             'access_withdraw_section',
             'access_role_section',
             'access_permission_section',
+            'access_vip_section',
+            'access_store_section',
+            'access_product_section',
+            'access_order_section',
+            'access_slider_section',
+            'access_navigations_section',
+
+            'access_ticket_section',
+            'access_setting_section',
+            'access_shipping_section',
 
             /**
              * role holder hold access point permission 
@@ -84,6 +95,11 @@ class PermissionSeeder extends Seeder
             'admin_update',
             'admin_delete',
 
+            'admin_can_manage_comissions',
+            'admin_can_manage_withdraws',
+            'admin_can_manage_orders',
+
+
             /**
              * permission for admin task
              */
@@ -106,7 +122,6 @@ class PermissionSeeder extends Seeder
             /**
              * reseller
              */
-
             'reseller_view_vendors_products',
             'reseller_view_vendors_categories',
 
@@ -144,7 +159,6 @@ class PermissionSeeder extends Seeder
             'users_update',
 
 
-
             /**
              * category permission for vendor and admin
              */
@@ -162,11 +176,6 @@ class PermissionSeeder extends Seeder
             'product_edit',
             'product_update',
             'product_delete',
-
-
-            /**
-         * user management
-         */
 
         ];
 

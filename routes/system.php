@@ -148,7 +148,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::prefix('products')->group(function () {
         Route::get('/index', systemGlobalProductsIndexPage::class)->name('products');
         Route::get('/filter', Filter::class)->name('products.filter');
-    });
+    })->middleware(AbleTo::class . 'product_view');
 
 
     /**

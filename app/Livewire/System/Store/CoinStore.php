@@ -2,13 +2,15 @@
 
 namespace App\Livewire\System\Store;
 
+use App\Models\DistributeComissions;
 use App\Models\Store;
+use App\Models\TakeComissions;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
 class CoinStore extends Component
 {
-    public $ammount;
+    public $ammount, $store, $take, $give;
 
     public function addAmmountToStore()
     {
@@ -30,12 +32,22 @@ class CoinStore extends Component
         }
     }
 
+    public function getDeta()
+    {
+
+        $this->store = TakeComissions::where(['confirmed' => true])->sum('store');
+        $this->take = TakeComissions::where(['confirmed' => true])->sum('take_comission');
+        $this->give = TakeComissions::where(['confirmed' => true])->sum('distribute_comission');
+    }
+
+
 
     public function render()
     {
-        $store = Store::query()->store()->first();
+        // $store = Store::query()->store()->first();
+
         // $withdraw_trac = $tracking->withdraw()->store()->get();
         // $diposit_track = $tracking->deposit()->store()->get();
-        return view('livewire.system.store.coin-store', compact('store'));
+        return view('livewire.system.store.coin-store');
     }
 }
