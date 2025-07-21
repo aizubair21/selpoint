@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Livewire\System\Slider\Slider;
+use App\Models\Slider as ModelsSlider;
 use Illuminate\Database\Eloquent\Model;
 
 class Slider_has_slide extends Model
@@ -18,4 +20,10 @@ class Slider_has_slide extends Model
         'action_url',
         'action_target',
     ];
+
+
+    public function slider()
+    {
+        return $this->belongsTo(ModelsSlider::class);
+    }
 }

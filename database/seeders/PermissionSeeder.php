@@ -51,15 +51,15 @@ class PermissionSeeder extends Seeder
              * to access the system dashboard section. 
              */
 
-            // 'access_admin_section',
-            // 'access_vendor_section',
-            // 'access_reseller_section',
-            // 'access_users_section',
-            // 'access_rider_section',
-            // 'access_comision_section',
-            // 'access_withdraw_section',
-            // 'access_role_section',
-            // 'access_permission_section',
+            'access_admin_section',
+            'access_vendor_section',
+            'access_reseller_section',
+            'access_users_section',
+            'access_rider_section',
+            'access_comision_section',
+            'access_withdraw_section',
+            'access_role_section',
+            'access_permission_section',
 
             /**
              * role holder hold access point permission 
@@ -69,6 +69,7 @@ class PermissionSeeder extends Seeder
             'access_vendor_dashboard', // display 'Go To Vendor' section to user panel, if user if vendor 
             'access_reseller_dashboard', // display 'Go To Reseller' section to user panel, if user is reseller
             'access_rider_dashboard', // display 'Go To Rider' section, if user is rider
+
 
             /**
              * Permission belongs to system role

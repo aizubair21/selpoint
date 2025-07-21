@@ -1,17 +1,17 @@
 <div>
-    @props(['cat'])
+    @props(['cat', 'active' => false,'height' => '180' ] )
     <style>
         .cat_box{
             position: relative;
             display: block;
-            height: 180px;
+            height: {{$height}}px;
             /* border: 1px solid #a8a8a8; */
             border-radius: 12px;
             overflow: hidden;
-            /* max-width: 180px; */
+            /* max-width: {{$height}}px; */
         }
         .cat_box img{
-            height: 180px;
+            height: {{$height}}px;
             object-fit: cover;
             width: 100%;
         }
@@ -56,24 +56,24 @@
         }
     </style>
     
-        <div class=" px-2 mb-2 cat_box">
-            <div class="cat_box border">
-                {{-- <a href="{{route('product.by.catgory', ['id' =>$cat->id, 'name' => Str::slug( $cat->name)])}}" class=""> --}}
-                <a wire:navigate href="{{route('category.products', ['cat' => $cat->name])}}">
-                    <img src="{{ asset('storage/' . $cat->image) }}">
-                    
-                    
-                    {{-- <i class="fas fa-caret-up text-white fa_icon"></i> --}}
-                    
-                    <div class="detail-box">
-                        <div class="w-full px-3 py-1 bold bg_primary text-center text-light product-title">
-                            {{$cat->name}}
-                        </div>
-    
+    <div @class([" px-2 mb-2 cat_box", 'shadow' => $active])>
+        <div class="cat_box border">
+            {{-- <a href="{{route('product.by.catgory', ['id' =>$cat->id, 'name' => Str::slug( $cat->name)])}}" class=""> --}}
+            <a wire:navigate href="{{route('category.products', ['cat' => $cat->name])}}">
+                <img src="{{ asset('storage/' . $cat->image) }}">
+                
+                
+                {{-- <i class="fas fa-caret-up text-white fa_icon"></i> --}}
+                
+                <div class="detail-box">
+                    <div class="w-full px-3 py-1 bold bg_primary text-center text-light product-title">
+                        {{$cat->name}}
                     </div>
-                </a>
-    
-            </div>
+
+                </div>
+            </a>
+
         </div>
+    </div>
     
     </div>

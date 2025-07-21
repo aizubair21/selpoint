@@ -8,23 +8,37 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+
 
 #[layout('layouts.user.app')]
 class Products extends Component
 {
-    use WithPagination;
 
-    public $cart, $products = [], $offset = 10, $limit = 50, $load = false;
+
+    use WithPagination;
+    #[URL]
+    public $sort = 'desc', $search;
+
+    public $cart, $products = [], $offset = 0, $limit = 50, $load = false, $withDiscount = true;
 
     protected $listeners = ['$refresh'];
+
+    public function updated()
+    {
+        $this->getData();
+    }
+
 
     public function getData()
     {
         // dd(User::count());
-        $this->products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', 'desc')->limit($this->limit)->get();
+        $this->products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', $this->sort)->offset($this->offset)->limit($this->limit)->get();
+        // array_push($this->products, $data);
+        // dd($this->products);
 
 
-        if (count($this->products) > $this->limit) {
+        if (Product::count() > $this->limit) {
             $this->load = true;
         } else {
             $this->load = false;
@@ -33,7 +47,7 @@ class Products extends Component
 
     public function loadMore()
     {
-        $this->limit += $this->offset;
+        $this->limit += 1;
         $this->getData();
     }
 

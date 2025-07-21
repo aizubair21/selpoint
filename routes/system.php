@@ -48,6 +48,9 @@ use App\Livewire\System\Orders\Index as SystemOrdersIndex;
 use App\Livewire\System\Products\Filter;
 use App\Livewire\System\Slider\Slider;
 use App\Livewire\System\Slider\Slides;
+use App\Livewire\System\Withdraw\Index as WithdrawIndex;
+use App\Livewire\System\Withdraw\View as WithdrawDetails;
+
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
 
@@ -241,6 +244,16 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         }
     );
 
+
+    /**
+     * system withdraw
+     */
+    Route::prefix('withdraw')->group(
+        function () {
+            Route::get('/', WithdrawIndex::class)->name('withdraw.index');
+            Route::get('/take{id}', WithdrawDetails::class)->name('withdraw.view');
+        }
+    );
 
 
     /**

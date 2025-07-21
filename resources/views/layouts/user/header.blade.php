@@ -52,7 +52,7 @@ new class extends Component {
 <div class="bg-white text-center">
 
     {{-- normal nav on desktop --}}
-    <div class="w-full px-3 max-w-8xl mx-auto flex justify-between items-center" id="desktop-nav">
+    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" id="desktop-nav">
         
         {{-- logo  --}}
         <a wire:navigate href="/" class="flex items-center">
@@ -110,7 +110,7 @@ new class extends Component {
 
                                         <div class="block">
                                             @foreach ($item->links as $nl)    
-                                                <x-nav-link class="block">{{$nl->name ?? "N/A"}}</x-nav-link>
+                                                <x-nav-link :href="$nl->url" class="block">{{$nl->name ?? "N/A"}}</x-nav-link>
                                             @endforeach
                                             
                                         </div>
@@ -211,7 +211,7 @@ new class extends Component {
 {{-- sticky nav  --}}
 <div class="bg-white w-full fixed z-50 top-0 left-0" id="sticky-nav" x-data="{open:false}">
 
-    <div class="w-full px-3 max-w-8xl mx-auto flex justify-between items-center" x-data="{search:false}"> 
+    <div class="w-full px-3 max-w-7xl mx-auto flex justify-between items-center" x-data="{search:false}"> 
         {{-- logo  --}}
         <div class="flex items-center">
             <button class="border-r px-2" x-on:click="open = !open">

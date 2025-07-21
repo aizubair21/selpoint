@@ -1,5 +1,11 @@
 @if (auth()->user()->hasAnyRole(['admin', 'system']))
                     
+     @can('users_view')
+        <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
+            {{ __('Users') }}
+        </x-responsive-nav-link>
+    @endcan 
+
     @can('admin_view')         
         <x-responsive-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
             {{ __('Admin') }}
@@ -22,6 +28,11 @@
             {{ __('Rider') }}
         </x-responsive-nav-link>
     @endcan
+    @can('role_list')
+        <x-responsive-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
+            {{ __('Role') }}
+        </x-responsive-nav-link>
+    @endcan 
         
     <x-hr/>
     <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
@@ -46,22 +57,18 @@
             {{ __('ViP') }}
         </x-responsive-nav-link>
     @endcan 
-    @can('role_list')
-        <x-responsive-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
-            {{ __('Role') }}
-        </x-responsive-nav-link>
-    @endcan 
 
-    @can('users_view')
-        <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
-            {{ __('Users') }}
-        </x-responsive-nav-link>
-    @endcan 
 @endif
-
+    
 @if (auth()->user()->hasRole('system'))    
-    <x-responsive-nav-link :href="route('dashboard')">
+    <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
         {{ __('Withdraw') }}
+    </x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('system.slider.index')" :active="request()->routeIs('system.slider.*')">
+        {{ __('Slider') }}
+    </x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('system.navigations.index')" :active="request()->routeIs('system.navigations.*')" >
+        {{ __('Navigations') }}
     </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('system.store.index')" :active="request()->routeIs('system.store.*')">
         {{ __('Store') }}

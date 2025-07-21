@@ -44,10 +44,10 @@
 
     <x-dashboard.container>
         <div class=" ">
-            <div class="">
-                <x-dashboard.section>
-                    @includeIf('components.client.product-single')
-                </x-dashboard.section>
+            <div class="bg-white">
+                @includeIf('components.client.product-single')
+                {{-- <x-dashboard.section>
+                </x-dashboard.section> --}}
             </div>
 
             {{-- <div class="lg:w-12 p-2">
@@ -88,7 +88,7 @@
                     {{-- Product Specification & Summery --}}
                 </x-slot>
                 <x-slot name="content">
-                    <div class="w-full border-b flex items-center" style="height: 28px">
+                    <div class="w-full border-b flex items-center text-md" style="height: 28px">
                         <div class="px-2 cursor-pointer" :class="{'font-bold bg-indigo-900 text-white' : tab == 'summery'}" x-on:click="tab = 'summery'" > Summery </div>
                         <div class="px-2 cursor-pointer" :class="{'font-bold bg-indigo-900 text-white' : tab == 'shop'}"  x-on:click="tab = 'shop'"> About Shop </div>
                     </div>
@@ -153,8 +153,8 @@
                                 <br>
                                 <div class="flex flex-wrap space-x-2 ">
                                     <x-nav-link-btn href="">  Visit Shop</x-nav-link-btn>
-                                    <x-nav-link-btn href="" class="space-x-2 space-y-2">Shop Products</x-nav-link-btn>
-                                    <x-nav-link-btn href="">Report Against Shop</x-nav-link-btn>
+                                    <x-nav-link-btn href="" class="space-x-2 space-y-2">Other Products</x-nav-link-btn>
+                                    <x-nav-link-btn href="">Report Incorrect Information</x-nav-link-btn>
                                 </div>
                             </x-dashboard.section.inner>
                         </x-dashboard.section>
@@ -163,12 +163,7 @@
                 </div>
             </x-dashboard.section.inner>
 
-        </x-dashboard.section>
 
-       
-
-        {{-- reveiws  --}}
-        <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     Comments
@@ -191,10 +186,10 @@
                             @endif
 
                         </div>
-                        <div class="ps-2">
+                        <div class="ps-2 text-md">
                             {{$item?->comments}}
                         </div>
-                        </div >
+                    </div >
                 @endforeach
             </x-dashboard.section.inner>
             
