@@ -9,6 +9,8 @@ use App\Livewire\Pages\Products as userProductsPage;
 use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
+use App\Livewire\Pages\Shops\All;
+use App\Livewire\Pages\Shops\Shop;
 use App\Livewire\Pages\SingleProductOrder;
 use App\Models\DistributeComissions;
 use App\Models\Order;
@@ -46,6 +48,11 @@ Route::get('category/{cat}/products', userProductsForCategoryPage::class)->name(
 Route::get('category', userCategoriesPage::class)->name('category.index');
 Route::get('product/{id}/{slug}', userProductsDetailsPage::class)->name('products.details');
 Route::get('product/order/{id}/{slug}', SingleProductOrder::class)->name('product.makeOrder')->middleware('auth');
+
+
+/**shops */
+Route::get('/shops', All::class)->name('shops');
+Route::get('/shops/{id}/{name}', Shop::class)->name('shops.visit');
 
 
 // other page route for user

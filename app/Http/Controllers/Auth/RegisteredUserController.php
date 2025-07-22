@@ -66,22 +66,22 @@ class RegisteredUserController extends Controller
         /**
          * user has a ref
          */
-        if (config('app.comission')) {
+        // if (config('app.comission')) {
 
-            $length = strlen($user->id);
+        //     $length = strlen($user->id);
 
-            if ($length >= 4) {
-                $ref = $user->id;
-            } else {
-                $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
-            }
+        //     if ($length >= 4) {
+        //         $ref = $user->id;
+        //     } else {
+        //         $ref = str_pad($user->id, 3, '0', STR_PAD_LEFT);
+        //     }
 
-            user_has_refs::create([
-                'ref' => date('ym') . $ref,
-                'user_id' => $user->id,
-                'status' => 1,
-            ]);
-        }
+        //     user_has_refs::create([
+        //         'ref' => date('ym') . $ref,
+        //         'user_id' => $user->id,
+        //         'status' => 1,
+        //     ]);
+        // }
 
         event(new Registered($user));
 

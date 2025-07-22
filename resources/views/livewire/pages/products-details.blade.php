@@ -152,9 +152,9 @@
                                 </div>
                                 <br>
                                 <div class="flex flex-wrap space-x-2 ">
-                                    <x-nav-link-btn href="">  Visit Shop</x-nav-link-btn>
-                                    <x-nav-link-btn href="" class="space-x-2 space-y-2">Other Products</x-nav-link-btn>
-                                    <x-nav-link-btn href="">Report Incorrect Information</x-nav-link-btn>
+                                    <x-nav-link-btn href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop()->id, 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">  Visit Shop</x-nav-link-btn>
+                                    {{-- <x-nav-link-btn href="" class="space-x-2 space-y-2">Other Products</x-nav-link-btn>
+                                    <x-nav-link-btn href="">Report Incorrect Information</x-nav-link-btn> --}}
                                 </div>
                             </x-dashboard.section.inner>
                         </x-dashboard.section>
