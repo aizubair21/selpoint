@@ -3,6 +3,8 @@
 namespace App\Livewire\User\Wallet;
 
 use App\Models\DistributeComissions;
+use App\Models\Package_pays;
+use App\Models\Packages;
 use App\Models\TakeComissions;
 use App\Models\User;
 use App\Models\user_task;

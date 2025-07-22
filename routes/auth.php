@@ -35,6 +35,7 @@ use App\Livewire\User\Wallet\Index as WalletIndex;
 use App\Livewire\User\Wallet\Withdraw\Create;
 use App\Livewire\User\Wallet\Withdraw\Index as WithdrawIndex;
 use App\Livewire\User\Wallet\Comission as EarnComissions;
+use App\Livewire\User\Wallet\Diposit\History;
 use App\Livewire\User\Wallet\Reffer;
 use app\Livewire\User\Wallet\SystemTakeComission;
 use App\Livewire\User\Wallet\Task;
@@ -124,6 +125,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
         Route::get('/withdraw/create', Create::class)->name('user.wallet.withdraw.create');
         Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
+
+        // user deposit 
+        Route::get('/wallet/diposit', History::class)->name('user.wallet.diposit');
+        Route::get('/wallet/diposit/create', History::class)->name('user.wallet.diposit.create');
 
 
         /**

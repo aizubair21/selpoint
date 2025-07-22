@@ -8,9 +8,17 @@
                     Your Wallet
                 </x-slot>>
                 <x-slot name="content">
-                    <div class="flex justify-between items-center">
+                    <div class="md:flex justify-between items-center">
                         <div class="text-2xl font-bold text-indigo-900"> {{auth()->user()->coin}} TK </div> 
-                        <x-nav-link class="ring-1 px-2 border rounded-lg uppercase font-bold" href="{{route('user.wallet.withdraw')}}">Withdraw</x-nav-link>
+
+                        <div class="flex">
+                            <x-nav-link-btn class="ring-1 bg-indigo-900 text-white px-2 rounded-lg border-0 uppercase font-bold" href="{{route('user.wallet.diposit')}}">Deposit</x-nav-link-btn>
+                            {{-- <x-primary-button href="" >Deposit</x-primary-button> --}}
+                            {{-- <x-primary-button @click.prevent="$dispatch('open-modal', 'depositModal')" >Deposit</x-primary-button> --}}
+                            <x-nav-link-btn class="ring-1 px-2 border-0 rounded-lg uppercase font-bold" href="{{route('user.wallet.withdraw')}}">Withdraw</x-nav-link-btn>
+                        </div>
+
+                        
                     </div>
                 </x-slot>
             </x-dashboard.section.header>

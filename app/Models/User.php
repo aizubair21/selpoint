@@ -382,4 +382,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Withdraw::class);
     }
+
+
+    public function myDeposit()
+    {
+        return $this->hasMany(userDeposit::class);
+    }
 }
