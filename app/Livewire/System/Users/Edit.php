@@ -16,7 +16,7 @@ class Edit extends Component
     #[URL]
     public $id;
 
-    public $users, $user, $cref;
+    public $users, $user, $cref, $rechargeAmount;
 
     public function mount()
     {
@@ -47,6 +47,30 @@ class Edit extends Component
         $this->reset(['cref']);
         // $this->getData();
         $this->dispatch('success', "Updated!");
+    }
+
+    public function rechargeUser()
+    {
+        if (!empty($this->rechargeAmount)) {
+            # code...
+            $this->dispatch('open-modal', 'confirmRechargeModal');
+        }
+    }
+
+    public function confirmRecharge()
+    {
+        $this->user->increment('coin', $this->rechargeAmount);
+        $this->reset(['rechargeAmount']);
+        $this->dispatch('close-modal', 'confirmRechargeModal');
+        $this->dispatch('success', "User recharged successfully!");
+    }
+
+    public function confirmRefund()
+    {
+        $this->user->decrement('coin', $this->rechargeAmount);
+        $this->reset(['rechargeAmount']);
+        $this->dispatch('close-modal', 'confirmRechargeModal');
+        $this->dispatch('success', "User refunded successfully!");
     }
 
 
