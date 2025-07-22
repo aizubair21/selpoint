@@ -66,6 +66,9 @@
         
 @if (auth()->user()->hasRole('system'))    
     <x-hr/>
+    <x-responsive-nav-link :href="route('system.deposit.index')" :active="request()->routeIs('system.deposit.*')">
+        {{ __('Deposit') }}
+    </x-responsive-nav-link>
     <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
         {{ __('Comission') }}
     </x-responsive-nav-link>

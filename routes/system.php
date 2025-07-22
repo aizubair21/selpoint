@@ -11,6 +11,7 @@ use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
 use App\Livewire\System\Comissions\TakesDistributes;
+use App\Livewire\System\Deposit\Index as DepositIndex;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -162,6 +163,10 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
      */
     Route::get('/sliders', Slider::class)->name('slider.index');
     Route::get('/sliders/slides', Slides::class)->name('slider.slides');
+
+
+    /**deposit */
+    Route::get('/deposit', DepositIndex::class)->name('deposit.index');
 
 
     Route::get('/comissions', ComissionsIndex::class)->name('comissions.index');

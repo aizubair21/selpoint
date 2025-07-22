@@ -67,7 +67,7 @@
                                 <td>
                                     {{ $item->transactionId ?? 'N/A' }}
                                 </td>
-                                <td>{{ $item->status ? 'Confirmed' : 'Pending' }}</td>
+                                <td>{{ $item->confirmed ? 'Confirmed' : 'Pending' }}</td>
                                 <td>{{ $item->created_at->diffForHumans() }} </td>
                             </tr>
                         @endforeach
