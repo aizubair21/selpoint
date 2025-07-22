@@ -42,7 +42,24 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            Schema::dropIfExists('users');
+            $table->dropColumnIfExists('vip');
+            $table->dropColumnIfExists('country');
+            $table->dropColumnIfExists('country_code');
+            $table->dropColumnIfExists('zip');
+            $table->dropColumnIfExists('state');
+            $table->dropColumnIfExists('city');
+            $table->dropColumnIfExists('line1');
+            $table->dropColumnIfExists('line2');
+            $table->dropColumnIfExists('phone');
+            $table->dropColumnIfExists('currency');
+            $table->dropColumnIfExists('currency_sing');
+            $table->dropColumnIfExists('language');
+            $table->dropColumnIfExists('site_language');
+            $table->dropColumnIfExists('kyc_status');
+            $table->dropColumnIfExists('is_active');
+            $table->dropColumnIfExists('metadata');
+            $table->dropColumnIfExists('bio');
+            $table->dropColumnIfExists('dob');
         });
     }
 };

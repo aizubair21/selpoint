@@ -43,7 +43,25 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('withdraws', function (Blueprint $table) {
-            //
+            $table->dropColumnIfExists('paid_from');
+            $table->dropColumnIfExists('transaction_id');
+            $table->dropColumnIfExists('payment_priority');
+            $table->dropColumnIfExists('currency');
+            $table->dropColumnIfExists('subscription_plan');
+            $table->dropColumnIfExists('user_role');
+            $table->dropColumnIfExists('payable_amount');
+            $table->dropColumnIfExists('total_fee');
+            $table->dropColumnIfExists('fee_range');
+            $table->dropColumnIfExists('server_fee');
+            $table->dropColumnIfExists('maintenance_fee');
+            $table->dropColumnIfExists('payment_method');
+            $table->dropColumnIfExists('bank_account');
+            $table->dropColumnIfExists('account_holder_name');
+            $table->dropColumnIfExists('bank_branch');
+            $table->dropColumnIfExists('swift_code');
+            $table->dropColumnIfExists('account_number');
+            $table->dropColumnIfExists('confirmed_by');
+            $table->dropColumnIfExists('confirmed');
         });
     }
 };

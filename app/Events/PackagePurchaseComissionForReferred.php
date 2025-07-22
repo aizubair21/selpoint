@@ -20,9 +20,9 @@ class PackagePurchaseComissionForReferred
     /**
      * Create a new event instance.
      */
-    public function __construct(vip $vip)
+    public function __construct($vip)
     {
-        $this->vip = $vip;
+        $this->vip = vip::findOrFail($vip);
     }
 
     /**

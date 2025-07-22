@@ -29,14 +29,7 @@ class user_has_refs extends Model
     public function owner()
     {
         // return $this->belongsTo(User::class, 'user_id', 'id');
-        return $this->belongsTo(User::class, 'user_id', 'id')->withDefault([
-            'name' => "user not found",
-            'email' => "user not found",
-            'password' => "user not found",
-            'coin' => 0,
-            'reference' => null,
-
-        ]);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**

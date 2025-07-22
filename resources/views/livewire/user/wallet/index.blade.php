@@ -66,12 +66,12 @@
                     <div class="space-y-3 w-48">
                         <div class="rounded-lg p-3 shadow-md">
                             <div>
-                                <div class=" ">Reffer</div>
+                                <div class=" ">VIP Reffer</div>
                             </div>
                             
-                            <div class="text-lg pt-2 font-bold text-indigo-900">340 TK</div>
+                            <div class="text-lg pt-2 font-bold text-indigo-900">{{$reffer}} TK</div>
                             <div class="text-xs">
-                                <a href="" class="text-gray-600">View All</a>
+                                <a href="{{route('user.wallet.reffer')}}" class="text-gray-600">View All</a>
                             </div>
                         </div>
                     </div>

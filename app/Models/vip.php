@@ -12,7 +12,7 @@ class vip extends Model
     protected $fillable =
     [
 
-        'name',
+        'name', 
         'phone',
         'nid_front',
         'nid_back',
@@ -25,6 +25,10 @@ class vip extends Model
         'valid_till', //a package valid for 360 days
         'valid_from', //renew date
         'task_type', //montyly, daily
+
+        'reference', //if user register with reference
+        'comission', //if user register with reference, the comission for the reference user
+        'refer', //if user register with reference, the refer user id
 
     ];
 

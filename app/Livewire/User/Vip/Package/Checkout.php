@@ -39,7 +39,7 @@ class Checkout extends Component
         } else {
 
             // check purchase package already purchase or not
-            if (vip::where(['user_id' => Auth::id(), 'package_id' => $this->package->id])->first()) {
+            if (vip::where(['user_id' => Auth::id(), 'package_id' => $this->package?->id])->first()) {
                 $this->dispatch('warning', 'You already purchase this packages.');
             } else {
 
@@ -51,7 +51,7 @@ class Checkout extends Component
                      */
                     $validate['status'] = 0;
                     $validate['user_id'] = Auth::id();
-                    $validate['package_id'] = $this->package->id;
+                    $validate['package_id'] = $this->package?->id;
 
                     /**
                      * process the image upload
@@ -59,7 +59,11 @@ class Checkout extends Component
                      */
                     $validate['nid_front'] = $this->handleImageUpload($this->nid_front, 'vips', null);
                     $validate['nid_back'] = $this->handleImageUpload($this->nid_back, 'vip', null);
+                    $validate['reference'] = Auth::user()->reference;
+                    $validate['comission'] = $this->package?->ref_owner_get_coin;
+                    $validate['refer'] = Auth::user()->getReffOwner?->owner?->id;
 
+                    // dd($validate);
                     $userPackage = vip::create($validate);
 
                     /**

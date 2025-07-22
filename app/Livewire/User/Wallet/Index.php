@@ -6,6 +6,7 @@ use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
 use App\Models\User;
 use App\Models\user_task;
+use App\Models\vip;
 use App\Models\Withdraw;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -21,6 +22,7 @@ class Index extends Component
         $this->withdraw = Withdraw::where(['user_id' => Auth::id(), 'status' => 'Pending'])->latest()->get();
         $this->comission = DistributeComissions::where(['user_id' => Auth::id(), 'confirmed' => true])->whereDate('updated_at', today())->sum('amount');
         $this->cut = TakeComissions::where(['user_id' => Auth::id(), 'confirmed' => true])->whereDate('updated_at', today())->sum('take_comission');
+        $this->reffer = vip::where(['reference' => Auth::id()])->sum('reference');
     }
 
     public function render()

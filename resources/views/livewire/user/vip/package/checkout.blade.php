@@ -180,7 +180,7 @@
                             <div >
                                 <div class=" mb-3 ">
                                     <x-input-label for="method">Payment Method </x-input-label>
-                                    <select wire:model.live="payment_by" id="method" class="w-full border-0 rounded @error('payment_by')is-invalid @enderror">
+                                    <select wire:model.live="payment_by" id="method" class="w-full rounded @error('payment_by')is-invalid @enderror">
                                         <option value="">Select an payment Method</option>
                                         @foreach ($package->payOption as $item)
                                             <option value="{{$item->pay_type}}"> {{$item->pay_type}} - {{$item->pay_to}} </option>

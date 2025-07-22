@@ -3,7 +3,9 @@
 namespace App\Livewire\System\Vip;
 
 use App\Models\Packages;
+use App\Models\user_has_refs;
 use App\Models\vip;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -77,6 +79,19 @@ class Edit extends Component
                     $this->vipData->valid_till = now()->addDays($this->vlid_days);
                 }
                 $this->vipData->save();
+                $vipUser = $this->vipData?->user;
+
+                /**
+                 * If buyer register with reference,
+                 *  Reference user get the comission of vip purchase
+                 */
+
+                $ref = user_has_refs::query()->where(['ref' => $vipUser?->reference])->first();
+                // dd($ref->owner);
+                if ($vipUser && $ref && ($this->vipData?->created_at == $this->vipData->updated_at)) {
+                    $ref->owner->coin += $this->vipData->comission ?? 100;
+                    $ref->owner->save();
+                }
             }
         } catch (\Throwable $th) {
             //throw $th;
