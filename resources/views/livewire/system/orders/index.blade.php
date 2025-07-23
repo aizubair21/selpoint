@@ -42,6 +42,27 @@
     </x-dashboard.page-header>
     
     <x-dashboard.container>
+        <x-dashboard.overview.section>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Orders
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->count()}} 
+                </x-slot>
+            </x-dashboard.overview.div>
+            <x-dashboard.overview.div>
+                <x-slot name="title">
+                    Amount
+                </x-slot>
+                <x-slot name="content">
+                    {{$orders->sum('total')}} TK 
+                </x-slot>
+            </x-dashboard.overview.div>
+
+        </x-dashboard.overview.section>
+
+        
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
@@ -58,9 +79,9 @@
                         </div>
                         
                         <select class="rounded border-0 " wire:model.live="type" id="">
-                            <option value="">Both</option>
-                            <option value="user">U > R</option>
-                            <option value="reseller">R > V</option>
+                            <option value="">Both ({{$or->count() ?? 0}})</option>
+                            <option value="user">U > R ({{$or->where('belongs_to_type', 'reseller')->count() ?? 0}} )</option>
+                            <option value="reseller">R > V ({{$or->where('belongs_to_type', 'vendor')->count() ?? 0}} )</option>
                         </select>
                         <select class="rounded border-0 " wire:model.live="status" id="">
                             <option value="">Any</option>
@@ -92,19 +113,27 @@
                     {{$orders->links()}}
                 </x-slot>
             </x-dashboard.section.header>
-
+           
             <x-dashboard.section.inner>
-                <x-dashboard.foreach :data="$orders">
-                    <x-dashboard.table>
+                {{$orders->links()}}
+               
+                    <x-dashboard.table :data="$orders">
                  
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>ID</th>
-                                <th>Types</th>
+                                <th>Buyer</th>
+                                <th>Flow</th>
+                                <th>Seller</th>
                                 <th>
                                     Status
-                                   
+                                </th>
+                                <th>
+                                    Amount
+                                </th>
+                                <th>
+                                    Comission 
                                 </th>
                                 <th>Date</th>
                                 <th>A/C</th>
@@ -116,14 +145,46 @@
                                 <tr>
                                     <td> {{$loop->iteration }} </td>
                                     <td> {{$item->id ?? "N/A"}} </td>
+                                    <td>
+                                        <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->user?->id])}}"> 
+                                            {{$item->user?->name ?? 'N/A'}} 
+                                        </x-nav-link-btn>
+                                        
+                                        {{$item->user?->phone ?? "N/A"}}| {{$item->user?->email ?? "N/A"}} 
+                                    </td>
                                     <td> 
                                         <div class="flex items-center">
-                                            {{ $item->user_type }} <i class="fas fa-arrow-right px-2"></i> {{ $item->belongs_to_type }}     
+                                            <div>
+
+                                                <span class="text-xs"></span>{{ $item->user_type }} 
+                                            </div>
+                                            <i class="fas fa-caret-right px-2"></i> 
+                                            {{ $item->belongs_to_type }}     
                                         </div>    
                                     </td>
-                                    <th>
-                                       {{$item->status ?? "N/A"}}
-                                    </th>
+                                    <td>
+                                        <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->seller?->id])}}"> 
+                                            {{$item->seller?->name ?? 'N/A'}} 
+                                        </x-nav-link-btn>
+                                        
+                                        {{$item->seller?->phone ?? "N/A"}} | {{$item->seller?->email ?? "N/A"}} 
+                                    </td>
+                                    <td>
+                                       {{-- {{$item->status ?? "N/A"}} --}}
+                                        @if ($item->status == 'Pending')
+                                            <span class="bg-red-300 rounded-lg px-1 text-white">Pending</span>
+                                        @endif
+                                        @if ($item->status == "Accept")
+                                            <span class="bg-green-300 rounded-lg px-1 text-white">Accept</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{$item->total ?? 0}} TK
+                                    </td>
+                                    <td>
+                                      
+                                        {{$item->comissionsInfo()->sum('take_comission') ?? 0}} TK
+                                    </td>
                                     <td>
                                         {{$item->created_at?->toFormattedDateString()}} 
                                     </td>
@@ -141,7 +202,6 @@
                         </tbody>
 
                     </x-dashboard.table>
-                </x-dashboard.foreach>
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>

@@ -57,6 +57,12 @@ class Order extends Model
         ]);
     }
 
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'belongs_to');
+    }
+
+
     public function scopeConfirm($query)
     {
         return $query->where('status', 'Confirmed');

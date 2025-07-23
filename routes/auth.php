@@ -127,8 +127,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
 
         // user deposit 
-        Route::get('/wallet/diposit', History::class)->name('user.wallet.diposit');
-        Route::get('/wallet/diposit/create', History::class)->name('user.wallet.diposit.create');
+        Route::get('/diposit', History::class)->name('user.wallet.diposit');
+        Route::get('/diposit/create', History::class)->name('user.wallet.diposit.create');
 
 
         /**

@@ -15,7 +15,7 @@ class Index extends Component
 
     #[URL]
     public $search = '', $date, $sd = '', $ed = '', $qf = 'id', $type, $status;
-    public $pagn = 0;
+    public $pagn = 0, $pendingCount, $acceptCount, $totalAmount;
 
     public function mount()
     {
@@ -69,8 +69,8 @@ class Index extends Component
             $query->where(['status' => $this->status]);
         }
         $orders = $query->orderBy('id', 'desc')->paginate($this->pagn);
-
-        return view('livewire.system.orders.index', compact('orders'));
+        $or = Order::all();
+        return view('livewire.system.orders.index', compact('orders', 'or'));
     }
 
     public function delete($id)

@@ -9,11 +9,11 @@ use App\Models\Packages;
 use App\Models\userDeposit;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\This;
 
-#[layout('layouts.user.dash.userDash')]
+#[layout('layouts.app')]
 class History extends Component
 {
+
     #[validate('required')]
     public $amount, $paymentMethod, $receiverAccountNumber, $senderName, $senderAccountNumber, $transactionId;
 
@@ -21,6 +21,10 @@ class History extends Component
 
     public function mount()
     {
+        // if the user dosn't have reseller or vendor or rider or system admin role, redirect to home
+        if (!Auth::user()->hasRole(['reseller', 'vendor', 'rider', 'system'])) {
+            $this->redirectIntended('dashboard');
+        }
         $this->history = auth()->user()->myDeposit;
     }
 

@@ -134,11 +134,17 @@ new class extends component
     
                         
                         @endif --}}
-                        <div class="flex justify-between px-2 " >
-                            <div>Wallet</div>
-                            <div> {{ auth()->user()->abailCoin()}} </div>
+                        <div class="border-b border-gray-200 px-4 py-2">
+                            <div class="flex justify-between px-2 " >
+                                <div>Wallet</div>
+                                <div> {{ auth()->user()->abailCoin()}} </div>
+                            </div>
+
+                            <div class="text-end w-full pt-1 uppercase font-bold">
+                                <x-nav-link class="text-center text-indigo-900 uppercase font-bold" href="{{route('user.wallet.diposit')}}"> <i class="fas fa-plus pr-2"></i> Add Balance</x-nav-link>
+                            </div>
+
                         </div>
-                        <x-hr/> 
                         @if (auth()->user()->hasRole('vendor') )
                             <x-dropdown-link wire:click="getNavigation('vendor')"> 
                                 @if ($this->get == 'vendor')
