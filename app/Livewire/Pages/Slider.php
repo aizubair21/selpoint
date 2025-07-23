@@ -12,7 +12,7 @@ class Slider extends Component
     {
         $slider = sliderModel::query()->where(['status' => true])->whereNot('placement', '=', 'apps')->orderBy('id', 'desc')->get('id')->pluck('id');
         // $slider = Slider::query()->where(['status' => true])->orderBy('id', 'desc')->get('id')->pluck('id');
-        $slides = Slider_has_slide::query()->whereIn('slider_id', $slider)->orderBy('id', 'desc')->get('image')->pluck('image');
+        $slides = Slider_has_slide::query()->whereIn('slider_id', $slider)->get();;
         // dd($slides);
         return view('livewire.pages.slider', compact('slides'));
     }

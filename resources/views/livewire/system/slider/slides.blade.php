@@ -9,7 +9,7 @@
         <x-dashboard.section>
             <x-dashboard.section.inner>
                 
-                <div class="p-3 flex flex-wrap">
+                <div class="flex flex-wrap gap-4">
 
                     @foreach ($slides as $key => $item)
                         <div class="border w-full group max-w-72 rounded p-3 mb-1 relative">
@@ -24,18 +24,22 @@
                                 <input type="file" accept="jpg, jpeg, png" max="500" class="border p-1 w-full" wire:model="image.{{$key}}.image">
                             </div>
                             <div class="py-2 space-y-2">
-                                <x-text-input type="text" wire:model="slides.{{$key}}.main_title" class="w-full" placeholder="Main Title" />
-                                <x-text-input type="text"  wire:model="slides.{{$key}}.sub_title" class="w-full" placeholder="Sub Title" />
-                                <textarea name="" id=""  wire:model="slides.{{$key}}.des" class="w-full" rows="3"></textarea>
+                                <textarea rows="3" type="text" wire:model="slides.{{$key}}.main_title" class="w-full" placeholder="Main Title" placeholder="Main Title"></textarea>
+                                {{-- <x-text-input type="text"  wire:model="slides.{{$key}}.main_title" class="w-full" placeholder="Main Title" /> --}}
+                                {{-- <x-text-input type="text"  wire:model="slides.{{$key}}.sub_title" class="w-full" placeholder="Sub Title" /> --}}
+                                <textarea name="" id=""  wire:model="slides.{{$key}}.description" class="w-full" rows="3" placeholder="Description"></textarea>
+                                <x-text-input type="text"  wire:model="slides.{{$key}}.action_url" class="w-full" placeholder="Active URL" />
                             </div>
+                            <x-hr/>
+                            <div class="flex justify-between items-center">
 
-
-                            <x-danger-button class="absolute left-0 top-0" wire:click="deleteSlides({{$slides[$key]['id']}})">
-                                <i class="fas fa-trash"></i>
-                            </x-danger-button>
-                            <x-primary-button class="absolute right-0 top-0" wire:click="updateSlides({{$key}},{{$slides[$key]['id']}})">
-                                <i class="fas fa-file"></i>
-                            </x-primary-button>
+                                <x-danger-button class="" wire:click="deleteSlides({{$slides[$key]['id']}})">
+                                    <i class="fas fa-trash"></i>
+                                </x-danger-button>
+                                <x-primary-button wire:dirty :key="$key" class="" wire:click="updateSlides({{$key}},{{$slides[$key]['id']}})">
+                                    <i class="fas fa-save pr-2 "></i> save
+                                </x-primary-button>
+                            </div>
                         
                         </div>
                     @endforeach

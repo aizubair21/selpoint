@@ -1,119 +1,268 @@
 <div>
 
-    
+    @assets
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"> --}}
+    @endassets
     <style>
         .body {
-        margin: 0;
-        font-family: sans-serif;
-        background: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-        }
+            margin: 0;
+            font-family: sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* height: 100vh; */
+            }
 
-        .slider {
-        position: relative;
-        width: 100%;
-        /* max-width:90; */
-        height: 400px;
-        overflow: hidden;
-        /* border-radius: 10px; */
-        /* box-shadow: 0 5px 15px rgba(0,0,0,0.2); */
-        background: #fff;
-        }
+            .slider {
+            position: relative;
+            width: 100%;
+            max-height: 400px;
+            overflow: hidden;
+            /* border-radius: 10px; */
+            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+            background: #fff;
+            aspect-ratio: 16/9;
+            }
 
-        .slides {
-        width: auto;
-        height: 100%;
-        }
+            .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            }
 
         .slide {
-        width: 100%;
-        height: 100%;
-        display: none;
-        object-fit: cover;
-        }
-
-        .slide.active {
-        display: block;
-        }
-
-        button.prev,
-        button.next {
+            width: 100%;
+            height: 100%;
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            border: none;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: scale(0.95);
+            visibility: hidden;
+            transition: opacity 0.6s linear, transform 0.6s linear;
+            display: flex;
+            align-items: center;
+            }
+
+            .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+            z-index: 2;
+            }
+
+            .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            }
+
+            .description {
+            position: relative;
+            z-index: 1;
+            max-width: 400px;
             color: #fff;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 50%;
-        }
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            margin-left: 40px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.6s linear, transform 0.6s linear;
+            /* filter:blur() */
+            }
 
-        button.prev {
-            left: 10px;
-        }
+            .slide.active .description {
+            opacity: 1;
+            transform: translateX(0);
+            }
+            
+            .description h1 {
+            margin: 0 0 10px;
+            font-size: 28px;
+            }
 
-        button.next {
-            right: 10px;
-        }
+            .description p {
+            margin: 0 0 15px;
+            font-size: 16px;
+            }
 
-        .body button:hover {
-            background: rgba(0,0,0,0.7);
-        }
+            .description .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #22c55e;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+            }
+
+            .description .btn:hover {
+            background: #16a34a;
+            }
+
+            .dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 9;
+            }
+
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, 0.4);
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            
+            .dot.active {
+                background-color: #000;
+            }
+            .slide.exit {
+            opacity: 0;
+            transform: scale(0.95);
+            visibility: hidden;
+            z-index: 1;
+            }
     </style>
 
     @if ($slides?->count())
         <div class="body">
 
             <div class="slider">
-            <div class="slides">
-                @foreach ($slides as $key => $item)      
-                    <img src="{{asset('storage'."/".$item)}}" class="slide {{ $key == 0 ? 'active' : '' }}" />
-                @endforeach
-                {{-- <img src="https://via.placeholder.com/800x400?text=Product+2" class="slide" />
-                <img src="https://via.placeholder.com/800x400?text=Product+3" class="slide" /> --}}
-            </div>
+                <div class="slides">
+                    @foreach ($slides as $key => $item)      
+                    {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
+                    <div class="slide {{ $key == 0 ? 'active' : '' }}">
+                        <img src="{{asset('storage'."/".$item->image)}}" />
+                        @if ($item->main_title)
+                            <div class="description">        
+                                <h1>{{$item->main_title }}</h1>
+                                <p>{{$item->description }}</p>
+                                @if ($item->action_url)
+                                    <a href="{{$item->action_url}}" class="btn">Shop Now</a>
+                                @else
+                                    <a href="{{route('products.index')}}" class="btn">Shop Now</a>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                    @endforeach
+                    {{-- <img src="https://placehold.co/600x400/orange/white" class="slide" /> --}}
+                    {{-- <img src="https://via.placeholder.com/800x400?text=Product+2" class="slide" />
+                    <img src="https://via.placeholder.com/800x400?text=Product+3" class="slide" /> --}}
+                </div>
 
                 @if ($slides->count() > 1)
                     
                     <button class="prev"><i class="fas fa-chevron-left"></i></button>
                     <button class="next"><i class="fas fa-chevron-right"></i></button>
+                    <div class="dots">
+                        @foreach ($slides as $key => $item)
+
+                            <span @class(['dot', 'active' => $loop->first ])"dot" data-index="{{$key}}"></span>
+                            {{-- <span class="dot" data-index="1"></span> --}}
+                            {{-- <span class="dot" data-index="2"></span> --}}
+                        @endforeach
+                    </div>
                 @endif
+
             </div>
 
         </div>
     @endif
 
 
-     @script
+    {{-- <section class="splide" aria-label="Splide Basic HTML Example">
+        <div class="splide__track">
+            <ul class="splide__list">
+                @foreach ($slides as $item)
+                
+                    <li class="splide__slide">Slide 01</li>
+                    <li class="splide__slide">Slide 02</li>
+                    <li class="splide__slide">Slide 03</li>
+                @endforeach
+            </ul>
+        </div>
+    </section> --}}
+
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" ></script> --}}
     
+
+        
+        
+    @script
         <script>
-      
-            const slides = document.querySelectorAll(".slide");
-            const prevBtn = document.querySelector(".prev");
-            const nextBtn = document.querySelector(".next");
 
-            let current = 0;
+        const slides = document.querySelectorAll(".slide");
+        const dots = document.querySelectorAll(".dot");
 
-            function showSlide(index) {
-                slides.forEach(slide => slide.classList.remove("active"));
-                slides[index].classList.add("active");
-            }
+        let current = 0;
+        let interval = null;
 
-            prevBtn.addEventListener("click", () => {
-                current = (current - 1 + slides.length) % slides.length;
-                showSlide(current);
-            });
+        function showSlide(index) {
+        if (index === current) return;
 
-            nextBtn.addEventListener("click", () => {
-                current = (current + 1) % slides.length;
-                showSlide(current);
-            });
-    
+        const currentSlide = slides[current];
+        const nextSlide = slides[index];
+
+        // Start exit animation
+        currentSlide.classList.add("exit");
+
+        // After animation ends, clean up the old slide
+        setTimeout(() => {
+            currentSlide.classList.remove("active", "exit");
+        }, 600); // match transition duration in CSS
+
+        // Show the new slide
+        nextSlide.classList.add("active");
+
+        // Update dots
+        dots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === index);
+        });
+
+        current = index;
+        }
+
+        dots.forEach(dot => {
+        dot.addEventListener("click", () => {
+            const index = parseInt(dot.getAttribute("data-index"));
+            showSlide(index);
+            restartAutoplay();
+        });
+        });
+
+        function nextSlide() {
+        let next = (current + 1) % slides.length;
+        showSlide(next);
+        }
+
+        function startAutoplay() {
+        interval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoplay() {
+        clearInterval(interval);
+        }
+
+        function restartAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+        }
+
+        startAutoplay();
+        
         </script>
     @endscript
 </div>

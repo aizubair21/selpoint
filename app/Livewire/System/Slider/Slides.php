@@ -45,9 +45,11 @@ class Slides extends Component
         Slider_has_slide::create([
             'slider_id' => $this->id,
             'main_title' => '',
-            'sub_title' => '',
-            'des' => '',
+            'subtitle' => '',
+            'desciprtion' => '',
             'image' => '',
+            'action_url' => '/products',
+
         ]);
         $this->dispatch('refresh');
     }
