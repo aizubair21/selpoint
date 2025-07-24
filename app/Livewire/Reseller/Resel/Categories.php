@@ -17,7 +17,7 @@ class Categories extends Component
     public function mount()
     {
 
-        $this->categories = Category::where(['belongs_to' => 'vendor'])->get();
+        $this->categories = Category::getAll();
     }
 
     public function render()

@@ -46,10 +46,20 @@
         </div> --}}
 
         <div class="md:flex justify-start">
-            <div class="overflow-x-scroll block md:hidden" style="height: 140px">
-                @livewire('reseller.resel.categories', ['cat' => $cat])
+            <div class="overflow-x-scroll block md:hidden" x-data="{open:false}">
+                <div x-on:click="open = !open" class="flex justify-between items-center p-2 border rounded-md">
+                    <div>
+                        Categories
+                    </div>
+                    <div>
+                        <i class="fas fa-caret-right"></i>
+                    </div>
+                </div>
+                <div x-show="open" x-collapse>
+                    @livewire('reseller.resel.categories', ['cat' => $cat])
+                </div>
             </div>
-            <div class="hidden md:block text-start" style="width:140px; text-aling:left">
+            <div class="hidden md:block text-start" style="width:250px; text-aling:left">
                 <div>
                     @livewire('reseller.resel.categories', ['cat' => $cat])
                 </div>
@@ -67,6 +77,12 @@
                 </div>
             </div>
         </div>
+        @if (count($products) < 1)
+            <div class="p-2 bg-gray-200 h-auto">
+                No Products Found !
+            </div>
+        @endif
+
      
 
     </x-dashboard.container>
