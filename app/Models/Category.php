@@ -13,8 +13,25 @@ class Category extends Model
         'name',
         'image',
         'user_id',
-        'belongs_to', // reseller or vendor
+        'belongs_to', // parent category ID
+        'description',
+        'status',
     ];
+    // relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'belongs_to');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'belongs_to');
+    }
 
     public function products()
     {

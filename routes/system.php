@@ -6,7 +6,9 @@ use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
+use App\Livewire\Reseller\Categories\Index as CategoriesIndex;
 use App\Livewire\Reseller\Orders\Index as OrdersIndex;
+use App\Livewire\System\Categories\Index as SystemCategoriesIndex;
 use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
@@ -147,10 +149,14 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
      * routes for products management for system
      */
     Route::prefix('products')->group(function () {
-        Route::get('/index', systemGlobalProductsIndexPage::class)->name('products');
-        Route::get('/filter', Filter::class)->name('products.filter');
+        Route::get('/index', systemGlobalProductsIndexPage::class)->name('products.index');
     })->middleware(AbleTo::class . 'product_view');
 
+
+    /**
+     * Routes for manage syste categories
+     */
+    Route::get('/categories',  SystemCategoriesIndex::class)->name('categories.index');
 
     /**
      * navigations

@@ -36,10 +36,14 @@
         
     <x-hr/>
     @can('product_view')
-    <x-responsive-nav-link :href="route('system.products')" :active="request()->routeIs('system.products.*')">
+    <x-responsive-nav-link :href="route('system.products.index')" :active="request()->routeIs('system.products.*')">
         {{ __('Products') }}
     </x-responsive-nav-link>
     @endcan
+    <x-responsive-nav-link :href="route('system.categories.index')" :active="request()->routeIs('system.categories.*')">
+        {{ __('Categories') }}
+    </x-responsive-nav-link>
+
 
     
     {{-- @if (auth()->user()->hasRole('system'))

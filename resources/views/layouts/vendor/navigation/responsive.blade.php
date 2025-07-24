@@ -2,9 +2,9 @@
     Products
 </x-responsive-nav-link>
 
-<x-responsive-nav-link href="{{route('vendor.category.view')}}" :active="request()->routeIs('vendor.category.*')">
+{{-- <x-responsive-nav-link href="{{route('vendor.category.view')}}" :active="request()->routeIs('vendor.category.*')">
     Categories
-</x-responsive-nav-link>
+</x-responsive-nav-link> --}}
 
 <x-responsive-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')">
     Orders
