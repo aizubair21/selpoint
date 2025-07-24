@@ -34,8 +34,21 @@
                         <x-input-file label="Chose Category" name="products.category_id" error="products.category_id">
                             <select class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" wire:model.live="products.category_id" id="">
                                 <option value=""> -- Chose an category -- </option>
-                                @foreach ($categories as $cat)
-                                <option value="{{$cat->id}}"> {{$cat->name ?? "N/A"}} </option>
+                                @foreach ($categories as $children)
+                                    <option value="{{$children->id}}"> {{$children->name}} </option>
+
+                                    @if (count($children->children) > 0)
+                                        @foreach ($children->children as $child)
+                                            <option value="{{$child->id}}"> --{{$child->name}} </option>
+                                            
+                                            @if (count($child->children) > 0)
+                                                @foreach ($child->children as $grandChild)
+                                                    <option value="{{$grandChild->id}}"> ---- {{$grandChild->name}} </option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                        
+                                    @endif
                                 @endforeach
                             </select>
                             <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button>
@@ -139,7 +152,7 @@
 
 
         <x-modal name="create-category-modal" >
-            @livewire('vendor.categories.create')
+           <livewire:reseller.categories.create />
         </x-modal>
 
     </x-dashboard.container>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Reseller\Resel\Products;
 
 use App\Http\Controllers\ResellerController;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\product_has_image;
 use App\Models\Reseller_resel_product;
@@ -16,13 +17,16 @@ class View extends Component
 {
     #[URL]
     public $pd;
-    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $resellerCat;
+    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $resellerCat, $categories;
 
     public function mount()
     {
         $this->products = Product::where(['belongs_to_type' => 'vendor', 'id' => $this->pd, 'status' => 'Active'])->first();
         $this->forResel = $this->products->only('name', 'title', 'slug', 'description', 'thumbnail', 'price', 'meta_title', 'meta_description', 'meta_tags', 'keyword', 'meta_thunbnail');
         $this->reselPrice = $this->forResel['price'];
+
+        // get all the categories those are not have any parent
+        $this->categories = Category::getAll();
         if (!$this->products) {
             return redirect()->back();
         }

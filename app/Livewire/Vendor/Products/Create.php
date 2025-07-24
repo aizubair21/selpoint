@@ -5,6 +5,7 @@ namespace App\Livewire\Vendor\Products;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\HandleImageUpload;
+use App\Models\Category;
 use App\Models\Product;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -52,7 +53,7 @@ class Create extends Component
         }
         // dd($this->account);
 
-        $this->categories = auth()->user()->myCategory;
+        $this->categories = Category::getAll();
     }
 
 

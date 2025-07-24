@@ -3,7 +3,12 @@
         <div class="flex justify-between items-start">
             Products
 
-            <x-nav-link-btn href="{{route('reseller.resel-product.index')}}" >Recel from vendor</x-nav-link-btn>
+            <div class="flex">
+                <x-nav-link-btn href="{{route('vendor.products.create')}}">
+                    <i class="fas fa-plus pr-2"></i> New
+                </x-nav-link-btn>
+                <x-nav-link-btn href="{{route('reseller.resel-product.index')}}" >Recel from vendor</x-nav-link-btn>
+            </div>
         </div>
         <br>
 

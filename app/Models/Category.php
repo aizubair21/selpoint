@@ -26,7 +26,12 @@ class Category extends Model
 
     public static function getAll()
     {
-        return self::whereNull('belongs_to')->orderBy('name')->get();
+        return self::whereNull('belongs_to')
+            ->with(['children' => function ($query) {
+                $query->orderBy('name');
+            }, 'user'])
+            ->orderBy('name')
+            ->get();
     }
 
     public function parent()

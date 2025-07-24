@@ -227,8 +227,21 @@
                     <x-input-label value="Reseller Category" />
                     <select wire:model="resellerCat" id="" class="rounded border w-full">
                         <option value="">Select Category</option>
-                        @foreach (auth()->user()->myCategory as $item)
-                            <option value="{{$item->id}}"> {{$item->name}} </option>
+                        @foreach ($categories as $children)
+                            <option value="{{$children->id}}"> {{$children->name}} </option>
+
+                            @if (count($children->children) > 0)
+                                @foreach ($children->children as $child)
+                                    <option value="{{$child->id}}"> -- {{$child->name}} </option>
+                                    
+                                    @if (count($child->children) > 0)
+                                        @foreach ($child->children as $grandChild)
+                                            <option value="{{$grandChild->id}}"> ---- {{$grandChild->name}} </option>
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                                
+                            @endif
                         @endforeach
                     </select>
                 </div>
