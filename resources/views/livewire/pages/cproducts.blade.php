@@ -16,9 +16,9 @@
                     Category
                 </div>
                 {{-- <i class="fas fa-caret-right px-2 py-0 m-0"></i> --}}
-                <div>
-
-                </div>
+                <x-nav-link href="{{ route('category.products', ['cat' => $cat]) }}" class="">
+                    <span class="text-primary px-2 text-gray-600">{{ $cat }}</span>
+                </x-nav-link>
             </div>
 
             <div class="product_section ">
@@ -34,17 +34,17 @@
                         {{-- @livewire('reseller.resel.categories') --}}
                         @foreach ($categories as $item)
                             {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
-                            <x-client.cat-loop :item="$item" :key="$item->id"  />
+                            <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
                         @endforeach
                     </div>
                     
-                    <div class="flex block md:hidden px-3 mb-2 overflow-x-scroll" style="height:100px">
+                    {{-- <div class="flex block md:hidden px-3 mb-2 overflow-x-scroll" style="height:100px"> --}}
                         {{-- @foreach ($categories as $product)
                             <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 130px); grid-gap:10px">
                                 <x-client.cat :cat="$product" :height="80" :key="$product->id" />
                             </div>
                         @endforeach --}}
-                    </div>
+                    {{-- </div> --}}
 
 
 
@@ -55,14 +55,14 @@
                                 <x-client.product-cart :$product :key="$product->id" />
                             @endforeach
                         </div>
+                        @if (!$products || count($products) == 0)
+                            <div class="alert alert-info">No Product Found !</div>
+                        @endif
                     </div>
                 </div>
                 
             </div>
     
-            @if (!$products || count($products) == 0)
-                <div class="alert alert-info">No Product Found !</div>
-            @endif
         </div>
     </x-dashboard.container>
 </div>
