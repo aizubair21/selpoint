@@ -13,9 +13,12 @@
                 </x-dashboard.section.header>
 
                 <x-dashboard.section.inner>
-                    <x-input-field name="name" class="md:flex" labelWidth="250px" wire:model.live="name" error="name" label="Your Category Name" />
+
+                    <x-input-field name="name" class="w-full" labelWidth="250px" wire:model.live="name" error="name" label="Your Category Name" />
                     <x-hr/>
-                    <x-input-file label="Parent" error="image" >
+                    <x-input-field class="w-full" name="slug" wire:model.live="slug" error="slug" label="SEO Slug" labelWidth="250px" />
+                    <x-hr/>
+                    <x-input-file label="Parent" error="parent_id" >
                         <select wire:model.live="parent_id" class="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Select Parent Category</option>
                             @foreach ($categories as $category)

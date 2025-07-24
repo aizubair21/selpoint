@@ -25,7 +25,7 @@ class Cproducts extends Component
     {
         $catId = Category::where(['name' => $this->cat])->get('id')->value('id');
         $products = Product::where(['category_id' => $catId])->paginate(20);
-        $categories = Category::where(['belongs_to' => 'reseller'])->get();
+        $categories = Category::getAll();
         return view('livewire.pages.cproducts', compact('products', 'categories'));
     }
 }

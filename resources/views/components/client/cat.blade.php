@@ -1,5 +1,5 @@
 <div>
-    @props(['cat', 'active' => false,'height' => '180' ] )
+    @props(['cat', 'active' => false] )
     <style>
         .cat_box{
             position: relative;

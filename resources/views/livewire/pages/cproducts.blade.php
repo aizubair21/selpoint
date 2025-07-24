@@ -30,21 +30,20 @@
                 </div> --}}
 
                 <div class="md:flex w-full">
-                    <div style="width: 200px" class="px-3 hidden md:block">
+                    <div style="width: 300px" class="px-3 hidden md:block">
                         {{-- @livewire('reseller.resel.categories') --}}
-                        @foreach ($categories as $product)
-                            <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
-                                <x-client.cat :cat="$product" :height="80" :key="$product->id" />
-                            </div>
+                        @foreach ($categories as $item)
+                            {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
+                            <x-client.cat-loop :item="$item" :key="$item->id"  />
                         @endforeach
                     </div>
                     
                     <div class="flex block md:hidden px-3 mb-2 overflow-x-scroll" style="height:100px">
-                        @foreach ($categories as $product)
+                        {{-- @foreach ($categories as $product)
                             <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 130px); grid-gap:10px">
                                 <x-client.cat :cat="$product" :height="80" :key="$product->id" />
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
 
 

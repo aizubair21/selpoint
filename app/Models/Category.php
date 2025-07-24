@@ -16,13 +16,19 @@ class Category extends Model
         'belongs_to', // parent category ID
         'description',
         'status',
+        'slug',
     ];
     // relationships
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
+
+    public static function getAll()
+    {
+        return self::whereNull('belongs_to')->orderBy('name')->get();
+    }
+
     public function parent()
     {
         return $this->belongsTo(Category::class, 'belongs_to');

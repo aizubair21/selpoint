@@ -23,7 +23,15 @@ class Create extends Component
     public $name, $image, $account;
 
     // protected refresh listeners
-    public $parent_id, $categories = [];
+    public $parent_id, $categories = [], $slug;
+
+    public function updated($pro)
+    {
+        if ($pro == 'name') {
+            $this->slug = Str::slug($this->name);
+        }
+        // $this->getData();
+    }
 
 
     public function mount()
@@ -50,10 +58,13 @@ class Create extends Component
     protected function rules()
     {
         return [
-            'name' => 'required|max:50',
+            'name' => 'required|unique:categories,name|max:50',
             'image' => 'nullable|max:100',
+            'parent_id' => 'nullable|exists:categories,id',
+            'slug' => 'required|max:100|unique:categories,slug',
         ];
     }
+    // 'slug' => 'nullable|max:100|unique:categories,slug,' . $this->id . ',id',
     public function save()
     {
         if (!auth()->user()->can('category_add')) {
@@ -64,9 +75,8 @@ class Create extends Component
         $this->validate();
         category::create(
             [
-
                 'name' => $this->name,
-                'slug' => Str::slug($this->name),
+                'slug' => $this->slug ?: Str::slug($this->name),
                 'image' => $this->handleImageUpload($this->image, 'categories', null),
                 'user_id' => Auth::id(),
                 'belongs_to' => $this->parent_id ?: null,
