@@ -10,6 +10,7 @@ use App\Models\Category;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 #[layout('layouts.app')]
@@ -22,12 +23,18 @@ class Create extends Component
     public $name, $image, $account;
 
     // protected refresh listeners
-    // protected $listeners = ['$refresh'];
+    public $parent_id, $categories = [];
 
 
     public function mount()
     {
         $this->account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
+        $this->categories = Category::whereNull('belongs_to')
+            ->with(['children' => function ($query) {
+                $query->orderBy('name');
+            }, 'user'])
+            ->orderBy('name')
+            ->get();
         // dd($this->account);
     }
 
@@ -40,32 +47,36 @@ class Create extends Component
     }
 
 
-
     protected function rules()
     {
         return [
             'name' => 'required|max:50',
-            'image' => 'nullable|mims:jpg, png, jped|max:100',
+            'image' => 'nullable|max:100',
         ];
     }
     public function save()
     {
         if (!auth()->user()->can('category_add')) {
             $this->dispatch('warning', "You are not able to add category. ");
+            return;
         }
 
         $this->validate();
         category::create(
             [
+
                 'name' => $this->name,
+                'slug' => Str::slug($this->name),
                 'image' => $this->handleImageUpload($this->image, 'categories', null),
                 'user_id' => Auth::id(),
-                'belongs_to' => $this->account,
+                'belongs_to' => $this->parent_id ?: null,
             ]
         );
-        $this->reset();
-        $this->dispatch('refresh');
-        $this->dispatch('success', 'Category Created');
+        // $this->reset();
+        $this->dispatch('added');
+
+        // $this->dispatch('close-modal', 'category-create-modal');
+        // $this->dispatch('success', 'Category Created');
     }
 
     public function render()

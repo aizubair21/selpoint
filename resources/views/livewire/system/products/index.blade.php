@@ -10,7 +10,7 @@
                     <x-nav-link href="{{route('reseller.resel-product.index')}}">Browse</x-nav-link>
                 </div>
                 
-                <x-nav-link-btn wire:navigate href="{{route('system.products.filter')}}" >
+                <x-nav-link-btn >
                     <i class="fas fa-filter pr-2"></i> Filter
                 </x-nav-link-btn>
             </div>
