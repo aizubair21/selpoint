@@ -10,10 +10,13 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Support\Facades\Auth;
 use App\Models\user_has_refs;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
@@ -57,6 +60,21 @@ class User extends Authenticatable
         'bio', // about 
     ];
 
+
+
+    public $editAble = [
+        'name',
+        'email',
+        'phone',
+        'country_code',
+        'zip',
+        'line1',
+        'line2',
+
+        'dob', // date of birth
+        'bio', // about 
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -80,9 +98,39 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'metadata' => 'array',
+
+
         ];
     }
 
+    //  protected function name(): Attribute
+    // {
+    //     return Attribute::make(
+    //         set: fn ($value) => ucwords(strtolower($value)), // Capitalizes each word
+    //     );
+    // }
+
+
+    protected function state(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => ucwords(strtolower($value)), // Capitalizes each word
+        );
+    }
+
+    protected function city(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => ucwords(strtolower($value)), // Capitalizes each word
+        );
+    }
+
+    protected function country(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => strtoupper($value), // uppercase the world
+        );
+    }
 
     /**
      * give user default 'user' role 

@@ -31,7 +31,7 @@ new #[Layout('layouts.guest')] class extends Component
 
 ?>
 
-<div>
+<div class="bg-white p-3 w-full" style="max-width: 400px">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -45,16 +45,37 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         <!-- Password -->
+        {{-- add hide show password toggle --}}
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
+            <style>
+                .pasDiv{
+                    position: relative;
+                    width: 100%!important;
+                }
+                .showOrHide{
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
+                    position: absolute;
+                    top: 13px;
+                    right: 10px;
+                    /* transform: translateY(-50%); */
+                    /* background-color: #3498db; */
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            </style>
+            <div class="pasDiv" >
+                <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
+                    type="password"
+                    name="password"
+                    required autocomplete="current-password" />
+                            
+                <div onclick="showOrHide(this, '#password')" class="showOrHide">show</div>
+            </div>
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
+
+
 
         <!-- Remember Me -->
         <div class="block mt-4">
@@ -73,8 +94,8 @@ new #[Layout('layouts.guest')] class extends Component
                 </a>
             </div>
             @endif
-            <hr>
-            @endif
+        <hr>
+        @endif
         <div class="flex items-center justify-between mt-4">
             <x-nav-link class="text-center" wire:navigate href="/register" >Register</x-nav-link>
 
@@ -83,4 +104,16 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
+    <script>
+        function showOrHide(div, input) {
+            if (div.textContent === 'show') {
+                div.textContent = 'hide';
+                document.querySelector(input).type = 'text';
+            } else {
+                div.textContent = 'show';
+                document.querySelector(input).type = 'password';
+            }
+        }
+    </script>
+
 </div>

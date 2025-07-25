@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
     // route for user section 
     Route::get('/user/index', function () {
         return redirect()->route('user.dash');
-    })->name('user.index');
+    })->name('user.index')->middleware('verified');
 
 
     Route::get('/user', userPanel::class)->name('user.dash');

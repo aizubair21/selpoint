@@ -161,7 +161,7 @@ new class extends Component{
                                 </div>
                                 {{-- special permission  --}}
         
-                                <x-dropdown-link>
+                                <x-dropdown-link href="{{route('profile.edit')}}">
                                     Profile
                                 </x-dropdown-link>
                                 {{-- @if (Route::has('logout'))
