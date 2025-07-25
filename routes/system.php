@@ -8,6 +8,7 @@ use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
 use App\Livewire\Reseller\Categories\Index as CategoriesIndex;
 use App\Livewire\Reseller\Orders\Index as OrdersIndex;
+use App\Livewire\System\Categories\Edit as CategoriesEdit;
 use App\Livewire\System\Categories\Index as SystemCategoriesIndex;
 use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use App\Livewire\System\Comissions\Takes;
@@ -157,6 +158,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
      * Routes for manage syste categories
      */
     Route::get('/categories',  SystemCategoriesIndex::class)->name('categories.index');
+    Route::get('/categories/{cid}', CategoriesEdit::class)->name('categories.edit');
 
     /**
      * navigations

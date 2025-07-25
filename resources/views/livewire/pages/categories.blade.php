@@ -2,18 +2,16 @@
     {{-- Success is as dangerous as failure. --}}
     <x-dashboard.container>
         <div class="">
-            <div class="heading_container heading_center my-3">
-                <h2>
-                    Eruhi <span>Categories</span>
-                </h2>
+                    
+            <div>
+                <x-nav-link-btn href="{{route('products.index')}}">All Product</x-nav-link-btn>
+                <br>
             </div>
-            
             {{-- <div class="row"> --}}
-            <div style="display: grid; grid-template-columns:repeat(auto-fill, minmax(145px, 1fr));grid-gap: 10px;">
-                @foreach($categories as $product)
-                    <x-client.cat :cat="$product" :key="$product->id" />
-                @endforeach    
-            </div>
+            @foreach ($categories as $item)
+                <x-client.cat-loop :item="$item" :key="$item->ids" />
+            @endforeach  
+            {{-- </div> --}}
         </div>
     </x-dashboard.container>
 </div>

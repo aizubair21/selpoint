@@ -1,5 +1,5 @@
-@props(['item', 'loop' => 1])
-<div class="p-2 border-b border-gray-200 w-full hover:bg-gray-50 cursor-pointer flex justify-between items-start" x-data="{ open: false }">
+@props(['item', 'loop' => 1, 'collapse' => false])
+<div class="p-2 border-b border-gray-200 w-full hover:bg-gray-50 cursor-pointer flex justify-between items-start" x-data="{ open: {{ $collapse ? 'true' : 'false' }} }" >
     <div class="flex-1 ">
         <span class="pr-2" >{{$loop}} </span>  {{ Str::ucfirst($item->name)}}
 
@@ -20,7 +20,7 @@
                             </div>
                         </div> --}}
 
-                        <x-dashboard.chr :item="$child" :key="$child->id" :loop="$loop->iteration" />
+                        <x-dashboard.chr :item="$child" :key="$child->id" :loop="$loop->iteration" :collapse="$collapse" />
 
                         {{-- {{ $child->name }} --}}
                         
@@ -43,9 +43,9 @@
             <i x-show="!open" class="fas fa-caret-right"></i>
             <i x-show="open" class="fas fa-caret-down"></i>
         </div>
-        <a href="" class="text-blue-500 hover:underline mr-2">
+        <x-nav-link href="{{route('system.categories.edit', ['cid' => $item->id])}}" class="text-blue-500 hover:underline mr-2">
             <i class="fas fa-edit"></i>
-        </a>
+        </x-nav-link>
         <button wire:click="deleteCategory({{ $item->id }})" class="text-red-500 hover:underline">
             <i class="fas fa-trash"></i>
         </button>

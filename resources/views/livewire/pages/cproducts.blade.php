@@ -30,25 +30,42 @@
                 </div> --}}
 
                 <div class="md:flex w-full">
-                    <div style="width: 300px" class="px-3 hidden md:block">
+                    <div style="width: 300px" class=" bg-white p-3 hidden md:block">
                         {{-- @livewire('reseller.resel.categories') --}}
+                        <div>
+                            <x-nav-link-btn href="{{route('products.index')}}">All Product</x-nav-link-btn>
+                            <br>
+                        </div>
                         @foreach ($categories as $item)
-                            {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
+                        {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
                             <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
                         @endforeach
                     </div>
                     
-                    {{-- <div class="flex block md:hidden px-3 mb-2 overflow-x-scroll" style="height:100px"> --}}
-                        {{-- @foreach ($categories as $product)
-                            <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 130px); grid-gap:10px">
-                                <x-client.cat :cat="$product" :height="80" :key="$product->id" />
+                    <div class="block md:hidden px-3 bg-white mb-2 " x-data="{ open: false }">
+                        <div x-on:click="open = !open" class="flex justify-between items-center">
+                            <div>Categories</div>
+                            <div>
+                                <i x-show="open" class="fas fa-chevron-down"></i>
+                                <i x-show="!open" class="fas fa-chevron-up"></i>
                             </div>
-                        @endforeach --}}
-                    {{-- </div> --}}
+                        </div>
+                        <div x-show="open" x-collapse class=" border-t mt-2">
+                            <div>
+                                <x-nav-link-btn href="{{route('products.index')}}">All Product</x-nav-link-btn>
+                                <br>
+                            </div>
+                            <div>
+                                @foreach ($categories as $product)
+                                    <x-client.cat-loop :item="$product" :key="$product->id" :active="$cat == $product->slug" :cat="$cat" />
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
 
 
 
-                    <div class="md:px-5 w-full">
+                    <div class="px-2 w-full">
                         {{-- <x-client.products-loop :$products /> --}}
                         <div class="w-full" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
                             @foreach ($products as $product)

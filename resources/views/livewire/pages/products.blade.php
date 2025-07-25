@@ -7,25 +7,34 @@
     </div>
     <x-dashboard.container>
 
-        <div class="flex justify-start items-start">
-            {{-- <div style="width:200px" class=" mr-3">
+        <div class="lg:flex justify-start items-start">
+            <div style="width:300px" class="bg-white hidden md:block ">
+                {{-- @livewire('reseller.resel.categories') --}}
+                @livewire('pages.categories')
+                {{-- @foreach ($categories as $item)
+                <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" />
+                    <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
+                @endforeach --}}
+            </div>
 
-                filter 
-                <div class="text-xs text-gray-900">filter</div>
-                <div>
-                    <div class="py-1 flex items-center justify-start">
-                        <input type="checkbox" name="" style="width:20px; height:20px" id="">
-                        <div class="ps-3"> Include Discount </div>
-                    </div>
-                    <div class="py-1 flex items-center justify-start">
-                        <input type="checkbox" name="" style="width:20px; height:20px" id="">
-                        <div class="ps-3"> Without Discount </div>
+            <div class="block md:hidden p-2 border rounded-md mb-2 bg-white" x-data="{ open: false }">
+                <div x-on:click="open = !open" class="flex justify-between items-center">
+                    <div>Categories</div>
+                    <div>
+                        <i x-show="open" class="fas fa-chevron-down"></i>
+                        <i x-show="!open" class="fas fa-chevron-up"></i>
                     </div>
                 </div>
-
-            </div> --}}
+                <div x-show="open" x-collapse class="overflow-x-scroll border-t mt-2">
+                    {{-- @foreach ($categories as $item)
+                        <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
+                    @endforeach --}}
+                    @livewire('pages.categories')
+                            
+                </div>
+            </div>
             
-            <div class="w-full">
+            <div class="px-2 w-full">
                 
                 <div class="flex flex-wrap justify-between items-center mb-3">
                     

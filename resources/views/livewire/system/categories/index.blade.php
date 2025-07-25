@@ -19,9 +19,13 @@
                 </x-slot>
             </x-dashboard.section.header>
             <x-dashboard.section.inner>   
+                {{-- <div class="flex items-center justify-start items-center mb-4">
+                    <input wire:model.live="collapse" type="checkbox" style="width:20px; height:20px" />
+                    <label class="text-sm text-gray-600 ml-2">{{ __('Collase Open') }}</label>
+                </div>
+                <x-hr/> --}}
                 @foreach ($categories as $item)
-
-                    <x-dashboard.chr :item="$item" :key="$item->id" :loop="$loop->iteration" />
+                    <x-dashboard.chr :item="$item" :key="$item->id" :loop="$loop->iteration" :collapse="$collapse" />
                 @endforeach
             </x-dashboard.section.inner>
         </x-dashboard.section>

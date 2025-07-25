@@ -2,23 +2,23 @@
 {{-- @props(['item', 'active' => false]) --}}
 <div class="cat-item" x-data="{ open: true }">
     <div class="py-1 text-lg">
-        <div class="flex items-center justify-between {{ $active ? 'bg-gray-100' : '' }}">
+        <div class="flex items-center justify-between {{ $active ? 'bg-white' : '' }}">
             <div class="text-lg flex-1">
 
-                <x-nav-link class=" {{ $active ? 'text-indigo-900' : '' }} text-gray-900" href="{{ route('category.products', ['cat' => $item->slug]) }}">
+                <x-nav-link class=" {{ $active ? 'text-indigo-900' : '' }} text-gray-900 text-md" href="{{ route('category.products', ['cat' => $item->slug]) }}">
                     {{-- <i class="fas fa-chevron-right"></i> --}}
                     {{ Str::ucfirst( $item->name) }}
                 </x-nav-link>
                 
             </div>
-            <div class="text-sm text-gray-500" x-on:click="open = !open">
+            <div class="{{ $item->children->count() > 0 ? '' : 'hidden' }} text-sm text-gray-500" x-on:click="open = !open">
                 {{-- <i class="fas fa-chevron-right"></i> --}}
                 {{-- <i class="fas fa-chevron-right text-gray-500"></i> --}}
-                {{-- <i class="fas fa-chevron-right"></i> --}}
                 <i x-show="open" class="fas fa-chevron-down text-gray-500"></i>
                 <i x-show="!open" class=" {{ $active ? 'text-indigo-900' : '' }} fas fa-chevron-right"></i>
             </div>
-            
+            {{-- <i class=" {{ $item->children->count() > 0 ? '' : 'hidden' }} fas fa-chevron-right"></i> --}}
+
         </div>
     </div>
     @if ($item->children->count() > 0)

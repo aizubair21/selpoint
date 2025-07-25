@@ -109,7 +109,7 @@ new class extends Component
             <div class=" text-sm flex items-center">
                 Category:  
                 <div class="ps-3 text_primary bold rounded">
-                    <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->name])}}">
+                    <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->slug])}}">
                         {{$product->category?->name ?? "Undefined"}}
                     </a>
                 </div>

@@ -14,7 +14,7 @@ class Categories extends Component
 
     public function mount()
     {
-        $this->categories = Category::all();;
+        $this->categories = Category::getAll();;
     }
 
     public function render()
