@@ -10,6 +10,13 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
+    public string $phone = '';
+    public string $country = '';
+    public string $state = '';
+    public string $city = '';
+    public string $dob = '';
+    public string $bio = '';
+    public string $line1 = '';
 
     /**
      * Mount the component.
@@ -18,6 +25,14 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->phone = Auth::user()->phone;
+        $this->phone = Auth::user()->phone;
+        $this->country = Auth::user()->country;
+        $this->state = Auth::user()->state;
+        $this->city = Auth::user()->city;
+        $this->dob = Auth::user()->dob ?? '';
+        $this->bio = Auth::user()->bio ?? '';
+        $this->line1 = Auth::user()->line1 ?? '';
     }
 
     /**
@@ -30,7 +45,18 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'phone' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
+
+        // add other data to validate array
+        $validated['country'] = $this->country;
+        $validated['state'] = $this->state;
+        $validated['city'] = $this->city;
+        $validated['dob'] = $this->dob;
+        $validated['bio'] = $this->bio;
+        $validated['line1'] = $this->line1;
+    
+
 
         $user->fill($validated);
 
@@ -104,7 +130,42 @@ new class extends Component
                     @endif
                 </div>
             @endif
+
         </div>
+
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input wire:model="phone" id="phone" name="phone" type="text" class="mt-1 block w-full" required autocomplete="phone" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+      
+        <div>
+            <x-input-label for="country" :value="__('Country')" />
+            <x-text-input wire:model="country" id="country" name="country" type="text" class="mt-1 block w-full" required autocomplete="country" />
+            <x-input-error class="mt-2" :messages="$errors->get('cocuntry')" />
+        </div>
+        <div>
+            <x-input-label for="state" :value="__('State')" />
+            <x-text-input wire:model="state" id="state" name="state" type="text" class="mt-1 block w-full" required autocomplete="state" />
+            <x-input-error class="mt-2" :messages="$errors->get('state')" />
+        </div>
+        <div>
+            <x-input-label for="city" :value="__('City')" />
+            <x-text-input wire:model="city" id="city" name="city" type="text" class="mt-1 block w-full" required autocomplete="city" />
+            <x-input-error class="mt-2" :messages="$errors->get('city')" />
+        </div>
+        <div>
+            <x-input-label for="line1" :value="__('Address')" />
+            <x-text-input wire:model="line1" id="line1" name="line1" type="text" class="mt-1 block w-full"  autocomplete="line1" />
+            <x-input-error class="mt-2" :messages="$errors->get('line1')" />
+        </div>
+        <x-hr/>
+        <div>
+            <x-input-label for="dob" :value="__('Date of Birth')" />
+            <x-text-input wire:model="dob" id="dob" name="dob" type="date" class="mt-1 block w-full"  autocomplete="dob" />
+            <x-input-error class="mt-2" :messages="$errors->get('dob')" />
+        </div>
+       
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
