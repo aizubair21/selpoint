@@ -3,6 +3,7 @@
  
 use App\Models\cart;
 use App\Models\Navigations;
+use App\Models\Category;
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use Livewire\Attributs\On;
@@ -14,13 +15,15 @@ use function Livewire\Volt\{computed};
 
 new class extends Component {
 
-    public $count = 0, $navigations = [];
+    public $count = 0, $navigations = [], $categories = [];
     protected $listeners = ['$refresh'];
 
     public function mount() 
     {
         $this->count();
         $this->navigations = Navigations::with('links')->get();
+        // $this->categories = Category::where(['belongs_to' => false, 'slug' => 'default-category'])->orWhereNull('belongs_to')->get();
+        $this->categories = Category::getAll();
     }
     
     #[On('cart')]
@@ -99,22 +102,41 @@ new class extends Component {
                 <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
                    <div class="">
                        @volt()
-                            <div class=" flex items-start">
+                            <div class="" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); grid-gap:10px; max-width:1400px">
 
-                                @foreach ($navigations as $item)
+                                @foreach ($categories as $item)
+                                    {{-- <x-client.cat-loop :item="$item" :key="$item->ids" /> --}}
+                                    @if ($item->slug != 'default-category')
+                                        <div class="space-x-2 mx-1 text-start h-full p-2 " style="width:150px">
+                                            <x-nav-link class=" text-gray-900 text-xl" style="font-size: 16px" href="{{ route('category.products', ['cat' => $item->slug]) }}">
+                                                {{ Str::ucfirst( $item->name) }}
+                                                {{-- <i class="fas fa-chevron-right"></i> --}}
+                                            </x-nav-link>
 
-                                    <div class="text-start p-2 " style="width:150px">
-                                        <div class="font-bold pb-2">
-                                            {{$item->name ?? "N/A"}}
+                                            <div class="block">
+                                                @foreach ($item->children as $child)
+                                                    <div>
+                                                        {{-- <x-nav-link class="block">{{$child->name ?? "N/A"}}</x-nav-link> --}}
+                                                        <x-nav-link class=" text-gray-900 text-md" href="{{ route('category.products', ['cat' => $child->slug]) }}">
+                                                            {{-- <i class="fas fa-chevron-right"></i> --}}
+                                                            {{ Str::ucfirst( $child->name) }}
+                                                        </x-nav-link>
+                                                    </div>
+                                                    
+                                                    
+                                                    @foreach ($child->children as $sub)
+                                                        <div class="ms-3">
+                                                            <x-nav-link class=" text-gray-900 text-md" href="{{ route('category.products', ['cat' => $sub->slug]) }}">
+                                                                {{-- <i class="fas fa-chevron-right"></i> --}}
+                                                                {{ Str::ucfirst( $sub->name) }}
+                                                            </x-nav-link>
+                                                        </div>
+                                                    @endforeach
+                                                @endforeach
+                                                
+                                            </div>
                                         </div>
-
-                                        <div class="block">
-                                            @foreach ($item->links as $nl)    
-                                                <x-nav-link :href="$nl->url" class="block">{{$nl->name ?? "N/A"}}</x-nav-link>
-                                            @endforeach
-                                            
-                                        </div>
-                                    </div>
+                                    @endif
 
                                 @endforeach
                             </div>
@@ -326,7 +348,7 @@ new class extends Component {
         @volt()
             <div>
 
-                @foreach ($navigations as $item)    
+                @foreach ($categories as $item)
                     <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
                         {{-- btn  --}}
                         <button class="flex justify-between items-center w-full" x-on:click="display = !display">
@@ -337,13 +359,14 @@ new class extends Component {
 
                         {{-- content  --}}
                         <div x-show="display">
-                            @foreach ($item->links as $il)
+                            <x-client.cat-loop :item="$item" :key="$item->ids" />
+                            {{-- @foreach ($item->links as $il)
                                 
                                 <div class="py-1">
                                     <x-nav-link class="block"> {{$il->name ?? "N/A"}} </x-nav-link>
                                 </div>
                                 
-                            @endforeach
+                            @endforeach --}}
                             {{-- <div class="py-1">
                                 <x-nav-link class="block">Home</x-nav-link>
                             </div>

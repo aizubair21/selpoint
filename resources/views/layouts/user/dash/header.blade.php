@@ -109,7 +109,7 @@ new class extends Component{
                                     @php
                                         $roles = auth()->user()->getRoleNames();
                                     @endphp
-                                    @if (count($roles) > 0)
+                                    @if (count($roles) > 1)
                                         <x-dropdown-link class="bold" target="_blank" :href="route('dashboard')">
                                             Go To Dashboard
                                         </x-dropdown-link>
