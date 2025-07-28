@@ -26,6 +26,11 @@ class Create extends Component
             $vi = reseller::where(['user_id' => Auth::id()])->orderBy('id', 'desc')->first();
         }
 
+        $this->phone = Auth::user()->phone;
+        $this->country = Auth::user()->country;
+        $this->district = Auth::user()->state;
+        $this->upozila = Auth::user()->city;
+
         if ($vi && $vi->status == 'Pending') {
             session()->flash('info', 'Unable to request again, your request is pending');
             $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);

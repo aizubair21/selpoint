@@ -20,6 +20,7 @@ new #[Layout('layouts.guest')] class extends Component
     public $country = '';
     public $city = '';
     public $state = '';
+    public $country_code = '';
 
     
 
@@ -48,6 +49,9 @@ new #[Layout('layouts.guest')] class extends Component
             $validated['currency'] = 'USD';
             $validated['currency_sing'] = '$';
         }
+
+        // set country code
+        $validated['country_code'] = $this->country_code;
         
 
         //validate the reference 
@@ -156,15 +160,39 @@ new #[Layout('layouts.guest')] class extends Component
                 </div>
 
             </div>
+                {{-- <div>
+                    <input type="search" id="country_list" name="country_list" list="country_lists">
+                    <datalist id="country_lists">
+                        <option value="Ban" />
+                        <option value="Ind" />
+                        <option value="Jap" />
+                    </datalist>
+                </div>
+
+                <label for="browser">Choose your browser from the list:</label>
+                <input list="browsers" name="browser" id="browser">
+
+                <datalist id="browsers">
+                <option value="Edge">
+                <option value="Firefox">
+                <option value="Chrome">
+                <option value="Opera">
+                <option value="Safari">
+                </datalist> --}}
+
             <div>
                 {{-- country field  --}}
                 <div class="mt-4">
                     <x-input-label for="country" value='Your Country'></x-input-label>
-                    <p class="text-sm text-gray-600">Please select your country.</p>
-        
-                    {{-- <x-text-input wire:model="country" id="country" class="block mt-1 w-full"
+                    {{-- <p class="text-sm text-gray-600">Please select your country.</p> --}}
+                    
+                    {{-- <x-text-input type="search" list="countries" wire:model="country" id="country" class="block mt-1 w-full"
                                     type="text"
-                                    name="country" /> --}}
+                                    name="country" />
+                        <datalist id="countries">
+                            <option value="Bangladesh" data-con='BD' />
+                        </datalist> --}}
+                    <input type="hidden" wire:model.live="country_code" id="country_code" />
                     <select wire:model="country" id="select_country" class="rounded border-0 ring-1 block mt-1 w-full">
                         <option value="">Select your country</option>
                     </select>                    
@@ -259,7 +287,7 @@ new #[Layout('layouts.guest')] class extends Component
             }
         }
 
-
+        let countryCode = '';
         function getCountryStateCity() {
             const countrySelectElement = document.getElementById('select_country');
             const stateSelectElement = document.getElementById("select_state");
@@ -275,7 +303,8 @@ new #[Layout('layouts.guest')] class extends Component
                 .then(res => {
                     res.data.forEach(cntry => {
                         let option = document.createElement("option");
-                        option.value = cntry.iso2;
+                        option.value = cntry.name;
+                        option.setAttribute('data-iso2', cntry.iso2);
                         option.textContent = cntry.name;
                         countrySelectElement.appendChild(option);
                     })
@@ -285,8 +314,14 @@ new #[Layout('layouts.guest')] class extends Component
                 })
 
             //if country change call api for state data
-            countrySelectElement.addEventListener('change', (e) => {
-                countryCode = e.target.value;
+            countrySelectElement.addEventListener('change', function () {
+                const sop = this.options[this.selectedIndex];
+                countryCode = sop.getAttribute('data-iso2');
+                // set the country code to the hidden input
+                
+                // countryCode2 = e.getAttribute('data-iso2');
+                // console.log(countryCode);
+                
                 if (countryCode == "BD") {
                     // console.log("Bangladesh selected");
                     stateSelectElement.style.display = 'none';
@@ -342,7 +377,7 @@ new #[Layout('layouts.guest')] class extends Component
 
             //if change state call api for city
             stateSelectElement.addEventListener("input", (e) => {
-                let countryCode = document.getElementById('select_country').value;
+                // let countryCode = document.getElementById('select_country').getAttribute('data-iso2');
                 let cityCode = e.target.value;
                 // console.log(countryCode, cityCode);
                 axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states/" + cityCode + "/cities", {
@@ -369,12 +404,18 @@ new #[Layout('layouts.guest')] class extends Component
 
 
         document.getElementById('select_country').addEventListener('click', (e) =>{
-            let countryCode = e.target.value;
+            // let countryCode = e.getAttribute('data-iso2');
             if(e.target.children.length == 1){
                 getCountryStateCity();
             };
             
         });
+
+        // document.getElementById('country').addEventListener('change', (e) => {
+        //     console.log(e.target.data);
+            
+        // })
+
         // getCountryStateCity();
     </script>
 </div>

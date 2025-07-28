@@ -75,106 +75,106 @@ Route::middleware('auth')->group(function () {
     volt::route('logout', 'pages.auth.logout')->name('logout');
 
 
-    Route::middleware('verified')->group(function () {
+    // Route::middleware('verified')->group(function () {
 
-        // route for user section 
-        Route::get('/user/index', function () {
-            return redirect()->route('user.dash');
-        })->name('user.index');
+    // route for user section 
+    Route::get('/user/index', function () {
+        return redirect()->route('user.dash');
+    })->name('user.index');
 
-        Route::get('/users/edit', Edit::class)->name('edit.profile');
+    Route::get('/users/edit', Edit::class)->name('edit.profile');
 
-        Route::get('/user', userPanel::class)->name('user.dash');
-        Route::prefix('/user/upgrade')->group(function () {
-            Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
-            Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
-            Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');
-            Route::get('/{id}/edit', upgradeToVendorEdit::class)->name('upgrade.vendor.edit');
-            Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
-            Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
-
-
-            Route::get('/rider', upgradeToRiderIndex::class)->name('upgrade.rider.index');
-            Route::get('/rider/create', upgradeToRiderCreate::class)->name('upgrade.rider.create');
-            Route::get('/rider/{id}/edit', upgradeToRiderEdit::class)->name('upgrade.rider.edit');
-        });
-
-        Route::prefix('user')->group(function () {
-            Route::get('carts', Carts::class)->name('carts.view');
-            Route::get('orders', Orders::class)->name('user.orders.view');
-            Route::get('orders/details/{id}', Details::class)->name('user.orders.details');
-
-            Route::get('carts/checkout', CartCheckout::class)->name('user.carts.checkout');
-
-            // vip 
-            Route::get('vip', Index::class)->name('user.vip.index');
-            Route::get('vip/packages', PackageIndex::class)->name('user.vip.package');
-            Route::get('vip/packages/{id}', Checkout::class)->name('user.package.checkout');
-            // Route::get('vip/packages/{id}/cancle', function ($id) {
-            //     dd(vip::find($id));
-            // })->name('user.package.cancle');
+    Route::get('/user', userPanel::class)->name('user.dash');
+    Route::prefix('/user/upgrade')->group(function () {
+        Route::get('/', upgradeToVendorIndex::class)->name('upgrade.vendor.index');
+        Route::get('/create', upgradeToVendorCreate::class)->name('upgrade.vendor.create');
+        Route::post('/store', [VendorController::class, 'upgradeStore'])->name('upgrade.vendor.store');
+        Route::get('/{id}/edit', upgradeToVendorEdit::class)->name('upgrade.vendor.edit');
+        Route::post('/{id}/update', [VendorController::class, 'upgradeUpdate'])->name('upgrade.vendor.update');
+        Route::post('/{id}/update-document', [VendorController::class, 'upgradeUpdateDocument'])->name('upgrade.vendor.updateDocument');
 
 
-            Route::get('/ref', Refs::class)->name('user.ref.view');
-
-            // user wallet
-            Route::get('/wallet', WalletIndex::class)->name('user.wallet.index');
-            Route::get('/wallet/comissions/earn', EarnComissions::class)->name('user.wallet.earn-comissions');
-            Route::get('/wallet/tasks', Task::class)->name('user.wallet.tasks');
-            // Route::get('/wallet/comissions/cut', SystemTakeComission::class)->name('user.wallet.system-comissions');
-            Route::get('/wallet/reffer/vip', Reffer::class)->name('user.wallet.reffer');
-
-            // user withdraw 
-            Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
-            Route::get('/withdraw/create', Create::class)->name('user.wallet.withdraw.create');
-            Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
-
-            // user deposit 
-            Route::get('/diposit', History::class)->name('user.wallet.diposit');
-            Route::get('/diposit/create', History::class)->name('user.wallet.diposit.create');
-
-
-            /**
-             * add comment to product
-             */
-
-            Route::post('/products/comments', [ProductController::class, 'storeComment'])->name('user.comment.store');
-            Route::post('/products/comments/{id}/destroy', function ($id) {
-                try {
-                    //code...
-                    Products_has_comments::destroy($id);
-                } catch (\Throwable $th) {
-                    //throw $th;
-                    return redirect()->back()->with('error', $th->getMessage());
-                }
-                return redirect()->back();
-            })->name('user.comment.destroy');
-        });
-
-        Route::prefix('dashboard')->group(function () {
-
-
-            include('system.php'); // include all routes for system
-
-            include('vendor.php'); // include all route for vendor
-
-            include('reseller.php'); // include all route for reseller
-
-            // role and permission manage
-            Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
-            // Route::get('roles', roleIndexPage::class)->name('system.role.list')->middleware(AbleTo::class . ':role_list');
-            Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
-            Route::post('role-to-users', [RoleController::class, 'multiple_user_to_single_role'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user'); // single role to multiple users
-
-            /**
-             * user to role
-             */
-            Route::post('user-to-roles', [RoleController::class, 'multiple_role_to_single_user'])->name('multiple_role_to_single_user')->middleware(AbleTo::class . ':sync_role_to_user'); // multiple role to single user
-            Route::post('permissions/{role}/to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
-            Route::post('permissions/{user}/to-user', [RoleController::class, 'system_give_permission_to_user'])->name('system.permissions.to-user')->middleware(AbleTo::class . ':sync_permission_to_role');
-
-
-            // Route::get('/comissions')->name('comissions');
-        });
+        Route::get('/rider', upgradeToRiderIndex::class)->name('upgrade.rider.index');
+        Route::get('/rider/create', upgradeToRiderCreate::class)->name('upgrade.rider.create');
+        Route::get('/rider/{id}/edit', upgradeToRiderEdit::class)->name('upgrade.rider.edit');
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('carts', Carts::class)->name('carts.view');
+        Route::get('orders', Orders::class)->name('user.orders.view');
+        Route::get('orders/details/{id}', Details::class)->name('user.orders.details');
+
+        Route::get('carts/checkout', CartCheckout::class)->name('user.carts.checkout');
+
+        // vip 
+        Route::get('vip', Index::class)->name('user.vip.index');
+        Route::get('vip/packages', PackageIndex::class)->name('user.vip.package');
+        Route::get('vip/packages/{id}', Checkout::class)->name('user.package.checkout');
+        // Route::get('vip/packages/{id}/cancle', function ($id) {
+        //     dd(vip::find($id));
+        // })->name('user.package.cancle');
+
+
+        Route::get('/ref', Refs::class)->name('user.ref.view');
+
+        // user wallet
+        Route::get('/wallet', WalletIndex::class)->name('user.wallet.index');
+        Route::get('/wallet/comissions/earn', EarnComissions::class)->name('user.wallet.earn-comissions');
+        Route::get('/wallet/tasks', Task::class)->name('user.wallet.tasks');
+        // Route::get('/wallet/comissions/cut', SystemTakeComission::class)->name('user.wallet.system-comissions');
+        Route::get('/wallet/reffer/vip', Reffer::class)->name('user.wallet.reffer');
+
+        // user withdraw 
+        Route::get('/withdraw', WithdrawIndex::class)->name('user.wallet.withdraw');
+        Route::get('/withdraw/create', Create::class)->name('user.wallet.withdraw.create');
+        Route::post('/withdraw/store', [WithdrawController::class, 'storeFromUser'])->name('user.wallet.withdraw.store');
+
+        // user deposit 
+        Route::get('/diposit', History::class)->name('user.wallet.diposit');
+        Route::get('/diposit/create', History::class)->name('user.wallet.diposit.create');
+
+
+        /**
+         * add comment to product
+         */
+
+        Route::post('/products/comments', [ProductController::class, 'storeComment'])->name('user.comment.store');
+        Route::post('/products/comments/{id}/destroy', function ($id) {
+            try {
+                //code...
+                Products_has_comments::destroy($id);
+            } catch (\Throwable $th) {
+                //throw $th;
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+            return redirect()->back();
+        })->name('user.comment.destroy');
+    });
+
+    Route::prefix('dashboard')->group(function () {
+
+
+        include('system.php'); // include all routes for system
+
+        include('vendor.php'); // include all route for vendor
+
+        include('reseller.php'); // include all route for reseller
+
+        // role and permission manage
+        Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
+        // Route::get('roles', roleIndexPage::class)->name('system.role.list')->middleware(AbleTo::class . ':role_list');
+        Route::get('roles/edit', [RoleController::class, 'admin_edit'])->name('system.role.edit')->middleware(AbleTo::class . ":role_edit");
+        Route::post('role-to-users', [RoleController::class, 'multiple_user_to_single_role'])->name('system.role.to-user')->middleware(AbleTo::class . ':sync_role_to_user'); // single role to multiple users
+
+        /**
+         * user to role
+         */
+        Route::post('user-to-roles', [RoleController::class, 'multiple_role_to_single_user'])->name('multiple_role_to_single_user')->middleware(AbleTo::class . ':sync_role_to_user'); // multiple role to single user
+        Route::post('permissions/{role}/to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
+        Route::post('permissions/{user}/to-user', [RoleController::class, 'system_give_permission_to_user'])->name('system.permissions.to-user')->middleware(AbleTo::class . ':sync_permission_to_role');
+
+
+        // Route::get('/comissions')->name('comissions');
+    });
+    // });
 });

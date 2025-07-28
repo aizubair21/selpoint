@@ -23,13 +23,13 @@ new class extends Component
      */
     public function mount(): void
     {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
-        $this->phone = Auth::user()->phone;
-        $this->phone = Auth::user()->phone;
-        $this->country = Auth::user()->country;
-        $this->state = Auth::user()->state;
-        $this->city = Auth::user()->city;
+        $this->name = Auth::user()->name ?? '';
+        $this->email = Auth::user()->email ?? '';
+        $this->phone = Auth::user()->phone ?? '';
+        $this->phone = Auth::user()->phone ?? '';
+        $this->country = Auth::user()->country ?? '';
+        $this->state = Auth::user()->state ?? '';
+        $this->city = Auth::user()->city ?? '';
         $this->dob = Auth::user()->dob ?? '';
         $this->bio = Auth::user()->bio ?? '';
         $this->line1 = Auth::user()->line1 ?? '';
@@ -46,6 +46,8 @@ new class extends Component
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'phone' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'country' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
         ]);
 
         // add other data to validate array
@@ -141,7 +143,9 @@ new class extends Component
       
         <div>
             <x-input-label for="country" :value="__('Country')" />
-            <x-text-input wire:model="country" id="country" name="country" type="text" class="mt-1 block w-full" required autocomplete="country" />
+            <x-text-input wire:model="country" id="country" name="country" type="search" list="countries" class="mt-1 block w-full" required autocomplete="country" />
+            <datalist id="countries">
+            </datalist>
             <x-input-error class="mt-2" :messages="$errors->get('cocuntry')" />
         </div>
         <div>
@@ -175,4 +179,36 @@ new class extends Component
             </x-action-message>
         </div>
     </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+    <script>
+        const cntry = [];
+        axios.get("https://api.countrystatecity.in/v1/countries", {
+                    headers: {
+                        "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
+                    }
+                })
+                .then(res => {
+
+                    res.data.forEach(cntry => {
+                        let option = document.createElement("option");
+                        option.value = cntry.name;
+                        option.setAttribute('data-iso2', cntry.iso2);
+                        option.textContent = cntry.name;
+                        document.getElementById('countries').appendChild(option);
+                    });
+                })
+                .then(error => {
+                    console.log(error);
+                })
+        
+        // let countryCode = '';
+        // function getCountryStateCity() {
+        //     const countrySelectElement = document.getElementById('country');
+        //     const stateSelectElement = document.getElementById("state");
+        //     const citySelectElement = document.getElementById("city");
+        //     const countryCode = countrySelectElement.options[countrySelectElement.selectedIndex].getAttribute('data-iso2');
+        //     console.log(countryCode);
+        // }
+    </script>
 </section>

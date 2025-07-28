@@ -14,8 +14,8 @@
 
     <x-dashboard.section>
     <x-dashboard.section.inner>
-
-        <x-input-field class="md:flex" :data="$data??[]" wire:model.live="country" label="Your Country" name="country" error="country" />
+        <p class="my-1">Shop Location</p>
+        <x-input-field class="md:flex" :data="$data??[]" wire:model.live="country" label="Country" name="country" error="country" />
         <x-input-field class="md:flex" :data="$data??[]" wire:model.live="district" label="District/State" name="district" error="district" />
         <x-input-field class="md:flex" :data="$data??[]" wire:model.live="upozila" label="Upozila/ City" name="upozila" error="upozila" />
         <x-input-field class="md:flex" :data="$data??[]" wire:model.live="village" label="Village" name="village" error="village" />
