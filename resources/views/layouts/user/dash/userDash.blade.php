@@ -14,7 +14,7 @@
          @isset($site_title)
             @yield('site_title')
          @else 
-            {{config('app.name')}}
+            <x-application-name />
          @endisset
       </title>
 

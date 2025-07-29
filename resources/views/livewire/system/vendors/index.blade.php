@@ -114,10 +114,11 @@
                     <thead>
                         <tr>
                             <th>SL</th>
+                            <th>ID</th>
                             <th>Name</th>
+                            <th>Contact</th>
                             <th>Status</th>
                             <th>Commission</th> 
-                            <th>Category</th>
                             <th>Product</th>
                             <th>Join</th>
                             <th>Action</th>
@@ -129,6 +130,7 @@
                             @foreach ($vendors as $key => $vendor)    
                                 <tr>
                                     <td> {{$loop->iteration}} </td>
+                                    <td>{{$vendor->id }}</td>
                                     <td>
                                         <div class="text-nowrap">
                                             {{$vendor->user?->name ?? "N/A"}}
@@ -136,13 +138,31 @@
                                         <div class="badge badge-info text-nowrap"> {{$vendor->shop_name_en ?? "N/A"}} </div>
                                     </td>
                                     <td>
+                                        <div class="text-nowrap">
+                                            {{$vendor->user?->email ?? "N/A"}}
+                                        </div>
+                                        <div class="text-nowrap">
+                                            {{$vendor->user?->phone ?? "N/A"}}
+                                        </div>
+                                        <div class="text-nowrap">
+                                             {{$vendor->user?->upazila ?? "N/A"}}, {{$vendor->user?->district ?? "N/A"}}, {{$vendor->user?->country ?? "N/A"}}
+                                        </div>
+                                    </td>
+                                    <td>
                                         {{$vendor->status ?? "N/A"}}
                                     </td>
                                     <td>
-                                        <span class="badge badge-success"> {{$vendor->system_get_comission ?? "N/A"}} </span>
+                                        <span class="badge badge-success"> {{$vendor->system_get_comission ?? "N/A"}} </span> %
+                                        {{-- <span>  </span> --}}
                                     </td>
-                                    <td>10</td>
-                                    <td>100</td>
+                                    <td>
+                                        <span class="badge badge-info">
+                                            {{$vendor->products_count ?? 0}}
+                                        </span>
+                                        <x-nav-link href="{{route('system.products.index', ['find' => $vendor->id, 'from' => 'vendor'])}}">
+                                            View
+                                        </x-nav-link>
+                                    </td>
                                     <td> {{$vendor->created_at?->toFormattedDateString()}} </td>
                                     <td>
                                         {{-- <form action="{{route('system.vendor.edit', ['id' => $vendor->id])}}" method="get">

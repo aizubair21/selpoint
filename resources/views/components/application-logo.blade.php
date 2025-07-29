@@ -1,1 +1,1 @@
-<img height="auto" width="" src="{{asset('logo.png')}}" alt="">
+<img height="auto" {{$attributes}} src="{{asset('icon.png')}}" alt="">

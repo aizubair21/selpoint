@@ -19,7 +19,7 @@ class Create extends Component
 
     #[Validate]
     public $products = [], $thumb, $categories, $attr = [];
-    public $belongs_to;
+    public $belongs_to, $shop, $ableToCreate = true;
 
     protected function rules()
     {
@@ -53,6 +53,27 @@ class Create extends Component
         }
         // dd($this->account);
 
+        if ($this->belongs_to == 'reseller') {
+            $this->shop = auth()->user()->resellerShop();
+        }
+
+        if ($this->belongs_to == 'vendor') {
+            $this->shop = auth()->user()->vendorShop();
+        };
+
+        // dd($this->shop);
+
+        if (!$this->shop) {
+            $this->dispatch('error', 'You must have a shop to create a product');
+            return redirect()->route('vendor.shops.create');
+        }
+
+        // if max products reached
+        if (auth()->user()->myProducts()->count() >= $this->shop->max_product_upload) {
+            $this->dispatch('error', 'You have reached the maximum number of products allowed for your shop.');
+            $this->ableToCreate = false;
+        }
+
         $this->categories = Category::getAll();
     }
 
@@ -60,6 +81,12 @@ class Create extends Component
 
     public function create()
     {
+
+        if (auth()->user()->myProducts()->count() >= $this->shop->max_product_upload) {
+            $this->dispatch('error', 'You have reached the maximum number of products allowed for your shop.');
+            $this->ableToCreate = false;
+            return;
+        }
         $this->validate();
         $data = array_merge(
             $this->products,

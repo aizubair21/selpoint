@@ -5,7 +5,11 @@
         <br>    
         <div>
             <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link>
-            <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-product.*')" >Vendor Product</x-nav-link>
+            {{-- if ther user is reseller then show this link --}}
+            @if (auth()->user()->hasRole('reseller'))
+                <x-nav-link href="{{route('reseller.resel-products.index')}}" :active="request()->routeIs('reseller.resel-products.*')" >Reseller Product</x-nav-link>
+            @endif
+            {{-- <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-product.*')" >Vendor Product</x-nav-link> --}}
         </div>
     </x-dashboard.page-header>
 

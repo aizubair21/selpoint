@@ -113,6 +113,7 @@
                     <thead>
                         <tr>
                             <th>SL</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
                             <th>Commission</th> 
@@ -128,6 +129,7 @@
                             @foreach ($vendors as $key => $vendor)    
                                 <tr>
                                     <td> {{$loop->iteration}} </td>
+                                    <td>{{$vendor->id }}</td>
                                     <td>
                                         <div class="text-nowrap">
                                             {{$vendor->user?->name ?? "N/A"}}

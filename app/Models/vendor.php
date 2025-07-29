@@ -47,6 +47,10 @@ class vendor extends Model
         'system_get_comission',
         'information_update_date',
         'status',
+
+        'allow_max_product_upload',
+        'max_product_upload',
+        'can_resell_products'
     ];
 
     /**

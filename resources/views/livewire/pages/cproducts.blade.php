@@ -3,11 +3,7 @@
     @livewire('pages.slider')
     <x-dashboard.container>
         <div class="container">
-            <div class="heading_container heading_center">
-                <h2>
-                    Eruhi <span>Marketplace</span>
-                </h2>
-            </div>
+            @includeIf('components.client.common-heading')
 
             <div class="flex justify-start items-center py-3 border-y mb-3">
                 <i class="fas fa-home pe-2"></i>

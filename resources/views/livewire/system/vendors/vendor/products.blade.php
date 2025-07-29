@@ -93,7 +93,7 @@
         </x-dashboard.overview.section>
 
 
-        @livewire('system.products.index', ['id' => $vendor->id, 'get_from' => 'vendor'], key($vendor->id))
+        @livewire('system.products.index', ['find' => $vendor->id, 'from' => 'vendor'], key($vendor->id))
     </x-dashboard.container>
 
 </div>

@@ -12,6 +12,7 @@ new class extends Component
     public string $email = '';
     public string $phone = '';
     public string $country = '';
+    public String $country_code = '';
     public string $state = '';
     public string $city = '';
     public string $dob = '';
@@ -28,6 +29,7 @@ new class extends Component
         $this->phone = Auth::user()->phone ?? '';
         $this->phone = Auth::user()->phone ?? '';
         $this->country = Auth::user()->country ?? '';
+        $this->country_code = Auth::user()->country_code ?? '';
         $this->state = Auth::user()->state ?? '';
         $this->city = Auth::user()->city ?? '';
         $this->dob = Auth::user()->dob ?? '';
@@ -52,6 +54,7 @@ new class extends Component
 
         // add other data to validate array
         $validated['country'] = $this->country;
+        $validated['country_code'] = $this->country_code;
         $validated['state'] = $this->state;
         $validated['city'] = $this->city;
         $validated['dob'] = $this->dob;
@@ -143,7 +146,13 @@ new class extends Component
       
         <div>
             <x-input-label for="country" :value="__('Country')" />
-            <x-text-input wire:model="country" id="country" name="country" type="search" list="countries" class="mt-1 block w-full" required autocomplete="country" />
+            <div class="flex">
+                {{-- <input type="text" disabled class="border-0" style="width:60px" wire:model.live="country_code" id="country_code" /> --}}
+                {{-- <x-text-input wire:model="country" id="select_country" name="country" type="search" list="countries" class="border-0 mt-1 block w-full" required autocomplete="country" /> --}}
+                <select name="" id="select_country" wire:model="country" class="rounded border-0 ring-1 block mt-1 w-full">
+                    <option value="">Select your country</option>
+                </select>
+            </div>
             <datalist id="countries">
             </datalist>
             <x-input-error class="mt-2" :messages="$errors->get('cocuntry')" />
@@ -182,33 +191,54 @@ new class extends Component
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
     <script>
-        const cntry = [];
-        axios.get("https://api.countrystatecity.in/v1/countries", {
-                    headers: {
-                        "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
-                    }
-                })
-                .then(res => {
 
-                    res.data.forEach(cntry => {
-                        let option = document.createElement("option");
-                        option.value = cntry.name;
-                        option.setAttribute('data-iso2', cntry.iso2);
-                        option.textContent = cntry.name;
-                        document.getElementById('countries').appendChild(option);
-                    });
-                })
-                .then(error => {
-                    console.log(error);
-                })
+        function getCountryStateCity(country = '') {
+            axios.get("https://api.countrystatecity.in/v1/countries", {
+                headers: {
+                    "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
+                }
+            })
+            .then(res => {
+
+                res.data.forEach(cntry => {
+                    let option = document.createElement("option");
+                    option.value = cntry.name;
+                    option.setAttribute('data-iso2', cntry.iso2);
+
+                    // set the country code to the hidden input
+
+                    // make selected if country is already set
+                    if (country) {
+                        // country = cntry.name;
+                        if (cntry.name.toUpperCase() == country.toUpperCase()) {
+                            option.selected = true;
+                        }
+                    }
+                    option.textContent = cntry.name;
+                    document.getElementById('select_country').appendChild(option);
+                });
+            })
+            .then(error => {
+                console.log(error);
+            })
+        }
         
-        // let countryCode = '';
-        // function getCountryStateCity() {
-        //     const countrySelectElement = document.getElementById('country');
-        //     const stateSelectElement = document.getElementById("state");
-        //     const citySelectElement = document.getElementById("city");
-        //     const countryCode = countrySelectElement.options[countrySelectElement.selectedIndex].getAttribute('data-iso2');
-        //     console.log(countryCode);
-        // }
+        document.getElementById('select_country').addEventListener('change', function (e) {
+            const sop = this.options[this.selectedIndex];
+            countryCode = sop.getAttribute('data-iso2');
+            // set the country code to the hidden input
+            document.getElementById('country_code').value = countryCode;
+            console.log(countryCode);
+            // getCountryStateCity();
+        });
+
+        document.getElementById('select_country').addEventListener('click', (e) =>{
+            // let countryCode = e.getAttribute('data-iso2');
+            if(e.target.children.length == 1){
+                getCountryStateCity();
+            };
+            
+        });
+        getCountryStateCity('{{ $country }}');
     </script>
 </section>

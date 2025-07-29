@@ -55,7 +55,7 @@
             .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: unset;
             position: absolute;
             z-index: 0;
             top: 0;
@@ -63,17 +63,20 @@
             }
 
             .description {
-            position: relative;
-            z-index: 1;
-            max-width: 400px;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 30px;
-            margin-left: 40px;
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.6s linear, transform 0.6s linear;
-            /* filter:blur() */
+                position: relative;
+                z-index: 1;
+                max-width: 400px;
+                color: #000000;
+                background: #002c3e09;
+                padding: 30px;
+                margin-left: 40px;
+                opacity: 0;
+                transform: translateX(-50px);
+                transition: opacity 0.6s linear, transform 0.6s linear;
+                /* filter: blur(10px); */
+                backdrop-filter: blur(8px);
+                border-radius: 10px;
+                overflow: hidden;
             }
 
             .slide.active .description {
@@ -142,18 +145,26 @@
             <div class="slider">
                 <div class="slides">
                     @foreach ($slides as $key => $item)      
-                    {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
                     <div class="slide {{ $key == 0 ? 'active' : '' }}">
-                        <img src="{{asset('storage'."/".$item->image)}}" />
+                        {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
+                        <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation class="slide-link">
+                            {{-- <img src="https://placehold.co/600x400/orange/white" /> --}}
+                            <img src="{{asset('storage'."/".$item->image)}}" />
+                        </a>
                         @if ($item->main_title)
-                            <div class="description">        
-                                <h1>{{$item->main_title }}</h1>
-                                <p>{{$item->description }}</p>
-                                @if ($item->action_url)
-                                    <a href="{{$item->action_url}}" class="btn">Shop Now</a>
-                                @else
-                                    <a href="{{route('products.index')}}" class="btn">Shop Now</a>
-                                @endif
+                            <div class="description hidden md:block">
+                                {{-- <div class="description"> --}}
+                                <div>
+
+                                    <h1>{{$item->main_title }}</h1>
+                                    <p class="hidden md:block" >{{$item->description }}</p>
+                                    {{-- @if ($item->action_url)
+                                        <a href="{{$item->action_url}}" class="btn">Shop Now</a>
+                                    @else
+                                        <a href="{{route('products.index')}}" class="btn">Shop Now</a>
+                                    @endif --}}
+                                
+                                </div>
                             </div>
                         @endif
                     </div>

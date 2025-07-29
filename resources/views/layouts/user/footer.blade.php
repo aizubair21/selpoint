@@ -5,7 +5,13 @@
             <div class="py-4">
                 <div class="w-full">
                     <div class="logo_footer">
-                        <x-nav-link href="/"><img width="100px!important" src="{{asset('logo.png')}}" alt="#" /></x-nav-link>
+                       <a wire:navigate href="/" class="flex items-center">
+                            <img height="50px" width="60px" src="{{asset('icon.png')}}" alt="">
+                            <div class="ps-2 text-lg font-bold">
+                                {{-- app name  --}}
+                                <x-application-name />
+                            </div>
+                        </a>
                     </div>
                     <div class="information_f widget_menu ">
                         <p><strong>ADDRESS:</strong> Uttara-10, Dhaka</p>

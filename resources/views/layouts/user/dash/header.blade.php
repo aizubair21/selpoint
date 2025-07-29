@@ -66,7 +66,13 @@ new class extends Component{
         <div>
             <nav class="flex justify-between items-center">
               
-                <a wire:navigate class="" href="/"><img style="height: 50px;" src="{{asset('logo.png')}}" alt="#" /></a>
+                <a wire:navigate href="/" class="flex items-center">
+                    <img height="50px" width="60px" src="{{asset('icon.png')}}" alt="">
+                    <div class="ps-2 text-lg font-bold">
+                        {{-- app name  --}}
+                        <x-application-name />
+                    </div>
+                </a>
                 <div class="" id="navbarSupportedContent">
                     <ul class="flex items-center">
         

@@ -60,7 +60,10 @@ new class extends Component {
         {{-- logo  --}}
         <a wire:navigate href="/" class="flex items-center">
             <img height="50px" width="60px" src="{{asset('icon.png')}}" alt="">
-            <div class="ps-2 text-2xl font-bold">ERUHI</div>
+            <div class="ps-2 text-lg font-bold">
+                {{-- app name  --}}
+                <x-application-name />
+            </div>
         </a>
 
         {{-- search  --}}
@@ -241,8 +244,13 @@ new class extends Component {
                 <i x-show="open" class="fas fa-times text-lg"></i>
             </button>
             <div class="flex items-center">
-                <img height="40px" width="40px" src="{{asset('icon.png')}}" alt="">
-                <div class="ps-2 text-md md:text-lg hidden md:block lg:text-3xl font-bold">ERUHI</div>
+                <a wire:navigate href="/" class="flex items-center">
+                    <x-application-logo style="width:40px" />
+                    <div class="ps-2 text-lg font-bold">
+                        {{-- app name  --}}
+                        <x-application-name />
+                    </div>
+                </a>
             </div>
         </div>
 

@@ -38,6 +38,7 @@ class Settings extends Component
         $this->vendor = $this->data;
         $this->varray = $this->data->toArray();
         $this->permissions = Permission::all();
+        // dd($this->varray);
     }
 
     /**

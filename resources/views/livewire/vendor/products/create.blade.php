@@ -11,6 +11,12 @@
                 </x-slot>
                 <x-slot name="content">
                     create new product to sell to a cheaf price. to make more profit. Correctly define your <strong>Bying Price</strong> and <strong>Selling Price</strong>. Keep it mind that, system takes <strong>20%</strong> of comission from your profit. 
+                    <br>
+
+                    {{-- notify if user reach maximum product upload limit. --}}
+                    @if (!$ableToCreate)
+                        <span class="p-3 shadow-lg rounded bg-red-200 text-red-900">You have reached your maximum product upload limit ({{$shop->max_product_upload ?? 0}}). Please contact support to increase your limit.</span>
+                    @endif
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -51,10 +57,10 @@
                                     @endif
                                 @endforeach
                             </select>
-                            <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button>
-                            @if (empty($categories))
-                                {{-- @livewire('vendor.categories.create');     --}}
-                            @endif
+                            {{-- <x-primary-button type="button" x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create</x-primary-button> --}}
+                            {{-- @if (empty($categories))
+                                @livewire('vendor.categories.create');    
+                            @endif --}}
                         </x-input-file>
 
                     </x-dashboard.section.inner>
@@ -141,6 +147,7 @@
                         <x-input-file label="Description" class="md:flex" labelWidth="250px" error="products.description" >
                             
                             <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="" rows="10"></textarea>
+                            
                             <x-primary-button>
                                 create
                             </x-primary-button>

@@ -320,7 +320,7 @@ new #[Layout('layouts.guest')] class extends Component
                 // set the country code to the hidden input
                 
                 // countryCode2 = e.getAttribute('data-iso2');
-                // console.log(countryCode);
+                console.log('code is ' + countryCode);
                 
                 if (countryCode == "BD") {
                     // console.log("Bangladesh selected");
@@ -379,7 +379,7 @@ new #[Layout('layouts.guest')] class extends Component
             stateSelectElement.addEventListener("input", (e) => {
                 // let countryCode = document.getElementById('select_country').getAttribute('data-iso2');
                 let cityCode = e.target.value;
-                // console.log(countryCode, cityCode);
+                console.log(countryCode, cityCode);
                 axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states/" + cityCode + "/cities", {
                         headers: {
                             "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
