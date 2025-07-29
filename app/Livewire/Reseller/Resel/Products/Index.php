@@ -4,6 +4,7 @@ namespace App\Livewire\Reseller\Resel\Products;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Reseller_resel_product;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -17,7 +18,7 @@ class Index extends Component
     #[URL]
     public $cat, $search, $ids = [];
 
-    public $categories, $targetCat, $viewAll = false;
+    public $categories, $targetCat, $viewAll = false, $shop, $ableToAdd = true, $totalReselProducts = 0;
 
     public function mount()
     {
@@ -29,6 +30,20 @@ class Index extends Component
             $this->pslug($catId);
             // dd($this->ids);
         }
+
+        $this->shop = auth()->user()->resellerShop();
+
+        // reseller resel products count
+        $this->totalReselProducts = Reseller_resel_product::where(['user_id' => auth()->user()->id])->count();
+        // dd($this->totalReselProducts);
+
+        // dd(auth()->user()->myProducts()->where());
+        if ($this->shop->allow_max_resell_product) {
+            $this->ableToAdd = $this->totalReselProducts < $this->shop->max_resell_product ? true : false;
+        } else {
+            $this->ableToAdd = false;
+        }
+        // $this->ableToAdd = $this->totalReselProducts <= $this->shop->max_resell_product ? true : false;
     }
 
 

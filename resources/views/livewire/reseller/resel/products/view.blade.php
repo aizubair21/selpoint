@@ -14,9 +14,19 @@
                         wish to resel this product, just click on the button bellow
                     </div>
                     <div class="flex"> 
-                        <x-primary-button class="" type="button" x-on:click="$dispatch('open-modal', 'confirm-resel')">
-                            resell this product
-                        </x-primary-button>
+                        {{-- if user is not able to resel product, then a message will be shown. --}}
+                        @if (!$ableToAdd)
+                            <div class="p-2 bg-red-200 text-red-800">
+                                You have reached the maximum number of products you can upload {{auth()->user()->resellerShop()->max_resell_product}}. Please delete some products to add new ones.
+                            </div>
+                        @else
+                            <div class="p-2 bg-green-200 text-green-800">
+                                You can add more products to your resel shop. You can add up to {{auth()->user()->resellerShop()->max_resell_product}} products. You have currently {{$totalReselProducts}} Reselling products.
+                            </div>
+                            <x-primary-button class="" type="button" x-on:click="$dispatch('open-modal', 'confirm-resel')">
+                                resell this product
+                            </x-primary-button>
+                        @endif
                     </div>
                 </x-slot>
             </x-dashboard.section.header>

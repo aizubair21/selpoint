@@ -17,7 +17,7 @@ class View extends Component
 {
     #[URL]
     public $pd;
-    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $resellerCat, $categories;
+    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $resellerCat, $categories, $ableToAdd = true, $totalReselProducts = 0;
 
     public function mount()
     {
@@ -29,6 +29,12 @@ class View extends Component
         $this->categories = Category::getAll();
         if (!$this->products) {
             return redirect()->back();
+        }
+        $this->totalReselProducts = Reseller_resel_product::where(['user_id' => auth()->user()->id])->count();
+        if (auth()->user()->resellerShop()->allow_max_resell_product) {
+            $this->ableToAdd = $this->totalReselProducts < auth()->user()->resellerShop()->max_resell_product ? true : false;
+        } else {
+            $this->ableToAdd = false;
         }
     }
 

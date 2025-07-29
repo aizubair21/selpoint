@@ -25,58 +25,168 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    Reseller Status
+                    Reseller and Shops
                 </x-slot>
                 <x-slot name="content">
-                    <x-hr />
                     <div>
-                        <form wire:submit.prevent='updateStatus'>
-    
-                            <div class="flex items-center justify-between">
-    
-                                <div >
-                                    <p class="text-sm">Current Status is : <strong> {{$resellers  ->status}} </strong>. Change status to - </p>
-                                    <select id="" wire:model="requestStatus" class="rounded-lg py-1" >
-                                        <option value="Select Status">-- Select -- </option>
-                                        <option @if($resellers->status == 'Active') selected @endif value="Active">Active</option>
-                                        <option @if($resellers->status == 'Pending') selected @endif value="Pending">Pending</option>
-                                        <option @if($resellers->status == 'Disabled') selected @endif value="Disabled">Disabled</option>
-                                        <option @if($resellers->status == 'Suspended') selected @endif value="Suspended">Suspended</option>
-                                    </select>
-                                    
-                                    {{-- <div class="mt-1" x-show="sd != 'Active'">
-                                        <textarea class="rounded-lg" name="" id="" rows="2"></textarea>
-                                    </div> --}}
-                                    
+                         <div class="md:flex w-full flex-1 gap-10">
+                            <div class="p-3 bg-gray-100 rounded-md shadow-sm w-full">
+                                <hr>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Reseller ID: </div> 
+                                    <div> {{$resellers->id ?? "N/A"}} </div>
                                 </div>
-                                <div class="text-end">
-                                    <p class="text-sm">
-                                        update : {{$resellers ->updated_at->diffForHumans()}}
-                                    </p>
-                                    <x-primary-button class="ml-2">set</x-primary-button>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Reseller Name: </div> 
+                                    <div> {{$resellers->user?->name ?? "N/A"}} </div>
+                                </div>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Reseller Email: </div> 
+                                    <div> {{$resellers->user?->email ?? "N/A"}} </div>
+                                </div>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Reseller Phone: </div> 
+                                    <div> {{$resellers->user?->phone ?? "N/A"}} </div>
+                                </div>
+                                <div class="text-md  w-full p-3">
+                                    <div class="font-bold">Shop Name: </div> 
+                                    <div> {{$resellers->shop_name_en ?? "N/A"}}  </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-
-                    <x-hr/>
-                    <div>
-                        <form wire:submit.prevent="setComission">
-                            <div class="flex justify-between items-start">
-                                <div>
-                                    <input type="text" wire:model.live="comission" class="rounded shadow" id="">
-                                    <div class='text-xs'>
-                                        You take {{$resellers->system_get_comission ?? "0"}}% profit from this vendor revinew.
-                                    </div>
+                            <div class="p-3 bg-gray-100 rounded-md shadow-sm w-full">
+                                <hr>
+                                
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Shop Email: </div> 
+                                    <div> {{$resellers->email ?? "N/A"}} </div>
                                 </div>
-                                <div>
-                                    <x-primary-button>set</x-primary-button>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Shop Phone: </div> 
+                                    <div> {{$resellers->phone ?? "N/A"}} </div>
+                                </div>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Shop Address: </div> 
+                                    <div> {{$resellers->address ?? "N/A"}}  </div>
+                                </div>
+                                <div class="text-md border-b w-full p-3">
+                                    <div class="font-bold">Shop Location: </div>
+                                    <div> {{$resellers->upazila ?? "N/A"}}, {{$resellers->district ?? "N/A"}}, {{$resellers->country ?? "N/A"}} </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
+            
+            <x-dashboard.section.inner>
+                
+                <x-hr />
+                <div>
+                    <form wire:submit.prevent='updateStatus'>
+    
+                        <div class="flex items-center justify-between">
+    
+                            <div >
+                                <p class="text-sm">Current Status is : <strong> {{$resellers  ->status}} </strong>. Change status to - </p>
+                                <select id="resStatus" wire:model.live="resArray.status" class="rounded-lg py-1" >
+                                    <option value="Select Status">-- Select -- </option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Disabled">Disabled</option>
+                                    <option value="Suspended">Suspended</option>
+                                    <option value="Active">Active</option>
+                                </select>
+                                
+                                {{-- <div class="mt-1" x-show="sd != 'Active'">
+                                    <textarea class="rounded-lg" name="" id="" rows="2"></textarea>
+                                </div> --}}
+                                
+                            </div>
+                            <div class="text-end">
+                                <p class="text-sm">
+                                    update : {{$resellers ->updated_at->diffForHumans()}}
+                                </p>
+                                <x-primary-button class="ml-2">set</x-primary-button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+    
+                <x-hr/>
+                <div>
+                    <form wire:submit.prevent="setComission">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <input type="text" wire:model.live="comission" class="rounded shadow" id="">
+                                <div class='text-xs'>
+                                    You take {{$resellers->system_get_comission ?? "0"}}% profit from this vendor revinew.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="my-2 rounded bg-gray-50 border-gray-200 p-3">
+                            <div class="p-3 w-full flex justify-between items-center">
+                                <div class="font-bold">Prevent adding unlimited product  : </div>
+                                <div class="flex gap-10"> 
+                                    <div class="flex items-center">
+                                        <input type="radio" wire:model.live="resArray.allow_max_product_upload" id="allow_max" name="allow_max_product_upload" value="1" style="width:20px; height:20px">
+                                        <div class="px-2">Yes</div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" wire:model.live="resArray.allow_max_product_upload" id="allow_max" name="allow_max_product_upload" value="0" style="width:20px; height:20px">
+                                        <div class="px-2">No</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="px-3 w-full flex justify-between items-center">
+                                <div class="font-bold">Maximum Product : </div>
+                                <div> 
+                                    <x-text-input type="number" wire:model.live="resArray.max_product_upload" placeholder="100" class="w-20" />
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-500 px-3">
+                                If you set the maximum product, then the vendor will not be able to upload more than this number of products.
+                            </div>
+                        
+                        </div>
+
+                        <div class="my-2 bg-gray-50 p-3">
+                            <div class="px-3 w-full flex justify-between items-center">
+                                <div class="font-bold">Allow to resell products : </div>
+                                {{-- <div> 
+                                    <input wire:model.live="can_resell_products" type="checkbox" name="" style="width:20px; height:20px" id="">
+                                </div> --}}
+                                
+                                <div class="flex gap-10"> 
+                                    <div class="flex items-center">
+                                        <input type="radio" wire:model.live="resArray.allow_max_resell_product" id="allow_max" name="allow_max_resell_product" value="1" style="width:20px; height:20px">
+                                        <div class="px-2">Yes</div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="radio" wire:model.live="resArray.allow_max_resell_product" id="allow_max" name="allow_max_resell_product" value="0" style="width:20px; height:20px">
+                                        <div class="px-2">No</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="px-3 w-full flex justify-between items-center">
+                                <div class="font-bold">Maximum Resel Product : </div>
+                                <div> 
+                                    <x-text-input type="number" wire:model.live="resArray.max_resell_product" placeholder="100" class="w-20" />
+                                </div>
+                            </div>
+                            <div class="text-xs text-gray-500 px-3">
+                                If you allow the vendor to resell products, then the vendor will be able to resell products from other resellers.
+                            </div>
+                        
+                        </div>
+                        
+                        <div>
+                            <x-primary-button>Update</x-primary-button>
+                        </div>
+                    </form>
+                </div>
+                
+            </x-dashboard.section.inner>
         </x-dashboard.section>
 
         @if ($nav == 'documents')

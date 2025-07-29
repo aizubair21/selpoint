@@ -19,7 +19,7 @@
                 </x-dashboard.section.header>
                 <x-dashboard.section.inner>
 
-                     <div class="md:flex w-full flex-1 gap-10">
+                    <div class="md:flex w-full flex-1 gap-10">
                         <div class="p-3 bg-gray-100 rounded-md shadow-sm w-full">
                             <hr>
                             <div class="text-md border-b w-full p-3">

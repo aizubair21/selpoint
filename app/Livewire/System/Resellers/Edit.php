@@ -12,7 +12,7 @@ class Edit extends Component
     #[URL]
     public $id, $filter, $nav = 'documents';
 
-    public $resellers, $deatline, $requestStatus, $comission;
+    public $resellers, $deatline, $requestStatus, $comission, $resArray = [];
 
     // mount 
     public function mount()
@@ -28,6 +28,9 @@ class Edit extends Component
     public function getData()
     {
         $this->resellers = reseller::find($this->id);
+        $this->resArray = $this->resellers?->toArray() ?? [];
+
+        // dd($this->resArray);
     }
 
     /**
@@ -53,6 +56,10 @@ class Edit extends Component
     public function setComission()
     {
         $this->resellers->system_get_comission = $this->comission;
+        $this->resellers->allow_max_product_upload = $this->resArray['allow_max_product_upload'] ?? 0;
+        $this->resellers->allow_max_resell_product = $this->resArray['allow_max_resell_product'] ?? 0;
+        $this->resellers->max_product_upload = $this->resArray['max_product_upload'] ?? 0;
+        $this->resellers->max_resell_product = $this->resArray['max_resell_product'] ?? 0;
         $this->resellers->save();
 
         $this->dispatch('refresh');
