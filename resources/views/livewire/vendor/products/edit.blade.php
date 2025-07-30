@@ -230,8 +230,37 @@
                 </x-dashboard.section.header>
                 <x-dashboard.section.inner>
                     <x-input-file label="Description" labelWidth="250px" error="products.description" >
-                        
-                        <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="" rows="10"></textarea>
+                        {{-- <div class="flex flex-wrap items-center p-3 border-b bg-gray-50 gap-2">
+                            <button type="button" onclick="format('bold')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Bold"><b>B</b></button>
+                            <button type="button" onclick="format('italic')" class="px-2 py-1 hover:bg-gray-200 rounded italic" title="Italic">I</button>
+                            <button type="button" onclick="format('underline')" class="px-2 py-1 hover:bg-gray-200 rounded underline" title="Underline">U</button>
+                            <button type="button" onclick="format('strikeThrough')" class="px-2 py-1 hover:bg-gray-200 rounded line-through" title="Strike">S</button>
+                            <button type="button" onclick="format('insertOrderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Ordered List">OL</button>
+                            <button type="button" onclick="format('insertUnorderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Unordered List">UL</button>
+                            <button type="button" onclick="format('formatBlock', 'H1')" class="px-2 py-1 hover:bg-gray-200 rounded text-xl" title="Heading 1">H1</button>
+                            <button type="button" onclick="format('formatBlock', 'H2')" class="px-2 py-1 hover:bg-gray-200 rounded text-lg" title="Heading 2">H2</button>
+                            <button type="button" onclick="addLink()" class="px-2 py-1 hover:bg-gray-200 rounded text-blue-600" title="Insert Link">🔗</button>
+                            <button type="button" onclick="removeFormatting()" class="px-2 py-1 hover:bg-gray-200 rounded text-red-600" title="Clear Formatting">🧹</button>
+                        </div> --}}
+                        {{-- <div  id="editor"
+                            class="rounded border min-h-[200px] p-4 focus:outline-none"
+                            contenteditable="true" placeholder="Write Here ...">
+                            <p class="text-gray-700">Start writing here...</p>
+                        </div> --}}
+
+                        {{-- <div wire:ignore ">
+                            <div id="editor"
+                                class="min-h-[200px] border rounded p-3 bg-white"
+                                contenteditable="true"
+                                x-init="
+                                    $el.innerHTML = @js($description);
+                                    $el.addEventListener('input', () => {
+                                        Livewire.emit('editorUpdated', $el.innerHTML);
+                                    });
+                                "
+                            ></div>
+                        </div> --}}
+                        <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="editor" rows="10"></textarea>
                 
                     </x-input-file>
                 </x-dashboard.section.inner>
@@ -240,4 +269,27 @@
         </form>
             
     </x-dashboard.container>
+
+    <script>
+        function format(command, value = null) {
+        document.execCommand(command, false, value);
+        }
+
+        function addLink() {
+        const url = prompt("Enter the URL");
+        if (url) format('createLink', url);
+        }
+
+        function removeFormatting() {
+        format('removeFormat');
+        format('unlink');
+        }
+
+        // Optional: sanitize paste to plain text
+        document.getElementById('editor').addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+        });
+    </script>
 </div>

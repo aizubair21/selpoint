@@ -36,7 +36,7 @@
                                 <x-danger-button class="" wire:click="deleteSlides({{$slides[$key]['id']}})">
                                     <i class="fas fa-trash"></i>
                                 </x-danger-button>
-                                <x-primary-button wire:dirty :key="$key" class="" wire:click="updateSlides({{$key}},{{$slides[$key]['id']}})">
+                                <x-primary-button :key="$key" class="" wire:click="updateSlides({{$key}},{{$slides[$key]['id']}})">
                                     <i class="fas fa-save pr-2 "></i> save
                                 </x-primary-button>
                             </div>

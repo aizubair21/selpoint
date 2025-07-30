@@ -150,4 +150,10 @@ class Product extends Model
     {
         return $this->hasMany(Products_has_comments::class);
     }
+
+
+    public function syncOrder() 
+    {
+        return $this->hasMany(syncOrder::class, 'vendor_product_id');
+    }
 }

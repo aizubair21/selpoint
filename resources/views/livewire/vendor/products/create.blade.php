@@ -1,4 +1,11 @@
+
 <div>
+    
+    {{-- @assets
+    @endAssets --}}
+        {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet"> --}}
+        {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> --}}
+
     <x-dashboard.page-header>
         Add Products
     </x-dashboard.page-header>
@@ -144,10 +151,26 @@
                         </x-slot>
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
+                        <div class="flex flex-wrap items-center p-3 border-b bg-gray-50 gap-2">
+                        </div>
                         <x-input-file label="Description" class="md:flex" labelWidth="250px" error="products.description" >
                             
-                            <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="" rows="10"></textarea>
-                            
+                            {{-- <button type="button" onclick="format('bold')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Bold"><b>B</b></button>
+                            <button type="button" onclick="format('italic')" class="px-2 py-1 hover:bg-gray-200 rounded italic" title="Italic">I</button>
+                            <button type="button" onclick="format('underline')" class="px-2 py-1 hover:bg-gray-200 rounded underline" title="Underline">U</button>
+                            <button type="button" onclick="format('strikeThrough')" class="px-2 py-1 hover:bg-gray-200 rounded line-through" title="Strike">S</button>
+                            <button type="button" onclick="format('insertOrderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Ordered List">OL</button>
+                            <button type="button" onclick="format('insertUnorderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Unordered List">UL</button>
+                            <button type="button" onclick="format('formatBlock', 'H1')" class="px-2 py-1 hover:bg-gray-200 rounded text-xl" title="Heading 1">H1</button>
+                            <button type="button" onclick="format('formatBlock', 'H2')" class="px-2 py-1 hover:bg-gray-200 rounded text-lg" title="Heading 2">H2</button>
+                            <button type="button" onclick="addLink()" class="px-2 py-1 hover:bg-gray-200 rounded text-blue-600" title="Insert Link">🔗</button>
+                            <button type="button" onclick="removeFormatting()" class="px-2 py-1 hover:bg-gray-200 rounded text-red-600" title="Clear Formatting">🧹</button> --}}
+                            <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="summornote" rows="10"></textarea>
+                            {{-- <div id="editor"
+                                class="border rounded min-h-[200px] p-4 focus:outline-none"
+                                contenteditable="true">
+                            <p class="text-gray-700">Start writing here...</p>
+                            </div> --}}
                             <x-primary-button>
                                 create
                             </x-primary-button>
@@ -163,4 +186,39 @@
         </x-modal>
 
     </x-dashboard.container>
+
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
+    {{-- @script
+    <script>
+        
+        function format(command, value = null) {
+            document.execCommand(command, false, value);
+        }
+        
+        function addLink() {
+            const url = prompt("Enter the URL");
+            if (url) format('createLink', url);
+        }
+
+        function removeFormatting() {
+            format('removeFormat');
+            format('unlink');
+        }
+
+        // Optional: sanitize paste to plain text
+        document.getElementById('editor').addEventListener('paste', (e) => {
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
+        });
+
+        $('#summernote').summernote({
+            placeholder: 'Hello Bootstrap 4',
+            tabsize: 2,
+            height: 100
+        });
+    </script>
+    @endscript --}}
 </div>

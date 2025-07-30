@@ -171,10 +171,17 @@
                                         {{$item->product?->title ?? "N/A"}} 
                                     </div>
                                 </div>
+
+                                @if ( $item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
+                                    
+                                    <x-primary-button wire:click.prevent="syncOrder({{$item->id}})" > 
+                                        <i class="fas fa-sync"></i>    
+                                    </x-primary-button>
+                                @endif
                             </td>
                             <td>
-                                @if ($item->product?->isResel)
-                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resel </span>
+                                @if ($item->product?->isResel())
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resell </span>
                                 @else 
                                     <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
                                 @endif
@@ -192,9 +199,15 @@
                                 {{$item->size ?? "N/A"}}
                             </td>
                             <td>
+                                @if (auth()->user()->account_type() == 'reseller')
+                                
+                                {{$item->product?->price ?? "N/A"}} TK
+                                @else
                                 {{$item->buying_price ?? "N/A"}} TK
+                                @endif
                             </td>
                             <td>
+
                                 {{$item->product?->buying_price ?? "N/A"}} TK
 
                             </td>
@@ -210,23 +223,23 @@
             
                 <tfoot>
                     <tr class="border-t">
-                        <td colspan="5" class="text-right">Sub Total</td>
+                        <td colspan="6" class="text-right">Sub Total</td>
                         <td>
                             {{ $orders->cartOrders->sum('total')}} Tk
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" class="text-right">Shipping</td>
+                        <td colspan="6" class="text-right">Delevery</td>
                         <td>
                             {{ $orders->shipping ?? 0}} Tk
                         </td>
                     </tr>
                     <tr class="border-t font-bold text-lg bg-gray-100">
-                        <td colspan="5" class="text-right">Total</td>
+                        <td colspan="6" class="text-right">Total</td>
                         <td>
                             {{ $orders->shipping + $orders->cartOrders->sum('total')}} Tk
                         </td>
-                        <td colspan="5"></td>
+                        <td colspan="6"></td>
                     </tr>
                 </tfoot>
             
@@ -264,5 +277,49 @@
             </div>
         </x-modal>
 
+        <x-modal name='order-sync-modal'>
+            <div class="p-3 bold border-b">
+                Reseller Order Product
+            </div>
+            <div class="p-5">
+
+                <form wire:submit.prevent="confirmSyncOrder" >
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" wire:model.live="name" name="name" error="name" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Phone" wire:model.live="phone" name="phone" error="phone" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer District" wire:model.live="district" name="district" error="district" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Upozila" wire:model.live="upozila" name="upozila" error="upozila" />
+                    <x-input-field inputClass="w-full" label="Customer Full Address" name="location" wire:model.live="location" error="location" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Road No" name="road_no" wire:model.live="road_no" error="house_no" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer House No" name="house_no" wire:model.live="house_no" error="house_no" />
+                    <x-hr/>
+                   
+                    <x-input-field inputClass="w-full" class="md:flex" label="Reseller Price  " wire:model.live="rprice" name="rprice" error="rprice" />
+                
+                    <div class="text-xs" wire:show='rprice'>
+                        {{-- Profit: <strong> {{$this->rprice - $this->pd->price}} </strong> --}}
+                    </div>
+
+                    <x-hr/>
+                    <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity" name="quantity" error="quantity" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Product Size/Attribute" wire:model.live="attr" name="attr" error="attr" />
+                    <x-hr/>
+                    <x-input-file label="Area Condition" error='area_condition'>
+                        <select wire:model.live="area_condition" id="" >
+                            <option value="">Select Area</option>
+                            <option value="Dhaka">Inside Dhaka</option>
+                            <option value="Other">Out side of Dhaka</option>
+                        </select>
+                    </x-input-file>
+                    <x-input-file label="Delevery Method" name="delevery" error="delevery" >
+                        <select wire:model.live="delevery" id="" >
+                            <option value="">Select Shipping Type</option>
+                            <option value="Courier">Courier</option>
+                            <option value="Home">Home Delevery</option>
+                        </select>
+                    </x-input-file>
+                    <x-primary-button>Order</x-primary-button>
+                </form>
+            </div>
+        </x-modal>
     </x-dashboard.container>
 </div>

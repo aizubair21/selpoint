@@ -19,13 +19,20 @@ use Livewire\Attributes\Validate;
 
 new class extends Component 
 {
-    public $pd, $alreadyLiked = false;
+    public $pd, $alreadyLiked = false, $discountPercent, $haveDiscount = false, $resellerOrderId = '', $needToSync = false, $myOrder = '';
 
     #[validate('required')]
     public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no;
 
     public function mount() 
     {
+        // dd($this->pd);
+        if ($this->pd->offer_type) {
+            $this->haveDiscount = true;
+            $dis = $this->pd->price - $this->pd->discount;
+            // make discount percent
+            $this->discountPercent = ($dis / $this->pd->price) * 100;
+        }
         // check this product alreay in liked list of reseller    
         $this->alreadyLiked = Reseller_like_product::where(['user_id' => auth()->user()->id, 'product_id' => $this->pd->id])->exists();
     }
@@ -95,7 +102,7 @@ new class extends Component
                     'price' => $this->rprice,
                     'size' => $this->attr,
                     'total' => $this->quantity * $this->rprice,
-                    'buying_price' => $this->pd->price,
+                    'buying_price' => $this->pd->offer_type ? $this->pd->discount : $this->pd->price,
                     'status' => 'Pending',
                 ]
             );
@@ -107,13 +114,53 @@ new class extends Component
             if ($order->id && $cor->id) {
                 # code...
                 ProductComissionController::dispatchProductComissionsListeners($order->id);
-                
             }
    
         } catch (\Throwable $th) {
             throw $th;
             $this->dispatch('info', 'Have an Error');
         }
+    }
+
+    public function takeOrderInfoAndFill(){
+        
+        $this->myOrder = auth()->user()->orderToMe()->where('id', $this->resellerOrderId)->get();
+        // if this->myOrder is empty, then make an input validation error
+        if (empty($this->resellerOrderId)) {
+            $this->addError('resellerOrderId', 'Requied !');
+        }
+        
+        if ($this->myOrder->count() < 1) {
+            $this->addError('resellerOrderId', 'No Order found !');
+        }
+        if($this->myOrder->count() > 0){
+            $this->needToSync = true;
+            $this->district = $this->myOrder[0]->district;
+            $this->upozila = $this->myOrder[0]->upozila;
+            $this->location = $this->myOrder[0]->location;
+            $this->area_condition = $this->myOrder[0]->area_condition;
+            $this->delevery = $this->myOrder[0]->delevery;
+            $this->name = $this->myOrder[0]->user?->name;
+            $this->phone = $this->myOrder[0]->number ?? $this->myOrder[0]->user?->phone;
+            $this->house_no = $this->myOrder[0]->house_no;
+            $this->road_no = $this->myOrder[0]->road_no;
+        }
+    }
+
+    public function resetFindOrder()
+    {
+        $this->reset('resellerOrderId');
+        $this->needToSync = false;
+        $this->district = '';
+        $this->upozila = '';
+        $this->location = '';
+        $this->area_condition = '';
+        $this->delevery = '';
+        $this->name = '';
+        $this->phone = '';
+        $this->house_no = '';
+        $this->road_no = '';
+
     }
 }
 
@@ -122,6 +169,17 @@ new class extends Component
 
 <div>
     <div class="bg-white rounded shadow overflow-hidden relative">
+
+        @if ($pd->offer_type)
+            
+        <div class="absolute top-0 left-0 px-2 bg-indigo-900 text-white rounded text-sm ">
+            @php
+                $dis = $pd->price - $pd->discount;
+                @endphp
+            {{  round(($dis / $pd->price) * 100, 1) ?? 0}}% off
+        </div>
+        @endif
+
         <div class="h-[120px] overflow-hidden shadow-md p-1">
             <img src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
         </div>
@@ -129,15 +187,29 @@ new class extends Component
             <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}" >
                 <div class="text-sm">{{$pd->title ?? "N/A"}}</div>
             </x-nav-link>
-            <div class="text-md bold">
-                {{$pd->price ?? "0"}} TK
+
+            <div class="text-md">
+                @if ($pd->offer_type)
+                    <div class="bold">
+                        {{$pd->discount ?? "0"}} TK
+                    </div>
+                    <div class="text-xs">
+                        <del> 
+                            {{$pd->price ?? "0"}} TK
+                        </del>
+                    </div>
+                @else 
+                    <div class="bold">
+                        {{$pd->price ?? "0"}} TK
+                    </div>
+                @endif
             </div>
             {{-- <div class="text-right">
                 <button>clone</button>
             </div> --}}
             <x-hr/>
             <div class="flex justify-between items-center text-sm">
-                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">reseller order</x-primary-button>
+                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">Resell Order</x-primary-button>
                 {{-- <button>To Cart</button> --}}
             </div>
         </div>
@@ -158,6 +230,15 @@ new class extends Component
         </div>
         @volt('order')
         <div class="p-5">
+
+            <form wire:submit.prevent="takeOrderInfoAndFill" class="bg-gray-100 p-2 rounded">
+                <x-input-field inputClass="w-full" type="number" class="md:flex" label="Order ID" wire:model.live="resellerOrderId" name="resellerOrderId" error="resellerOrderId" />
+                <div class="text-end flex justify-end gap-3">
+                    <x-secondary-button type="button" wire:click.prevent="resetFindOrder">Reset</x-secondary-button>
+                    <x-primary-button>Attach</x-primary-button>
+                </div>
+            </form>
+
             <form wire:submit.prevent="order" >
                 <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" wire:model.live="name" name="name" error="name" />
                 <x-input-field inputClass="w-full" class="md:flex" label="Customer Phone" wire:model.live="phone" name="phone" error="phone" />

@@ -45,7 +45,7 @@ class Edit extends Component
 
     public function updateStatus()
     {
-        $this->resellers->status = $this->requestStatus;
+        $this->resellers->status = $this->resArray['status'] ?? 'Disabled';
         $this->resellers->save();
 
 

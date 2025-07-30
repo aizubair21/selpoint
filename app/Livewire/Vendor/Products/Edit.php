@@ -21,10 +21,11 @@ class Edit extends Component
     #[URL]
     public $product, $nav = 'Product';
 
-    public $data, $categories;
+    public $data, $categories, $description;
     public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];
     // protected $Listeners = ["$refresh"];
 
+    protected $listeners = ['editorUpdated' => 'updateContent'];
     // #[On('refresh')]
     public function mount()
     {
@@ -51,8 +52,16 @@ class Edit extends Component
         $this->products = $this->data->toArray();
         $this->relatedImage = $this->data->showcase->toArray();
         $this->attr = $this->data->attr->toArray();
+
+        $this->description = $this->products['description'];
+        $this->description = 'this is description';
     }
 
+
+    public function updateContent($html)
+    {
+        $this->description = $html;
+    }
 
 
     public function save()
@@ -66,8 +75,9 @@ class Edit extends Component
         $this->data->price = $this->products['price'];
         $this->data->discount = $this->products['discount'];
         $this->data->offer_type = $this->products['offer_type'];
-        $this->data->description = $this->products['description'];
+        $this->data->description = $this->description;
         $this->data->thumbnail = $this->handleImageUpload($this->thumb, 'products', $this->products['thumbnail']);
+        // dd($this->products);
         $this->data->save();
 
         if ($this->attr && $this->attr['id']) {

@@ -37,17 +37,19 @@ class Create extends Component
     public function mount()
     {
         $this->account = auth()->user()->isVendor() ? 'vendor' : 'reseller';
-        $this->categories = Category::whereNull('belongs_to')
-            ->with(['children' => function ($query) {
-                $query->orderBy('name');
-            }, 'user'])
-            ->orderBy('name')
-            ->get();
+        // $this->categories = Category::whereNull('belongs_to')
+        //     ->with(['children' => function ($query) {
+        //         $query->orderBy('name');
+        //     }, 'user'])
+        //     ->orderBy('name')
+        //     ->get();
+        $this->categories = category::getAll();
         // dd($this->account);
     }
 
     public function getData()
     {
+        $this->categories = category::getAll();
 
         if (!auth()->user()->can('category_add')) {
             $this->dispatch('warning', "You are not able to add category. ");
@@ -82,7 +84,8 @@ class Create extends Component
                 'belongs_to' => $this->parent_id ?: null,
             ]
         );
-        // $this->reset();
+        $this->reset('name', 'image', 'slug');
+        $this->getData();
         $this->dispatch('added');
 
         // $this->dispatch('close-modal', 'category-create-modal');

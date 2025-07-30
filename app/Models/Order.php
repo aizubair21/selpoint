@@ -119,4 +119,5 @@ class Order extends Model
             return $this->belongsTo(vendor::class, 'belongs_to', 'user_id');
         }
     }
+
 }

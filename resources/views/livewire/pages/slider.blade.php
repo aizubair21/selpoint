@@ -17,6 +17,7 @@
             .slider {
             position: relative;
             width: 100%;
+            /* height: 100%; */
             max-height: 400px;
             overflow: hidden;
             /* border-radius: 10px; */
@@ -60,11 +61,13 @@
             z-index: 0;
             top: 0;
             left: 0;
+            /* aspect-ratio: 16/9; */
             }
 
             .description {
                 position: relative;
                 z-index: 1;
+                width: 100%;
                 max-width: 400px;
                 color: #000000;
                 background: #002c3e09;
@@ -90,11 +93,11 @@
             }
 
             .description p {
-            margin: 0 0 15px;
-            font-size: 16px;
+                margin: 0 0 15px;
+                font-size: 16px;
             }
 
-            .description .btn {
+            /* .description .btn {
             display: inline-block;
             padding: 10px 20px;
             background: #22c55e;
@@ -107,7 +110,7 @@
 
             .description .btn:hover {
             background: #16a34a;
-            }
+            } */
 
             .dots {
             position: absolute;
@@ -155,15 +158,8 @@
                             <div class="description hidden md:block">
                                 {{-- <div class="description"> --}}
                                 <div>
-
                                     <h1>{{$item->main_title }}</h1>
-                                    <p class="hidden md:block" >{{$item->description }}</p>
-                                    {{-- @if ($item->action_url)
-                                        <a href="{{$item->action_url}}" class="btn">Shop Now</a>
-                                    @else
-                                        <a href="{{route('products.index')}}" class="btn">Shop Now</a>
-                                    @endif --}}
-                                
+                                    <p>{{$item->description }}</p>                                
                                 </div>
                             </div>
                         @endif

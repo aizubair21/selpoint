@@ -28,6 +28,10 @@ class SingleProductOrder extends Component
     public function updated($property)
     {
         if ($property) {
+            // if quantity is zero or less, set it to 1
+            if ($this->quantity <= 0) {
+                $this->quantity = 1;
+            }
             $this->total = $this->price * $this->quantity;
             $this->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;;
         }

@@ -86,7 +86,7 @@
                                     @enderror
                                 </div>
                             @endif
-                            <x-input-field class="md:flex" type="number" wire:model="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
+                            <x-input-field class="md:flex" type="number" wire:model.live="quantity" min="1" label="Quantity" error="quantity" name="quantity" />
                             
                             {{-- <x-input-field  wire:model.live="name" label="Your Name" error="name" name="name" /> --}}
                             <x-input-field class="md:flex" wire:model.live="phone" label="Your Active Phone" error="phone" name="phone" />
