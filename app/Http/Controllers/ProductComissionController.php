@@ -224,7 +224,7 @@ class ProductComissionController extends Controller
     {
         $order = Order::findOrFail($id);
         if ($order) {
-            $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get();
+            $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get();// pending
 
             if ($tc) {
                 foreach ($tc as $item) {

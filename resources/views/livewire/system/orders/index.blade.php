@@ -85,10 +85,15 @@
                         </select>
                         <select class="rounded border-0 " wire:model.live="status" id="">
                             <option value="">Any</option>
-                            <option value="Accept">Accept</option>
                             <option value="Pending">Pending</option>
+                            <option value="Accept">Accept</option>
+                            <option value="Picked">Picked</option>
+                            <option value="Delivery">Delivery</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Finished">Finished</option>
                             <option value="Cancel">Cancel</option>
-                            <option value="Cancelled">Cancelled</option>
+                            <option value="Hold">Hold</option>
+                            <option value="Cancelled">Cancelled by Buyer</option>
                             <option value="None">None</option>
                         </select>
                       
@@ -146,9 +151,12 @@
                                     <td> {{$loop->iteration }} </td>
                                     <td> {{$item->id ?? "N/A"}} </td>
                                     <td>
-                                        <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->user?->id])}}"> 
-                                            {{$item->user?->name ?? 'N/A'}} 
-                                        </x-nav-link-btn>
+                                        @if ($item->user)
+                                                
+                                            <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->user?->id ?? ''])}}"> 
+                                                {{$item->user?->name ?? 'N/A'}} 
+                                            </x-nav-link-btn>
+                                        @endif
                                         
                                         {{$item->user?->phone ?? "N/A"}}| {{$item->user?->email ?? "N/A"}} 
                                     </td>
@@ -163,20 +171,51 @@
                                         </div>    
                                     </td>
                                     <td>
-                                        <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->seller?->id])}}"> 
-                                            {{$item->seller?->name ?? 'N/A'}} 
-                                        </x-nav-link-btn>
-                                        
+                                        @if ($item->seller)
+                                            
+                                            <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->seller?->id ?? ''])}}"> 
+                                                {{$item->seller?->name ?? 'N/A'}} 
+                                            </x-nav-link-btn>
+                                            
+                                        @endif
                                         {{$item->seller?->phone ?? "N/A"}} | {{$item->seller?->email ?? "N/A"}} 
                                     </td>
                                     <td>
                                        {{-- {{$item->status ?? "N/A"}} --}}
                                         @if ($item->status == 'Pending')
-                                            <span class="bg-red-300 rounded-lg px-1 text-white">Pending</span>
+                                            <span class="bg-yellow-300 rounded-lg px-2 py-1">Pending</span>
                                         @endif
+
+                                        @if ($item->status == 'Picked')
+                                            <span class="bg-sky-300 rounded-lg px-2 py-1 text-white">Picked</span>
+                                        @endif
+
+                                        @if ($item->status == 'Delivery')
+                                            <span class="bg-sky-300 rounded-lg px-2 py-1 text-white">Delivery</span>
+                                        @endif
+                                       
+                                        @if ($item->status == 'Delivered')
+                                            <span class="bg-indigo-300 rounded-lg px-2 py-1 text-white">Delivered</span>
+                                        @endif
+                                       
+                                        @if ($item->status == 'Finished')
+                                            <span class="bg-green-900 rounded-lg px-2 py-1 text-white">Finished</span>
+                                        @endif
+
                                         @if ($item->status == "Accept")
-                                            <span class="bg-green-300 rounded-lg px-1 text-white">Accept</span>
+                                            <span class="bg-green-300 rounded-lg px-2 py-1 text-white">Accept</span>
                                         @endif
+
+                                        @if ($item->status == "Cancel")
+                                            <span class="bg-red-300 rounded-lg px-2 py-1 ">Reject</span
+                                        @endif
+                                        @if ($item->status == "Hold")
+                                            <span class="bg-red-300 rounded-lg px-2 py-1 ">Hold</span
+                                        @endif
+                                        @if ($item->status == "Cancelled")
+                                            <span class="bg-gray-300 text-white rounded-lg px-2 py-1 ">Buyer Cancelled</span
+                                        @endif
+
                                     </td>
                                     <td>
                                         {{$item->total ?? 0}} TK

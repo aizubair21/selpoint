@@ -76,8 +76,13 @@
                     <div class="flex justify-between">
                         <div>
                             <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
-                            <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancelled</x-nav-link>
-                            <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accepted</x-nav-link>
+                            <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accept</x-nav-link>
+                            <x-nav-link href="?nav=Picked" :active="$nav == 'Picked'">Picked</x-nav-link>
+                            <x-nav-link href="?nav=Delivery" :active="$nav == 'Delivery'">Delivery</x-nav-link>
+                            <x-nav-link href="?nav=Delivered" :active="$nav == 'Delivered'">Delivered</x-nav-link>
+                            <x-nav-link href="?nav=Confirm" :active="$nav == 'Confirm'">Confirm</x-nav-link>
+                            <x-nav-link href="?nav=Hold" :active="$nav == 'Hold'">Confirm</x-nav-link>
+                            <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancel</x-nav-link>
                             <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel by User</x-nav-link>
                         </div>
 

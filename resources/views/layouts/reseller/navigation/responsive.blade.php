@@ -9,7 +9,7 @@
     Categories
 </x-responsive-nav-link> --}}
 
-<x-responsive-nav-link href="{{route('reseller.order.index')}}" :active="request()->routeIs('reseller.order.*')" >
+<x-responsive-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.order.*')" >
     Orders
 </x-responsive-nav-link>
 

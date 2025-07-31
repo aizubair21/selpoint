@@ -15,34 +15,104 @@
 
     <x-dashboard.container>
         <x-dashboard.section>
-            <div class="flex justify-between items-center space-y-2">
-                
-                <x-dropdown align="left" maxWidth='sm'>
-                    <x-slot name="trigger">
-                        <x-primary-button>
-                            {{$orders->status}}
-                        </x-primary-button>
-                    </x-slot>
-                    <x-slot name="content">
-                        <div class="p-2">
-                            <div class="px-2 py-1" wire:click="updateStatus('Pending')">
-                                Pending
-                            </div>
-                            <div class="px-2 py-1" wire:click="updateStatus('Accept')">
-                                Accept
-                            </div>
-                            <div class="px-2 py-1" wire:click="updateStatus('Cancel')">
-                                Cancel
+            <div class="md:flex justify-between items-center space-y-2 w-full overflow-hidden overflow-x-scroll">
+                <div>
+                    <div class="mb-2 flex gap-2">
+                        <div wire:click="updateOrderStatusTo('Pending')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Buyer placed the order. Order in Pending">Placed
+                            <br>
+                            <div @class([in_array($orders->status, ['Pending','Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
-                    </x-slot>
-                </x-dropdown>
+                        <div wire:click="updateOrderStatusTo('Accept')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Accept the order for process">Accept
+                            <br>
+                            <div @class([in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div wire:click="updateOrderStatusTo('Picked')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, [ 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Accept']) title="Find and collect the product">Picked
+                            <br>
+                            <div @class([in_array($orders->status, ['Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div wire:click="updateOrderStatusTo('Delivery')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Picked']) title="product shipped to rider or courier.">Delivery
+                            <br>
+                            <div @class([in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div wire:click="updateOrderStatusTo('Delivered')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Delivery']) title="product delivered to the buyer.and buyer successfully received the order">Delivered
+                            <br>
+                            <div @class([in_array($orders->status, ['Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div wire:click="updateOrderStatusTo('Confirm')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Confirm' , 'bg-gray-100' => $orders->status == 'Delivered'])>Confirm
+                            <br>
+                            <div @class([$orders->status == 'Confirmed' ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <select wire:model.live="orderStatus" class="rounded-md" id="">
+                        <option value="Pending">Pending</option>
+                        <option value="Accept">Accept</option>
+                        <option value="Picked">Picked</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <hr>
+                        <option value="Hold">Hold</option>
+                        <option value="Rejecte">Rejecte</option>
+                    </select> --}}
+                    {{-- @if ($orders->status == 'Pending')
+                    <select wire:model.live="orderStatus" class="rounded-md" id="">
+                            <option value="Pending">Pending</option>
+                            <option value="Accept">Accept</option>
+                            <hr>
+                            <option value="Hold">Hold</option>
+                            <option value="Rejecte">Rejecte</option>
+                        </select>
+                    @endif --}}
+                    {{-- <x-danger-button > Order Cancelled </x-danger-button> --}}
+                    
+                </div>
+                <div>
+                        
+                    <div class="mb-2 flex gap-2">
+                        <div wire:click="updateOrderStatusTo('Hold')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Hold' , 'bg-gray-100' => $orders->status == 'Delivered'])>Hold
+                            <br>
+                            <div @class([$orders->status == 'Hold' ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        {{-- <div wire:click="updateOrderStatusTo('Cancel')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Cancel' , 'bg-gray-100' => $orders->status == 'Delivered'])>Cancel
+                            <br>
+                            <div @class([$orders->status == 'Cancel' ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div> --}}
+                        <div wire:click="updateOrderStatusTo('Reject')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Reject' , 'bg-gray-100' => $orders->status == 'Delivered'])>Reject
+                            <br>
+                            <div @class([$orders->status == 'Reject' ? 'block' : 'hidden'])>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @if ($orders->status == 'Rejecte')
+                        <x-danger-button > Order Cancelled </x-danger-button>
+                    @endif
+                </div>
 
             </div>
+            <br>
             <div class="flex justify-end items-center space-x-2">
                 {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
-                <x-secondary-button x-on:click="$dispatch('open-modal', 'profit-modal')"> Resel Profit {{$orders->resellerProfit?->sum('profit') ?? 0}} TK </x-secondary-button>
-                <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'" x-on:click="$dispatch('open-modal', 'comission-modal')"> comission {{$orders->comissionsInfo?->sum('take_comission') ?? 0}} TK </x-secondary-button>
+                @if (auth()->user()->active_nav == 'vendor')
+                    <x-secondary-button x-on:click="$dispatch('open-modal', 'profit-modal')"> Resel Profit {{$orders->resellerProfit?->sum('profit') ?? 0}} TK </x-secondary-button>
+                @endif
+                <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'" x-on:click="$dispatch('open-modal', 'comission-modal')"> {{ auth()->user()->account_type() == 'reseller' ? auth()->user()->resellerShop()->system_get_comission ?? 0 : auth()->user()->vendorShop()->system_get_comission ?? 0 }} % comission {{$orders->comissionsInfo?->sum('take_comission') ?? 0}} TK </x-secondary-button>
             </div>
             {{-- <x-nav-link >Print</x-nav-link> --}}
         </x-dashboard.section>
@@ -87,7 +157,13 @@
                         $buy = $orders->cartOrders->sum('product.buying_price');
                         $total = $orders->cartOrders->sum('buying_price');
                     @endphp
-                    {{ $total - $buy ?? "0"}}
+                    @if (auth()->user()->active_nav == 'reseller')
+                        {{ $orders->cartOrders->sum('price') - $orders->cartOrders->sum('buying_price') }}
+                    @endif
+                    @if (auth()->user()->active_nav == 'vendor')
+                        {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('product.buying_price') }}
+                    @endif
+                    {{-- {{ $total ."=". $buy ?? "0"}} --}}
                 </x-slot>
             </x-dashboard.overview.div>
             {{-- <x-dashboard.overview.div>
@@ -172,18 +248,25 @@
                                     </div>
                                 </div>
 
-                                @if ( $item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
-                                    
-                                    <x-primary-button wire:click.prevent="syncOrder({{$item->id}})" > 
-                                        <i class="fas fa-sync"></i>    
-                                    </x-primary-button>
-                                @endif
                             </td>
                             <td>
-                                @if ($item->product?->isResel())
-                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Resell </span>
+                                @if ($item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
+                                <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Vendor </span>
                                 @else 
-                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                @endif
+                                @if ( $item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
+                                    @php
+                                        $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id, 'reseller_product_id' => $item->product_id])->first();
+    
+                                    @endphp
+                                    @if ($alreadySynced->count() > 0)
+                                        <i @class(['fas', 'fa-link' => $alreadySynced->status == 'Pending', 'fa-checked-circle' => $alreadySynced->status == 'Confirmed'])></i>
+                                    @else
+                                        <x-secondary-button wire:click.prevent="syncOrder({{$item->id}})" > 
+                                            <i class="fas fa-sync"></i>    
+                                        </x-secondary-button>
+                                    @endif
                                 @endif
                             </td>
                             <td>
@@ -201,9 +284,9 @@
                             <td>
                                 @if (auth()->user()->account_type() == 'reseller')
                                 
-                                {{$item->product?->price ?? "N/A"}} TK
+                                    {{$item->product?->price ?? "N/A"}} TK
                                 @else
-                                {{$item->buying_price ?? "N/A"}} TK
+                                    {{$item->buying_price ?? "N/A"}} TK
                                 @endif
                             </td>
                             <td>
@@ -229,7 +312,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="6" class="text-right">Delevery</td>
+                        <td colspan="6" class="text-right">Delivery</td>
                         <td>
                             {{ $orders->shipping ?? 0}} Tk
                         </td>
@@ -310,11 +393,11 @@
                             <option value="Other">Out side of Dhaka</option>
                         </select>
                     </x-input-file>
-                    <x-input-file label="Delevery Method" name="delevery" error="delevery" >
+                    <x-input-file label="Delivery Method" name="delevery" error="delevery" >
                         <select wire:model.live="delevery" id="" >
                             <option value="">Select Shipping Type</option>
                             <option value="Courier">Courier</option>
-                            <option value="Home">Home Delevery</option>
+                            <option value="Home">Home Delivery</option>
                         </select>
                     </x-input-file>
                     <x-primary-button>Order</x-primary-button>

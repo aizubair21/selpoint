@@ -14,8 +14,10 @@ use App\Livewire\Pages\Shops\Shop;
 use App\Livewire\Pages\SingleProductOrder;
 use App\Models\DistributeComissions;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\TakeComissions;
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -115,4 +117,11 @@ Route::get('/user-agents', function (Request $request) {
     } catch (\Throwable $th) {
         throw $th;
     }
+});
+
+Route::get('check-product', function () {
+    // get the product, those who have the isResel relation
+    return Product::query()->whereHas('isResel', function ($query) {
+        $query->with('isResel');
+    })->with('isResel')->get();
 });

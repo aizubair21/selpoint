@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductComissionController;
 use App\Models\CartOrder;
 use App\Models\Order;
 use App\Models\syncOrder;
+use App\Models\TakeComissions;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -19,34 +20,82 @@ class View extends Component
     #[URL]
     public $order;
 
-    public $orders, $mainProduct, $isResell = false, $resellerProductId = '', $cartOrderId = '';
+    public $orderStatus = 'Pending', $orders, $mainProduct, $isResell = false, $resellerProductId = '', $cartOrderId = '', $cartOrder;
     public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no;
 
     public function mount()
     {
         $this->orders = Order::find($this->order);
+        $this->orderStatus = $this->orders->status;
     }
 
-    public function computed() {}
+    // public function updated($property)
+    // {
+    //     // if orderStatus update
+    //     $this->updateStatus($this->orders); // update status
+    // }
+
+    // public function updateOrderStatusTo($status)
+    // {
+    //     $this->updateStatus($status);
+    // }
 
 
-    public function updateStatus($status)
+    public function updateOrderStatusTo($status)
     {
-        // dd($this->orders);
-        if ($this->orders->status == 'Pending') {
+        // dd($status);
+        $sysOr = syncOrder::where(['reseller_order_id' => $this->orders->id])->first();
+        // dd($sysOr->userOrder);
+        if (in_array($status, ['Cancel', 'Hold', 'Pending'])) {
+            $this->orders->update(['status' => $status]);
+            if ($sysOr) {
+                # code...
+                $sysOr->status = $status;
+                $sysOr->save();
+            }
+        }
 
-            if (auth()->user()->abailCoin() > $this->orders->comissionsInfo->sum('take_comission')) {
+        if ($this->orders->status == 'Pending' && auth()->user()->abailCoin() < $this->orders->comissionsInfo->sum('take_comission')) {
+            $this->dispatch('warning', "You Don't have required balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission') . " balance to procces the order ");
+            return;
+        }
 
-                $this->orders->status = $status;
-                $this->orders->save();
+        if (auth()->user()->abailCoin() > $this->orders->comissionsInfo->sum('take_comission')) {
 
+            $this->orders->update(['status' => $status]);
+            // $this->orders->save();
+
+            if ($sysOr) {
+                # code...
+                $sysOr->status = $status;
+                $sysOr->save();
+            }
+
+            if ($this->orders->status == 'Confirmed') {
                 $ct = new ProductComissionController(); // instance
                 $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
+                // $ct->confirmTakeComissions($sysOr->user_order_id); // call to confirm comissions for user
 
-                $this->dispatch('refresh');
-            } else {
-                $this->dispatch('warning', "You Don't have requried balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission') . " balance to procces the order ");
+                // $comisionForUser = TakeComissions::where([
+                //     'order_id' => $this->cartOrder->order_id,
+                //     'product_id' => $this->cartOrder->product_id,
+                // ])->get();
+
+                // if ($comisionForUser->count() > 0) {
+                //     # code...
+                //     $comisionForUser->each(function ($item) {
+                //         $item->confirmed = true;
+                //         // You could add more custom logic here
+                //         $item->save();
+                //     });
+                // }
             }
+
+            $this->dispatch('refresh');
+            return;
+        } else {
+            $this->dispatch('warning', "You Don't have required balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission ') . " balance to procces the order ");
+            return;
         }
 
         // if ($this->orders->status == 'Accept') {
@@ -57,14 +106,21 @@ class View extends Component
 
     public function syncOrder($ci)
     {
-        $cartOrderQuery = CartOrder::findOrFail($ci);
+        $this->cartOrder = CartOrder::findOrFail($ci);
 
-        if ($cartOrderQuery->product?->isResel) {
+        if ($this->cartOrder->product?->isResel()) {
             $this->isResell = true;
-            $this->resellerProductId = $cartOrderQuery->product_id;
-            $this->mainProduct = $cartOrderQuery->product?->isResel?->mainProduct;
-            $this->cartOrderId = $cartOrderQuery->id;
+            $this->resellerProductId = $this->cartOrder->product_id;
+            $this->mainProduct = $this->cartOrder->product?->isResel;
+            $this->cartOrderId = $this->cartOrder->id;
         }
+
+        // $comisionForUser = TakeComissions::where([
+        //     'order_id' => $this->cartOrder->order_id,
+        //     'product_id' => $this->cartOrder->product_id,
+        // ])->get();
+
+        // dd($comisionForUser);
 
         // dd($this->mainProduct);
 
@@ -73,9 +129,9 @@ class View extends Component
         $this->location = $this->orders->location;
         $this->area_condition = $this->orders->area_condition;
         $this->delevery = $this->orders->delevery;
-        $this->rprice = $ci->price;
-        $this->quantity = $ci->quantity;
-        $this->attr = $ci->size;
+        $this->rprice = $this->cartOrder->price;
+        $this->quantity = $this->cartOrder->quantity;
+        $this->attr = $this->cartOrder->size;
         $this->name = $this->orders->user?->name;
         $this->phone = $this->orders->number ?? $this->orders->user?->phone;
         $this->house_no = $this->orders->house_no;
@@ -85,6 +141,7 @@ class View extends Component
 
     public function confirmSyncOrder()
     {
+        // dd($this->mainProduct?->id,);
         // $isExists = Order::where(
         //     [
         //         'order_id' => $this->orders->id,
@@ -99,7 +156,7 @@ class View extends Component
             [
                 'user_id' => auth()->user()->id,
                 'user_type' => 'reseller',
-                'belongs_to' => $this->mainProduct->user_id,
+                'belongs_to' => $this->cartOrder?->product?->isResel?->belongs_to,
                 'belongs_to_type' => 'vendor',
 
                 'quantity' => $this->quantity,
@@ -123,15 +180,15 @@ class View extends Component
             [
                 'user_id' => Auth::id(),
                 'user_type' => 'reseller',
-                'belongs_to' => $this->mainProduct->user_id,
+                'belongs_to' => intval($this->cartOrder?->product?->isResel?->user_id),
                 'belongs_to_type' => 'vendor',
                 'order_id' => $order->id,
-                'product_id' => $this->mainProduct->id,
+                'product_id' => $this->mainProduct?->parent_id,
                 'quantity' => $this->quantity,
                 'price' => $this->rprice,
                 'size' => $this->attr,
                 'total' => $this->quantity * $this->rprice,
-                'buying_price' => $this->mainProduct->offer_type ? $this->mainProduct->discount : $this->mainProduct->price,
+                'buying_price' => $this->mainProduct->reselProduct->buying_price,
                 'status' => 'Pending',
             ]
         );
@@ -145,10 +202,7 @@ class View extends Component
             ProductComissionController::dispatchProductComissionsListeners($order->id);
         }
 
-        $this->dispatch('close-modal', 'order-sync-modal');
-
         $sync = new syncOrder();
-        
         $sync->user_id = $this->orders->user_id;
         $sync->user_order_id = $this->orders->id;
         $sync->user_cart_order_id = $this->cartOrderId;
@@ -156,9 +210,13 @@ class View extends Component
         $sync->reseller_order_id = $order->id;
         $sync->vendor_product_id = $this->mainProduct->id;
         $sync->reseller_id = auth()->user()->id;
-        $sync->vendor_id = $this->mainProduct->belongs_to;
+        $sync->vendor_id = $this->cartOrder?->product?->isResel?->belongs_to;
+        $sync->status = 'Pending';
 
-        $this->mainProduct->$sync->save();
+        $sync->save();
+
+        $this->dispatch('close-modal', 'order-sync-modal');
+        $this->dispatch('refresh');
     }
 
     public function render()
