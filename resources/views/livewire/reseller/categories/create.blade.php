@@ -18,6 +18,17 @@
                     <x-hr/>
                     <x-input-field class="w-full" name="slug" wire:model.live="slug" error="slug" label="SEO Slug" labelWidth="250px" />
                     <x-hr/>
+                    <div class="mb-4">
+                        @if ($image)
+                            <img src="{{$image->temporaryUrl()}}" width="100" height="100" class="border shadow rounded" alt="">
+                        @endif
+                        
+                        <label for="image" class=" rounded border p-2 inline-block text-sm font-medium text-end text-gray-700"> <i class="fas fa-upload pr-2"></i> Upload </label>
+                        <input type="file" id="image" wire:model.live="image" class="hidden mt-1 block w-full border rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        
+                        @error('category.slug') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+                    <x-hr/>
                     <x-input-file label="Parent" error="parent_id" >
                         <select wire:model.live="parent_id" class="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                             <option value="">Select Parent Category</option>

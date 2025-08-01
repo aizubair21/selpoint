@@ -76,6 +76,27 @@
     @livewire('pages.slider')
     
     <x-dashboard.container>
+        {{-- categories  --}}
+        <div x-loading.disabled x-transition style="" class="flex gap-3 overflow-x-scroll">
+            @if (count($categories))
+                
+                @foreach ($categories as $item)
+                    @if ($item->slug != 'default-category')         
+                    <div class="relative bg-white text-center rounded p-2 hover:border-indigo-900 hover:shadow w-full" style="width:100px">
+                        <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px; width:100px" wire:navigate >
+                            <img src="{{asset('storage/'.$item->image)}}" style="height: 55px; margin:0 auto;" alt="">
+                            <div class=" w-full bg-white p-1 text-center" style="width:90px"> 
+                                {{$item->name}}
+                            </div>
+                        </a>
+                    </div>
+                    @endif
+                @endforeach
+            @endif
+        </div>
+
+
+        <x-hr/>
         <div x-init="$wire.getProducts">
             <div class="py-4 flex px-2 justify-between items-center">
                 <div class="text-3xl font-bold">

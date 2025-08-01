@@ -2,18 +2,21 @@
 
 namespace App\Livewire\System\Categories;
 
+use App\HandleImageUpload;
 use App\Models\Category;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.app')]
 class Edit extends Component
 {
+    use WithFileUploads, HandleImageUpload;
     public $cid;
-    public $category, $categories;
+    public $category, $categories, $newImage;
 
     // #[On('mount')]
     public function mount()
@@ -35,11 +38,18 @@ class Edit extends Component
         ]);
 
         // Update the category
-        Category::where('id', $this->cid)->update([
-            'name' => $vlaidate['category']['name'],
-            'slug' => Str::slug($vlaidate['category']['name']),
-            'belongs_to' => $vlaidate['category']['belongs_to'] ?? null,
-        ]);
+        try {
+            //code...
+            Category::where('id', $this->cid)->update([
+                'name' => $vlaidate['category']['name'],
+                'slug' => Str::slug($vlaidate['category']['name']),
+                'belongs_to' => $vlaidate['category']['belongs_to'] ?? null,
+                'image' => $this->handleImageUpload($this->newImage, 'categories', $this->category['image']),
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            $this->dispatch('error', $th->getMessage());
+        }
         $this->dispatch('success', 'Category updated successfully.');
         return redirect()->route('system.categories.index');
     }

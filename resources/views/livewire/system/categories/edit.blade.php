@@ -4,7 +4,13 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    {{ __('Edit Category') }}
+                    <div class="flex justify-between items-start w-full" >
+
+                        {{ __('Edit Category') }}
+                        <x-primary-button class="ml-2" wire:click="$dispatch('open-modal', 'category_create')">
+                            <i class="fas fa-plus pr-2"></i>{{ __(' Category') }}
+                        </x-primary-button>
+                    </div>
                 </x-slot>
                 <x-slot name="content">
                     {{ __('Modify the details of the selected category.') }}
@@ -22,6 +28,19 @@
                         <input type="text" id="name" wire:model.defer="category.slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
                         @error('category.slug') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
+                    <div class="mb-4">
+                        @if ($newImage)
+                            <img src="{{$newImage->temporaryUrl()}}" width="100" height="100" class="border shadow rounded" alt="">
+                        @else
+                            <img src="{{asset('storage/'.$category['image'])}}" width="100" height="100" class="border shadow rounded" alt="">
+                        @endif
+                        
+                        <label for="image" class=" rounded border p-2 inline-block text-sm font-medium text-end text-gray-700"> <i class="fas fa-upload pr-2"></i> Upload </label>
+                        <input type="file" id="image" wire:model.live="newImage" class="hidden mt-1 block w-full border rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        
+                        @error('category.slug') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                    </div>
+
                     <x-hr/>
 
                     <div class="mb-4">
@@ -62,4 +81,8 @@
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
+
+    <x-modal name="category_create" :title="__('Create Category')">
+        <livewire:reseller.categories.create />
+    </x-modal>
 </div>

@@ -1,7 +1,9 @@
 @props(['item', 'loop' => 1, 'collapse' => false])
 <div class="p-2 border-b border-gray-200 w-full hover:bg-gray-50 cursor-pointer flex justify-between items-start" x-data="{ open: {{ $collapse ? 'true' : 'false' }} }" >
     <div class="flex-1 ">
-        <span class="pr-2" >{{$loop}} </span>  {{ Str::ucfirst($item->name)}}
+        <div class="flex gap-2">
+            <span class="pr-2" >{{$loop}} </span>  <img src="{{asset('storage')."/".$item->image}}" width="30" height="30" alt="">  {{ Str::ucfirst($item->name)}}
+        </div>
 
         <div class="w-full" x-show="open">
             {{-- subcategories: --}}

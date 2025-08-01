@@ -20,11 +20,10 @@ class Create extends Component
     use WithFileUploads, HandleImageUpload;
 
     #[validate]
-    public $name, $image, $account;
+    public $name, $image;
 
     // protected refresh listeners
-    public $parent_id, $categories = [], $slug;
-
+    public $parent_id, $categories = [], $slug, $account;
     public function updated($pro)
     {
         if ($pro == 'name') {
