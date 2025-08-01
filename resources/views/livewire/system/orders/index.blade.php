@@ -182,39 +182,7 @@
                                     </td>
                                     <td>
                                        {{-- {{$item->status ?? "N/A"}} --}}
-                                        @if ($item->status == 'Pending')
-                                            <span class="bg-yellow-300 rounded-lg px-2 py-1">Pending</span>
-                                        @endif
-
-                                        @if ($item->status == 'Picked')
-                                            <span class="bg-sky-300 rounded-lg px-2 py-1 text-white">Picked</span>
-                                        @endif
-
-                                        @if ($item->status == 'Delivery')
-                                            <span class="bg-sky-300 rounded-lg px-2 py-1 text-white">Delivery</span>
-                                        @endif
-                                       
-                                        @if ($item->status == 'Delivered')
-                                            <span class="bg-indigo-300 rounded-lg px-2 py-1 text-white">Delivered</span>
-                                        @endif
-                                       
-                                        @if ($item->status == 'Finished')
-                                            <span class="bg-green-900 rounded-lg px-2 py-1 text-white">Finished</span>
-                                        @endif
-
-                                        @if ($item->status == "Accept")
-                                            <span class="bg-green-300 rounded-lg px-2 py-1 text-white">Accept</span>
-                                        @endif
-
-                                        @if ($item->status == "Cancel")
-                                            <span class="bg-red-300 rounded-lg px-2 py-1 ">Reject</span
-                                        @endif
-                                        @if ($item->status == "Hold")
-                                            <span class="bg-red-300 rounded-lg px-2 py-1 ">Hold</span
-                                        @endif
-                                        @if ($item->status == "Cancelled")
-                                            <span class="bg-gray-300 text-white rounded-lg px-2 py-1 ">Buyer Cancelled</span
-                                        @endif
+                                        <x-dashboard.order-status :status="$item->status" />
 
                                     </td>
                                     <td>

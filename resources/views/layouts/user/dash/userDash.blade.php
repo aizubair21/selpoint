@@ -10,14 +10,8 @@
       <link rel="shortcut icon" href="{{asset('icon.png')}}" type="">
       <link rel="icon" href="{{asset('icon.png')}}" type="image/x-icon" />
 
-      <title>
-         @isset($site_title)
-            @yield('site_title')
-         @else 
-            <x-application-name />
-         @endisset
-      </title>
-
+      <x-site_title />
+      
       <!-- Scripts -->
       @vite(['resources/css/app.css', 'resources/js/app.js'])
       

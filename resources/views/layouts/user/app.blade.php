@@ -15,14 +15,6 @@
 
       <x-site_title />
 
-      <title>
-         @isset($site_title)
-            @yield('site_title')
-         @else 
-            <X-application-name />
-         @endisset
-      </title>
-
       {{-- google font  --}}
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

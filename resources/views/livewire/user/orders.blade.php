@@ -46,7 +46,7 @@
                             </td>
                             <td>{{$item->id}}</td>
                             <td>
-                                {{$item->status ?? "N/A"}}
+                                <x-dashboard.order-status :status="$item->status" />
                             </td>
                             <td>
                                 {{-- <div class="flex">
