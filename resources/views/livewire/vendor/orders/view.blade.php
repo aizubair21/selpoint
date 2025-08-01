@@ -260,7 +260,7 @@
                                         $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id, 'reseller_product_id' => $item->product_id])->first();
     
                                     @endphp
-                                    @if ($alreadySynced->count() > 0)
+                                    @if ($alreadySynced && $alreadySynced?->count() > 0)
                                         <i @class(['fas', 'fa-link' => $alreadySynced->status == 'Pending', 'fa-checked-circle' => $alreadySynced->status == 'Confirmed'])></i>
                                     @else
                                         <x-secondary-button wire:click.prevent="syncOrder({{$item->id}})" > 
