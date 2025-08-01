@@ -9,6 +9,7 @@ use App\Livewire\Pages\Products as userProductsPage;
 use App\Livewire\Pages\Categories as userCategoriesPage;
 use App\Livewire\Pages\Cproducts as userProductsForCategoryPage;
 use App\Livewire\Pages\ProductsDetails as userProductsDetailsPage;
+use App\Livewire\Pages\Search;
 use App\Livewire\Pages\Shops\All;
 use App\Livewire\Pages\Shops\Shop;
 use App\Livewire\Pages\SingleProductOrder;
@@ -55,6 +56,10 @@ Route::get('product/order/{id}/{slug}', SingleProductOrder::class)->name('produc
 /**shops */
 Route::get('/shops', All::class)->name('shops');
 Route::get('/shops/{id}/{name}', Shop::class)->name('shops.visit');
+
+
+/** search */
+Route::get('/search', Search::class)->name('search');
 
 
 // other page route for user

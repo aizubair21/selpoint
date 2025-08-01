@@ -82,15 +82,15 @@
                 
                 @foreach ($categories as $item)
                     @if ($item->slug != 'default-category')         
-                    <div class="relative bg-white text-center rounded hover:border-indigo-900 hover:shadow w-full" style="width:110px">
-                        <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate >
-                            <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
-                            <div class="absolute bottom-0 shadow text-white px-1 w-full text-center" style="background-color:
-                            #00000067; backdrop-filter:blur(6px)"> 
-                                {{$item->name}}
-                            </div>
-                        </a>
-                    </div>
+                        <div class="relative bg-white text-center rounded hover:border-indigo-900 hover:shadow w-full" style="width:110px">
+                            <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate >
+                                <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
+                                <div class="absolute bottom-0 shadow text-white px-1 w-full text-center" style="background-color:
+                                #00000067; backdrop-filter:blur(6px)"> 
+                                    {{$item->name}}
+                                </div>
+                            </a>
+                        </div>
                     @endif
                 @endforeach
             @endif

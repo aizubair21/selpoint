@@ -150,7 +150,9 @@ new class extends Component {
             </div>
 
             <div class="relative border flex-1">
-                <input type="search" name="" placeholder="Search Product By Title or Tasgs" class="border-0 shadow-0 focus:border-0 focus:shadow-0 w-full" id="">
+                <form action="{{route('search')}}">
+                    <input type="search" name="q" value="{{request()->get('q')}}" placeholder="Search Product By Title or Tasgs" class="border-0 shadow-0 focus:border-0 focus:shadow-0 w-full" style="margin-bottom: 0px;" id="search">
+                </form>
             </div>
         </div>
 
@@ -256,9 +258,11 @@ new class extends Component {
         </div>
 
         {{-- search  --}}
-        <div x-show="search" x-transition class="absolute bottom-0 left-0 flex justify-between items-center flex-1 w-full px-4  " id="search_content">
+        <div x-show="search" x-transition class="absolute border rounded shadow flex justify-between items-center flex-1 pr-3" style="left: 30px; width:80%" id="search_content">
             <div class="relative w-full flex-1 px-2">
-                <input type="search" name="" autofocus placeholder="Search Product By Title or Tasgs" class="border-0 shadow-0 blur:border-0 blur:shadow-0 w-full" id="">
+                <form action="{{route('search')}}">
+                    <input type="search" name="q" autofocus placeholder="Search Product By Title or Tasgs " class="mb-0 border-0 shadow-0 blur:border-0 blur:shadow-0 w-full" id="" autofocus style="margin-bottom:0px">
+                </form>
             </div>
             <button x-on:click="search = !search">
                 <i class="fas fa-times"></i>
@@ -355,9 +359,9 @@ new class extends Component {
     {{-- other side nav  --}}
     <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px;width:250px;">
         <a wire:navigate href="{{route('shops')}}" class="w-full p-3 bg-indigo-200 py-4 border rounded flex justify-between items-center mb-4" > Shops <i class="fas fa-caret-right"></i> </a>
+        
         @volt()
             <div>
-
                 @foreach ($categories as $item)
                     <div class="p-3 border-b bg-gray-100 mb-1" x-data="{display:false}">
                         {{-- btn  --}}
