@@ -87,9 +87,9 @@ new class extends Component
     </div>
 
     {{-- card body  --}}
-    <div class="details_box p-2 flex flex-col justify-between">
+    <div class=" p-2 flex flex-col justify-between">
         
-        <div class="w-full mb-2 flex items-start justify-between text-white" >
+        <div class="text-white" >
 
             {{-- <a href="{{ route('product.details', ['id' => $product->id]) }}" class="d-block w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light" style="border-top-right-radius:12px; border-bottom-right-radius:12px">
                 {{ $product->name }}
@@ -100,8 +100,8 @@ new class extends Component
             </div> --}}
 
 
-            <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-xs text-truncate text-black">
-                {{ $product->title ?? "N/A"}}
+            <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}" class="text-black">
+                {{ Str::limit($product->title ?? 'Product Title Here', 10, '...')}}
             </a>
 
             {{-- <div style="width:20%;" class="text-sm py-1 px-2 bg_primary">

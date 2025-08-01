@@ -13,6 +13,7 @@ use function Livewire\Volt\{computed};
 //     return auth()->user() ? auth()->user()->myCarts()->count() : "0";
 // });
 
+
 new class extends Component {
 
     public $count = 0, $navigations = [], $categories = [];
@@ -68,6 +69,7 @@ new class extends Component {
 
         {{-- search  --}}
         <div class="hidden md:flex justify-start items-center flex-1 w-full px-4" id="search_content">
+            
             <style>
                 .nv-shop-item{
                     height: auto;
@@ -96,6 +98,7 @@ new class extends Component {
                     transition: all linear .3s;
                 }
             </style>
+
             <a wire:navigate href="{{route('shops')}}" class="block px-2" > Shops </a>
             <div class="pe-4 max-w-md nv-shop-btn relative" id="" style="width:200px">
                 <div class="flex items-center justify-center cursor-pointer">
@@ -106,14 +109,14 @@ new class extends Component {
                 <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
                    <div class="">
                        @volt()
-                            <div class="" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); grid-gap:10px; max-width:1400px">
+                            <div class="" style="display:grid; grid-template-columns:repeat(auto-fit, 150px); max-width:1400px">
 
                                 @foreach ($categories as $item)
                                     {{-- <x-client.cat-loop :item="$item" :key="$item->ids" /> --}}
                                     @if ($item->slug != 'default-category')
-                                        <div class="space-x-2 mx-1 text-start h-full p-2 " style="width:150px">
-                                            <x-nav-link class=" text-gray-900 text-xl" style="font-size: 16px" href="{{ route('category.products', ['cat' => $item->slug]) }}">
-                                                {{ Str::ucfirst( $item->name) }}
+                                        <div class="space-x-2 text-start h-full p-2 " style="width:150px">
+                                            <x-nav-link class=" text-gray-900 text-xl font-bold" style="font-size: 16px" href="{{ route('category.products', ['cat' => $item->slug]) }}">
+                                                {{ Str::limit( Str::ucfirst( $item->name), 10,'..') }}
                                                 {{-- <i class="fas fa-chevron-right"></i> --}}
                                             </x-nav-link>
 
@@ -123,7 +126,7 @@ new class extends Component {
                                                         {{-- <x-nav-link class="block">{{$child->name ?? "N/A"}}</x-nav-link> --}}
                                                         <x-nav-link class=" text-gray-900 text-md" href="{{ route('category.products', ['cat' => $child->slug]) }}">
                                                             {{-- <i class="fas fa-chevron-right"></i> --}}
-                                                            {{ Str::ucfirst( $child->name) }}
+                                                            {{ Str::limit( Str::ucfirst( $child->name), 10,'..') }}
                                                         </x-nav-link>
                                                     </div>
                                                     
@@ -132,7 +135,7 @@ new class extends Component {
                                                         <div class="ms-3">
                                                             <x-nav-link class=" text-gray-900 text-md" href="{{ route('category.products', ['cat' => $sub->slug]) }}">
                                                                 {{-- <i class="fas fa-chevron-right"></i> --}}
-                                                                {{ Str::ucfirst( $sub->name) }}
+                                                                {{ Str::limit( Str::ucfirst( $sub->name), 10,'..') }}
                                                             </x-nav-link>
                                                         </div>
                                                     @endforeach
@@ -302,7 +305,9 @@ new class extends Component {
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex items-center px-3 py-2 border border text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
+                                        <div>
+                                            {{ Str::limit(auth()->user()->name, 8)}}
+                                        </div>
         
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

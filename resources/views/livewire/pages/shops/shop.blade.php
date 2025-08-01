@@ -98,20 +98,6 @@
     <x-dashboard.container class="my-[100]">
 
         <div x-loading.disabled x-transition>
-
-            <div class="w-full md:w-1/4">
-                <div class="text-sm py-2">Categories</div>
-                <div style="display: grid; grid-template-columns:repeat(auto-fill, minmax(145px, 1fr));grid-gap: 10px;">
-                    @if ($categories)
-                        
-                        @foreach($categories as $cat)
-                            <x-client.cat :cat="$cat" :key="$cat->id" />
-                        @endforeach    
-                    @endif
-                
-                </div>
-            </div>
-            <x-hr/>
             
             <div class="product_section w-full md:w-3/4" > 
                 
