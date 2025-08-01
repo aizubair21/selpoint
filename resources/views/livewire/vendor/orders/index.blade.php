@@ -81,7 +81,7 @@
                             <x-nav-link href="?nav=Delivery" :active="$nav == 'Delivery'">Delivery</x-nav-link>
                             <x-nav-link href="?nav=Delivered" :active="$nav == 'Delivered'">Delivered</x-nav-link>
                             <x-nav-link href="?nav=Confirm" :active="$nav == 'Confirm'">Confirm</x-nav-link>
-                            <x-nav-link href="?nav=Hold" :active="$nav == 'Hold'">Confirm</x-nav-link>
+                            <x-nav-link href="?nav=Hold" :active="$nav == 'Hold'">Hold</x-nav-link>
                             <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancel</x-nav-link>
                             <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel by User</x-nav-link>
                         </div>
