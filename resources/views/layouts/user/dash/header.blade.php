@@ -140,29 +140,114 @@ new class extends Component{
                         
                                 {{-- special permission  --}}
                                 <div class="py-2">
-                                        @can('vendors_navigation')                                
-                                            <x-dropdown-link wire:navigate href="{{route('system.vendor.index')}}" class="text-green bold border-b">
-                                                Manage Vendor
-                                            </x-dropdown-link>
-                                        @endcan
-        
-                                        @can('resellers_navigation')
-                                        <x-dropdown-link wire:navigate class="text-green bold border-b">
-                                            Manage Reseller
-                                        </x-dropdown-link>
-                                        @endcan
-        
-                                        @can('riders_navigation')
-                                        <x-dropdown-link wire:navigate class="text-green bold border-b">
-                                            Manage D. Man
-                                        </x-dropdown-link>
-                                        @endcan 
-        
-                                        @can('users_navigation')
-                                        <x-dropdown-link wire:navigate class="text-green bold border-b">
-                                            Manage Users
-                                        </x-dropdown-link>
-                                        @endcan
+                                                           
+                                    @can('users_view')
+                                        <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
+                                            {{ __('Users Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan 
+
+                                    @can('admin_view')         
+                                        <x-responsive-nav-link :href="route('system.admin')" :active="request()->routeIs('system.admin')">
+                                            {{ __('Admin Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan
+                                    @can('vendors_view')         
+                                        <x-responsive-nav-link :href="route('system.vendor.index')" :active="request()->routeIs('system.vendor.*')">
+                                            {{ __('Vendor Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan
+
+                                    @can('resellers_view')
+                                        <x-responsive-nav-link :href="route('system.reseller.index')" :active="request()->routeIs('system.reseller.*')">
+                                            {{ __('Reseller Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan 
+
+                                    @can('riders_view')
+                                        <x-responsive-nav-link :href="route('system.rider.index')" :active="request()->routeIs('system.rider.*')">
+                                            {{ __('Rider Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan
+                                    @can('role_list')
+                                        <x-responsive-nav-link :href="route('system.role.list')" :active="request()->routeIs('system.role.*')">
+                                            {{ __('Role Manage') }}
+                                        </x-responsive-nav-link>
+                                    @endcan 
+                                        
+                                    <x-hr/>
+                                    @can('product_view')
+                                    <x-responsive-nav-link :href="route('system.products.index')" :active="request()->routeIs('system.products.*')">
+                                        {{ __('Products Manage' ) }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+                                    @can('category_view')
+                                    <x-responsive-nav-link :href="route('system.categories.index')" :active="request()->routeIs('system.categories.*')">
+                                        {{ __('Categories Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+
+
+                                    
+                                    {{-- @if (auth()->user()->hasRole('system'))
+                                        
+                                    
+                                    @endif --}}
+                                    
+                                    {{-- @can('role_list')
+                                    @endcan  --}}
+                                    @can('vip_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
+                                        {{ __('ViP Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+                                    @can('slider_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.slider.index')" :active="request()->routeIs('system.slider.*')">
+                                        {{ __('Slider Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+                                    {{-- @can('', $post)
+                                        
+                                    @endcan
+                                    <x-responsive-nav-link :href="route('system.navigations.index')" :active="request()->routeIs('system.navigations.*')" >
+                                        {{ __('Navigations') }}
+                                    </x-responsive-nav-link> --}}
+                                    @can('store_view')
+                                    <x-responsive-nav-link :href="route('system.store.index')" :active="request()->routeIs('system.store.*')">
+                                        {{ __('StoreManage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+                                            
+                                    <x-hr/>
+                                    @can('deposit_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.deposit.index')" :active="request()->routeIs('system.deposit.*')">
+                                        {{ __('Deposit Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+
+                                    @can('comission_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
+                                        {{ __('Comission Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+
+                                    @can('order_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
+                                        {{ __('Orders Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
+
+                                    @can('withdraw_view')
+                                        
+                                    <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
+                                        {{ __('Withdraw Manage') }}
+                                    </x-responsive-nav-link>
+                                    @endcan
                                     
                                 </div>
                                 {{-- special permission  --}}

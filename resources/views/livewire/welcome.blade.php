@@ -127,6 +127,7 @@
     
 
         <x-hr/>
+         
         {{-- <div class="py-4 flex px-2 justify-between items-center">
             <div class="text-3xl font-bold">
                 Top Sell
@@ -135,7 +136,7 @@
             
         </div> --}}
         {{-- @livewire('reseller.resel.categories') --}}
-        
+          
     </x-dashboard.container>
 
     @script

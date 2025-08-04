@@ -1,5 +1,4 @@
-@if (auth()->user()->hasAnyRole(['admin', 'system']))
-                    
+                   
      @can('users_view')
         <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
             {{ __('Users') }}
@@ -78,7 +77,6 @@
         {{ __('Store') }}
     </x-responsive-nav-link>
     @endcan
-@endif
         
 <x-hr/>
 @can('deposit_view')
