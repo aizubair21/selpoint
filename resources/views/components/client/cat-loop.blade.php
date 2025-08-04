@@ -1,4 +1,4 @@
-@props(['item', 'active' => false, 'cat' => ''])
+@props(['item', 'active' => false, 'cat' => '', 'style' => ""])
 {{-- @props(['item', 'active' => false]) --}}
 
 @if ($item->slug != 'default-category')
@@ -8,9 +8,9 @@
             <div class="flex items-center justify-between {{ $active ? 'bg-white' : '' }}">
                 <div class="text-lg flex-1">
 
-                    <x-nav-link class=" {{ $active ? 'text-indigo-900' : '' }} font-bold text-bold text-gray-900 text-md" href="{{ route('category.products', ['cat' => $item->slug]) }}">
+                    <x-nav-link class=" {{ $active ? 'bg_secondary text-white' : '' }} font-bold text-bold text-gray-900 text-md w-full" href="{{ route('category.products', ['cat' => $item->slug]) }}">
                         {{-- <i class="fas fa-chevron-right"></i> --}}
-                        {{ Str::ucfirst( $item->name) }}
+                        <div class="{{$style}}"> {{ Str::ucfirst( $item->name) }} </div>
                     </x-nav-link>
                     
                 </div>

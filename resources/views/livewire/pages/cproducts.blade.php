@@ -34,7 +34,7 @@
                         </div>
                         @foreach ($categories as $item)
                         {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
-                            <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
+                            <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" style="font-bold"/>
                         @endforeach
                     </div>
                     

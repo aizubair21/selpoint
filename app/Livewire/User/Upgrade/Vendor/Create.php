@@ -74,8 +74,11 @@ class Create extends Component
                 'road_no' => 'required',
                 'house_no' => 'required',
             ]);
-            array_merge($validated, ['slug' => Str::slug($request->shop_name_en)]);
-            // $request->mergeIfMissing();
+            $request->mergeIfMissing(
+                [
+                    'slug' => str::slug($this->shop_name_en),
+                ]
+            );
             $vendorId = vendor::create($validated);
         }
         if ($this->upgrade == 'reseller') {
@@ -97,8 +100,11 @@ class Create extends Component
                 'road_no' => 'required',
                 'house_no' => 'required',
             ]);
-            array_merge($validated, ['slug' => Str::slug($request->shop_name_en)]);
-            // $request->mergeIfMissing();
+            $request->mergeIfMissing(
+                [
+                    'slug' => str::slug($this->shop_name_en),
+                ]
+            );
             $vendorId = reseller::create($validated);
         }
         // dd();

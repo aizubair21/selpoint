@@ -1,10 +1,4 @@
 <div>
-    {{-- Success is as dangerous as failure. --}}
-    <x-dashboard.page-header>
-        Users
-    </x-dashboard.page-header>
-
-
     <div>
         <x-dashboard.container>
             <x-dashboard.section>

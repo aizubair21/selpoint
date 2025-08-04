@@ -306,7 +306,7 @@ new class extends Component {
                                 <x-slot name="trigger">
                                     <button class="flex items-center px-3 py-2 border border text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                         <div>
-                                            {{ Str::limit(auth()->user()->name, 8)}}
+                                            {{ Str::limit(auth()->user()->name, 8,'..')}}
                                         </div>
         
                                         <div class="ms-1">

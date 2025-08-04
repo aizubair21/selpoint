@@ -122,7 +122,7 @@ new class extends component
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="px-2 py-1 border bg-indigo-900 border-transparent text-white rounded-md mx-1">{{$this->get}}</div>
-                            <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
+                            <div x-data="{{ json_encode(['name' => Str::limit(auth()->user()->name, 8)]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -139,6 +139,7 @@ new class extends component
                         
                         @endif --}}
                         <div class="border-b border-gray-200 px-4 py-2">
+
                             <div class="flex justify-between px-2 " >
                                 <div>Wallet</div>
                                 <div> {{ auth()->user()->abailCoin()}} </div>
@@ -188,7 +189,7 @@ new class extends component
                             {{ __('Back to User Panel') }}
                         </x-dropdown-link>
                         <x-dropdown-link wire:navigate target="_blank" :href="route('home')">
-                            {{ __('Visit Website') }}
+                            {{ __('Visit Website') }}   
                         </x-dropdown-link>
                         
                         <x-hr/>
@@ -253,11 +254,17 @@ new class extends component
             </div>
 
             <div class="mt-3 space-y-1">
+                <x-responsive-nav-link wire:navigate target="_blank" :href="route('user.dash')">
+                    Back to User Dash
+                </x-responsive-nav-link>
+                
+                <x-responsive-nav-link wire:navigate target="_blank" :href="route('home')">
+                    Visit Website
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
-
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">

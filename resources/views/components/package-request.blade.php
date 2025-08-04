@@ -211,7 +211,7 @@
                 @else 
                     {{-- if request is in progress --}}
                     
-                    <div class="flex items-start p-3 shadow border-gray-900 bg-white rounded-lg">
+                    <div class="flex items-start p-3 shadow-lg border border-indigo-900 bg-white rounded-lg">
                         <i class="fas fa-info p-2 me-4"></i>
                         <div>
                             <div class="bold font-bold text-red-900">Request In Progress</div>

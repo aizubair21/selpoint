@@ -1,7 +1,15 @@
 <div>
     @livewire('pages.slider')
 
-    <x-client.common-heading />
+    <div class="py-4">
+        <div >
+            <div class=" w-full text-center w-auto  heading_center mb-3 text-3xl">
+                <h2 class="flex gap-3 justify-center">
+                    <x-application-name  /> <span class="font-bold text-green-900" >Shops</span>
+                </h2>
+            </div>
+        </div>
+    </div>
     <x-dashboard.container>
         <div class="flex justify-start items-center py-3 mb-3">
             <x-nav-link href="/">

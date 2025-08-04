@@ -16,7 +16,7 @@
         @endphp
         @if ($authRequest->status == 'Pending')
             <div class="text-sm py-1 border-b border-t p-2 rounded" style="background-color: #fefcbf; color: #b45309;">
-                    <strong>Pending</strong>, Your account is under reveiw now. You are requested to stay with patience. 
+                    <strong>Pending</strong>, Your account is under reveiw now. stay with patience. 
             </div>
         @endif
         @if ($authRequest->status == 'Active')
@@ -31,7 +31,7 @@
         @endif
 
         @if ($authRequest->documents && $authRequest->documents?->deatline > carbon\Carbon::now())
-            <div class="text-xs py-3 text-gray-400">
+            <div class="text-xs py-3">
                 You are requested to fill your required document, with deatline of
                 <strong>
                     {{Carbon\Carbon::parse($authRequest->documents->deatline)->toFormattedDateString()}} *.

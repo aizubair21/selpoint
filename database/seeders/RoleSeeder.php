@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
         ];
 
         // loop through the roles list
+
         foreach ($roles as $role) {
             // create a new role
             Role::create([

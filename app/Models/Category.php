@@ -30,7 +30,6 @@ class Category extends Model
             ->with(['children' => function ($query) {
                 $query->orderBy('name');
             }, 'user'])
-            ->orderBy('name')
             ->get();
     }
 

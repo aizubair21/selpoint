@@ -46,9 +46,9 @@
                         </select>
                     </x-input-file>
                     <x-hr/>
-                    <x-input-file label="Category Image" error="image" >
+                    {{-- <x-input-file label="Category Image" error="image" >
                         <input type="file" class="rounded border" wire:model.live="image" id="">
-                    </x-input-file>
+                    </x-input-file> --}}
                     <x-primary-button>
                         save
                     </x-primary-button>

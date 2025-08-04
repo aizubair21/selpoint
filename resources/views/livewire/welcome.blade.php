@@ -84,11 +84,11 @@
         <div x-loading.disabled x-transition class="pb-4" style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
                 @foreach ($categories as $item)
                     @if ($item->slug != 'default-category')         
-                        <div class="relative text-center rounded " style="backdrop-filter:blur(3px); background-color:#fff">
+                        <div class="relative text-center rounded-md " style="backdrop-filter:blur(3px); background-color:#fff">
                             <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate >
                                 <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
                                 <div class="absolute bottom-0 shadow w-full text-center" style="background-color:
-                                rgba(0, 0, 0, 0.173); backdrop-filter:blur(6px)"> 
+                                #f6f6f69c; backdrop-filter:blur(6px)"> 
                                     {{ Str::limit($item->name, 10, '...') }}
                                 </div>
                             </a>
@@ -97,7 +97,8 @@
                 @endforeach
             </div>
             @endif
-        <div x-init="$wire.getProducts">
+        
+            <div x-init="$wire.getProducts">
             <div class="py-4 flex px-2 justify-between items-center">
                 <div class="text-3xl font-bold">
                     New Arrival
@@ -126,7 +127,13 @@
     
 
         <x-hr/>
-
+        {{-- <div class="py-4 flex px-2 justify-between items-center">
+            <div class="text-3xl font-bold">
+                Top Sell
+            </div>
+            
+            
+        </div> --}}
         {{-- @livewire('reseller.resel.categories') --}}
         
     </x-dashboard.container>

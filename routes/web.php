@@ -91,6 +91,9 @@ Route::get('contact', function () {
 require __DIR__ . '/auth.php';
 
 
+Route::get('/test', function () {
+    dd(config('app.system_email'));
+});
 
 
 Route::get('/volt-test', function () {
@@ -100,11 +103,6 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
-    // return User::find(Order::find(27)->belongs_to)->account_type();
-    // TakeComissions:: 
-    // $Tc = TakeComissions::query()->where(['order_id' => 1])->pending()->first();
-    // $Tc->distributes;
-    // return Order::query()->first()->id;
     try {
         // return ProductComissions::dispatch(5);
 

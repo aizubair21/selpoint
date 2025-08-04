@@ -9,7 +9,7 @@
             </div>
             {{-- <div class="row"> --}}
             @foreach ($categories as $item)
-                <x-client.cat-loop :item="$item" :key="$item->ids" />
+                <x-client.cat-loop :item="$item" :key="$item->ids" style="font-bold" />
             @endforeach  
             {{-- </div> --}}
         </div>

@@ -30,12 +30,12 @@ class PermissionSeeder extends Seeder
              * permission manage for system
              * if system give permission to admin
              */
-            'permission_navigation', // show permission manage navigation to user panel
-            'permission_list',
-            'permission_create',
-            'permission_edit',
-            'permission_delete',
-            'permission_manage',
+            // 'permission_navigation',
+            // 'permission_list',
+            // 'permission_create',
+            // 'permission_edit',
+            // 'permission_delete',
+            // 'permission_manage',
 
             /**
              * permission fixed for system
@@ -52,21 +52,24 @@ class PermissionSeeder extends Seeder
              * to access the system dashboard section. 
              */
 
-            'access_admin_section',
-            'access_vendor_section',
-            'access_reseller_section',
-            'access_users_section',
-            'access_rider_section',
-            'access_comision_section',
-            'access_withdraw_section',
-            'access_role_section',
-            'access_permission_section',
-            'access_vip_section',
-            'access_store_section',
-            'access_product_section',
-            'access_order_section',
-            'access_slider_section',
-            'access_navigations_section',
+            // 'access_admin',
+            // 'access_vendor',
+            // 'access_reseller',
+            // 'access_users',
+            // 'access_rider',
+            // 'access_comision',
+            // 'access_withdraw',
+            // 'access_role',
+            // 'access_permission',
+            // 'access_permission',
+            // 'access_vip',
+            // 'access_store_section',
+            // 'access_product_section',
+            // 'access_category_section',
+            // 'access_order_section',
+            // 'access_slider_section',
+            // 'access_deposit_section',
+
 
             'access_ticket_section',
             'access_setting_section',
@@ -122,8 +125,8 @@ class PermissionSeeder extends Seeder
             /**
              * reseller
              */
-            'reseller_view_vendors_products',
-            'reseller_view_vendors_categories',
+            'resellers_view_vendors_products',
+            'resellers_view_vendors_categories',
 
             /**
              * permission for admin task
@@ -162,6 +165,7 @@ class PermissionSeeder extends Seeder
             /**
              * category permission for vendor and admin
              */
+            'category_navigation',
             'category_view',
             'category_add',
             'category_edit',
@@ -171,11 +175,81 @@ class PermissionSeeder extends Seeder
             /**
              * product permission for admin and vendor
              */
+            'product_navigation',
             'product_view',
             'product_add',
             'product_edit',
             'product_update',
             'product_delete',
+
+            // comissions permission
+            'comission_navigation',
+            'comission_view',
+            'comission_confim',
+            'comission_update',
+            'comission_delete',
+
+
+            // withdraw
+            'withdraw_navigation',
+            'withdraw_view',
+            'withdraw_confirm',
+            'withdraw_reject',
+
+
+            // vip
+            'vip_navigation',
+            'vip_view',
+            'vip_add',
+            'vip_delete',
+            'vip_update',
+
+            // vip user
+            'vip_user_view',
+            'vip_user_confirm',
+            'vip_user_edit',
+            'vip_user_migrate',
+            'vip_user_reject',
+            'vip_user_delete',
+
+
+            // store 
+            'store_navigation',
+            'store_view',
+            'store_add',
+
+
+            // order
+            'order_navigation',
+            'order_view',
+            'order_manage',
+            'order_confirm',
+            'order_delete',
+            // 'order_accept',
+            // 'order_picked',
+            // 'order_delivery',
+            // 'order_delivered',
+            // 'order_finished',
+            // 'order_cancel',
+            // 'order_hold',
+            // 'order_pending',
+
+
+            // slider
+            'slider_navigation',
+            'slider_view',
+            'slider_add',
+            'slider_edit',
+            'slider_delete',
+
+
+            // deposit
+            'deposit_navigation',
+            'deposit_view',
+            'deposit_confirm',
+            'deposit_reject',
+
+
 
         ];
 

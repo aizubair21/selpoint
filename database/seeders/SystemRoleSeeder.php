@@ -18,7 +18,7 @@ class SystemRoleSeeder extends Seeder
     public function run(): void
     {
         //
-        $system = User::where('email', 'admin247@selpoint.com')->first();
+        $system = User::where('email', config('app.system_email'))->first();
         $systemRole = Role::where('name', 'system')->first();
 
         if ($system) {
@@ -36,13 +36,13 @@ class SystemRoleSeeder extends Seeder
             /**
              * system has it's own reffer code 
              */
-            user_has_refs::create(
-                [
-                    'user_id' => $system->id,
-                    'ref' => config('app.ref'),
-                    'status' => 1
-                ]
-            );
+            // user_has_refs::create(
+            //     [
+            //         'user_id' => $system->id,
+            //         'ref' => config('app.ref'),
+            //         'status' => 1
+            //     ]
+            // );
 
             // $system->syncRole($systemRole);
         }
