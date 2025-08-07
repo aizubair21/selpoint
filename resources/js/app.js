@@ -1,7 +1,12 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+// import Alpine from 'alpinejs';
+// import Swal from 'sweetalert2';
 
-window.Alpine = Alpine;
+import '@fortawesome/fontawesome-free/css/all.css';
 
-Alpine.start();
+// window.Alpine = Alpine;
+
+// Alpine.start();
+
+

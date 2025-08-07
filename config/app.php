@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+    /**
+     * custom config
+     */
+    'ref' => env('REF', 'REF101U'),
+    'comission' => env('COMISSION', true),
+    'vip' => env('VIP', true),
+    'system_email' => env('SYSTEM_EMAIL', "admin247@" . env('APP_NAME') . ".com"),
+    'paginate' => 20,
+    'api_master_key' => env('API_MASTER_KEY', '17f4f177db16d4ec4571bb'),
+
+
 ];
