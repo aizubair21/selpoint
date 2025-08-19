@@ -9,14 +9,15 @@
             @endif
 
             <x-hr/>
+
             <x-input-file label="Logo" error="logo" >
+                <p>   
+                    100x100 logo
+                </p>  
                 <div style="width:100px; height:100px" class="border rounded">
                     @if ($logo)
                         <img style="width:100px; height:100px" class="border rounded shadow" src="{{$logo->temporaryUrl()}}" alt="100x100">
                     @endif
-                    <p>
-                        100x100 logo
-                    </p>
                 </div>
                 <div class="relative">
                     <x-text-input wire:model.live="logo" type="file" id="logo" class="absolute hidden" />
@@ -27,13 +28,13 @@
             </x-input-file>
            
             <x-input-file label="Banner" error="banner" >
+                <p>
+                    100x300 banner image
+                </p>
                 <div style="width:300px;height:100px" class="border rounded">
                     @if ($banner)
                         <img style="width:300px; height:100px" class="border rounded shadow" src="{{$banner->temporaryUrl()}}" alt="100x300">
                     @endif
-                    <p>
-                        100x300 banner image
-                    </p>
                 </div>
                 <div class="relative">
                     <x-text-input wire:model.live="banner" type="file" id="banner" class="absolute hidden" />
@@ -60,100 +61,10 @@
         <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="district" label="Division / State" name="district" error="district" />
         <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="upozila" label="District / City" name="upozila" error="upozila" /> --}}
 
-        {{-- country field  --}}
-        <div class="mt-4 md:flex items-center">
-            <div style="width:350px">
-
-                <x-input-label for="country" value='Your Country'></x-input-label>
-            </div>
-            {{-- <p class="text-sm text-gray-600">Please select your country.</p> --}}
-            
-            {{-- <x-text-input type="search" list="countries" wire:model="country" id="country" class="block mt-1 w-full"
-                            type="text"
-                            name="country" />
-                <datalist id="countries">
-                    <option value="Bangladesh" data-con='BD' />
-                </datalist> --}}
-            <div class="w-full">
-
-                <input type="hidden" wire:model.live="country_code" id="country_code" />
-                <select wire:model="country" id="select_country" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your country</option>
-                </select>                    
-            </div>
-
-            <x-input-error :messages="$errors->get('country')" class="mt-2" />
-        </div>
-
-        {{-- state field  --}}
-        <div class="mt-4 md:flex items-center" id="state_main">
-            <div style="width:350px">
-                <x-input-label for="Division / State" value='Division / State'></x-input-label>
-                <p class="text-sm text-gray-600">Please select your Division / State.</p>
-            </div>
-
-            {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
-                            type="text"
-                            name="district" /> --}}
-            <div class="w-full">
-                
-                <select wire:model="division" id="select_state" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your state</option>
-                </select>
-            </div>
-
-            <x-input-error :messages="$errors->get('division')" class="mt-2" />
-        </div>
        
-
-
-        {{-- state field  --}}
-        <div class="mt-4 md:flex">
-            <div style="width:350px">
-
-                <x-input-label for="District / City" value='District / City'></x-input-label>
-                <p class="text-sm text-gray-600">Please select your District / Town.</p>
-                
-            </div>
-            {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
-                            type="text"
-                            name="district" /> --}}
-
-            <div class="w-full">
-
-                <select wire:model="district" id="select_city" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your City</option>
-                </select>
-                
-                <x-input-error :messages="$errors->get('district')" class="mt-2" />
-            </div>
-        </div>
         
-        
-        {{-- upozila field  --}}
-        <div class="mt-4 md:flex">
-            <div style="width:350px">
-
-                <x-input-label for="Upozila" value='Upozila'></x-input-label>                
-            </div>
-            {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
-                            type="text"
-                            name="district" /> --}}
-
-            <div class="w-full">
-
-                <x-text-input wire:model.live="upozila" class="w-full" placeholder="upozila"/>
-                
-                <x-input-error :messages="$errors->get('district')" class="mt-2" />
-            </div>
-        </div>
-
-        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="village" label="Village / Town" name="village" error="village" />
-        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="zip" label="Zip Code" name="zip" error="zip" />
-        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="road_no" label="Road No" name="road_no" error="road_no" />                
-        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="house_no" label="House No" name="house_no" error="house_no" />
-
-        <div class="mt-4">
+       
+         <div class="mt-4">
             <div style="width:350px">
 
                 <x-input-label for="address" value='Give Full Address Of Your Shops'></x-input-label>
@@ -165,10 +76,100 @@
 
             <div class="w-full">
 
-                <textarea name="address" id="address" wire:model.lazy="address" class="w-full" rows="3" placeholder="Full Address"></textarea>
+                <textarea name="address" id="address" wire:model.lazy="address" class="w-full rounded " rows="1" placeholder="Full Address"></textarea>
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
         </div>
+        <x-hr/>
+        
+        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="village" label="Village" name="village" error="village" />
+        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="zip" label="Zip Code" name="zip" error="zip" />
+        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="road_no" label="Road No" name="road_no" error="road_no" />                
+        <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="house_no" label="House No" name="house_no" error="house_no" />
+        
+        {{-- upozila field  --}}
+        <div class="mt-4 md:flex">
+            <div style="width:350px">
+
+                <x-input-label for="Upozila" value='Upozila / Town'></x-input-label>                
+                <x-input-error :messages="$errors->get('upozila')" class="mt-2" />
+            </div>
+            {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
+                            type="text"
+                            name="district" /> --}}
+
+            <div class="w-full">
+
+                <x-text-input wire:model.live="upozila" class="w-full" placeholder="upozila"/>
+                
+            </div>
+        </div>
+
+        {{-- country field  --}}
+        <div class="mt-4 md:flex items-center">
+            <div style="width:350px">
+                <x-input-label for="country" value='Your Country'></x-input-label>
+                <x-input-error :messages="$errors->get('country')" class="mt-2" />
+            </div>
+            {{-- <p class="text-sm text-gray-600">Please select your country.</p> --}}
+            
+            {{-- <x-text-input type="search" list="countries" wire:model="country" id="countryjj" class="block mt-1 w-full"
+                            type="text"
+                            name="country" />
+                <datalist id="countries">
+                    <option value="Bangladesh" data-con='BD' />
+                </datalist> --}}
+            <div class="w-full">
+
+                <select wire:model="country" id="country" class="rounded border-0 ring-1 block mt-1 w-full">
+                    <option value="">Select your country</option>
+                </select>                    
+            </div>
+
+        </div>
+
+        {{-- state field  --}}
+        <div class="mt-4 md:flex items-center" id="state_main">
+            <div style="width:350px">
+                <x-input-label for="division" value='Division / State'></x-input-label>
+                <p class="text-sm text-gray-600">Please select your Division / State.</p>
+                <x-input-error :messages="$errors->get('division')" class="mt-2" />
+            </div>
+
+            {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
+                            type="text"
+                            name="district" /> --}}
+            <div class="w-full">
+                
+                <select id="division" class="rounded border-0 ring-1 block mt-1 w-full">
+                    <option value="">Select your state</option>
+                </select>
+            </div>
+
+        </div>
+
+        {{-- state field  --}}
+        <div class="mt-4 md:flex">
+            <div style="width:350px">
+
+                <x-input-label for="district" value='District / City'></x-input-label>
+                <p class="text-sm text-gray-600">Please select your District / Town.</p>
+                <x-input-error :messages="$errors->get('district')" class="mt-2" />
+                
+            </div>
+
+
+            <div class="w-full">
+
+                <select wire:model.live="district" id="district" class="rounded border-0 ring-1 block mt-1 w-full">
+                    <option value="">Select your City</option>
+                </select>
+                
+            </div>
+        </div>
+        
+       
+        <br>
         {{-- add a wire navigating feature to button  --}}
         {{-- <x-button wire:click="save" class="bg-blue-500 hover:bg-blue- 700 text-white font-bold py-2 px-4 rounded">Save</x-button> --}}
         <x-primary-button >
@@ -182,9 +183,9 @@
     
         let countryCode = '';
         function getCountryStateCity() {
-            const countrySelectElement = document.getElementById('select_country');
-            const stateSelectElement = document.getElementById("select_state");
-            const citySelectElement = document.getElementById("select_city");
+            const countrySelectElement = document.getElementById('country');
+            const stateSelectElement = document.getElementById("division");
+            const citySelectElement = document.getElementById("district");
 
 
             // get country name and set to country select element
@@ -301,7 +302,7 @@
         }
 
 
-        document.getElementById('select_country').addEventListener('click', (e) =>{
+        document.getElementById('country').addEventListener('click', (e) =>{
             // let countryCode = e.getAttribute('data-iso2');
             if(e.target.children.length == 1){
                 getCountryStateCity();
@@ -314,6 +315,6 @@
             
         // })
 
-        // getCountryStateCity();
+        getCountryStateCity();
     </script>
 </form>

@@ -6,7 +6,7 @@
                 {{$upgrade}} request
             </x-slot>
             <x-slot name="content">
-                Edit and Upgrade Your Vendor Request Form <a href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}">Previous Request</a>
+                Edit and Upgrade Your {{Str::ucfirst($upgrade)}} Request Form <a href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}">Previous Request</a>
                 <br>
                {{-- <x-client.upgrade-status :upgrade="$upgrade" :$id /> --}}
                @includeIf('components.client.upgrade-status')

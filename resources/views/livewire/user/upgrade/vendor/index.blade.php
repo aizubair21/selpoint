@@ -55,7 +55,7 @@
                                         <td>
                                             
                                             <x-nav-link href="{{route('upgrade.vendor.edit', ['upgrade' => 'vendor' , 'id' => $vr->id])}}">
-                                                {{$vr->shop_name_bn}}
+                                                {{$vr->shop_name_en}}
                                             </x-nav-link>
     
                                         </td>
@@ -96,7 +96,7 @@
                                         <td>
                                             
                                             <x-nav-link href="{{route('upgrade.vendor.edit', ['upgrade' => 'reseller','id' => $vr->id])}}">
-                                                {{$vr->shop_name_bn}}
+                                                {{$vr->shop_name_en}}
                                             </x-nav-link>
     
                                         </td>
