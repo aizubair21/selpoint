@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('withdraws', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary()->autoIncrement()->index();
+            $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('phone')->nullable(); // personal phone
             $table->text('pay_by')->nullable();

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User\Upgrade\Vendor;
 
+use App\HandleImageUpload;
 use App\Models\reseller;
 use Livewire\Component;
 use Illuminate\Http\Request;
@@ -9,13 +10,16 @@ use App\Models\vendor;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
+use Livewire\WithFileUploads;
 
 class Create extends Component
 {
+    use WithFileUploads, HandleImageUpload;
+
     #[URL]
     public $upgrade = 'vendor';
 
-    public $shop_name_en, $shop_name_bn, $phone, $email, $country, $district, $upozila, $village, $zip, $road_no, $house_no;
+    public $shop_name_en, $shop_name_bn, $phone, $email, $country, $district, $upozila, $village, $zip, $road_no, $house_no, $address, $logo, $banner, $description;
 
     public function mount()
     {
@@ -27,9 +31,7 @@ class Create extends Component
         }
 
         $this->phone = Auth::user()->phone;
-        $this->country = Auth::user()->country;
-        $this->district = Auth::user()->state;
-        $this->upozila = Auth::user()->city;
+        $this->email = Auth::user()->email;
 
         if ($vi && $vi->status == 'Pending') {
             session()->flash('info', 'Unable to request again, your request is pending');
@@ -61,6 +63,7 @@ class Create extends Component
                 'shop_name_en' => ['required', 'string', 'max:100', 'min:5', 'unique:vendors'],
                 'shop_name_bn' => 'required',
                 'phone' => ['required', 'max:11', 'min:10', 'unique:vendors'],
+                'logo' => 'required',
                 'email' => [
                     'required',
                     'email',
@@ -77,9 +80,11 @@ class Create extends Component
             $request->mergeIfMissing(
                 [
                     'slug' => str::slug($this->shop_name_en),
+                    'logo' => $this->handleImageUpload($this->logo, 'vendor', ''),
+                    'banner' => $this->handleImageUpload($this->banner, 'vendor', ''),
                 ]
             );
-            $vendorId = vendor::create($validated);
+            $vendorId = vendor::create($request->all());
         }
         if ($this->upgrade == 'reseller') {
             $validated = $this->validate([
@@ -103,9 +108,11 @@ class Create extends Component
             $request->mergeIfMissing(
                 [
                     'slug' => str::slug($this->shop_name_en),
+                    'logo' => $this->handleImageUpload($this->logo, 'vendor', ''),
+                    'banner' => $this->handleImageUpload($this->banner, 'vendor', ''),
                 ]
             );
-            $vendorId = reseller::create($validated);
+            $vendorId = reseller::create($request->all());
         }
         // dd();
         // return redirect()->route();

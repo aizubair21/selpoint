@@ -97,7 +97,7 @@ new #[Layout('layouts.guest')] class extends Component
         <hr>
         @endif
         <div class="flex items-center justify-between mt-4">
-            <x-nav-link class="text-center" wire:navigate href="/register" >Register</x-nav-link>
+            <a class="text-center" href="/register" >Register</a>
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

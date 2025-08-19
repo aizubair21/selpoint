@@ -320,19 +320,19 @@ new #[Layout('layouts.guest')] class extends Component
                 // set the country code to the hidden input
                 
                 // countryCode2 = e.getAttribute('data-iso2');
-                console.log('code is ' + countryCode);
+                // console.log('code is ' + countryCode);
                 
-                if (countryCode == "BD") {
-                    // console.log("Bangladesh selected");
-                    stateSelectElement.style.display = 'none';
-                    document.getElementById('state_main').classList.add('hidden');
-                    document.getElementById('state_alt').classList.remove('hidden');
-                } else {
-                    stateSelectElement.style.display = 'block';
-                    document.getElementById('state_main').classList.remove('hidden');
-                    document.getElementById('state_alt').classList.add('hidden');   
+                // if (countryCode == "BD") {
+                //     // console.log("Bangladesh selected");
+                //     stateSelectElement.style.display = 'none';
+                //     document.getElementById('state_main').classList.add('hidden');
+                //     document.getElementById('state_alt').classList.remove('hidden');
+                // } else {
+                //     stateSelectElement.style.display = 'block';
+                //     document.getElementById('state_main').classList.remove('hidden');
+                //     document.getElementById('state_alt').classList.add('hidden');   
                     
-                }
+                // }
                 // console.log("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states");
                 axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states", {
                         headers: {
@@ -343,31 +343,36 @@ new #[Layout('layouts.guest')] class extends Component
                         let htmlOption = '';
                         let ifBd = "";
                         res.data.forEach(state => {
-                            if (countryCode == "BD") {
-                                // console.log(state);
-                                // console.log(countryCode, res.data);
-                                if (state.iso2.length != 1) {
-                                    //get name without  'District' from state.name
-                                    var str = state.name;
-                                    var newstr = str.replace(/ District$/, "");
+                            // if (countryCode == "BD") {
+                            //     // console.log(state);
+                            //     console.log(countryCode);
+                            //     if (state.iso2.length > 0) {
+                            //         //get name without  'District' from state.name
+                            //         var str = state.name;
+                            //         var newstr = str.replace(/ District$/, "");
 
-                                    ifBd +=
-                                        `
-                                        <option value="${newstr}">${newstr}</option>
+                            //         ifBd +=
+                            //             `
+                            //             <option value="${newstr}">${newstr}</option>
                                     
-                                        `;
-                                }
-                            } else {
+                            //             `;
+                            //     }
+                            // } else {
                                 
-                                htmlOption +=
-                                    `
-                                    <option value="${state.iso2}">${state.name}</option>
+                            //     htmlOption +=
+                            //         `
+                            //         <option value="${state.iso2}">${state.name}</option>
                                     
-                                    `;
-                            }
+                            //         `;
+                            // }
+                            htmlOption +=
+                                `
+                                <option value="${state.iso2}">${state.name}</option>
+                                
+                                `;
                         })
                         stateSelectElement.innerHTML = htmlOption;
-                        citySelectElement.innerHTML = ifBd;
+                        // citySelectElement.innerHTML = ifBd;
                     })
                     .then(error => {
                         console.log(error);

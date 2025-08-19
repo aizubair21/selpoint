@@ -5,6 +5,7 @@ namespace App\Livewire\Vendor\Orders;
 use App\Http\Controllers\ProductComissionController;
 use App\Models\CartOrder;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\syncOrder;
 use App\Models\TakeComissions;
 use Livewire\Component;
@@ -188,7 +189,7 @@ class View extends Component
                 'price' => $this->rprice,
                 'size' => $this->attr,
                 'total' => $this->quantity * $this->rprice,
-                'buying_price' => $this->mainProduct->reselProduct->buying_price,
+                'buying_price' => Product::find($this->mainProduct?->product_id)->buying_price,
                 'status' => 'Pending',
             ]
         );
@@ -222,5 +223,5 @@ class View extends Component
     public function render()
     {
         return view('livewire.vendor.orders.view');
-    }
+    } 
 }

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary()->autoIncrement()->index();
+            $table->id('id');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('user_type')->nullable();
             $table->string('belongs_to')->nullable();

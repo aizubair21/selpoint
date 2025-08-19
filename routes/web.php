@@ -103,6 +103,7 @@ Route::get('/volt-test', function () {
 
 
 Route::get('/user-agents', function (Request $request) {
+    return config('app.system_email');
     try {
         // return ProductComissions::dispatch(5);
 

@@ -79,7 +79,7 @@
         {{-- categories  --}}
         @if (count($categories))
         <div class="pt-4">
-            Everything You Need
+            Categories
         </div>
         <div x-loading.disabled x-transition class="pb-4" style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
                 @foreach ($categories as $item)

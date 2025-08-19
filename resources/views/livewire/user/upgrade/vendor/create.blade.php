@@ -3,11 +3,11 @@
     <x-dashboard.section >
         <x-dashboard.section.header>
             <x-slot name="title">
-             {{$upgrade}} Request Form
+            {{Str::ucfirst($upgrade)}} Request Form
             </x-slot>
 
             <x-slot name="content">
-                Request to be a vendor
+                Request to be a {{Str::ucfirst($upgrade)}}
                 <x-nav-link href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}" class="">
                     previous request
                 </x-nav-link>

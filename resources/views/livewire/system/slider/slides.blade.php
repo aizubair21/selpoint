@@ -21,7 +21,13 @@
                                     <img src="{{asset('storage/'.$slides[$key]['image'])}}" style="height:150px; width:100%;" alt="">
 
                                 @endif
-                                <input type="file" accept="jpg, jpeg, png" max="500" class="border p-1 w-full" wire:model="image.{{$key}}.image">
+
+                                <div class="relative">
+                                    <input type="file" id="slider_image_{{$key}}" accept="jpg, jpeg, png" max="500" class="absolute hidden border p-1 w-full" wire:model="image.{{$key}}.image">
+                                    <label for="slider_image_{{$key}}" class="p-1 rounded border shadow">
+                                        <i class="fas fa-upload px-1"></i>
+                                    </label>
+                                </div>
                             </div>
                             <div class="py-2 space-y-2">
                                 <textarea rows="3" type="text" wire:model="slides.{{$key}}.main_title" class="w-full" placeholder="Main Title" placeholder="Main Title"></textarea>

@@ -41,11 +41,11 @@
     {{-- <x-hr/> --}}
     <x-dashboard.container>
 
-        @if ($category->count() > 0)
+        @if (count($category) > 0)
             <div>
-                Everything You Need
+                Categories
             </div>
-            <div class="" style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
+            <div wire:loading.disabled class="" style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
                 {{-- @foreach ($category as $cat)
                     <x-nav-link class="px-2 rounded border" href="{{ route('category.products', ['cat' => $cat->slug]) }}">{{ $cat->name }}</x-nav-link>
                 @endforeach --}}

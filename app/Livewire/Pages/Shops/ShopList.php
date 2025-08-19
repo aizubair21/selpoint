@@ -9,7 +9,7 @@ class ShopList extends Component
 {
     public function render()
     {
-        $shops = reseller::where('status', 'Active')->get();
+        $shops = reseller::where(['country' => auth()?->user()?->country ?? '', 'status' => 'Active'])->get();
         return view('livewire.pages.shops.shop-list', compact('shops'));
     }
 }

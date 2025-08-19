@@ -17,7 +17,7 @@
         .slider {
             position: relative;
             width: 100%;
-            /* height: 100%; */
+            height: auto;
             max-height: 400px;
             overflow: hidden;
             /* border-radius: 10px; */
@@ -155,12 +155,15 @@
                             <img src="{{asset('storage'."/".$item->image)}}" />
                         </a>
                         @if ($item->main_title)
-                            <div class="description hidden md:block">
-                                {{-- <div class="description"> --}}
+                        <div class="description hidden md:block">
+                            {{-- <div class="description"> --}}
                                 <div>
                                     <h1>{{$item->main_title }}</h1>
-                                    <p>{{$item->description }}</p>                                
+                                    <p>{{$item->description }}</p>                
                                 </div>
+                                <a class="inline-flex items-center px-4 py-2 bg-white border border-indigo-900 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" href="{{ $item->action_url ?? route('products.index') }}">
+                                    Shop Now
+                                </a>
                             </div>
                         @endif
                     </div>
