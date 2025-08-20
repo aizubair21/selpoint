@@ -39,11 +39,15 @@ class All extends Component
 
         $shops = [];
         if ($this->q) {
-            $shops = reseller::where('country', '=', auth()->user()->country)->where('shop_name_en', 'like', "%" . Str::ucfirst($this->q) . "%")->paginate(config('app.paginate'));
+            $shops = reseller::where('country', '=', Str::ucfirst(auth()->user()->country))->where('shop_name_en', 'like', "%" . Str::ucfirst($this->q) . "%")->paginate(config('app.paginate'));
         }
 
         if ($this->location) {
-            $shops = reseller::where('country', '=', auth()->user()->country)->where('district', 'like', '%' . Str::ucfirst($this->location) . '%')->orWhere('upozila', 'like', '%' . Str::ucfirst($this->location) . '%')->orWhere('village', 'like', '%' . Str::ucfirst($this->location) . '%')->paginate(config('app.paginate'));
+            $shops = reseller::where('country', '=', Str::ucfirst(auth()->user()->country))->where(function ($q) {
+                $q->where('district', 'like', '%' . Str::ucfirst($this->location) . '%')
+                    ->orWhere('upozila', 'like', '%' . Str::ucfirst($this->location) . '%')
+                    ->orWhere('village', 'like', '%' . Str::ucfirst($this->location) . '%');
+            })->paginate(config('app.paginate'));
         }
         return view('livewire.pages.shops.all', compact('shops'));
     }

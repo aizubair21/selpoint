@@ -43,7 +43,7 @@
                         </x-responsive-nav-link>
 
                         @php
-                                  $get = auth()->user()->active_nav;   
+                            $get = auth()->user()->active_nav;   
                         @endphp
 
                         @includeif('layouts.responsive_navigation')

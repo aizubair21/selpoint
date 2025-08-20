@@ -111,14 +111,14 @@ class User extends Authenticatable
     protected function state(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes each word
+            set: fn($value) => ucfirst(strtolower($value)), // Capitalizes each word
         );
     }
 
     protected function city(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes each word
+            set: fn($value) => ucfirst(strtolower($value)), // Capitalizes each word
         );
     }
 

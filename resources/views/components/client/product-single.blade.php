@@ -4,7 +4,6 @@ use Livewire\Volt\Component;
 use Livewire\Attributes\URL;
 use App\Models\cart;
 
-
 new class extends Component
 {
     #[URL]
@@ -164,7 +163,7 @@ new class extends Component
                     <i class="fas fa-arrow-right mx-2"></i>Buy Now 
                 </x-nav-link-btn>
                 
-                @volt('cartAdd')
+                @volt('cartAdd') 
                     <x-primary-button wire:click="addToCart" type="button" class="option1">
                         <i class="fas fa-cart-plus"></i> <span class="hidden md:block"></span>
                     </x-primary-button>

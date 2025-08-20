@@ -7,6 +7,8 @@ use Livewire\Attributes\Layout;
 use App\HandleImageUpload;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\product_has_attribute;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
@@ -19,7 +21,7 @@ class Create extends Component
 
     #[Validate]
     public $products = [], $thumb, $categories, $attr = [];
-    public $belongs_to, $shop, $ableToCreate = true;
+    public $belongs_to, $shop, $ableToCreate = true, $meta = ['thumbnail' => '', 'title' => '', 'keyword' => '', 'tags' => '', 'description' => ''];
 
     protected function rules()
     {
@@ -44,6 +46,8 @@ class Create extends Component
          * as every product must belongs to a category
          *  
          * */
+
+        $this->products['description'] = 'This is description';
         $roles = auth()->user()->getRoleNames();
         // dd($roles);
         if (count($roles) > 2) {
@@ -81,6 +85,7 @@ class Create extends Component
 
     public function create()
     {
+        dd($this->products);
 
         if (auth()->user()->myProducts()->count() >= $this->shop->max_product_upload) {
             $this->dispatch('error', 'You have reached the maximum number of products allowed for your shop.');
@@ -94,13 +99,32 @@ class Create extends Component
                 'slug' => Str::slug($this->products['title']),
                 'thumbnail' => $this->handleImageUpload($this->thumb, 'products', null),
                 'belongs_to_type' => $this->belongs_to,
+                'country' => Auth::user()->country ?? null,
+                'state' => Auth::user()->city ?? null,
             ]
         );
-        // dd($data);
-        $pd = Product::create($data);
+        dd($data);
 
-        $this->dispatch('success', 'Product Created');
-        $this->redirectIntended(route('vendor.products.edit', ['product' => encrypt($pd->id)]), true);
+        try {
+            $pd = Product::create($data);
+
+            if ($pd->id) {
+
+                // update product attr
+                product_has_attribute::create(
+                    [
+                        'product_id' => $pd->id,
+                        'name' => $this->attr['name'],
+                        'value' => $this->attr['value'],
+                    ]
+                );
+            }
+
+            $this->dispatch('success', 'Product Created');
+            $this->redirectIntended(route('vendor.products.edit', ['product' => encrypt($pd->id)]), true);
+        } catch (\Throwable $th) {
+            $this->dispatch('error', 'Have an error to upload product.');
+        }
     }
 
     public function render()

@@ -27,9 +27,9 @@ class Cproducts extends Component
         array_push($this->ids, $catId->id);
 
         $this->pslug($catId);
-        // dd($this->ids);
+        // dd($this->ids);  
 
-        $products = Product::whereIn('category_id', $this->ids)->where(['belongs_to_type' => 'reseller', 'status' => 'active'])->paginate(20);
+        $products = Product::whereIn('category_id', $this->ids)->where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->paginate(20);
         $categories = Category::getAll();
         return view('livewire.pages.cproducts', compact('products', 'categories'));
     }

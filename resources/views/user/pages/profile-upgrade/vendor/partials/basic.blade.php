@@ -4,9 +4,10 @@
             {{-- <x-dashboard.section class="bg-gray-100"> --}}
 
             <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" label="Your Shop Name" wire:model.live="shop_name_en" name="shop_name_en" error="shop_name_en" />
-            @if (auth()->user()->country == 'Bangladesh')
+
+            {{-- @if (auth()->user()->country == 'Bangladesh')
                 <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" label="Your Shop Name bangla" wire:model.live="shop_name_bn" name="shop_name_bn" error="shop_name_bn" />
-            @endif
+            @endif --}}
 
             <x-hr/>
 

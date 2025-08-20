@@ -95,7 +95,7 @@
                         <x-hr/>
                         <x-input-file labelWidth="250px" class="md:flex" label="Products Category" error="category" >
                             <div class="text-xs">
-                                Current Category is : <strong>{{ $data['category']?->name ?? "N/A" }}</strong>. Change category to another
+                                Category : <strong>{{ $data['category']?->name ?? "N/A" }}</strong>. Change to another
                             </div>
                             <select wire:modal="products.category_id" id="">
                                 <option value=""> -- Select Category -- </option>
@@ -137,6 +137,7 @@
 
                 
             </div>
+            
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
@@ -153,7 +154,7 @@
                     </div>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
-            
+ 
             <x-dashboard.section>
                 <div class="md:flex flex-rowreverse justify-between">
                     <x-dashboard.section.header>
@@ -162,7 +163,13 @@
                         </x-slot>
                         <x-slot name="content">
                             Provide a mendatory thumbnail image for your products. This image consider for the thumbnail for social media platform. 
-                            <x-text-input type="file" wire:model.live="thumb" class="border p-1" />
+
+                            <div class="relative">
+                                <x-text-input id="prod_thumb" type="file" wire:model.live="thumb" class="absolute hidden border p-1" />
+                                <label for="prod_thumb" class="p-2 rounded border">
+                                    <i class="fas fa-upload"></i>
+                                </label>
+                            </div>
                         </x-slot>
                     </x-dashboard.section.header>
                     
@@ -211,7 +218,13 @@
                             
                         @endforeach
                     </div>
-                    <x-text-input type="file" wire:model.live="newImage" class="border p-1" multiple />
+
+                    <div class="relative">
+                        <x-text-input type="file" wire:model.live="newImage" id="multi_prod_img" class="absolute hidden border p-1" multiple />
+                        <label for="multi_prod_img" class="p-2 border rounded">
+                            <i class="fas fa-upload"></i>
+                        </label>
+                    </div>
                     <div class="text-xs">
                         Please choose all image at once, if you plan to upload multiple image.
                     </div>
@@ -265,6 +278,7 @@
                     </x-input-file>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
+
             <x-primary-button>save</x-primary-button>
         </form>
             
@@ -272,24 +286,24 @@
 
     <script>
         function format(command, value = null) {
-        document.execCommand(command, false, value);
+            document.execCommand(command, false, value);
         }
 
         function addLink() {
-        const url = prompt("Enter the URL");
-        if (url) format('createLink', url);
+            const url = prompt("Enter the URL");
+            if (url) format('createLink', url);
         }
 
         function removeFormatting() {
-        format('removeFormat');
-        format('unlink');
+            format('removeFormat');
+            format('unlink');
         }
 
         // Optional: sanitize paste to plain text
         document.getElementById('editor').addEventListener('paste', (e) => {
-        e.preventDefault();
-        const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-        document.execCommand('insertText', false, text);
+            e.preventDefault();
+            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, text);
         });
     </script>
 </div>

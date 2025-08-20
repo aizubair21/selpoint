@@ -43,7 +43,7 @@ class Edit extends Component
 
         $this->categories = auth()->user()->myCategory;
 
-        $this->data = auth()->user()->myProducts()->withTrashed()->find(decrypt($this->product));
+        $this->data = auth()->user()?->myProducts()->withTrashed()->find(decrypt($this->product));
         $this->data->load('isResel');
         // if ($this->data->trashed()) {
         //     $this->redirectIntended(route('vendor.products.view'), true);

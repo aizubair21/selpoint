@@ -1,5 +1,6 @@
-                   
-     @can('users_view')
+@if (auth()->user()?->hasRole('admin') || auth()->user()?->hasRole('system'))
+    
+    @can('users_view')
         <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
             {{ __('Users') }}
         </x-responsive-nav-link>
@@ -46,12 +47,12 @@
     @endcan
 
 
-    
+
     {{-- @if (auth()->user()->hasRole('system'))
         
-    
+
     @endif --}}
-    
+
     {{-- @can('role_list')
     @endcan  --}}
     @can('vip_view')
@@ -78,33 +79,34 @@
     </x-responsive-nav-link>
     @endcan
         
-<x-hr/>
-@can('deposit_view')
-    
-<x-responsive-nav-link :href="route('system.deposit.index')" :active="request()->routeIs('system.deposit.*')">
+    <x-hr/>
+    @can('deposit_view')
+
+    <x-responsive-nav-link :href="route('system.deposit.index')" :active="request()->routeIs('system.deposit.*')">
     {{ __('Deposit') }}
-</x-responsive-nav-link>
-@endcan
+    </x-responsive-nav-link>
+    @endcan
 
-@can('comission_view')
-    
-<x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
+    @can('comission_view')
+
+    <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
     {{ __('Comission') }}
-</x-responsive-nav-link>
-@endcan
+    </x-responsive-nav-link>
+    @endcan
 
-@can('order_view')
-    
-<x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
+    @can('order_view')
+
+    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
     {{ __('Orders') }}
-</x-responsive-nav-link>
-@endcan
+    </x-responsive-nav-link>
+    @endcan
 
-@can('withdraw_view')
-    
-<x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
+    @can('withdraw_view')
+
+    <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
     {{ __('Withdraw') }}
-</x-responsive-nav-link>
-@endcan
-{{-- @if (auth()->user()->hasRole('system'))    
-@endif --}}
+    </x-responsive-nav-link>
+    @endcan
+    {{-- @if (auth()->user()->hasRole('system'))    
+    @endif --}}
+@endif

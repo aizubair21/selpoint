@@ -49,7 +49,7 @@
                     {{-- <x-dashboard.section class="bg-gray-100"> --}}
 
                     <x-input-field class="md:flex" label="Your Shop Name English" wire:model.live="vendor.shop_name_en" name="shop_name_en" error="shop_name" />
-                    <x-input-field class="md:flex" label="Your Shop Name bangla" wire:model.live="vendor.shop_name_bn" name="shop_name_bn" error="shop_name" />
+                    {{-- <x-input-field class="md:flex" label="Your Shop Name bangla" wire:model.live="vendor.shop_name_bn" name="shop_name_bn" error="shop_name" /> --}}
                     <x-input-field class="md:flex" type="number" label="Your Shop Phone" wire:model.live="vendor.phone" name="phone" error="phone" :value="auth()->user()->phone" />
                     <x-input-field class="md:flex" type="email" label="Your Shop email" wire:model.live="vendor.email" name="email" error="email" :value="auth()->user()->email" />
                 

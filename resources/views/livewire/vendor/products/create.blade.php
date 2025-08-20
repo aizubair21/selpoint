@@ -6,6 +6,8 @@
         {{-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet"> --}}
         {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> --}}
 
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
     <x-dashboard.page-header>
         Add Products
     </x-dashboard.page-header>
@@ -87,7 +89,7 @@
                         <div >
                             <x-input-field class="mx-1" labelWidht="100px" label="Product Buying Price" wire:model.live="products.buying_price" name="products.buying_price" error="products.buying_price" />
                             <x-input-field class="mx-1" labelWidht="100px" label="Product Sell Price" wire:model.live="products.price" name="products.price" error="products.price" />
-                            <x-input-field class="mx-1" labelWidht="100px" type="number" label="Product Unite" wire:model.live="products.unite" name="products.unite" error="products.unite" />
+                            <x-input-field class="mx-1" labelWidht="100px" type="number" label="Product Unit" wire:model.live="products.unit" name="products.unit" error="products.unit" />
                         </div>
                         <x-hr/>
                         <div>
@@ -105,7 +107,7 @@
             </div>
 
             <div>
-                {{-- <x-dashboard.section>
+                <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">
                             Image Attributes
@@ -120,7 +122,7 @@
                             <x-text-input wire:model='attr.value' placeholder="Value" />
                         </div>
                     </x-dashboard.section.inner>
-                </x-dashboard.section> --}}
+                </x-dashboard.section>
 
                 <x-dashboard.section>
                     <x-dashboard.section.header>
@@ -134,12 +136,81 @@
                     <x-dashboard.section.inner>
                         <x-input-file label="Thumbnail" class="md:flex" labelWidth="250px" error="products.thumbnail" >
                             @if ($thumb)
-                                <img src="{{$thumb->temporaryUrl()}}" width="400px" height="300px" alt="">
+                                <img src="{{$thumb->temporaryUrl()}}" width="300px" height="300px" alt="">
                             @endif
-                            <input type="file" wire:model.live="thumb"  />
+                            <div class="relative">
+                                <input type="file" class="absolute hidden" id="prod_thumbnail" wire:model.live="thumb"  />
+                                <label for="prod_thumbnail" class="p-2 rounded border">
+                                    <i class="fas fa-upload"></i>
+                                </label>
+                            </div>
                         </x-input-file>
                     </x-dashboard.section.inner>
                 </x-dashboard.section>
+                
+                
+                {{-- <x-dashboard.section>
+                    <x-dashboard.section.header>
+                        <x-slot name="title">
+                            Image Showcase
+                        </x-slot>
+                        <x-slot name="content">
+                            Provide a number of image to showcase your product quality. 
+                        </x-slot>
+                    </x-dashboard.section.header>
+                    <x-dashboard.section.inner>
+                        <x-input-file label="Thumbnail" class="md:flex" labelWidth="250px" error="products.thumbnail" >
+                            @if ($thumb)
+                                <img src="{{$thumb->temporaryUrl()}}" width="300px" height="300px" alt="">
+                            @endif
+                            <div class="relative">
+                                <input type="file" class="absolute hidden" id="prod_thumbnail" wire:model.live="thumb"  />
+                                <label for="prod_thumbnail" class="p-2 rounded border">
+                                    <i class="fas fa-upload"></i>
+                                </label>
+                            </div>
+                        </x-input-file>
+                    </x-dashboard.section.inner>
+                </x-dashboard.section> --}}
+
+                <x-dashboard.section>
+                    <x-dashboard.section.header>
+                        <x-slot name="title">
+                            SEO
+                        </x-slot>
+                        <x-slot name="content">
+                            set up your on-page seo. keyword, title, tags and descriiption.
+                        </x-slot>
+                    </x-dashboard.section.header>
+
+                    <x-dashboard.section.inner>
+                        <x-input-field labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Keyword" wire:model.lazy="meta.keyword" name="meta.keyword" error="meta.keyword" />
+                        <x-input-field labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Title" wire:model.lazy="meta.title" name="meta.title" error="meta.title" />
+                        <x-input-field labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Tags" wire:model.lazy="meta.tags" name="meta.tags" error="meta.tags" />
+                        <x-input-file labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Description" name="meta.description" error="meta.description">
+                            <textarea wire:model.lazy="meta.description" rows="3" class="rounded w-full"></textarea>
+                        </x-input-file>
+                        <x-input-file labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Thumb" name="meta.thumbnail" error="meta.thumbnail">
+                            <div>
+                                @if ($meta['thumbnail'])
+                                    <img style="width:300px; height:200px" src="{{$meta['thumbnail']->temporaryUrl()}}" alt="" srcset="">
+                                @endif
+                                <hr>
+                                <div class="relative">
+                                    <p>
+                                        200 x 300 image
+                                    </p>
+                                    <input type="file" wire:model.live="meta.thumbnail" id="meta_thumb" class="absolute hidden">
+                                    <label for="meta_thumb" class="p-2 border rounded">
+                                        <i class="fas fa-upload"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </x-input-file>
+
+                    </x-dashboard.section.inner>
+                </x-dashboard.section>
+
     
                 <x-dashboard.section>
                     <x-dashboard.section.header>
@@ -155,22 +226,37 @@
                         </div>
                         <x-input-file label="Description" class="md:flex" labelWidth="250px" error="products.description" >
                             
-                            {{-- <button type="button" onclick="format('bold')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Bold"><b>B</b></button>
-                            <button type="button" onclick="format('italic')" class="px-2 py-1 hover:bg-gray-200 rounded italic" title="Italic">I</button>
-                            <button type="button" onclick="format('underline')" class="px-2 py-1 hover:bg-gray-200 rounded underline" title="Underline">U</button>
-                            <button type="button" onclick="format('strikeThrough')" class="px-2 py-1 hover:bg-gray-200 rounded line-through" title="Strike">S</button>
-                            <button type="button" onclick="format('insertOrderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Ordered List">OL</button>
-                            <button type="button" onclick="format('insertUnorderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Unordered List">UL</button>
-                            <button type="button" onclick="format('formatBlock', 'H1')" class="px-2 py-1 hover:bg-gray-200 rounded text-xl" title="Heading 1">H1</button>
-                            <button type="button" onclick="format('formatBlock', 'H2')" class="px-2 py-1 hover:bg-gray-200 rounded text-lg" title="Heading 2">H2</button>
-                            <button type="button" onclick="addLink()" class="px-2 py-1 hover:bg-gray-200 rounded text-blue-600" title="Insert Link">🔗</button>
-                            <button type="button" onclick="removeFormatting()" class="px-2 py-1 hover:bg-gray-200 rounded text-red-600" title="Clear Formatting">🧹</button> --}}
-                            <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="summornote" rows="10"></textarea>
+                            {{-- <button type="button" onmouse="format('bold')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Bold"><b>B</b></button> --}}
+                            {{-- <button type="button" onmouse="format('italic')" class="px-2 py-1 hover:bg-gray-200 rounded italic" title="Italic">I</button> --}}
+                            {{-- <button type="button" onmouse="format('underline')" class="px-2 py-1 hover:bg-gray-200 rounded underline" title="Underline">U</button> --}}
+                            {{-- <button type="button" onmouse="format('strikeThrough')" class="px-2 py-1 hover:bg-gray-200 rounded line-through" title="Strike">S</button> --}}
+                            {{-- <button type="button" onmouse="format('insertOrderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Ordered List">OL</button> --}}
+                            {{-- <button type="button" onmouse="format('insertUnorderedList')" class="px-2 py-1 hover:bg-gray-200 rounded" title="Unordered List">UL</button> --}}
+                            {{-- <button type="button" onmouse="format('formatBlock', 'H1')" class="px-2 py-1 hover:bg-gray-200 rounded text-xl" title="Heading 1">H1</button> --}}
+                            {{-- <button type="button" onmouse="format('formatBlock', 'H2')" class="px-2 py-1 hover:bg-gray-200 rounded text-lg" title="Heading 2">H2</button> --}}
+                            {{-- <button type="button" onmouse="addLink()" class="px-2 py-1 hover:bg-gray-200 rounded text-blue-600" title="Insert Link">🔗</button> --}}
+                            {{-- <button type="button" onmouse="removeFormatting()" class="px-2 py-1 hover:bg-gray-200 rounded text-red-600" title="Clear Formatting">🧹</button> --}}
+                            {{-- <textarea wire:model="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="summornote" rows="10">
+                            </textarea> --}}
                             {{-- <div id="editor"
                                 class="border rounded min-h-[200px] p-4 focus:outline-none"
                                 contenteditable="true">
-                            <p class="text-gray-700">Start writing here...</p>
+                                <p  class="text-gray-700">Start writing here...</p>
                             </div> --}}
+                            <hr>
+
+
+                            <main wire:ignore>
+                                <trix-toolbar id="my_toolbar"></trix-toolbar>
+                                <div class="more-stuff-inbetween"></div>
+                                <input type="text" name="content" id="my_input" value="{{$products['description']}}" >
+                                <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
+                            </main>
+
+                            <hr>
+                                {!! $products['description'] !!}
+                            <hr>
+
                             <x-primary-button>
                                 create
                             </x-primary-button>
@@ -190,35 +276,24 @@
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
-    {{-- @script
+    <!-- Trix Editor -->
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    @script
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.js"></script> --}}
     <script>
-        
-        function format(command, value = null) {
-            document.execCommand(command, false, value);
-        }
-        
-        function addLink() {
-            const url = prompt("Enter the URL");
-            if (url) format('createLink', url);
-        }
+        document.addEventListener('livewire:load', function () {
+            const trixInput = document.querySelector("input[name='content']");
+            const editor = document.querySelector("trix-editor");
 
-        function removeFormatting() {
-            format('removeFormat');
-            format('unlink');
-        }
-
-        // Optional: sanitize paste to plain text
-        document.getElementById('editor').addEventListener('paste', (e) => {
-            e.preventDefault();
-            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-            document.execCommand('insertText', false, text);
-        });
-
-        $('#summernote').summernote({
-            placeholder: 'Hello Bootstrap 4',
-            tabsize: 2,
-            height: 100
+            // trixInput.addEventListener("trix-change", function () {
+            //     @this.set('products.description', trixInput.value);
+            // });
+            trixInput.addEventListener("trix-change", function () {
+                Livewire.set('products.description', trixInput.value);
+            });
         });
     </script>
-    @endscript --}}
+    @endscript
+    
 </div>

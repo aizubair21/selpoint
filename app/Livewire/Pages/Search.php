@@ -25,7 +25,10 @@ class Search extends Component
             $category = Category::getAll();
         }
         // reseller
-        $shop = reseller::where('shop_name_en', 'like', '%' . $this->q . '%')->get();
+        $shop = reseller::where(function ($q) {
+            $q->where('shop_name_en', 'like', '%' . $this->q . '%')
+                ->where(['status' => 'Active']);
+        })->get();
 
         // product - full text search with weighted relevance and pagination
         // $product = Product::selectRaw("*, 
@@ -40,8 +43,8 @@ class Search extends Component
         //     ->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$this->q])
         //     ->get();
 
-        $product = Product::where(['belongs_to_type' => 'reseller'])->where(function ($q) {
-            $q->where('name', 'like', '%' . $this->q . '%')->orWhere('title', 'like', '%' . str::lower($this->q) . '%');
+        $product = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->where(function ($q) {
+            $q->whereAny(['name', 'title'], 'like', '%' . $this->q . '%');
         })->paginate(30);
         return view('livewire.pages.search', compact('category', 'product', 'shop'));
     }

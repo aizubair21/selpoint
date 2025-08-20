@@ -21,7 +21,7 @@ use function PHPUnit\Framework\isNull;
 class ProductsDetails extends Component
 {
     #[URL]
-    public $id;
+    public $id, $slug;
 
     public $product, $relatedProduct, $vips, $duration, $countdown = 0, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
 
@@ -31,13 +31,19 @@ class ProductsDetails extends Component
     {
         // dd(intval(30 / 60));
         // dd(now()->shortLocaleMonth);
-        $this->product = Product::where(['id' => $this->id, 'status' => 'active', 'belongs_to_type' => 'reseller'])->first();
-        $this->vips = auth()?->user()?->subscription()?->active()->valid()->first();
+        $this->product = Product::where(['id' => intval($this->id), 'status' => 'Active', 'belongs_to_type' => 'reseller'])->first();
+        // $this->product = Product::find($this->id);
+        // if ($this->product->status != 'ac') {
+        //     # code...
+        // }
+        $this->vips = auth()->user()?->subscription()?->active()->valid()->first();
         $this->taskType = $this->vips?->task_type;
         $this->package = $this->vips?->package;
         $this->countdown = $this->package?->countdown ?? 0;
         $this->getData();
-        $this->relatedProduct = Product::where(['category_id' => $this->product->category_id, 'status' => 'active', 'belongs_to_type' => 'reseller'])->limit(10)->get();
+
+
+        $this->relatedProduct = Product::where(['category_id' => $this->product?->category_id, 'status' => 'Active', 'belongs_to_type' => 'reseller'])->limit(10)->get();
         // $this->vips = vip::where(['user_id' => Auth::id(), 'status' => 1])->whereDate('valid_till', '>', today())->first();
         // dd($this->vips->task_type);
     }
