@@ -48,25 +48,65 @@
                 <x-dashboard.section.inner>
                     {{-- <x-dashboard.section class="bg-gray-100"> --}}
 
-                    <x-input-field class="md:flex" label="Your Shop Name English" wire:model.live="vendor.shop_name_en" name="shop_name_en" error="shop_name" />
+                    <x-input-field class="md:flex" inputClass="w-full" label="Your Shop Name" wire:model.live="vendor.shop_name_en" name="shop_name_en" error="shop_name" />
                     {{-- <x-input-field class="md:flex" label="Your Shop Name bangla" wire:model.live="vendor.shop_name_bn" name="shop_name_bn" error="shop_name" /> --}}
-                    <x-input-field class="md:flex" type="number" label="Your Shop Phone" wire:model.live="vendor.phone" name="phone" error="phone" :value="auth()->user()->phone" />
-                    <x-input-field class="md:flex" type="email" label="Your Shop email" wire:model.live="vendor.email" name="email" error="email" :value="auth()->user()->email" />
-                
+                    
+                    <x-input-file label="Logo" error="logo" >
+                        <p>   
+                            100x100 logo
+                        </p>  
+                        <div style="width:100px; height:100px" class="border rounded">
+                            @if ($newLogo)
+                                <img style="width:100px; height:100px" class="border rounded shadow" src="{{$newLogo->temporaryUrl()}}" alt="100x100">
+                            @else 
+                                <img style="width:100px; height:100px" class="border rounded shadow" src="{{asset('storage/'.$vendor['logo'])}}" alt="100x100">
+                            @endif
+                        </div>
+                        <div class="relative">
+                            <x-text-input wire:model.live="newLogo" type="file" id="logo" class="absolute hidden" />
+                            <label for="logo" class="p-2 shadow border rounded">
+                                <i class="fas fa-upload"></i>
+                            </label>
+                        </div>
+                    </x-input-file>
+
+                    <x-input-file label="Banner" error="banner" >
+                        <p>
+                            100x300 banner image
+                        </p>
                         
+                        <div style="width:300px;height:100px" class="border rounded">
+                            @if ($newBanner)
+                                <img style="width:300px; height:100px" class="border rounded shadow" src="{{$newBanner->temporaryUrl()}}" alt="100x300">
+                            @else
+                                <img style="width:300px; height:100px" class="border rounded shadow" src="{{asset('storage/'. $vendor['banner'])}}" alt="100x300">
+                            @endif
+                        </div>
+
+                        <div class="relative">
+                            <x-text-input wire:model.live="newBanner" type="file" id="banner" class="absolute hidden" />
+                            <label for="banner" class="p-2 shadow border rounded">
+                                <i class="fas fa-upload"></i>
+                            </label>
+                        </div>
+                    </x-input-file>
+
+                    <x-input-field class="md:flex" inputClass="w-full" type="number" label="Your Shop Phone" wire:model.live="vendor.phone" name="phone" error="phone" :value="auth()->user()->phone" />
+                    <x-input-field class="md:flex" inputClass="w-full" type="email" label="Your Shop email" wire:model.live="vendor.email" name="email" error="email" :value="auth()->user()->email" />
+            
                 </x-dashboard.section.inner>
             </x-dashboard.section>
 
             <x-dashboard.section>
             <x-dashboard.section.inner>
 
-                <x-input-field class="md:flex" wire:model.live="vendor.country" label="Your Country" name="country" error="country" />
-                <x-input-field class="md:flex" wire:model.live="vendor.district" label="District/State" name="district" error="district" />
-                <x-input-field class="md:flex" wire:model.live="vendor.upozila" label="Upozila/ City" name="upozila" error="upozila" />
-                <x-input-field class="md:flex" wire:model.live="vendor.village" label="Village" name="village" error="village" />
-                <x-input-field class="md:flex" wire:model.live="vendor.zip" label="Zip Code" name="zip" error="zip" />
-                <x-input-field class="md:flex" wire:model.live="vendor.road_no" label="Road No" name="road_no" error="road_no" />                
-                <x-input-field class="md:flex" wire:model.live="vendor.house_no" label="House No" name="house_no" error="house_no" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.country" label="Your Country" name="country" error="country" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.district" label="District/State" name="district" error="district" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.upozila" label="Upozila/ City" name="upozila" error="upozila" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.village" label="Village" name="village" error="village" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.zip" label="Zip Code" name="zip" error="zip" />
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.road_no" label="Road No" name="road_no" error="road_no" />                
+                <x-input-field class="md:flex" inputClass="w-full" wire:model.live="vendor.house_no" label="House No" name="house_no" error="house_no" />
 
                 {{-- add a wire navigating feature to button  --}}
                 {{-- <x-button wire:click="save" class="bg-blue-500 hover:bg-blue- 700 text-white font-bold py-2 px-4 rounded">Save</x-button> --}}

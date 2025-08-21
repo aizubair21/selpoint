@@ -4,8 +4,8 @@
     <div>
         <div class="bg-white overflow-hidden">
             <div class="relative">
-                <img class="w-full bg-indigo-900 h-48" src="" alt="">
-                <img class="rounded-full  absolute left-0 top-0 bg-white m-2" style="height: 80px; width:80px" src="" alt="">
+                <img class="w-full bg-indigo-900 h-48" src="{{asset('storage/'. $shops->banner)}}" alt="">
+                <img class="rounded-full  absolute left-0 top-0 bg-white m-2" style="height: 80px; width:80px" src="{{asset('storage/'.$shops->logo)}}" alt="">
             </div>
             <x-dashboard.container>
 
@@ -15,7 +15,7 @@
                         <div class="w-48 m-1 border p-2 rounded-lg ">
                             <p>Shop</p>
                             <div class="">
-                                {{$shops->shop_name_en}} [{{$shops?->shop_name_bn ?? ""}}]
+                                {{$shops->shop_name_en}}
                                 {{-- Lorem ipsum dolor sit amet. --}}
                             </div>
                             <p class="text-xs">

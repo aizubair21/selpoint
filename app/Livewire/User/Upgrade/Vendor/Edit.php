@@ -30,7 +30,7 @@ class Edit extends Component
     /**
      * component data
      */
-    public $vendor, $vendorDocument = [], $nid_front, $nid_back, $shop_tin_image, $shop_trade_image;
+    public $vendor, $newLogo, $newBanner, $vendorDocument = [], $nid_front, $nid_back, $shop_tin_image, $shop_trade_image;
 
 
     public function mount()
@@ -75,8 +75,15 @@ class Edit extends Component
 
     public function update()
     {
-        // 
+        if (!empty($this->newLogo)) {
+            $this->vendor['logo'] = $this->handleImageUpload($this->newLogo, 'shop-logo', $this->vendor['logo']);
+        }
+
+        if (!empty($this->newBanner)) {
+            $this->vendor['banner'] = $this->handleImageUpload($this->newBanner, 'shop-banner', $this->vendor['banner']);
+        }
         // dd(request()->all());
+
         if ($this->upgrade == 'reseller') {
             reseller::find($this->id)->update($this->vendor);
         } else {

@@ -2,12 +2,12 @@
 <div>
     <div class="bg-white rounded-lg shadow overflow-hidden">
         <div class="relative">
-            <img class="w-full bg-indigo-900" style="height:100px" src="" alt="">
-            <img class="rounded-full  absolute left-0 top-0 bg-white m-2" style="height: 50px; width:50px" src="" alt="">
+            <img class="w-full bg-indigo-900" style="height:100px" src="{{asset('storage/'. $shop->banner)}}" alt="">
+            <img class="rounded-full  absolute left-0 top-0 bg-white m-2" style="height: 50px; width:50px" src="{{asset('storage/'.$shop->logo)}}" alt="">
         </div>
         <div class="p-3">
             <div class="">
-                {{$shop->shop_name_en}} [{{$shop?->shop_name_bn ?? ""}}]
+                {{$shop->shop_name_en}}
                 {{-- Lorem ipsum dolor sit amet. --}}
             </div>
             <p class="text-xs">

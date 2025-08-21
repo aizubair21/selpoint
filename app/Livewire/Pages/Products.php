@@ -29,20 +29,19 @@ class Products extends Component
         $this->getData();
     }
 
-
     public function getData()
     {
         // dd(User::count());
         $this->products = Product::where(['belongs_to_type' => 'reseller', 'status' => 'Active'])->orderBy('id', $this->sort)->offset($this->offset)->limit($this->limit)->get();
         // array_push($this->products, $data);
         // dd($this->products);
-
+     
 
         if (Product::count() > $this->limit) {
             $this->load = true;
         } else {
             $this->load = false;
-        }
+        } 
     }
 
     public function loadMore()
