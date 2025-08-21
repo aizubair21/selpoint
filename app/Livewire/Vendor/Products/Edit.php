@@ -54,7 +54,6 @@ class Edit extends Component
         $this->attr = $this->data->attr->toArray();
 
         $this->description = $this->products['description'];
-        $this->description = 'this is description';
     }
 
 

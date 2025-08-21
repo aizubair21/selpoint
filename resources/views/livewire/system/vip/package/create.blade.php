@@ -1,4 +1,6 @@
 <div>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
     {{-- The Master doesn't talk, he acts. --}}
     <x-dashboard.page-header>
         VIP
@@ -100,8 +102,13 @@
                     <div class="p-2 bg-white rounded">
 
                         <x-input-label class="py-1" for="desciption">Description</x-input-label>
-                        <textarea wire:model="description" class="rounded border-0 shadow w-full" id="summernote" placeholder="write your package description" rows="10"></textarea>
-                        
+                        {{-- <textarea wire:model="description" class="rounded border-0 shadow w-full" id="summernote" placeholder="write your package description" rows="10"></textarea> --}}
+                         <main wire:ignore>
+                            <trix-toolbar id="my_toolbar"></trix-toolbar>
+                            <div class="more-stuff-inbetween"></div>
+                            <input type="hidden" name="content" id="my_input" wire:model.live="description" value="{{$description}}" >
+                            <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
+                        </main>
                     </div>
         
 
@@ -113,4 +120,14 @@
 
         </x-dashboard.section>
     </x-dashboard.container>
+
+        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    @script
+    <script>
+        document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
+            @this.set('description', document.querySelector("#my_input").value);            
+        })
+    </script>
+    @endscript
 </div>

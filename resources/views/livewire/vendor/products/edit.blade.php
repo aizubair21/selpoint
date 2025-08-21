@@ -1,5 +1,7 @@
 
 <div>
+      <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
     {{-- Stop trying to control. --}}
     <x-dashboard.page-header>
         Product Edit
@@ -85,12 +87,13 @@
                         </x-slot>
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
-                        <x-input-file error='name' label="Products Name" name="name" inputClass="w-full">
-                            <textarea  wire:model.live="products.name" rows="6" id="" class="w-full" ></textarea>
-                        </x-input-file>
-                        <x-input-file wire:model.live="products.title" error='name' label="Products title" name="title" inputClass="w-full">
-                            <textarea  wire:model.live="products.title" rows="6" id="" class="w-full" ></textarea>
-                        </x-input-file>
+                        
+                        <x-input-field error='name' label="Products Name" class="lg:flex" name="name" inputClass="w-full">
+                            <textarea  wire:model.live="products.name" rows="2" id="" class="w-full" ></textarea>
+                        </x-input-field>
+                        <x-input-field wire:model.live="products.title" class="lg:flex" error='name' label="Products title" name="title" inputClass="w-full">
+                            <textarea  wire:model.live="products.title" rows="3" id="" class="w-full" ></textarea>
+                        </x-input-field>
     
                         <x-hr/>
                         <x-input-file labelWidth="250px" class="md:flex" label="Products Category" error="category" >
@@ -121,7 +124,7 @@
                         <div >
                             <x-input-field class=" mx-1" labelWidht="100px" label="Product Buying Price" wire:model.live="products.buying_price" name="products.buying_price" error="products.buying_price" />
                             <x-input-field class=" mx-1" labelWidht="100px" label="Product Sell Price" wire:model.live="products.price" name="products.price" error="products.price" />
-                            <x-input-field class=" mx-1" labelWidht="100px" type="number" label="Product Unite" wire:model.live="products.unite" name="products.unite" error="products.unite" />
+                            <x-input-field class=" mx-1" labelWidht="100px" type="number" label="Product Unite" wire:model.live="products.unit" name="products.unit" error="products.unit" />
                         </div>
                         <x-hr/>
                         <div>
@@ -273,8 +276,17 @@
                                 "
                             ></div>
                         </div> --}}
-                        <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="editor" rows="10"></textarea>
-                
+                        {{-- <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o" placeholder="Describe your own" id="editor" rows="10"></textarea> --}}
+                         <main wire:ignore>
+                            <trix-toolbar id="my_toolbar"></trix-toolbar>
+                            <div class="more-stuff-inbetween"></div>
+                            <input type="hidden" name="content" id="my_input" wire:model.live="description" value="{{$description}}" >
+                            <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
+                        </main>
+
+
+                        {!! $description !!}
+
                     </x-input-file>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
@@ -284,26 +296,13 @@
             
     </x-dashboard.container>
 
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    @script
     <script>
-        function format(command, value = null) {
-            document.execCommand(command, false, value);
-        }
-
-        function addLink() {
-            const url = prompt("Enter the URL");
-            if (url) format('createLink', url);
-        }
-
-        function removeFormatting() {
-            format('removeFormat');
-            format('unlink');
-        }
-
-        // Optional: sanitize paste to plain text
-        document.getElementById('editor').addEventListener('paste', (e) => {
-            e.preventDefault();
-            const text = (e.originalEvent || e).clipboardData.getData('text/plain');
-            document.execCommand('insertText', false, text);
-        });
+        document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
+            @this.set('description', document.querySelector("#my_input").value);            
+        })
     </script>
+    @endscript
 </div>

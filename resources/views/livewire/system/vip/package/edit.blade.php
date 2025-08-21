@@ -1,4 +1,6 @@
 <div>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
     {{-- Success is as dangerous as failure. --}}
     <x-dashboard.page-header>
         VIP Package Update 
@@ -128,6 +130,13 @@
                 
                 </div>
                 <br>
+                 <main wire:ignore>
+                    <trix-toolbar id="my_toolbar"></trix-toolbar>
+                    <div class="more-stuff-inbetween"></div>
+                    <input type="hidden" name="content" id="my_input" wire:model.live="data.description" value="{{$data['description']}}" >
+                    <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
+                </main>
+                <br>
                 <x-primary-button wire:click="store">Update</x-primary-button>
             </x-dashboard.section.inner>
        </x-dashboard.section>
@@ -139,4 +148,15 @@
             <x-nav-link href=''> <i class="fa-solid fa-up-right-from-square me-2"></i> </x-nav-link>
        </x-dashboard.section>
     </x-dashboard.container>
+
+
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+
+    @script
+    <script>
+        document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
+            @this.set('data.description', document.querySelector("#my_input").value);            
+        })
+    </script>
+    @endscript
 </div>

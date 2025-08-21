@@ -249,7 +249,7 @@
                             <main wire:ignore>
                                 <trix-toolbar id="my_toolbar"></trix-toolbar>
                                 <div class="more-stuff-inbetween"></div>
-                                <input type="text" name="content" id="my_input" value="{{$products['description']}}" >
+                                <input type="hidden" name="content" id="my_input" wire:model.live="products.description" value="{{$products['description']}}" >
                                 <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
                             </main>
 
@@ -280,20 +280,12 @@
     <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
     @script
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.js"></script> --}}
     <script>
-        document.addEventListener('livewire:load', function () {
-            const trixInput = document.querySelector("input[name='content']");
-            const editor = document.querySelector("trix-editor");
-
-            // trixInput.addEventListener("trix-change", function () {
-            //     @this.set('products.description', trixInput.value);
-            // });
-            trixInput.addEventListener("trix-change", function () {
-                Livewire.set('products.description', trixInput.value);
-            });
-        });
+        document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
+            @this.set('products.description', document.querySelector("#my_input").value);            
+        })
     </script>
     @endscript
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.js"></script> --}}
     
 </div>

@@ -39,7 +39,7 @@ class All extends Component
 
         $shops = [];
         if ($this->q) {
-            $shops = reseller::where('country', '=', Str::ucfirst(auth()->user()->country))->where('shop_name_en', 'like', "%" . Str::ucfirst($this->q) . "%")->paginate(config('app.paginate'));
+            $shops = reseller::whereAny(['shop_name_en', 'shop_name_bn', 'location', 'district', 'upozila', 'village'], 'like', "%" . Str::ucfirst($this->q) . "%")->paginate(config('app.paginate'));
         }
 
         if ($this->location) {

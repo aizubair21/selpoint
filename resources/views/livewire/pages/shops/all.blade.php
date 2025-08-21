@@ -45,7 +45,11 @@
             <x-client.shops-cart/>
             
         </div> --}}
-        
+        @guest
+            <div class="w-full text-center p-1 bg-gray-200  ">
+                Login to get access the shops based on your location.
+            </div>
+        @endguest
         @if ($q || $location)
             {{$shops->links()}}
            <div style="display: grid; grid-template-columns:repeat(auto-fit, 300px); justify-content:start; align-items:start; grid-gap:10px">
