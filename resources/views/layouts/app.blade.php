@@ -38,9 +38,9 @@
             <div class="flex px-2 sm:px-6 lg:px-8 ">
                 <div class="w-48 hidden md:block h-auto">
                     <div class="pt-2 pb-3 space-y-1">
-                        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
+                        {{-- <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                             {{ __('Dashboard') }}
-                        </x-responsive-nav-link>
+                        </x-responsive-nav-link> --}}
 
                         @php
                             $get = auth()->user()->active_nav;   

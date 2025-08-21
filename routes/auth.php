@@ -10,6 +10,7 @@ use App\Http\Controllers\WithdrawController;
 use App\Livewire\Actions\Logout;
 use App\Http\Middleware\AbleTo;
 use App\Livewire\Profile\Edit;
+use App\Livewire\Shops\Shop;
 use Livewire\Volt\Volt;
 
 
@@ -173,8 +174,8 @@ Route::middleware('auth')->group(function () {
         Route::post('permissions/{role}/to-role', [RoleController::class, 'system_give_permission_to_role'])->name('system.permissions.to-role')->middleware(AbleTo::class . ':sync_permission_to_role');
         Route::post('permissions/{user}/to-user', [RoleController::class, 'system_give_permission_to_user'])->name('system.permissions.to-user')->middleware(AbleTo::class . ':sync_permission_to_role');
 
-
         // Route::get('/comissions')->name('comissions');
+
+        Route::get('/{user}/shop', Shop::class)->name('my-shop');
     });
-    // });
 });

@@ -223,6 +223,9 @@ new class extends component
                 <div>Wallet</div>
                 <div> {{ auth()->user()->abailCoin()}} </div>
             </div>
+            <div class="text-end w-full pt-1 uppercase font-bold">
+                <x-nav-link class="text-center text-indigo-900 uppercase font-bold" href="{{route('user.wallet.diposit')}}"> <i class="fas fa-plus pr-2"></i> Add Balance</x-nav-link>
+            </div>
             <x-hr/> 
 
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
@@ -252,6 +255,28 @@ new class extends component
                 <div class="font-medium text-base text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
             </div>
+
+            @if (auth()->user()->hasRole('vendor') )
+                <x-dropdown-link wire:click="getNavigation('vendor')"> 
+                    @if ($this->get == 'vendor')
+                        <i class="fas fa-check mr-3"></i>
+                    @endif Vendor Dashboard
+                </x-dropdown-link>
+            @endif
+            @if (auth()->user()->hasRole('reseller'))
+                <x-dropdown-link wire:click="getNavigation('reseller')">
+                    @if ($this->get == 'reseller')
+                        <i class="fas fa-check mr-3"></i>
+                    @endif    Reseller Dashboard
+                </x-dropdown-link>
+            @endif
+            @if (auth()->user()->hasRole('rider'))
+                <x-dropdown-link wire:click="getNavigation('rider')">
+                    @if ($this->get == 'rider')
+                        <i class="fas fa-check mr-3"></i>
+                    @endif    Rider Dashboard
+                </x-dropdown-link>
+            @endif
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link wire:navigate target="_blank" :href="route('user.dash')">

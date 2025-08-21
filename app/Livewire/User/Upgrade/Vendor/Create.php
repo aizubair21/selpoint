@@ -111,8 +111,8 @@ class Create extends Component
             $info = array(
                 [
                     'slug' => str::slug($this->shop_name_en),
-                    'logo' => $this->handleImageUpload($this->logo, 'vendors', ''),
-                    'banner' => $this->handleImageUpload($this->banner, 'vendors', ''),
+                    'logo' => $this->handleImageUpload($this->logo, 'shop-logo', ''),
+                    'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
                     'fixed_amount' => 500,
                 ]
             );
@@ -170,8 +170,8 @@ class Create extends Component
             $info = array(
                 [
                     'slug' => str::slug($this->shop_name_en),
-                    'logo' => $this->handleImageUpload($this->logo, 'vendors', ''),
-                    'banner' => $this->handleImageUpload($this->banner, 'vendors', ''),
+                    'logo' => $this->handleImageUpload($this->logo, 'shop-logo', ''),
+                    'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
                     'fixed_amount' => 500,
                 ]
             );
