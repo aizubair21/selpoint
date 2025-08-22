@@ -116,7 +116,7 @@ new class extends Component {
                                     @if ($item->slug != 'default-category')
                                         <div class="space-x-2 text-start h-full p-2 " style="width:150px">
                                             <x-nav-link class=" text-gray-900 text-xl font-bold" style="font-size: 16px" href="{{ route('category.products', ['cat' => $item->slug]) }}">
-                                                {{ Str::limit( Str::ucfirst( $item->name), 10,'..') }}
+                                                {{ Str::limit( Str::ucfirst( $item->name), 8,'..') }}
                                                 {{-- <i class="fas fa-chevron-right"></i> --}}
                                             </x-nav-link>
 
@@ -188,7 +188,7 @@ new class extends Component {
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="flex items-center px-3 py-2 border border text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        <div>{{ Auth::user()->name ?? "Unauthorize" }}</div>
+                                        <div>{{ Str::limit(Auth::user()->name ?? "Unauthorize" , 8, '...') }}</div>
         
                                         <div class="ms-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -201,9 +201,50 @@ new class extends Component {
                                 <x-slot name="content">
                                     
                                     <x-dropdown-link :href="route('user.index')">
-                                        {{ __('User Panel') }}
+                                        <i class="fas fa-home pr-2"></i> {{ __('User Panel') }}
                                     </x-dropdown-link>
+
+                                    <x-dropdown-link :href="route('user.orders.view')">
+                                        <i class="fas fa-shopping-cart pr-2"></i>
+                                        {{ __('Order') }}
+                                    </x-dropdown-link>
+                                    
+                                    @if (empty(auth()->user()->active_nav))
+                                        
+                                        <x-hr/>
+    
+                                            <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'vendor'])">
+                                                <i class="fas fa-shop pr-2"></i> {{ __('Request Vendor') }}
+                                            </x-dropdown-link>
+                                            <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'reseller'])">
+                                                <i class="fas fa-shop pr-2"></i> {{ __('Request Reseller') }}
+                                            </x-dropdown-link>
+
+                                            
+                                            {{-- <x-dropdown-link :href="route('user.orders.view')">
+                                                <i class="fas fa-truck pr-2"></i> {{ __('Request Rider') }}
+                                            </x-dropdown-link> --}}
+
+                                        <x-hr/>
+                                    @endif
+
+                                    @php
+                                        $get = auth()->user()->active_nav;   
+                                    @endphp
                                 
+                                    @if (auth()->user()->hasRole('vendor') && $get == 'vendor')
+                                        {{-- vendor primary nav  --}}
+                                        <hr>
+                                        @includeif('layouts.vendor.navigation.responsive')
+                                        <hr>
+                                    @endif
+                                        
+                                    @if (auth()->user()->hasRole('reseller') && $get == 'reseller')
+                                        {{-- reseller primary nav  --}}
+                                        <hr>
+                                        @includeif('layouts.reseller.navigation.responsive')
+                                        <hr>
+                                    @endif
                                     
                                     {{-- <hr>
                                     <x-dropdown-link :href="route('profile.edit')">
@@ -213,7 +254,7 @@ new class extends Component {
     
                                     @if (count(auth()->user()->getRoleNames()) > 1)
                                         <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
-                                            Dashboard
+                                           <i class="fas fa-home pr-2"></i> Dashboard
                                         </x-dropdown-link>
                                     @endif
                                     
@@ -222,7 +263,7 @@ new class extends Component {
                                     <x-dropdown-link :href="route('logout')"
                                             onclick="event.preventDefault();
                                                         this.closest('form').submit();">
-                                        {{ __('Log Out') }}
+                                        <i class="fas fa-sign-out pr-2"></i> {{ __('Log Out') }}
                                     </x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>

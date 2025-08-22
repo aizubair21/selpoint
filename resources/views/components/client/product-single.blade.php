@@ -76,9 +76,11 @@ new class extends Component
             <div>
                 {{-- Shop  --}}
                 <div class="text-green-900 w-auto text-sm">
-                    Shop : 
+                   
                     <strong>
-                        {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                        <x-nav-link class="px-2 py-1 rounded-xl bg-gray-50 " href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop(), 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
+                            {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                        </x-nav-link>
                     </strong>
                 </div>
                 <div style="font-size: 28px; font-weight:bold;" class="capitalize" >{{$product->title}}</div>
@@ -106,7 +108,7 @@ new class extends Component
             
             {{-- category  --}}
             <div class=" text-sm flex items-center">
-                Category:  
+                
                 <div class="ps-3 text_primary bold rounded">
                     <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->slug])}}">
                         {{$product->category?->name ?? "Undefined"}}

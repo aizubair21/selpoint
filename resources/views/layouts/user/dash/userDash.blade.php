@@ -120,7 +120,7 @@
 
          {{-- left asside  --}}
          
-         <div id="user_asside" class="rounded position-sm-absolute col-md-3 py-3 mb-4">
+         <div id="user_asside" class="rounded position-sm-absolute col-md-3 py-3">
             <x-nav-link class="asside_link" :active="request()->routeIs('user.dash')" href="{{route('user.dash')}}">
                <i class="fas fa-home"></i>
                <span class="pl-2 hidden md:block">
@@ -151,6 +151,15 @@
                   Wallet
                </span>
             </x-nav-link>
+
+            @if ((auth()->user()?->hasRole('reseller') || auth()->user()?->hasRole('vendor')) && !empty(auth()?->user()?->active_nav))
+               <x-nav-link class="asside_link shop" href="{{route('my-shop', ['user' => auth()->user()->name])}}" :active="request()->routeIs('my-shop')">
+                  <i class="fas fa-shop pr-2"></i>
+                  <span class="pl-2 hidden md:block">
+                     My Shop
+                  </span> 
+               </x-nav-link>
+            @endif
          </div>
 
          {{-- right content  --}}
