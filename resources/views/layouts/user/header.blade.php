@@ -209,6 +209,11 @@ new class extends Component {
                                         {{ __('Order') }}
                                     </x-dropdown-link>
                                     
+                                    <x-dropdown-link :href="route('edit.profile')">
+                                        <i class="fas fa-user pr-2"></i>
+                                        {{ __('Profile') }}
+                                    </x-dropdown-link>
+                                    
                                     @if (empty(auth()->user()->active_nav))
                                         
                                         <x-hr/>

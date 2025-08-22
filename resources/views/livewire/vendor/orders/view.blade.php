@@ -50,7 +50,7 @@
                         </div>
                         <div wire:click="updateOrderStatusTo('Confirm')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Confirm' , 'bg-gray-100' => $orders->status == 'Delivered'])>Confirm
                             <br>
-                            <div @class([$orders->status == 'Confirmed' ? 'block' : 'hidden'])>
+                            <div @class([$orders->status == 'Confirm' ? 'block' : 'hidden'])>
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
@@ -250,15 +250,16 @@
 
                             </td>
                             <td>
-                                @if ($item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
-                                <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Vendor </span>
+                                {{$item->product?->isResel}}
+                                @if ($item->product?->isResel && auth()->user()?->account_type() == 'reseller')
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Vendor </span>
                                 @else 
-                                <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                    <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
                                 @endif
-                                @if ( $item->product?->isResel() && auth()->user()?->account_type() == 'reseller')
+
+                                @if ( $item->product?->isResel && auth()->user()?->account_type() == 'reseller')
                                     @php
                                         $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id, 'reseller_product_id' => $item->product_id])->first();
-    
                                     @endphp
                                     @if ($alreadySynced && $alreadySynced?->count() > 0)
                                         <i @class(['fas', 'fa-link' => $alreadySynced->status == 'Pending', 'fa-checked-circle' => $alreadySynced->status == 'Confirmed'])></i>

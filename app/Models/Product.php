@@ -132,7 +132,7 @@ class Product extends Model
      */
     public function isResel()
     {
-        return $this->hasOne(Reseller_resel_product::class);
+        return $this->hasOne(Reseller_resel_product::class, 'product_id', 'id');
     }
 
     /**
@@ -152,7 +152,7 @@ class Product extends Model
     }
 
 
-    public function syncOrder() 
+    public function syncOrder()
     {
         return $this->hasMany(syncOrder::class, 'vendor_product_id');
     }

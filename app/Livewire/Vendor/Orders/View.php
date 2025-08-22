@@ -72,7 +72,7 @@ class View extends Component
                 $sysOr->save();
             }
 
-            if ($this->orders->status == 'Confirmed') {
+            if ($this->orders->status == 'Confirm') {
                 $ct = new ProductComissionController(); // instance
                 $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
                 // $ct->confirmTakeComissions($sysOr->user_order_id); // call to confirm comissions for user
@@ -223,5 +223,5 @@ class View extends Component
     public function render()
     {
         return view('livewire.vendor.orders.view');
-    } 
+    }
 }

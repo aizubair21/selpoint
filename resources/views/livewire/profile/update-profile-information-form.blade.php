@@ -27,7 +27,6 @@ new class extends Component
         $this->name = Auth::user()->name ?? '';
         $this->email = Auth::user()->email ?? '';
         $this->phone = Auth::user()->phone ?? '';
-        $this->phone = Auth::user()->phone ?? '';
         $this->country = Auth::user()->country ?? '';
         $this->country_code = Auth::user()->country_code ?? '';
         $this->state = Auth::user()->state ?? '';
@@ -47,6 +46,7 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            // ignore phone number unique when update only this current user
             'phone' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($user->id)],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
