@@ -88,12 +88,12 @@
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
                         
-                        <x-input-field error='name' label="Products Name" class="lg:flex" name="name" inputClass="w-full">
-                            <textarea  wire:model.live="products.name" rows="2" id="" class="w-full" ></textarea>
+                        <x-input-field error='products.name' wire:model.live="products.name" label="Products Name" class="lg:flex" name="name" inputClass="w-full">
+                            {{-- <textarea  wire:model.live="products.name" rows="2" id="" class="w-full" ></textarea> --}}
                         </x-input-field>
-                        <x-input-field wire:model.live="products.title" class="lg:flex" error='name' label="Products title" name="title" inputClass="w-full">
+                        <x-input-file wire:model.live="products.title" error='products.title' label="Products title" name="title" inputClass="w-full">
                             <textarea  wire:model.live="products.title" rows="3" id="" class="w-full" ></textarea>
-                        </x-input-field>
+                        </x-input-file>
     
                         <x-hr/>
                         <x-input-file labelWidth="250px" class="md:flex" label="Products Category" error="category" >
@@ -102,9 +102,22 @@
                             </div>
                             <select wire:modal="products.category_id" id="">
                                 <option value=""> -- Select Category -- </option>
-                                @foreach ($categories as $item)
-                                    <option @selected($data['category_id'] == $item->id) value="{{$item->id}}">{{$item->name}} </option>
-                                @endforeach 
+                               @foreach ($categories as $children)
+                                    <option value="{{$children->id}}"> {{$children->name}} </option>
+
+                                    @if (count($children->children) > 0)
+                                        @foreach ($children->children as $child)
+                                            <option value="{{$child->id}}"> --{{$child->name}} </option>
+                                            
+                                            @if (count($child->children) > 0)
+                                                @foreach ($child->children as $grandChild)
+                                                    <option value="{{$grandChild->id}}"> ---- {{$grandChild->name}} </option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
+                                        
+                                    @endif
+                                @endforeach
                             </select>
                         </x-input-file>
                         <x-hr/>
@@ -285,7 +298,7 @@
                         </main>
 
 
-                        {!! $description !!}
+                        {{-- {!! $description !!} --}}
 
                     </x-input-file>
                 </x-dashboard.section.inner>

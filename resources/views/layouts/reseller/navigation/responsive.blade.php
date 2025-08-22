@@ -6,7 +6,7 @@
     <i class="fas fa-layer-group pr-2 w-6"></i>    Your Products
 </x-responsive-nav-link>
 
-<x-responsive-nav-link href="{{route('reseller.products.create')}}" :active="request()->routeIs('reseller.products.*')" >
+<x-responsive-nav-link href="{{route('vendor.products.create')}}" :active="request()->routeIs('vendor.products.*')" >
     <i class="fas fa-plus pr-2 w-6"></i>    Add Products
 </x-responsive-nav-link>
 

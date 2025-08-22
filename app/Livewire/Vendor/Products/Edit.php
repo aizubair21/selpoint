@@ -3,6 +3,7 @@
 namespace App\Livewire\Vendor\Products;
 
 use App\HandleImageUpload;
+use App\Models\Category;
 use App\Models\product_has_attribute;
 use App\Models\product_has_image;
 use Illuminate\Support\Facades\Storage as FacadesStorage;
@@ -41,7 +42,7 @@ class Edit extends Component
 
         // dd($this->account);
 
-        $this->categories = auth()->user()->myCategory;
+        $this->categories = Category::getAll();
 
         $this->data = auth()->user()?->myProducts()->withTrashed()->find(decrypt($this->product));
         $this->data->load('isResel');

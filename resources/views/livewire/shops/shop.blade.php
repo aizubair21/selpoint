@@ -23,7 +23,7 @@
                     @else
                         <img class="rounded-full" style="height: 80px; width:80px" src="{{asset('storage/'.$shopArray['logo'])}}" alt="">
                     @endif
-                    <input type="file" wire:model.live="shopArray.logo" id="logo" class="absolute hidden">
+                    <input type="file" wire:model.live="newLogo" id="logo" class="absolute hidden">
                     <label for="logo" class="absolute bottom-0 right-0 rounded-full bg-white border w-6 h-6 p-1 flex items-center justify-center"> 
                         <i class="fas fa-upload"></i>    
                     </label>
@@ -33,7 +33,7 @@
                 @else 
                     <img class="w-full bg-indigo-900 h-48 rounded" src="{{asset('storage/'. $shopArray['banner'])}}" alt="">
                 @endif
-                <input type="file" wire:model.live="shopArray.banner" id="banner" class="absolute hidden">
+                <input type="file" wire:model.live="newBanner" id="banner" class="absolute hidden">
                 <label for="banner" class="absolute bottom-0 right-0 rounded-full bg-white border w-6 h-6 p-1 flex items-center justify-center"> 
                     <i class="fas fa-upload"></i>    
                 </label>
@@ -110,15 +110,16 @@
                         <div class="text-md border-b w-full p-3 space-y-2">
                             <div class="font-bold">Shop Location: </div>
                             <div class="my-1">
-                                <label class="my-1" for="up">Upozila</label>
-                                <input type="text" id="up" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.upozila" placeholder="upozila">
-                            </div>
-                            
-                            <div class="my-1">
 
                                 <label class="my-1" for="dis">District</label>
                                 <input type="text" id="dis" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.district" placeholder="district">
                             </div>
+
+                            <div class="my-1">
+                                <label class="my-1" for="up">Upozila</label>
+                                <input type="text" id="up" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.upozila" placeholder="upozila">
+                            </div>
+                            
 
                             <div class="my-1">
 
@@ -134,20 +135,21 @@
 
                             <div class="my-1">
 
-                                <input type="text" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.road_1" placeholder="road_1">
-                                <input type="text" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.road_2" placeholder="road_2">
+                                <input type="text" class="w-full border-0 outline-0 ring-0" wire:model="shopArray.road_no" placeholder="road no">
                             </div>
                             {{-- <div> {{$shopArray['upozila'] ?? "N/A"}}, {{$shopArray['district'] ?? "N/A"}}, {{$shopArray['country'] ?? "N/A"}} </div> --}}
                             
                         </div>
 
 
-                        <x-primary-button wire:click="updateInfo">
-                            update
-                        </x-primary-button>
                     </div>
                 </div>
             </div>
+            <br>
+
+            <x-primary-button class="w-full text-center flex justify-center" wire:click="updateInfo">
+                update
+            </x-primary-button>
         </x-dashboard.section>
     </x-dashboard.container>
 

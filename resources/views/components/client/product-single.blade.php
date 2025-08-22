@@ -124,8 +124,8 @@ new class extends Component
                     @endphp
                     <div class="flex justify-start items-center my-1" style="flex-wrap: wrap;gap: 10px;">
                         @foreach ($arrayOfAttr as $attr)
-                            <div class="border rounded mr-2 d-none @if($attr) d-block @endif" style="width:45px; height:35px; align-content:center; text-align:center">
-                                {{ $attr }}
+                            <div class="border px-2 py-1 rounded mr-1 d-none @if($attr) d-block @endif" style="align-content:center; text-align:center">
+                                {{ Str::upper($attr) }}
                             </div>
                         @endforeach
                     </div>

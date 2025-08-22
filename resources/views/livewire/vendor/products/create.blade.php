@@ -253,9 +253,9 @@
                                 <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
                             </main>
 
-                            <hr>
+                            {{-- <hr>
                                 {!! $products['description'] !!}
-                            <hr>
+                            <hr> --}}
 
                             <x-primary-button>
                                 create

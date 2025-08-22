@@ -179,6 +179,15 @@
                             </div>
                         
                         </div>
+
+                        <div class="my-2 bg-gray-50 p-3">
+                            <div class="px-3 w-full flex justify-between items-center">
+                                <div class="font-bold">Define Fixed Amount : </div>
+                                <div> 
+                                    <x-text-input type="number" wire:model.live="resArray.fixed_amount" placeholder="100" class="w-20" />
+                                </div>
+                            </div>
+                        </div>
                         
                         <div>
                             <x-primary-button>Update</x-primary-button>
