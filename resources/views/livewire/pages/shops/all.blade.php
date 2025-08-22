@@ -25,7 +25,7 @@
             </div>
         
             <div class="flex items-center">
-                <input type="search" wire:model.live="q" class="py-1 rounded-md" placeholder="search shops" id="">
+                <input type="search" wire:model.live="q" class="py-1 rounded-md" placeholder="search shops by name" id="">
                 <div>
                     @auth
                         <div @click="$dispatch('open-modal', 'shop-location-modal')" class="py-2 px-3 text-xs ms-1 border rounded bg-white">

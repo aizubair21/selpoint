@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Shops;
 
 use App\Models\reseller;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -22,6 +23,7 @@ class All extends Component
         if (auth()->user()->city) {
             $this->location = auth()->user()->city;
             $this->state = 'me';
+            $this->q = '';
         } else {
             $this->dispatch('warning', 'You do not have location specified.');
         }
@@ -31,24 +33,33 @@ class All extends Component
     public function getAllShops()
     {
         $this->state = 'all';
+        $this->q = '';
         $this->location = '';
     }
 
     public function render()
     {
 
-        $shops = [];
+        $query = reseller::where('status', 'Active');
+
+        if (Auth::check()) {
+            $query->where(['country' => auth()->user()?->country]);
+        }
+
         if ($this->q) {
-            $shops = reseller::whereAny(['shop_name_en', 'shop_name_bn', 'location', 'district', 'upozila', 'village'], 'like', "%" . Str::ucfirst($this->q) . "%")->paginate(config('app.paginate'));
+            $query->whereAny(['shop_name_en', 'shop_name_bn'], 'like', "%" . Str::ucfirst($this->q ?? $this->location) . "%");
         }
 
         if ($this->location) {
-            $shops = reseller::where('country', '=', Str::ucfirst(auth()->user()->country))->where(function ($q) {
+            $query->where(function ($q) {
                 $q->where('district', 'like', '%' . Str::ucfirst($this->location) . '%')
                     ->orWhere('upozila', 'like', '%' . Str::ucfirst($this->location) . '%')
-                    ->orWhere('village', 'like', '%' . Str::ucfirst($this->location) . '%');
-            })->paginate(config('app.paginate'));
+                    ->orWhere('village', 'like', '%' . Str::ucfirst($this->location) . '%')
+                    ->orWhere('country', 'like', '%' . Str::ucfirst($this->location) . '%');
+            });
         }
+
+        $shops = $query->paginate(config('app.paginate'));
         return view('livewire.pages.shops.all', compact('shops'));
     }
 }
