@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Jobs\UpdateProductSalesIndex;
+use App\Models\CartOrder;
 use App\Models\Category;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -25,14 +26,17 @@ class Welcome extends Component
     }
     public function getProducts()
     {
-        $this->topSellingProducts = DB::table('cart_orders')
-            ->where('user_type', '=', 'user')
-            ->leftJoin('products', 'products.id', '=', 'product_id')
-            ->select('product_id', 'products.*', DB::raw('SUM(quantity) as total_sold'))
-            ->groupBy('product_id')
-            ->orderByDesc('total_sold')
-            ->limit(20)
-            ->get();
+        if (CartOrder::first()) {
+            # code...
+            $this->topSellingProducts = DB::table('cart_orders')
+                ->where('user_type', '=', 'user')
+                ->leftJoin('products', 'products.id', '=', 'product_id')
+                ->select('product_id', 'products.*', DB::raw('SUM(quantity) as total_sold'))
+                ->groupBy('product_id')
+                ->orderByDesc('total_sold')
+                ->limit(20)
+                ->get();
+        }
         // dd($topSellingProducts);
 
         // UpdateProductSalesIndex::dispatch();
