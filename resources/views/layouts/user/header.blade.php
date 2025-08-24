@@ -233,6 +233,12 @@ new class extends Component {
                                         <x-hr/>
                                     @endif
 
+                                    @if (count(auth()->user()->getRoleNames()) > 1)
+                                        <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
+                                           <i class="fas fa-home pr-2"></i> Dashboard
+                                        </x-dropdown-link>
+                                    @endif
+                                    
                                     @php
                                         $get = auth()->user()->active_nav;   
                                     @endphp
@@ -257,12 +263,6 @@ new class extends Component {
                                     </x-dropdown-link>
                                     <hr> --}}
     
-                                    @if (count(auth()->user()->getRoleNames()) > 1)
-                                        <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
-                                           <i class="fas fa-home pr-2"></i> Dashboard
-                                        </x-dropdown-link>
-                                    @endif
-                                    
                                     
         
                                     <x-dropdown-link :href="route('logout')"

@@ -150,53 +150,57 @@ new class extends component
                             </div>
 
                         </div>
-                        @if (auth()->user()->hasRole('vendor') )
+                         @if (auth()->user()->hasRole('vendor') )
                             <x-dropdown-link wire:click="getNavigation('vendor')"> 
                                 @if ($this->get == 'vendor')
                                     <i class="fas fa-check mr-3"></i>
-                                @endif Vendor Dashboard
+                                @endif 
+                                
+                                <i class="fas fa-shop pr-2"></i> Vendor Dashboard
                             </x-dropdown-link>
                         @endif
                         @if (auth()->user()->hasRole('reseller'))
                             <x-dropdown-link wire:click="getNavigation('reseller')">
                                 @if ($this->get == 'reseller')
                                     <i class="fas fa-check mr-3"></i>
-                                @endif    Reseller Dashboard
+                                @endif    
+                                <i class="fas fa-shop pr-2"></i> Reseller Dashboard
                             </x-dropdown-link>
                         @endif
                         @if (auth()->user()->hasRole('rider'))
                             <x-dropdown-link wire:click="getNavigation('rider')">
                                 @if ($this->get == 'rider')
                                     <i class="fas fa-check mr-3"></i>
-                                @endif    Rider Dashboard
+                                @endif    
+                                <i class="fas fa-truck-fast pr-2"></i> Rider Dashboard
                             </x-dropdown-link>
                         @endif
 
                         <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
+                            <i class="fas fa-user pr-2"></i> {{ __('Profile') }}
                         </x-dropdown-link>
 
                         {{-- other link  --}}
                         <x-dropdown-link wire:navigate>
-                            {{ __('Settings') }}
+                           <i class="fas fa-gear pr-2"></i> {{ __('Settings') }}
                         </x-dropdown-link>
 
                         <x-dropdown-link wire:navigate>
-                            {{ __('Notice') }}
+                            <i class="fas fa-bell pr-2"></i> {{ __('Notice') }}
                         </x-dropdown-link>
                         <x-hr/>
                         <x-dropdown-link wire:navigate target="_blank" :href="route('user.dash')">
-                            {{ __('Back to User Panel') }}
+                            <i class="fas fa-gauge pr-2"> </i> {{ __('Back to User Panel') }}
                         </x-dropdown-link>
                         <x-dropdown-link wire:navigate target="_blank" :href="route('home')">
-                            {{ __('Visit Website') }}   
+                            <i class="fas fa-globe pr-2"></i> {{ __('Visit Website') }}   
                         </x-dropdown-link>
                         
                         <x-hr/>
                         <!-- Authentication -->
                         <button wire:click="logout" class="w-full text-start">
                             <x-dropdown-link>
-                                {{ __('Log Out') }}
+                               <i class="fas fa-sign-out pr-2"></i> {{ __('Log Out') }}
                             </x-dropdown-link>
                         </button>
                     </x-slot>
@@ -229,7 +233,7 @@ new class extends component
             <x-hr/> 
 
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
+                <i class="fas fa-home pr-2"></i>{{ __('Dashboard') }}
             </x-responsive-nav-link>
 
             @includeif('layouts.responsive_navigation')
@@ -260,41 +264,45 @@ new class extends component
                 <x-dropdown-link wire:click="getNavigation('vendor')"> 
                     @if ($this->get == 'vendor')
                         <i class="fas fa-check mr-3"></i>
-                    @endif Vendor Dashboard
+                    @endif 
+                    
+                    <i class="fas fa-shop pr-2"></i> Vendor Dashboard
                 </x-dropdown-link>
             @endif
             @if (auth()->user()->hasRole('reseller'))
                 <x-dropdown-link wire:click="getNavigation('reseller')">
                     @if ($this->get == 'reseller')
                         <i class="fas fa-check mr-3"></i>
-                    @endif    Reseller Dashboard
+                    @endif    
+                    <i class="fas fa-shop pr-2"></i> Reseller Dashboard
                 </x-dropdown-link>
             @endif
             @if (auth()->user()->hasRole('rider'))
                 <x-dropdown-link wire:click="getNavigation('rider')">
                     @if ($this->get == 'rider')
                         <i class="fas fa-check mr-3"></i>
-                    @endif    Rider Dashboard
+                    @endif    
+                    <i class="fas fa-truck-fast pr-2"></i> Rider Dashboard
                 </x-dropdown-link>
             @endif
 
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link wire:navigate target="_blank" :href="route('user.dash')">
-                    Back to User Dash
+                    <i class="fas fa-gauge pr-2"></i> Back to User Dash
                 </x-responsive-nav-link>
                 
                 <x-responsive-nav-link wire:navigate target="_blank" :href="route('home')">
-                    Visit Website
+                    <i class="fas fa-globe pr-2"></i> Visit Website
                 </x-responsive-nav-link>
 
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
-                    {{ __('Profile') }}
+                    <i class="fas fa-user pr-2"> </i> {{ __('Profile') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->
                 <button wire:click="logout" class="w-full text-start">
                     <x-responsive-nav-link>
-                        {{ __('Log Out') }}
+                       <i class="fas fa-sign-out pr-2"></i> {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </button>
             </div>
