@@ -100,6 +100,12 @@
                             <x-input-field wire:transition wire:show="products.offer_type" class="md:flex" labelWidth="250px" label="Product Discount Price" wire:model.live="products.discount" name="products.discount" error="products.discount" />
                             {{-- <x-input-field class="mx-1" type="number" label="Product Unite" wire:model.live="products.unite" name="products.unite" error="products.unite" /> --}}
                         </div>
+                        <x-hr/>
+                        <div>
+                            <x-input-file label="Set to Recomended Products" name="display_at_home" error="display_at_home">
+                                <input type="checkbox" wire:model.live="products.display_at_home" style="width:25px; height:25px" />
+                            </x-input-file>
+                        </div>
                     </x-dashboard.section.inner>
                 </x-dashboard.section>
                 

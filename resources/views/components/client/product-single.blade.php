@@ -50,10 +50,10 @@ new class extends Component
 
     <div class="lg:flex justify-between item-start p-2">
         <!-- card left -->
-        <div class="w-full bg-white p-3 rounded" style="width:100%">
-            <div class="img-display w-full sm:flex sm:justify-between items-start lg:block rounded" style="width:100%; ">
-                <div class="img-showcase">
-                    <img id="preview" class=" p-2 rounded" style="width: 100%; object-fit:contain; max-width:600px; height:300px" height="400" src="{{ asset('storage/' . $product?->thumbnail) }}"alt="image">
+        <div class="bg-white p-3 rounded" style="width:100%; max-width:600px">
+            <div class="img-display sm:flex sm:justify-start items-start lg:block rounded" style="width:100%">
+                <div class="img-showcase" style="">
+                    <img id="preview" class="p-2 rounded" style="width: 100%; object-fit:contain; max-width:600px; height:300px" height="400" src="{{ asset('storage/' . $product?->thumbnail) }}"alt="image">
                 </div>
 
                 @if ($product->showcase)
@@ -72,7 +72,7 @@ new class extends Component
             </div>
         </div>
 
-        <div class="w-full lg:w-1/2 p-3 rounded bg-white">
+        <div class="p-3 rounded bg-white" style="min-width: 300px">
             <div>
                 {{-- Shop  --}}
                 <div class="text-green-900 w-auto text-sm">
@@ -177,18 +177,56 @@ new class extends Component
             </div> --}}
         </div>
 
-        
+        @if (isset($relatedProduct))     
+            <div class="p-3 rounded hidden md:block" style="min-width: 300px;">
+                <div class="">
+                    Related Products
+                </div>
+    
+                @foreach ($relatedProduct as $item)
+                    <div class="flex py-2 border-b">
+                        <img src="{{asset('storage/'. $item->thumbnail)}}" style="width: 70px; height:70px" alt="">
+                        <div class="px-2 w-full">
+                            <a wire:navigate href="{{route('products.details', ['id' => $item->id, 'slug' => $item->slug])}}">
+                                {{$item->title}}
+                            </a>
+                            <div style="width:100%; display:flex; flex-direction:colums-reverse; align-items: center; font-size:14px; justify-content:space-between" class="w-full py-1">
+                                @if($item->offer_type)
+                                    
+                                    <div class="text-md @if($item->offer_type ) @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                                        {{$item->discount}} TK
+                                    </div>
+    
+                                    <div class="text-xs">
+                                        <del>   
+                                            MRP {{$item->price}} TK    
+                                        </del>
+                                    </div>
+    
+                                @else
+                                    <div class=" test-md @if($item->offer_type ) pr-2 @else align-self:center @endif" style="font-weight: bold; text-align:right">
+                                        {{$item->price}} TK
+                                    </div>
+                                @endif 
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+    
+                {{$relatedProduct->links()}}
+            </div>
+        @endif
     </div>
 
 
     @if (isset($relatedProduct))
-    <hr>
-    <div class="sm:w-full p-3">
-        
-        <div class="font-bold">
-            Related Products
-        </div>
-        <br>
+        <hr>
+        <div class="sm:w-full p-3 block md:hidden">
+            
+            <div class="font-bold">
+                Related Products
+            </div>
+            <br>
             <div class="product_section" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
                 @foreach ($relatedProduct as $product)
                     {{-- @component('client.product-cart', ['product' => $item], key($item->id)) --}}
@@ -198,7 +236,8 @@ new class extends Component
             </div>
 
 
-    </div>
+
+        </div>
     @endif
 
     <script>

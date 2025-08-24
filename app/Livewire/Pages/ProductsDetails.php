@@ -12,18 +12,22 @@ use App\Models\user_task;
 use App\Models\vip;
 use Carbon\Month;
 use Illuminate\Console\View\Components\Task;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 use function PHPUnit\Framework\isNull;
 
 #[layout('layouts.user.app')]
 class ProductsDetails extends Component
 {
+    use WithPagination;
+
     #[URL]
     public $id, $slug;
 
-    public $product, $relatedProduct, $vips, $duration, $countdown = 0, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
+    public $product, $vips, $duration, $countdown = 0, $currentTaskTime, $taskType = null, $lastTask = null, $currentTask = null, $taskNotCompletYet = true;
 
     public $min = 0, $sec = 0, $package;
 
@@ -43,7 +47,6 @@ class ProductsDetails extends Component
         $this->getData();
 
 
-        $this->relatedProduct = Product::where(['category_id' => $this->product?->category_id, 'status' => 'Active', 'belongs_to_type' => 'reseller'])->limit(10)->get();
         // $this->vips = vip::where(['user_id' => Auth::id(), 'status' => 1])->whereDate('valid_till', '>', today())->first();
         // dd($this->vips->task_type);
     }
@@ -152,6 +155,7 @@ class ProductsDetails extends Component
 
     public function render()
     {
-        return view('livewire.pages.products-details');
+        $relatedProduct = Product::where(['category_id' => $this->product?->category_id, 'status' => 'Active', 'belongs_to_type' => 'reseller'])->paginate(10);
+        return view('livewire.pages.products-details', compact('relatedProduct'));
     }
 }

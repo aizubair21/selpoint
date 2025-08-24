@@ -85,7 +85,6 @@ class Create extends Component
 
     public function create()
     {
-        dd($this->products);
 
         if (auth()->user()->myProducts()->count() >= $this->shop->max_product_upload) {
             $this->dispatch('error', 'You have reached the maximum number of products allowed for your shop.');
@@ -103,12 +102,11 @@ class Create extends Component
                 'state' => Auth::user()->city ?? null,
             ]
         );
-        dd($data);
 
         try {
             $pd = Product::create($data);
 
-            if ($pd->id) {
+            if ($pd->id && $this->attr) {
 
                 // update product attr
                 product_has_attribute::create(

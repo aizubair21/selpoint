@@ -25,7 +25,22 @@ class Product extends Model
         'offer_type',
         'unit',
         'status', // 
-        'display_at_home'
+        'display_at_home',
+
+        'vc',
+        'brand',
+
+        'cod',
+        'couried',
+        'hand',
+
+        'shipping_in_dahka',
+        'shipping_out_dhaka',
+        'shipping_note',
+
+        'badge',
+        'tags',
+        'accept_cupon',
     ];
 
 
@@ -93,6 +108,12 @@ class Product extends Model
     // {
     //     return $this->hasMany(ComissionTracking::class);
     // }
+
+    public function scopeHome($query)
+    {
+        return $query->whereNotNull('display_at_home');
+    }
+
     public function attr()
     {
         return $this->hasOne(product_has_attribute::class);

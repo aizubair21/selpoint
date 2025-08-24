@@ -99,37 +99,67 @@
             @endif
         
             <div x-init="$wire.getProducts">
-            <div class="py-4 flex px-2 justify-between items-center">
-                <div class="text-3xl font-bold">
-                    New Arrival
-                </div>
-               
-                <div class="text-center">
-                    <x-nav-link href="{{route('products.index')}}" class="px-3 py-2 rounded ">
-                        View All
-                    </x-nav-link>
-                </div>
-            </div>
-            <div class="product_section pt-4" x-loading.disabled x-transition>
-                {{-- @includeIf('components.client.common-heading') --}}
-                {{-- <x-client.products-loop :$products /> --}}
-                @if (count($products))     
-                    <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
-                        @foreach($products as $product)
-                            <x-client.product-cart :$product :key="$product->id" />
-                        @endforeach    
+                <div class="py-4 flex px-2 justify-between items-center">
+                    <div class="text-xl font-bold">
+                        New Arrival
                     </div>
-                @endif
+                    
+                    <div class="text-center">
+                        <x-nav-link href="{{route('products.index')}}" class="px-3 py-2 rounded ">
+                            View All
+                        </x-nav-link>
+                    </div>
+                </div>
+                <div class="product_section pt-4" x-loading.disabled x-transition>
+                    {{-- @includeIf('components.client.common-heading') --}}
+                    {{-- <x-client.products-loop :$products /> --}}
+                    @if (count($products))     
+                        <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
+                            @foreach($products as $product)
+                                <x-client.product-cart :$product :key="$product->id" />
+                            @endforeach    
+                        </div>
+                    @endif
+            
+                </div>
+           
+                @if (count($topSellingProducts))
+                    
+                    <x-hr/>
         
+                    <div>
+                        <div class="py-4 flex px-2 justify-between items-center">
+                            <div class="text-xl font-bold">
+                                Top Sells
+                            </div>
+                        </div>
+                        <div class="product_section pt-4" x-loading.disabled x-transition>
+                            {{-- @includeIf('components.client.common-heading') --}}
+                            {{-- <x-client.products-loop :$products /> --}}
+                            @if (count($topSellingProducts))     
+                                <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
+                                    @foreach($topSellingProducts as $product)
+                                        <x-client.product-cart :$product :key="$product->id" />
+                                    @endforeach    
+                                </div>
+                            @endif
+                    
+                        </div>
+                    </div>
+                    
+                    <x-hr/>
+        
+                @endif
+                
+                @livewire('pages.RecomendedProducts')
             </div>
 
         </div>
     
 
-        <x-hr/>
          
         {{-- <div class="py-4 flex px-2 justify-between items-center">
-            <div class="text-3xl font-bold">
+            <div class="text-xl font-bold">
                 Top Sell
             </div>
             

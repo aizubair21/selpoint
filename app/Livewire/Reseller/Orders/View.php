@@ -3,6 +3,7 @@
 namespace App\Livewire\Reseller\Orders;
 
 use Livewire\Component;
+use App\Jobs\UpdateProductSalesIndex;
 use App\Http\Controllers\ProductComissionController;
 use App\Models\Order;
 use Livewire\Attributes\Layout;
@@ -36,8 +37,9 @@ class View extends Component
                 $this->orders->status = $status;
                 $this->orders->save();
 
-                $ct = new ProductComissionController(); // instance
-                $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
+                $ct = new ProductComissionController(); // instance to cul tomissions
+                $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions
+                UpdateProductSalesIndex::dispatch(); // index product sales
 
                 $this->dispatch('refresh');
             } else {
