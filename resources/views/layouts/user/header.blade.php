@@ -199,9 +199,15 @@ new class extends Component {
                                 </x-slot>
         
                                 <x-slot name="content">
-                                    
+                                     @if (count(auth()->user()->getRoleNames()) > 1)
+                                        <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
+                                           <i class="fas fa-home pr-2"></i> Dashboard
+                                        </x-dropdown-link>
+                                    <x-hr/>
+                                    @endif
+
                                     <x-dropdown-link :href="route('user.index')">
-                                        <i class="fas fa-home pr-2"></i> {{ __('User Panel') }}
+                                        <i class="fas fa-gauge pr-2"></i> {{ __('User Panel') }}
                                     </x-dropdown-link>
 
                                     <x-dropdown-link :href="route('user.orders.view')">
@@ -233,27 +239,30 @@ new class extends Component {
                                         <x-hr/>
                                     @endif
 
-                                    @if (count(auth()->user()->getRoleNames()) > 1)
-                                        <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
-                                           <i class="fas fa-home pr-2"></i> Dashboard
-                                        </x-dropdown-link>
-                                    @endif
+                                   
                                     
                                     @php
                                         $get = auth()->user()->active_nav;   
                                     @endphp
                                 
+                                    @if ((auth()->user()->hasRole('admin') || auth()->user()?->hasRole('system')))
+                                        {{-- vendor primary nav  --}}
+                                        <hr>
+                                        {{-- @includeif('layouts.responsive_navigation') --}}
+                                        <hr>
+                                    @endif
+                                    
                                     @if (auth()->user()->hasRole('vendor') && $get == 'vendor')
                                         {{-- vendor primary nav  --}}
                                         <hr>
-                                        @includeif('layouts.vendor.navigation.responsive')
+                                        {{-- @includeif('layouts.vendor.navigation.responsive') --}}
                                         <hr>
                                     @endif
                                         
                                     @if (auth()->user()->hasRole('reseller') && $get == 'reseller')
                                         {{-- reseller primary nav  --}}
                                         <hr>
-                                        @includeif('layouts.reseller.navigation.responsive')
+                                        {{-- @includeif('layouts.reseller.navigation.responsive') --}}
                                         <hr>
                                     @endif
                                     
@@ -264,7 +273,7 @@ new class extends Component {
                                     <hr> --}}
     
                                     
-        
+                                    <x-hr/>
                                     <x-dropdown-link :href="route('logout')"
                                             onclick="event.preventDefault();
                                                         this.closest('form').submit();">

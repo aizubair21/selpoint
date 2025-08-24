@@ -45,7 +45,12 @@
         <i class="fas fa-table pr-2 w-6"></i> {{ __('Categories') }}
     </x-responsive-nav-link>
     @endcan
+    @can('order_view')
 
+    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
+        <i class="fas fa-cart-plus pr-2 w-6"></i> {{ __('Orders') }}
+    </x-responsive-nav-link>
+    @endcan
 
 
     {{-- @if (auth()->user()->hasRole('system'))
@@ -57,8 +62,11 @@
     @endcan  --}}
     @can('vip_view')
         
-    <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.*')">
-       <i class="fas fa-user-tie pr-2 w-6"></i> {{ __('ViP') }}
+    <x-responsive-nav-link :href="route('system.vip.index')" :active="request()->routeIs('system.vip.*')">
+       <i class="fas fa-box-open pr-2 w-6"></i> {{ __('ViP Package') }}
+    </x-responsive-nav-link>
+    <x-responsive-nav-link :href="route('system.vip.users')" :active="request()->routeIs('system.vip.users')">
+       <i class="fas fa-user-tie pr-2 w-6"></i> {{ __('ViP Users') }}
     </x-responsive-nav-link>
     @endcan
     @can('slider_view')
@@ -91,13 +99,6 @@
 
     <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
         <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Comission') }}
-    </x-responsive-nav-link>
-    @endcan
-
-    @can('order_view')
-
-    <x-responsive-nav-link :href="route('system.orders.index')" :active="request()->routeIs('system.orders.*')">
-        <i class="fas fa-cart-plus pr-2 w-6"></i> {{ __('Orders') }}
     </x-responsive-nav-link>
     @endcan
 

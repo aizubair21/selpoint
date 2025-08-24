@@ -491,6 +491,60 @@
                     @endif
                 @endforeach
             </div>
+           
+            {{-- slider  --}}
+            <div>
+                <x-input-label>
+                    Slider
+                </x-input-label>
+                @foreach ($permissions as $permission)
+                    @php
+                        $chk = false;
+                        if (isset($userPermissions)){
+                            if($userPermissions->contains($permission->name)){
+                                $chk = true;
+                            }
+                        }
+                    @endphp
+                        
+                    @if (Str::startsWith($permission->name, 'slider'))
+                        {{-- {{$permission->name}} --}}
+                        
+                        
+                        <div>
+                            <x-text-input class="m-0" :checked="$chk" type="checkbox" name="permissions[]" id="perm_{{$permission->id}}" value="{{$permission->name}}" />
+                            <label class="pl-3 text-sm" for="perm_{{$permission->id}}">{{$permission->name}}</label>     
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+           
+            {{-- slider  --}}
+            <div>
+                <x-input-label>
+                    Deposit
+                </x-input-label>
+                @foreach ($permissions as $permission)
+                    @php
+                        $chk = false;
+                        if (isset($userPermissions)){
+                            if($userPermissions->contains($permission->name)){
+                                $chk = true;
+                            }
+                        }
+                    @endphp
+                        
+                    @if (Str::startsWith($permission->name, 'deposit'))
+                        {{-- {{$permission->name}} --}}
+                        
+                        
+                        <div>
+                            <x-text-input class="m-0" :checked="$chk" type="checkbox" name="permissions[]" id="perm_{{$permission->id}}" value="{{$permission->name}}" />
+                            <label class="pl-3 text-sm" for="perm_{{$permission->id}}">{{$permission->name}}</label>     
+                        </div>
+                    @endif
+                @endforeach
+            </div>
 
         </div>
 </div>

@@ -100,8 +100,8 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
      * Rotue prefix dedicated for reseller management 
      */
     Route::prefix('reseller')->group(function () {
-        Route::get('/', systemResellerIndexPage::class)->name('reseller.index');
-        Route::get('/{id}/edit', systemResellerEditPage::class)->name('reseller.edit');
+        Route::get('/', systemResellerIndexPage::class)->name('reseller.index')->middleware(AbleTo::class . ":resellers_view");
+        Route::get('/{id}/edit', systemResellerEditPage::class)->name('reseller.edit')->middleware(AbleTo::class . ":resellers_edit");
     });
 
 
@@ -131,19 +131,19 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     /** 
      * VIP 
      */
-    Route::get('/packages', systemVipIndexPage::class)->name('vip.index');
-    Route::get('/package/create', systemVipCreatePage::class)->name('vip.crate');
-    Route::get('/package/{packages}', systemVipEditPage::class)->name('package.edit');
+    Route::get('/packages', systemVipIndexPage::class)->name('vip.index')->middleware(AbleTo::class . ":vip_view");
+    Route::get('/package/create', systemVipCreatePage::class)->name('vip.crate')->middleware(AbleTo::class . ":vip_add");
+    Route::get('/package/{packages}', systemVipEditPage::class)->name('package.edit')->middleware(AbleTo::class . ":vip_update");
 
-    Route::get('/vip/{vip}', Edit::class)->name('vip.edit');
-    Route::get('/vips', systemVipUsersIndex::class)->name('vip.users');
+    Route::get('/vip/{vip}', Edit::class)->name('vip.edit')->middleware(AbleTo::class . ":vip_user_edit");
+    Route::get('/vips', systemVipUsersIndex::class)->name('vip.users')->middleware(AbleTo::class . ":vip_user_view");
 
 
 
     /**
      * system coin store management
      */
-    Route::get('/coins', Index::class)->name('store.index');
+    Route::get('/coins', Index::class)->name('store.index')->middleware(AbleTo::class . ":store_view");
 
 
     /**
@@ -157,8 +157,8 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     /**
      * Routes for manage syste categories
      */
-    Route::get('/categories',  SystemCategoriesIndex::class)->name('categories.index');
-    Route::get('/categories/{cid}', CategoriesEdit::class)->name('categories.edit');
+    Route::get('/categories',  SystemCategoriesIndex::class)->name('categories.index')->middleware(AbleTo::class . ":category_view");
+    Route::get('/categories/{cid}', CategoriesEdit::class)->name('categories.edit')->middleware(AbleTo::class . ":category_edit");
 
     /**
      * navigations
@@ -169,21 +169,21 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     /**
      * slider
      */
-    Route::get('/sliders', Slider::class)->name('slider.index');
-    Route::get('/sliders/slides', Slides::class)->name('slider.slides');
+    Route::get('/sliders', Slider::class)->name('slider.index')->middleware(AbleTo::class . ":slider_view");
+    Route::get('/sliders/slides', Slides::class)->name('slider.slides')->middleware(AbleTo::class . ":slider_edit");
 
 
     /**deposit */
-    Route::get('/deposit', DepositIndex::class)->name('deposit.index');
+    Route::get('/deposit', DepositIndex::class)->name('deposit.index')->middleware(AbleTo::class . ":deposit_view");
 
 
-    Route::get('/comissions', ComissionsIndex::class)->name('comissions.index');
-    Route::get('/comissions/take', Takes::class)->name('comissions.takes');
-    Route::get('/comissions/{id}', TakesDetails::class)->name('comissions.details');
-    Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('comissions.distributes');
+    Route::get('/comissions', ComissionsIndex::class)->name('comissions.index')->middleware(AbleTo::class . ":comission_view");
+    Route::get('/comissions/take', Takes::class)->name('comissions.takes')->middleware(AbleTo::class . ":comission_view");
+    Route::get('/comissions/{id}', TakesDetails::class)->name('comissions.details')->middleware(AbleTo::class . ":comission_view");
+    Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('comissions.distributes')->middleware(AbleTo::class . ":comission_confirm");
 
-    Route::post('/comissions/delete', [ProductComissionController::class, 'deleteComissions'])->name('comissions.destroy');
-    Route::delete('/comissions/reseller-profit/delete/{id}', [ProductComissionController::class, 'deleteResellerProfit'])->name('reseller-profit.destroy');
+    Route::post('/comissions/delete', [ProductComissionController::class, 'deleteComissions'])->name('comissions.destroy')->middleware(AbleTo::class . ":comission_delete");
+    Route::delete('/comissions/reseller-profit/delete/{id}', [ProductComissionController::class, 'deleteResellerProfit'])->name('reseller-profit.destroy')->middleware(AbleTo::class . ":comission_delete");
 
     Route::post('/comissions/order/{id}', function ($id) {
         $cc = new ProductComissionController();
@@ -194,7 +194,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         } else {
             return redirect()->back()->with('error', 'Have an error, see the log file');
         }
-    })->name('comissions.confirm');
+    })->name('comissions.confirm')->middleware(AbleTo::class . ":comission_confim");
 
     Route::post('/comissions/confirm/take/{id}', function ($id) {
         // 
@@ -206,7 +206,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th);
         }
-    })->name('comissions.take.confirm');
+    })->name('comissions.take.confirm')->middleware(AbleTo::class . ":comission_confim");
 
 
     Route::get('/comissions/refund/take/{id}', function ($id) {
@@ -219,7 +219,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th);
         }
-    })->name('comissions.take.refund');
+    })->name('comissions.take.refund')->middleware(AbleTo::class . ":comission_update");
 
 
     Route::get('/comissions/confirm/distribute/{id}', function ($id) {
@@ -232,7 +232,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th);
         }
-    })->name('comissions.distribute.confirm');
+    })->name('comissions.distribute.confirm')->middleware(AbleTo::class . ":comission_confim");
 
     Route::get('/comissions/refund/distribute/{id}', function ($id) {
         try {
@@ -243,7 +243,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th);
         }
-    })->name('comissions.distribute.refund');
+    })->name('comissions.distribute.refund')->middleware(AbleTo::class . ":comission_update");
 
 
 
@@ -255,7 +255,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
             Route::get('/', SystemOrdersIndex::class)->name('index');
             Route::get('/{id}', Details::class)->name('details');
         }
-    );
+    )->middleware(AbleTo::class . ':order_view');
 
 
     /**
@@ -266,7 +266,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
             Route::get('/', WithdrawIndex::class)->name('withdraw.index');
             Route::get('/take{id}', WithdrawDetails::class)->name('withdraw.view');
         }
-    );
+    )->middleware(AbleTo::class . ":withdraw_view");
 
 
     /**
