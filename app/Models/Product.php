@@ -41,6 +41,12 @@ class Product extends Model
         'badge',
         'tags',
         'accept_cupon',
+
+        'meta_title',
+        'meta_description',
+        'keyword',
+        'meta_tags',
+        'meta_thumbnail',
     ];
 
 

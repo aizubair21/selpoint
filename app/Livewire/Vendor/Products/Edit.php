@@ -23,7 +23,7 @@ class Edit extends Component
     public $product, $nav = 'Product';
 
     public $data, $categories, $description;
-    public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [];
+    public $products, $thumb, $relatedImage = [], $newImage = [], $attr = [], $newseothumb;
     // protected $Listeners = ["$refresh"];
 
     protected $listeners = ['editorUpdated' => 'updateContent'];
@@ -67,7 +67,7 @@ class Edit extends Component
     public function save()
     {
 
-        // dd($this->attr);
+        // dd($this->products);
         $this->data->name = $this->products['name'];
         $this->data->title = $this->products['title'];
         $this->data->category_id = $this->products['category_id'];
@@ -75,8 +75,35 @@ class Edit extends Component
         $this->data->price = $this->products['price'];
         $this->data->discount = $this->products['discount'];
         $this->data->offer_type = $this->products['offer_type'];
+        $this->data->display_at_home = $this->products['display_at_home'];
+        $this->data->unit = $this->products['unit'];
         $this->data->description = $this->description;
         $this->data->thumbnail = $this->handleImageUpload($this->thumb, 'products', $this->products['thumbnail']);
+
+        // seo 
+        $this->data->meta_title = $this->products['meta_title'];
+        $this->data->meta_description = $this->products['meta_description'];
+        $this->data->keyword = $this->products['keyword'];
+        $this->data->meta_tags = $this->products['meta_tags'];
+        if ($this->newseothumb) {
+            $this->data->meta_thumbnail = $this->handleImageUpload($this->newseothumb, 'products-seo', $this->products['meta_thumbnail']);
+        }
+        // seo 
+
+
+        // delivery 
+        $this->data->cod = $this->products['cod'];
+        $this->data->courier = $this->products['courier'];
+        $this->data->hand = $this->products['hand'];
+        $this->data->shipping_in_dhaka = $this->products['shipping_in_dhaka'];
+        $this->data->shipping_out_dhaka = $this->products['shipping_out_dhaka'];
+
+        // delivery 
+
+        // dd($this->data);
+
+
+
         // dd($this->products);
         $this->data->save();
 

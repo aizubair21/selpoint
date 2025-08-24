@@ -21,7 +21,7 @@ class Create extends Component
 
     #[Validate]
     public $products = [], $thumb, $categories, $attr = [];
-    public $belongs_to, $shop, $ableToCreate = true, $meta = ['thumbnail' => '', 'title' => '', 'keyword' => '', 'tags' => '', 'description' => ''];
+    public $belongs_to, $shop, $ableToCreate = true, $meta = ['meta_thumbnail' => '', 'meta_title' => '', 'keyword' => '', 'meta_tags' => '', 'meta_description' => ''];
 
     protected function rules()
     {
@@ -31,7 +31,7 @@ class Create extends Component
             'products.category_id' => 'required',
             'products.buying_price' => 'required',
             'products.price' => 'required',
-            'thumb' => 'required'
+            'thumb' => 'required',
         ];
     }
 
@@ -98,8 +98,14 @@ class Create extends Component
                 'slug' => Str::slug($this->products['title']),
                 'thumbnail' => $this->handleImageUpload($this->thumb, 'products', null),
                 'belongs_to_type' => $this->belongs_to,
-                'country' => Auth::user()->country ?? null,
+                'country' => Auth::user()->country ?? 'Bangladesh',
                 'state' => Auth::user()->city ?? null,
+                
+                'meta_title' => $this->meta['meta_title'],
+                'meta_description' => $this->meta['meta_description'],
+                'meta_tags' => $this->meta['meta_tags'],
+                'keyword' => $this->meta['keyword'],
+                'meta_thumbnail' => $this->handleImageUpload($this->meta['meta_thumbnail'], 'products-seo', ''),
             ]
         );
 

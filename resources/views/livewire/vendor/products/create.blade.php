@@ -111,12 +111,80 @@
                 
                 
             </div>
-
+            
             <div>
+                {{-- delevery  --}}
                 <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">
-                            Image Attributes
+                            Product Delevery
+                        </x-slot>
+                        <x-slot name="content">
+                            Define your product delevery option and charge from here.
+                        </x-slot>
+                    </x-dashboard.section.header>
+
+                    <x-dashboard.section.inner>
+                        <div class="md:flex justify-between  ">
+                            <div >
+
+                                <x-input-file error='products.cod' label="Available Cash-On-Delevery" class="lg:flex" name="cod" inputClass="w-full">
+                                    <input wire:model.live="products.cod" type="checkbox" style="width:25px; height:25px" />
+                                </x-input-file>
+                                <x-hr/>
+                                <x-input-file error='products.courier' label="Available Couried Delivery" class="lg:flex" name="courier" inputClass="w-full">
+                                    <input wire:model.live="products.courier" type="checkbox" style="width:25px; height:25px" />
+                                </x-input-file>
+                                <x-hr/>
+                                <x-input-file error='products.hand' label="Available Hand-To-Hand Delevery" class="lg:flex" name="hand" inputClass="w-full">
+                                        <input wire:model.live="products.hand" type="checkbox" style="width:25px; height:25px" />
+                                </x-input-file>
+                            </div>
+                            <div>
+                                <x-input-field label="Delevery Amount Inside Dhaka" wire:model.live="products.shipping_in_dhaka" name="products.shipping_in_dhaka" class="lg:flex" labelWidth="250px" error="products.shipping_in_dhaka"/>
+                                <x-hr/>
+                                <x-input-field label="Normal Delevery Amount" class="lg:flex" wire:model.live="products.shipping_out_dhaka" name="products.shipping_out_dhaka" labelWidth="250px" error="products.shipping_out_dhaka" />
+                            </div>
+                        </div>
+                    </x-dashboard.section.inner>
+                </x-dashboard.section>
+
+                <x-dashboard.section>
+
+                    {{-- meta  --}}
+                    <x-dashboard.section.inner>
+        
+                        <x-input-field error='meta.keyword' wire:model.live="meta.keyword" label="Meta Keyword" name="keyword" class="lg:flex" inputClass="w-full" />
+                        <x-input-field error='meta.meta_title' wire:model.live="meta.meta_title" label="Meta Title" name="title" class="lg:flex" inputClass="w-full" />
+                        <x-input-field error='meta.meta_tags' wire:model.live="meta.meta_tags" label="Meta Tags" name="tags" class="lg:flex" inputClass="w-full" />
+                        <x-input-field error='meta.meta_description' wire:model.live="meta.meta_description" label="Meta Description" name="description" class="lg:flex" inputClass="w-full" />
+                        <x-input-file error="meta.meta_thumbnail" label="Meta Thumbnail" name="thumbnail">
+                            <div>
+                                @if ($meta['meta_thumbnail'])
+                                    <img src="{{$meta['meta_thumbnail']->temporaryUrl()}}" width="100px" height="200px" alt="">
+                                @else
+                                    <img src="{{asset('storage/'.$meta['meta_thumbnail'])}}" width="100px" height="200px" alt="">
+                                @endif
+                            </div>
+                            <div class="relative">
+                                <p>
+                                    100 x 200 meta thumbnail
+                                </p>
+                                <input type="file" wire:model.live="meta.meta_thumbnail" id="newseothumb" class="absolute hidden">
+                                <label for="newseothumb">
+                                    <i class="fas fa-upload px-2"></i>
+                                </label>
+                            </div>
+                        </x-input-file>
+                    </x-dashboard.section.inner>
+
+                </x-dashboard.section>
+
+                {{-- attributed  --}}
+                <x-dashboard.section>
+                    <x-dashboard.section.header>
+                        <x-slot name="title">
+                            Products Attributes
                         </x-slot>
                         <x-slot name="content">
                             Give your products attributes, product different types, different product color package and quantity.
@@ -130,6 +198,7 @@
                     </x-dashboard.section.inner>
                 </x-dashboard.section>
 
+                {{-- product thumbnail  --}}
                 <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">
@@ -179,7 +248,7 @@
                     </x-dashboard.section.inner>
                 </x-dashboard.section> --}}
 
-                <x-dashboard.section>
+                {{-- <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">
                             SEO
@@ -198,7 +267,7 @@
                         </x-input-file>
                         <x-input-file labelWidth="250px" inputClass="w-full" class="mx-1 md:flex" labelWidht="100px" label="SEO Thumb" name="meta.thumbnail" error="meta.thumbnail">
                             <div>
-                                @if ($meta['thumbnail'])
+                                @if ($products['thumbnail'])
                                     <img style="width:300px; height:200px" src="{{$meta['thumbnail']->temporaryUrl()}}" alt="" srcset="">
                                 @endif
                                 <hr>
@@ -215,7 +284,7 @@
                         </x-input-file>
 
                     </x-dashboard.section.inner>
-                </x-dashboard.section>
+                </x-dashboard.section> --}}
 
     
                 <x-dashboard.section>
