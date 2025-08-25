@@ -23,7 +23,7 @@ class SingleProductOrder extends Component
     public $product, $size, $total, $price;
 
     #[validate('required')]
-    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 80, $delevery = 'Courier';
+    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 0, $delevery;
 
     public function updated($property)
     {
@@ -33,7 +33,11 @@ class SingleProductOrder extends Component
                 $this->quantity = 1;
             }
             $this->total = $this->price * $this->quantity;
-            $this->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;;
+            if ($this->delevery == 'hand') {
+                $this->shipping = 0;
+            } else {
+                $this->shipping = $this->area_condition == 'Dhaka' ? $this->product->shipping_in_dhaka : $this->product->shipping_out_dhaka;
+            }
         }
     }
 
@@ -41,7 +45,7 @@ class SingleProductOrder extends Component
     public function mount()
     {
         // dd($this->slug);
-        $this->product = Product::where(['id' => $this->id, 'status' => 'Active', 'belongs_to_type' => 'reseller'])->first();
+        $this->product = Product::where(['id' => $this->id])->active()->reseller()->first();
         $this->price = $this->product?->offer_type ? $this->product?->discount : $this->product?->price;
         $this->total = $this->price;
         // if (!$this->product) {

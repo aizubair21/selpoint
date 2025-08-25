@@ -15,97 +15,118 @@
 
     <x-dashboard.container>
         <x-dashboard.section>
-            <div class="md:flex justify-between items-center space-y-2 w-full overflow-hidden overflow-x-scroll">
-                <div>
-                    <div class="mb-2 flex gap-2">
-                        <div wire:click="updateOrderStatusTo('Pending')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Buyer placed the order. Order in Pending">Placed
-                            <br>
-                            <div @class([in_array($orders->status, ['Pending','Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
+            @if ($orders->status == 'Cancelled')
+                <div class="p-2 border rounded bg-red-50">
+                    <i class="fas fa-bell px-2 text-red-900"></i> Order has been cancelled by the buyer !  
+                </div>  
+            @else
+                <div class="md:flex justify-between items-center space-y-2 w-full overflow-hidden overflow-x-scroll">
+                    <div>
+
+                        @if ($orders->status == 'Confirm')
+                            <div class="bg-green-900 text-white p-2 rounded shadow">
+                                Confirmed !
                             </div>
-                        </div>
-                        <div wire:click="updateOrderStatusTo('Accept')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Accept the order for process">Accept
-                            <br>
-                            <div @class([in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
+                        @endif
+
+                        @if ($orders->status == 'Pending' && $orders->stauts != 'Confirm')
+                            <x-primary-button @click="$dispatch('open-modal', 'order-accept-modal')">
+                                Accept order
+                            </x-primary-button>
+                        @else
+                            <div class="mb-2 flex gap-2">
+                                <div wire:click="updateOrderStatusTo('Pending')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Buyer placed the order. Order in Pending">Placed
+                                    <br>
+                                    <div @class([in_array($orders->status, ['Pending','Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div wire:click="updateOrderStatusTo('Accept')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Accept the order for process">Accept
+                                    <br>
+                                    <div @class([in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div wire:click="updateOrderStatusTo('Picked')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, [ 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Accept']) title="Find and collect the product">Picked
+                                    <br>
+                                    <div @class([in_array($orders->status, ['Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div wire:click="updateOrderStatusTo('Delivery')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Picked']) title="product shipped to rider or courier.">Delivery
+                                    <br>
+                                    <div @class([in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div wire:click="updateOrderStatusTo('Delivered')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Delivery']) title="product delivered to the buyer.and buyer successfully received the order">Delivered
+                                    <br>
+                                    <div @class([in_array($orders->status, ['Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div wire:click="updateOrderStatusTo('Confirm')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Confirm' , 'bg-gray-100' => $orders->status == 'Delivered'])>Confirm
+                                    <br>
+                                    <div @class([$orders->status == 'Confirm' ? 'block' : 'hidden'])>
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div wire:click="updateOrderStatusTo('Picked')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, [ 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Accept']) title="Find and collect the product">Picked
-                            <br>
-                            <div @class([in_array($orders->status, ['Picked', 'Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        <div wire:click="updateOrderStatusTo('Delivery')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Picked']) title="product shipped to rider or courier.">Delivery
-                            <br>
-                            <div @class([in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        <div wire:click="updateOrderStatusTo('Delivered')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => in_array($orders->status, ['Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status == 'Delivery']) title="product delivered to the buyer.and buyer successfully received the order">Delivered
-                            <br>
-                            <div @class([in_array($orders->status, ['Delivered', 'Confirm']) ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        <div wire:click="updateOrderStatusTo('Confirm')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Confirm' , 'bg-gray-100' => $orders->status == 'Delivered'])>Confirm
-                            <br>
-                            <div @class([$orders->status == 'Confirm' ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- <select wire:model.live="orderStatus" class="rounded-md" id="">
-                        <option value="Pending">Pending</option>
-                        <option value="Accept">Accept</option>
-                        <option value="Picked">Picked</option>
-                        <option value="Delivery">Delivery</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Confirmed">Confirmed</option>
-                        <hr>
-                        <option value="Hold">Hold</option>
-                        <option value="Rejecte">Rejecte</option>
-                    </select> --}}
-                    {{-- @if ($orders->status == 'Pending')
-                    <select wire:model.live="orderStatus" class="rounded-md" id="">
+                        @endif
+                        {{-- <select wire:model.live="orderStatus" class="rounded-md" id="">
                             <option value="Pending">Pending</option>
                             <option value="Accept">Accept</option>
+                            <option value="Picked">Picked</option>
+                            <option value="Delivery">Delivery</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Confirmed">Confirmed</option>
                             <hr>
                             <option value="Hold">Hold</option>
                             <option value="Rejecte">Rejecte</option>
-                        </select>
-                    @endif --}}
-                    {{-- <x-danger-button > Order Cancelled </x-danger-button> --}}
-                    
-                </div>
-                <div>
+                        </select> --}}
+                        {{-- @if ($orders->status == 'Pending')
+                        <select wire:model.live="orderStatus" class="rounded-md" id="">
+                                <option value="Pending">Pending</option>
+                                <option value="Accept">Accept</option>
+                                <hr>
+                                <option value="Hold">Hold</option>
+                                <option value="Rejecte">Rejecte</option>
+                            </select>
+                        @endif --}}
+                        {{-- <x-danger-button > Order Cancelled </x-danger-button> --}}
                         
-                    <div class="mb-2 flex gap-2">
-                        <div wire:click="updateOrderStatusTo('Hold')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Hold' , 'bg-gray-100' => $orders->status == 'Delivered'])>Hold
-                            <br>
-                            <div @class([$orders->status == 'Hold' ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
-                        {{-- <div wire:click="updateOrderStatusTo('Cancel')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Cancel' , 'bg-gray-100' => $orders->status == 'Delivered'])>Cancel
-                            <br>
-                            <div @class([$orders->status == 'Cancel' ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div> --}}
-                        <div wire:click="updateOrderStatusTo('Reject')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Reject' , 'bg-gray-100' => $orders->status == 'Delivered'])>Reject
-                            <br>
-                            <div @class([$orders->status == 'Reject' ? 'block' : 'hidden'])>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                        </div>
                     </div>
-                    @if ($orders->status == 'Rejecte')
-                        <x-danger-button > Order Cancelled </x-danger-button>
-                    @endif
-                </div>
+                    <div>
+                            
+                        <div class="mb-2 flex gap-2">
+                            <div wire:click="updateOrderStatusTo('Hold')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Hold' , 'bg-gray-100' => $orders->status == 'Delivered'])>Hold
+                                <br>
+                                <div @class([$orders->status == 'Hold' ? 'block' : 'hidden'])>
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                            {{-- <div wire:click="updateOrderStatusTo('Cancel')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Cancel' , 'bg-gray-100' => $orders->status == 'Delivered'])>Cancel
+                                <br>
+                                <div @class([$orders->status == 'Cancel' ? 'block' : 'hidden'])>
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div> --}}
+                            <div wire:click="updateOrderStatusTo('Reject')" @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white' => $orders->status == 'Reject' , 'bg-gray-100' => $orders->status == 'Delivered'])>Reject
+                                <br>
+                                <div @class([$orders->status == 'Reject' ? 'block' : 'hidden'])>
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        @if ($orders->status == 'Rejecte')
+                            <x-danger-button > Order Cancelled </x-danger-button>
+                        @endif
+                    </div>
+                    {{-- @if ($orders->status != 'Confirm' && $orders->status == 'Pending')       
+                    @endif --}}
 
-            </div>
+                </div>
+            @endif
             <br>
             <div class="flex justify-end items-center space-x-2">
                 {{-- <x-nav-link href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}" >COMISSIONS</x-nav-link> --}}
@@ -403,6 +424,22 @@
                     </x-input-file>
                     <x-primary-button>Order</x-primary-button>
                 </form>
+            </div>
+        </x-modal>
+
+        <x-modal name="order-accept-modal">
+            <div class="p-3 bold border-b">
+                Accept Order
+            </div>
+            <div class="p-3">
+                <p> Add Shipping Amount </p>
+                <div class="py-2">
+                    <x-text-input name="shipping" wire:model.live="shipping" class="w-full " />
+                </div>
+                <br>
+                <x-primary-button wire:click="acceptOrder">
+                    Confirm
+                </x-primary-button>
             </div>
         </x-modal>
     </x-dashboard.container>

@@ -78,7 +78,7 @@ new class extends Component
                 <div class="text-green-900 w-auto text-sm">
                    
                     <strong>
-                        <x-nav-link class="px-2 py-1 rounded-xl bg-gray-50 " href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop(), 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
+                        <x-nav-link class="px-2 rounded-xl bg-gray-50 " href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop(), 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
                             {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
                         </x-nav-link>
                     </strong>
@@ -103,30 +103,39 @@ new class extends Component
                     </div>
 
                 </div> --}}
+
+                
             </div>
 
             
             {{-- category  --}}
             <div class=" text-sm flex items-center">
                 
-                <div class="ps-3 text_primary bold rounded">
+                <div class="text_primary bold rounded">
                     <a wire:navigate href="{{route('category.products' , ['cat' =>$product->category?->slug])}}">
                         {{$product->category?->name ?? "Undefined"}}
                     </a>
                 </div>
             </div>
             
+            {{-- comments  --}}
+            <div class="bg-gray-50">
+                <x-hr/>
+                    <i class="fas fa-comments px-2"></i> {{$product->comments->count()}} Reviews.
+                <x-hr/>
+            </div>
+            {{-- comments  --}}
             
             {{-- attr  --}}
             <div class="py-2 my-3 ">
                 @if ($product->attr?->value)
-                    <h4> {{ $product->attr?->name }} </h4>
+                    <h4> {{ Str::ucfirst($product->attr?->name) }} </h4>
                     @php
                         $arrayOfAttr = explode(',', $product->attr?->value);
                     @endphp
-                    <div class="flex justify-start items-center my-1" style="flex-wrap: wrap;gap: 10px;">
+                    <div class="flex flex-wrap justify-start items-center my-1" style="flex-wrap: wrap;gap: 10px;">
                         @foreach ($arrayOfAttr as $attr)
-                            <div class="border px-2 py-1 rounded mr-1 d-none @if($attr) d-block @endif" style="align-content:center; text-align:center">
+                            <div class="px-2 text-sm bg-indigo-300 text-white rounded mr-1 d-none @if($attr) d-block @endif" style="align-content:center; text-align:center">
                                 {{ Str::upper($attr) }}
                             </div>
                         @endforeach
@@ -134,24 +143,35 @@ new class extends Component
                 @endif
             </div>
 
+            {{-- optional delivery  --}}
+            @if ($product->shipping_note)
+                <div class=" flex bg-gray-50 shadow rounded-lg p-1 bg-indigo-900">
+                    <i class="h-auto block rounded bg-gray-50 shadow-xl fas fa-bell p-2"></i>
+                    <p class="p-2 text-xs text-white">
+                        {{$product->shipping_note}}
+                    </p>
+                </div>
+            @endif
+            {{-- optional delivery  --}}
+
             {{-- price  --}}
             <div class="py-3">
                 
                 @if($product->offer_type)
-                    <div style="font-size:22px; margin-right:12px"> Price : <strong class="text_secondary bold"> {{$product->discount}} TK  </strong></div>
+                    <div class="md:flex items-baseline">
+                        <div style="font-size:22px; margin-right:12px"> Price : <strong class="text_secondary bold"> {{$product->discount}} TK  </strong></div>
                 
-
-                    <div class="" style="font-size: 14px">
-                        MRP:
-                        <del class="px-1">
-                            {{$product->price}} TK
-                        </del> / 
-                        @php
-                            $originalPrice = $product->price;
-                            $discountedPrice = $product->discount;
-                            $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
-                        @endphp
-                        <div >{{ round($discountPercentage, 0) }}% OFF</div>
+                        <div class="flex justify-start items-baseline">
+                            <del class="px-1" style="font-size: 22px">
+                                MRP: {{$product->price}} TK
+                            </del>
+                            @php
+                                $originalPrice = $product->price;
+                                $discountedPrice = $product->discount;
+                                $discountPercentage = (($originalPrice - $discountedPrice) / $originalPrice) * 100;
+                            @endphp
+                            <div class="text-xs">{{ round($discountPercentage, 0) }}% OFF</div>
+                        </div>
                     </div>
                 @else 
                     <div style="font-weight:bold;font-size:22px; color:var(--brand-primary); margin-right:12px"> Price : {{$product->price}} TK </div>
@@ -218,6 +238,35 @@ new class extends Component
         @endif
     </div>
 
+    <div class="flex flex-wrap items-center">
+        @if ($product->cod)
+                <div class="flex items-center p-2 w-full">
+                    <i class="fas fa-check-circle pr-2 m-0 w-6 h-6"></i> 
+                    <div>
+
+                        <strong>Cash On Delivery.</strong>
+                        <p class="text-xs">
+                            Get the product and pay.
+                        </p>
+                    </div>
+                </div>
+            <x-hr/>
+        @endif
+        @if ($product->hand)
+                <div class="text-green-200 flex items-center p-2 w-full">
+                    <i class="fas fa-check-circle pr-2 m-0 w-6 h-6"></i> 
+                    
+                    <div>
+
+                        <strong>Hand-To-Hand</strong>
+                        <p class="text-xs">
+                            Get the product directly from the shop, save shipping amount.
+                        </p>
+                    </div>
+                </div>
+            <x-hr/>
+        @endif
+    </div>
 
     @if (isset($relatedProduct))
         <hr>

@@ -20,7 +20,7 @@ class CartCheckout extends Component
     public $carts = [], $qty = [], $tp = 0, $q = 0, $isMultiple, $selectedCarts;
 
     #[validate('required')]
-    public $phone, $house_no, $road_no, $location, $area_condition = 'Dhaka', $district, $upozila, $shipping = 80, $delevery = 'Courier';
+    public $phone, $house_no, $road_no, $location, $area_condition = 'Dhaka', $district, $upozila, $shipping = 0, $delevery;
 
     #[On('refresh')]
     public function mount()
@@ -51,6 +51,13 @@ class CartCheckout extends Component
     //     }
     // }
 
+
+    public function updated()
+    {
+        if ($this->delevery == 'hand') {
+            $this->shipping = 0;
+        }
+    }
 
     public function changeSize($id)
     {
@@ -175,7 +182,7 @@ class CartCheckout extends Component
                         'total' => $total,
                     ]
                 );
-                
+
                 // dispatch comissions
                 ProductComissionController::dispatchProductComissionsListeners($order->id);
             }

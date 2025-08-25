@@ -23,7 +23,7 @@
                     
                     <div class="md:flex justify-between items-start ">
                         
-                        <div class="w-48 bg-indigo-900 text-white pr-2 p-3">
+                        <div class="w-48 bg-indigo-900 text-white pr-2 p-3 md:sticky top-0 rounded shadow">
                             <div class="p-4 rounded shadow">
                                 <div>
                                     <div class="text-xs">
@@ -108,34 +108,91 @@
                             
                             <div class="p-3 rounded bg-indigo-200 mt-4">
                                 <x-input-label>Develery Option</x-input-label>
-
-                                <div class="md:flex justify-between">
-                                    <div class="px-2">
-                                        <div class="flex items-center py-3">
-                                            <input type="radio" wire:model.live="delevery" value="Home" style="width: 20px; height:20px" class="m-0 mr-3" id="">
-                                            <x-input-label class="">Home Delevery</x-input-label>    
-                                        </div>    
-                                        <hr>
-                                        <div class="flex items-center py-3">
-                                            <input type="radio" wire:model.live="delevery" value="Courier" style="width: 20px; height:20px" class="m-0 mr-3" id="">
-                                            <x-input-label class="">Courier</x-input-label>    
-                                        </div>    
-                                        <hr>
-                                        <div class="flex items-center py-3">
-                                            <input type="radio" wire:model.live="delevery" value="Shop" style="width: 20px; height:20px" class="m-0 mr-3" id="">
-                                            <x-input-label class="">Hand to Hand</x-input-label>    
-                                        </div>    
+                                 @if ($product->shipping_note)
+                                    <div class=" flex bg-gray-50 shadow rounded-lg p-1 bg-indigo-900">
+                                        <i class="h-auto block rounded bg-gray-50 shadow-xl fas fa-bell p-2"></i>
+                                        <p class="p-2 text-xs text-white">
+                                            {{$product->shipping_note}}
+                                        </p>
                                     </div>
+                                @endif
+                                <div class="">
                                     <div class="px-2">
-                                        <div class="flex items-center py-3">
+                                        @if ($product->cod)
+                                            
+                                            <div class="flex items-start py-3">
+                                                <input type="radio" wire:model.live="delevery" value="cash" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                                <x-input-label class="">
+                                                    Cash-On Delivery
+                                                    <p class="text-xs">
+                                                        Get home delivery. Get the product and pay.
+                                                    </p>
+                                                </x-input-label>    
+                                            </div>    
+                                            <hr>
+                                        @endif
+
+                                        @if ($product->courier)
+                                            
+                                            <div class="flex items-start py-3">
+                                                <input type="radio" wire:model.live="delevery" value="courier" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                                <x-input-label class="">
+                                                    Courier
+                                                    <p class="text-xs">
+                                                        You wish to take your order via a courier service. Check your nearest courier provider and give us the correct address.
+                                                    </p>    
+                                                </x-input-label>    
+                                            </div>    
+                                            <hr>
+                                        @endif
+
+                                        @if ($product->hand)
+                                            
+                                            <div class="flex items-start py-3">
+                                                <input type="radio" wire:model.live="delevery" value="hand" style="width: 20px; height:20px" class="m-0 mr-3" id="">
+                                                
+                                                <div>
+
+                                                    <x-input-label class="">
+                                                        Hand to Hand
+                                                    </x-input-label>
+                                                    <p class="text-xs">
+                                                        You plan to take the product direct form seller shop. Great ! save your shipping coast.
+                                                    </p>    
+                                                </div>
+                                            </div>    
+                                        @endif
+
+                                        @error('delevery')
+                                            <div class="text-xs text-red-900">
+                                                <strong> {{$message}} </strong>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <x-hr/>
+                                    <div class="bg-gray-50 rounded shadow px-2">
+                                        <div @class(["flex items-start py-3", 'hidden' => $delevery == 'hand']) >
                                             <input type="radio" wire:model.live="area_condition" value="Dhaka" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
                                             <x-input-label class="m-0 p-0">Inside Dhaka</x-input-label>    
                                         </div>    
                                         <hr>
-                                        <div class="flex items-center py-3">
+                                        <div @class(["flex items-start py-3", 'hidden' => $delevery == 'hand']) >
                                             <input type="radio" wire:model.live="area_condition" value="Other" style="width: 20px; height:20px" class="m-0 p-0 mr-3" id="">
                                             <x-input-label class="m-0 p-0">Outside of Dhaka</x-input-label>    
                                         </div>    
+
+                                        @if ($delevery == 'hand')
+
+                                            <div class="bg-green-50">
+                                                <strong>
+                                                    Shop : {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                                                    <x-nav-link class="px-2 rounded-xl bg-gray-50 " href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop(), 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
+                                                        visit
+                                                    </x-nav-link>
+                                                </strong>
+
+                                            </div>
+                                        @endif
                                     </div>
 
                                 </div>

@@ -191,6 +191,10 @@
                             <x-input-field label="Delevery Amount Inside Dhaka" wire:model.live="products.shipping_in_dhaka" name="products.shipping_in_dhaka" class="lg:flex" labelWidth="250px" error="products.shipping_in_dhaka"/>
                             <x-hr/>
                             <x-input-field label="Normal Delevery Amount" class="lg:flex" wire:model.live="products.shipping_out_dhaka" name="products.shipping_out_dhaka" labelWidth="250px" error="products.shipping_out_dhaka" />
+                            <x-hr/>
+                            <x-input-file label="Shipping Note" error="products.shipping_note" name="products.shipping_note" labelWidth="250px">
+                                <textarea wire:model.live="products.shipping_note" id="psn" rows="3" class="w-full rounded" placeholder="write your shipping note ... "></textarea>
+                            </x-input-file>
                         </div>
                     </div>
                 </x-dashboard.section.inner>

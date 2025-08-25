@@ -19,7 +19,7 @@
         <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
-                    Orders
+                    Orders 
                 </x-slot>
                 <x-slot name="content">
                     {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account])->count() ?? "0"}}
@@ -75,7 +75,7 @@
                 <x-slot name="content">
                     <div class="flex justify-between">
                         <div>
-                            <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending</x-nav-link>
+                            <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending </x-nav-link>
                             <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accept</x-nav-link>
                             <x-nav-link href="?nav=Picked" :active="$nav == 'Picked'">Picked</x-nav-link>
                             <x-nav-link href="?nav=Delivery" :active="$nav == 'Delivery'">Delivery</x-nav-link>

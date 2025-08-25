@@ -97,6 +97,7 @@ class Edit extends Component
         $this->data->hand = $this->products['hand'];
         $this->data->shipping_in_dhaka = $this->products['shipping_in_dhaka'];
         $this->data->shipping_out_dhaka = $this->products['shipping_out_dhaka'];
+        $this->data->shipping_note = $this->products['shipping_note'];
 
         // delivery 
 

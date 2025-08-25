@@ -119,30 +119,50 @@
                             <td>
                             </td>
                             <td></td>
+                            <td></td>
                             <td class="bold" >
                                 <strong> {{$tp ?? "0"}} TK</strong>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                Shipping
-                            </td>
-                            <td></td>
-                            <td></td>
+                        @if ($delevery == 'hand')
                             
-                            <td >
-                                {{$area_condition == 'Dhaka' ? '80' : '120'}} TK
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Shipping
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
+                                <td >
+                                    {{$shipping}} TK
+                                </td>
+                            </tr>
+                        @else 
+                            <tr>
+                                <td colspan="2">
+                                    Shipping
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
+                                <td >
+                                    Depend On
+                                </td>
+                            </tr>
+                            
+                        @endif
                         <tr>
                             <td colspan="2">
                                 Total Payable
                             </td>
                             <td></td>
                             <td></td>
+                            <td></td>
                             
                             <td >
-                                {{($area_condition == 'Dhaka' ? '80' : '120') + $tp}} TK
+                                {{$shipping + $tp}} TK
                             </td>
                         </tr>
                     </tfoot>
@@ -191,17 +211,42 @@
                         <div class="p-1 rounded bg-indigo-200 mt-4">
                             <x-input-label>Develery Option</x-input-label>
                             <div class="px-2 bg-gray-200">
-                                <div class="flex items-center py-3">
-                                    <input type="radio" wire:model.live="delevery" value="Home" style="width: 20px; height:20px" class="mr-3" id="">
-                                    <x-input-label class="">Home Delevery</x-input-label>    
+                                <div class="flex items-start py-3">
+                                    <input type="radio" wire:model.live="delevery" value="cash" style="width: 20px; height:20px" class="mr-3" id="">
+                                    <x-input-label class="">
+                                        Cash-On Delivery
+                                        <p class="text-xs">
+                                            Get home delivery. Get the product and pay.
+                                        </p>
+                                    </x-input-label>    
                                 </div>    
                                 <hr>
-                                <div class="flex items-center py-3">
-                                    <input type="radio" wire:model.live="delevery" value="Courier" style="width: 20px; height:20px" class="mr-3" id="">
-                                    <x-input-label class="">Courier</x-input-label>    
+                                <div class="flex items-start py-3">
+                                    <input type="radio" wire:model.live="delevery" value="courier" style="width: 20px; height:20px" class="mr-3" id="">
+                                    
+                                    <x-input-label class="">
+                                        Courier
+                                        <p class="text-xs">
+                                            You wish to take your order via a courier service. Check your nearest courier provider and give us the correct address.
+                                        </p>    
+                                    </x-input-label>                                    
+                                </div>    
+                                <hr>
+                                <div class="flex items-start py-3">
+                                    <input type="radio" wire:model.live="delevery" value="hand" style="width: 20px; height:20px" class="mr-3" id="">
+                                    
+                                    <div>
+                                        <x-input-label class="">
+                                            Hand to Hand
+                                        </x-input-label>
+                                        <p class="text-xs">
+                                            You plan to take the product direct form seller shop. Great ! save your shipping coast.
+                                        </p>    
+                                    </div>                                
+                                
                                 </div>    
                             </div>
-                            <span class="text-xs">Define delevary type you chose.  You might be consider extra delevary charged for <strong>Home Delevary</strong> outside of Dhaka</span>
+                            <div class="text-xs">Define delevary type you chose.  You might be consider extra delevary charged for <strong>Cash-On Delivery</strong> outside of Dhaka</div>
                         </div>
 
     
@@ -220,7 +265,7 @@
                 </div>
                 
                 <x-hr/>
-                <div class="text-end">
+                <div class="text-start">
                     <x-primary-button >Confirm Order</x-primary-button>
                 </div>
             </form>

@@ -22,11 +22,12 @@ class View extends Component
     public $order;
 
     public $orderStatus = 'Pending', $orders, $mainProduct, $isResell = false, $resellerProductId = '', $cartOrderId = '', $cartOrder;
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no;
+    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no, $shipping;
 
     public function mount()
     {
         $this->orders = Order::find($this->order);
+        $this->shipping = $this->orders->shipping;
         $this->orderStatus = $this->orders->status;
     }
 
@@ -41,9 +42,21 @@ class View extends Component
     //     $this->updateStatus($status);
     // }
 
+    public function acceptOrder()
+    {
+        $this->orders->update(['shipping' => $this->shipping]);
+        $this->updateOrderStatusTo('Accept');
+        $this->dispatch('close-modal', 'order-accept-modal');
+    }
 
     public function updateOrderStatusTo($status)
     {
+
+        if ($this->orders->status == 'Confirm') {
+            $this->dispatch('error', 'Order Confirmed !');
+            return;
+        }
+
         // dd($status);
         $sysOr = syncOrder::where(['reseller_order_id' => $this->orders->id])->first();
         // dd($sysOr->userOrder);
