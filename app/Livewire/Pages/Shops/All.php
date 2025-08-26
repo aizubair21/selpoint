@@ -34,7 +34,7 @@ class All extends Component
     {
         $this->state = 'all';
         $this->q = '';
-        $this->location = '';
+        $this->location = 'Bangladesh';
     }
 
     public function render()

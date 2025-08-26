@@ -113,7 +113,7 @@
    <body style="margin-bottom: 100px">
 
    
-      
+   <x-client.support-button />
    @include('layouts.user.dash.header')
    <x-dashboard.container>
       <div class="flex"  >

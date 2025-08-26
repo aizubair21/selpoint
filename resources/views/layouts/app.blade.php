@@ -25,7 +25,7 @@
     </head>
     <body class="font-sans h-screen antialiased overflow-x-hidden bg-gray-100">
         <div class="h-full  overflow-y-auto">
-
+            <x-client.support-button />
             @livewire('layout.navigation')
             {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
 

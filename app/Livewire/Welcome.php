@@ -26,22 +26,7 @@ class Welcome extends Component
     }
     public function getProducts()
     {
-        if (CartOrder::first()) {
-            # code...
-            $this->topSellingProducts = DB::table('cart_orders')
-                ->where('user_type', '=', 'user')
-                ->leftJoin('products', 'products.id', '=', 'product_id')
-                ->select('product_id', 'products.*', DB::raw('SUM(quantity) as total_sold'))
-                ->groupBy('product_id')
-                ->orderByDesc('total_sold')
-                ->limit(20)
-                ->get();
-        }
-        // dd($topSellingProducts);
-
-        // UpdateProductSalesIndex::dispatch();
-
-        $this->displayAtHome = Product::query()->reseller()->active()->home()->orderBy('id', 'desc')->limit(20)->get();
+        // $this->displayAtHome = Product::query()->reseller()->active()->home()->orderBy('id', 'desc')->limit(20)->get();
     }
 
     public function render()

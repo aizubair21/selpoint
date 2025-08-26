@@ -40,12 +40,13 @@ new #[Layout('layouts.guest')] class extends Component
         ]);
 
 
-        if ($this->country == 'BD') {
-            // if selected country is BD, set currency to 'BDT', and currency_sing to '৳'
+        if ($this->country == 'Bangladesh') {
+            // if selected country is Bangladesh, set currency to 'BDT', and currency_sing to '৳'
             $validated['currency'] = 'BDT';
             $validated['currency_sing'] = '৳';
+
         }else {
-            // 'USD', '$'
+            // else set currency to 'USD', '$'
             $validated['currency'] = 'USD';
             $validated['currency_sing'] = '$';
         }

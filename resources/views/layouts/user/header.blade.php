@@ -106,7 +106,7 @@ new class extends Component {
                     <i class=" px-3 pb-2 fas fa-sort-down"></i>
                 </div>
 
-                <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%;" >
+                <div id="" class="w-auto nv-shop-item hidden absolute left-0 border shadow bg-white" style="top:100%; width:100%; max-width:1100px;" >
                    <div class="">
                        @volt()
                             <div class="" style="display:grid; grid-template-columns:repeat(auto-fit, 150px); max-width:1400px">

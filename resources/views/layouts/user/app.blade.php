@@ -71,7 +71,7 @@
    <body>
       {{-- <x-vipCounter /> --}}
 
-
+      <x-client.support-button />
       <div >
         @includeIf('layouts.user.header')
       </div>

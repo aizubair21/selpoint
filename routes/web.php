@@ -20,6 +20,7 @@ use App\Models\TakeComissions;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', Welcome::class)->name('home');
@@ -122,6 +123,11 @@ Route::get('/user-agents', function (Request $request) {
         throw $th;
     }
 });
+
+Route::get('/queue', function () {
+    Artisan::call('queue:work');
+    return redirect()->back();
+})->name('queue');
 
 Route::get('check-product', function () {
     // get the product, those who have the isResel relation

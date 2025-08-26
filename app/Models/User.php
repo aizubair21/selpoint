@@ -34,8 +34,8 @@ class User extends Authenticatable
         'profile_photo_url', // default photo
         'coin',
         'reference',
-        'reference_accepted_at', // backend_login
-        'active_nav', // backend_login
+        'reference_accepted_at', // backend_logic
+        'active_nav', // backend_logic
         'gender',
 
         'vip',
@@ -49,11 +49,11 @@ class User extends Authenticatable
         'line2',
 
         'currency',
-        'currency_sign',
+        'currency_sing',
         'language',
         'site_language',
-        'kyc_status', // backend_login
-        'is_active', // backend_login 
+        'kyc_status', // backend_logic
+        'is_active', // backend_logic 
         'metadata', // backend_logic
 
         'dob', // date of birth
@@ -186,9 +186,20 @@ class User extends Authenticatable
     {
         return $query->where('email', '=', config('app.system_email'));
     }
+
     public function scopeWithoutAdmin($query)
     {
         return $query->where('email', '!=', config('app.system_email'));
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereNotNull('is_active');
+    }
+
+    public function scopeEVerified($query)
+    {
+        return $query->whereNotNull('email_verified_at');
     }
 
     /**

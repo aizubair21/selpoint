@@ -74,22 +74,25 @@
 
 
     @livewire('pages.slider')
-    
+
+
     <x-dashboard.container>
         {{-- categories  --}}
         @if (count($categories))
         <div class="pt-4">
             Categories
         </div>
+        
+        
         <div x-loading.disabled x-transition class="pb-4" style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
                 @foreach ($categories as $item)
                     @if ($item->slug != 'default-category')         
-                        <div class="relative text-center rounded-md " style="backdrop-filter:blur(3px); background-color:#fff">
+                        <div class="relative text-center rounded-md " style="backdrop-filter:blur(3px); background-color:#fff; height:80px">
                             <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate >
                                 <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
                                 <div class="absolute bottom-0 shadow w-full text-center" style="background-color:
                                 #f6f6f69c; backdrop-filter:blur(6px)"> 
-                                    {{ Str::limit($item->name, 10, '...') }}
+                                    {{ Str::limit($item->name, 9, '...') }}
                                 </div>
                             </a>
                         </div>
@@ -123,33 +126,7 @@
             
                 </div>
            
-                @if (count($topSellingProducts))
-                    
-                    <x-hr/>
-        
-                    <div>
-                        <div class="py-4 flex px-2 justify-between items-center">
-                            <div class="text-xl font-bold">
-                                Top Sells
-                            </div>
-                        </div>
-                        <div class="product_section pt-4" x-loading.disabled x-transition>
-                            {{-- @includeIf('components.client.common-heading') --}}
-                            {{-- <x-client.products-loop :$products /> --}}
-                            @if (count($topSellingProducts))     
-                                <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
-                                    @foreach($topSellingProducts as $product)
-                                        <x-client.product-cart :$product :key="$product->id" />
-                                    @endforeach    
-                                </div>
-                            @endif
-                    
-                        </div>
-                    </div>
-                    
-                    <x-hr/>
-        
-                @endif
+               @livewire('pages.topSales')
                 
                 @livewire('pages.RecomendedProducts')
             </div>
