@@ -16,7 +16,7 @@
         <span class="bg-indigo-300 rounded-lg px-2 py-1 text-white">Delivered</span>
     @endif
     
-    @if ($status == 'Finished')
+    @if ($status == 'Confirm')
         <span class="bg-green-900 rounded-lg px-2 py-1 text-white">Finished</span>
     @endif
 

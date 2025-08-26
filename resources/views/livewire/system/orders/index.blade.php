@@ -90,7 +90,7 @@
                             <option value="Picked">Picked</option>
                             <option value="Delivery">Delivery</option>
                             <option value="Delivered">Delivered</option>
-                            <option value="Finished">Finished</option>
+                            <option value="Confirm">Finished</option>
                             <option value="Cancel">Cancel</option>
                             <option value="Hold">Hold</option>
                             <option value="Cancelled">Cancelled by Buyer</option>
@@ -183,7 +183,6 @@
                                     <td>
                                        {{-- {{$item->status ?? "N/A"}} --}}
                                         <x-dashboard.order-status :status="$item->status" />
-
                                     </td>
                                     <td>
                                         {{$item->total ?? 0}} TK

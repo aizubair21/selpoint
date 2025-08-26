@@ -1,5 +1,9 @@
 @if (auth()->user()?->hasRole('admin') || auth()->user()?->hasRole('system'))
-    
+
+    <x-responsive-nav-link class="">
+        <i class="fab fa-whatsapp pr-2 w-6"></i> Support <span class="text-xs w-4 inline-flex justify-center items-center h-4  bg-indigo-900 text-white rounded-full">10</span>
+    </x-responsive-nav-link>
+    <x-hr/>
     @can('users_view')
         <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
            <i class="fas fa-users pr-2 w-6"></i> {{ __('Users') }}
@@ -91,7 +95,7 @@
     @can('deposit_view')
 
     <x-responsive-nav-link :href="route('system.deposit.index')" :active="request()->routeIs('system.deposit.*')">
-        <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Deposit') }}
+        <i class="fas fa-sign-in pr-2 w-6"></i> {{ __('Deposit') }}
     </x-responsive-nav-link>
     @endcan
 
@@ -105,7 +109,7 @@
     @can('withdraw_view')
 
     <x-responsive-nav-link :href="route('system.withdraw.index')" :active="request()->routeIs('*.withdraw.*')">
-        <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Withdraw') }}
+        <i class="fas fa-arrow-up-from-bracket pr-2 w-6"></i> {{ __('Withdraw') }}
     </x-responsive-nav-link>
     @endcan
     {{-- @if (auth()->user()->hasRole('system'))    
