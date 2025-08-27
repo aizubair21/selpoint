@@ -16,6 +16,7 @@ class Page extends Component
     public function render()
     {
         $pages = page_settings::where('slug', '=', $this->slug)->first();
-        return view('livewire.page.page', compact('pages'));
+        $otherPages = page_settings::all();
+        return view('livewire.page.page', compact('pages', 'otherPages'));
     }
 }

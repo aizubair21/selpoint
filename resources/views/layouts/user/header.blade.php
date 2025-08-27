@@ -385,6 +385,13 @@ new class extends Component {
                                     </x-dropdown-link>
                                     <hr> --}}
 
+                                    <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'vendor'])">
+                                        <i class="fas fa-shop pr-2"></i> {{ __('Request Vendor') }}
+                                    </x-dropdown-link>
+                                    <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'reseller'])">
+                                        <i class="fas fa-shop pr-2"></i> {{ __('Request Reseller') }}
+                                    </x-dropdown-link>
+
                                     @if (count(auth()->user()->getRoleNames()) > 1)
                                         <x-dropdown-link wire:navigate class="bold" target="_blank" :href="route('dashboard')">
                                             Dashboard

@@ -143,7 +143,6 @@
             
         </div> --}}
         {{-- @livewire('reseller.resel.categories') --}}
-          
     </x-dashboard.container>
 
     @script

@@ -6,6 +6,7 @@ use App\Http\Middleware\AbleTo;
 use App\Models\User;
 use App\View\Components\dashboard\overview\system\VendorCount;
 use App\Http\Controllers\SystemUsersController;
+use App\Livewire\FooterBuilder;
 use App\Livewire\Reseller\Categories\Index as CategoriesIndex;
 use App\Livewire\Reseller\Orders\Index as OrdersIndex;
 use App\Livewire\System\Categories\Edit as CategoriesEdit;
@@ -61,6 +62,8 @@ use App\Livewire\System\Withdraw\View as WithdrawDetails;
 
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
+
+use function Laravel\Prompts\form;
 
 Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group(function () {
 
@@ -278,6 +281,9 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/pages', PagesIndex::class)->name('pages.index');
     Route::get('/pages/add-new', PagesCreate::class)->name('pages.create');
     // Route::get('/pages/{slug}', Pages::class);
+
+
+    Route::get('/builder/footer', FooterBuilder::class)->name('footer.builder');
 
     /**
      * API Docs

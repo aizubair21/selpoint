@@ -101,7 +101,7 @@
 
             <div class="w-full">
 
-                <x-text-input wire:model.live="upozila" class="w-full" placeholder="upozila"/>
+                <x-text-input wire:model="upozila" class="w-full" placeholder="upozila"/>
                 
             </div>
         </div>
@@ -162,7 +162,7 @@
 
             <div class="w-full">
 
-                <select wire:model.live="district" id="district" class="rounded border-0 ring-1 block mt-1 w-full">
+                <select wire:model="district" id="district" class="rounded border-0 ring-1 block mt-1 w-full">
                     <option value="">Select your City</option>
                 </select>
                 

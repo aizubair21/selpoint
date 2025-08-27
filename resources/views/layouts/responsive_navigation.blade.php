@@ -114,6 +114,10 @@
         <i class="fas fa-arrow-up-from-bracket pr-2 w-6"></i> {{ __('Withdraw') }}
     </x-responsive-nav-link>
     @endcan
+
+    {{-- <x-responsive-nav-link :href="route('system.footer.builder')" :active="request()->routeIs('system.footer.*')">
+        <i class="fas fa-pen pr-2 w-6"></i> Builder
+    </x-responsive-nav-link> --}}
     {{-- @if (auth()->user()->hasRole('system'))    
     @endif --}}
 @endif
