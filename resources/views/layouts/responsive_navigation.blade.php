@@ -1,9 +1,4 @@
 @if (auth()->user()?->hasRole('admin') || auth()->user()?->hasRole('system'))
-
-    <x-responsive-nav-link class="">
-        <i class="fab fa-whatsapp pr-2 w-6"></i> Support <span class="text-xs w-4 inline-flex justify-center items-center h-4  bg-indigo-900 text-white rounded-full">10</span>
-    </x-responsive-nav-link>
-    <x-hr/>
     @can('users_view')
         <x-responsive-nav-link :href="route('system.users.view')" :active="request()->routeIs('system.users.*')">
            <i class="fas fa-users pr-2 w-6"></i> {{ __('Users') }}
@@ -85,6 +80,13 @@
     <x-responsive-nav-link :href="route('system.navigations.index')" :active="request()->routeIs('system.navigations.*')" >
         {{ __('Navigations') }}
     </x-responsive-nav-link> --}}
+
+    <x-hr/>
+    <x-responsive-nav-link href="{{route('system.settings.index')}}" :active="request()->routeIs('system.settings.*')">
+        <i class="fas fa-gear pr-2 w-6"></i> Settings
+    </x-responsive-nav-link>
+    <x-hr/>
+
     @can('store_view')
     <x-responsive-nav-link :href="route('system.store.index')" :active="request()->routeIs('system.store.*')">
         <i class="fas fa-store pr-2 w-6"></i> {{ __('Store') }}

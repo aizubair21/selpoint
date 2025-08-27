@@ -50,6 +50,10 @@ use App\Livewire\System\Navigations\Index as NavigationsIndex;
 use App\Livewire\System\Orders\Details;
 use App\Livewire\System\Orders\Index as SystemOrdersIndex;
 use App\Livewire\System\Products\Filter;
+use App\Livewire\System\Settings\Index as SettingsIndex;
+use App\Livewire\System\Settings\Pages\Index as PagesIndex;
+use App\Livewire\System\Settings\Pages\Edit as PagesEdit;
+use App\Livewire\System\Settings\Pages\Create as PagesCreate;
 use App\Livewire\System\Slider\Slider;
 use App\Livewire\System\Slider\Slides;
 use App\Livewire\System\Withdraw\Index as WithdrawIndex;
@@ -268,6 +272,12 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         }
     )->middleware(AbleTo::class . ":withdraw_view");
 
+
+    // settings 
+    Route::get('/settings', SettingsIndex::class)->name('settings.index');
+    Route::get('/pages', PagesIndex::class)->name('pages.index');
+    Route::get('/pages/add-new', PagesCreate::class)->name('pages.create');
+    // Route::get('/pages/{slug}', Pages::class);
 
     /**
      * API Docs

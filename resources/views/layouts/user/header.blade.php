@@ -287,7 +287,7 @@ new class extends Component {
             @endauth
             @guest
                 <x-nav-link class=" px-3 text-md uppercase " :href="route('login')" >
-                    login
+                    <i class="fas fa-sign-in pr-2"></i> login
                 </x-nav-link>
             @endguest
         </div>
@@ -405,7 +405,7 @@ new class extends Component {
                 @endauth
                 @guest
                     <x-nav-link class=" px-3 text-md uppercase " href="/login" >
-                        login
+                        <i class="fas fa-sign-in pr-2"></i> login
                     </x-nav-link>
                 @endguest
             </div>

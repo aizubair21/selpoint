@@ -4,6 +4,7 @@ use App\Events\ProductComissions;
 use App\Http\Controllers\ProductComissionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Page\Page;
 use App\Livewire\Welcome;
 use App\Livewire\Pages\Products as userProductsPage;
 use App\Livewire\Pages\Categories as userCategoriesPage;
@@ -123,6 +124,8 @@ Route::get('/user-agents', function (Request $request) {
         throw $th;
     }
 });
+
+Route::get('page/{slug}', Page::class);
 
 Route::get('/queue', function () {
     Artisan::call('queue:work');
