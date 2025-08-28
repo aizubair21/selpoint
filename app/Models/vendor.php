@@ -30,6 +30,7 @@ class vendor extends Model
         'zip',
         'road_no',
         'house_no',
+        'address',
 
         // business type 
         // 'business_type', // Corporation, LLC, Sole Provider, Partnership, Other
@@ -50,7 +51,17 @@ class vendor extends Model
 
         'allow_max_product_upload',
         'max_product_upload',
-        'can_resell_products'
+
+        'prevent_montyly_product_upload',
+        'max_product_upload_monthly',
+
+        'prevent_daily_product_upload',
+        'max_product_upload_daily',
+
+        'can_resell_products',
+        'can_accept_reseller_order',
+
+        'fixed_amount',
     ];
 
     /**

@@ -185,7 +185,7 @@ new class extends Component
         </div>
         <div class="p-2 bg-white">
             <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}" >
-                <div class="text-sm">{{$pd->title ?? "N/A"}}</div>
+                <div class="text-sm">{{$pd->name ?? "N/A"}}</div>
             </x-nav-link>
 
             <div class="text-md">

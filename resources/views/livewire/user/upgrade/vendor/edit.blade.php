@@ -3,7 +3,7 @@
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">
-                {{$upgrade}} request
+                {{ Str::ucfirst($upgrade)}} Shop Request
             </x-slot>
             <x-slot name="content">
                 Edit and Upgrade Your {{Str::ucfirst($upgrade)}} Request Form <a href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}">Previous Request</a>

@@ -466,3 +466,32 @@ new class extends Component {
     </div>
 
 </div>
+
+<script>
+
+/**
+ * code for show and hide the sticky nav
+ */
+// let desktopNav = document.getElementById('desktop-nav');
+// let stickyNav = document.getElementById('sticky-nav');
+
+document.getElementById('sticky-nav').style.opacity = 0;
+document.getElementById('sticky-nav').style.display = 'none';
+document.addEventListener('scroll', (e) => 
+{
+   if(document.documentElement.scrollTop > 150 && document.getElementById('desktop-nav') && document.getElementById('sticky-nav')) {
+      // console.log('scrolled');
+      // console.log(document.getElementById('sticky-nav'));
+      
+      document.getElementById('desktop-nav').style.dispaly = 'none';
+      document.getElementById('sticky-nav').style.display = 'block';
+      document.getElementById('sticky-nav').style.opacity = 1;
+   }else{
+      document.getElementById('desktop-nav').style.dispaly = 'block';
+      document.getElementById('sticky-nav').style.display = 'none';
+      document.getElementById('sticky-nav').style.opacity = 0;
+   }
+    
+});
+
+</script>

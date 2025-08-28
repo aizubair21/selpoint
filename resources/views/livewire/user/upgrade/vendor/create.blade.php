@@ -3,15 +3,18 @@
     <x-dashboard.section >
         <x-dashboard.section.header>
             <x-slot name="title">
-            {{Str::ucfirst($upgrade)}} Request Form
+                <div class="flex justify-between">
+                    <div>
+                        Open {{Str::ucfirst($upgrade)}} Shop
+                    </div>
+                    <x-nav-link-btn href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}" class="">
+                        <i class="fas fa-list pr-2"></i> All
+                    </x-nav-link-btn>
+                </div>
             </x-slot>
 
             <x-slot name="content">
-                Request to be a {{Str::ucfirst($upgrade)}}
-                <x-nav-link href="{{route('upgrade.vendor.index', ['upgrade' => $upgrade])}}" class="">
-                    previous request
-                </x-nav-link>
-               
+                Request to set-up a {{Str::ucfirst($upgrade)}} shop. Shop allows you to sell your products to other Users. It allows you to reach a wider audience and increase your sales potential.
             </x-slot>
         </x-dashboard.section.header>
     </x-dashboard.section>

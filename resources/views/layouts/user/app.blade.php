@@ -4,8 +4,6 @@
       <meta charset="utf-8" />
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <meta name="keywords" content="" />
-      <meta name="description" content="" />
       <meta name="author" content="" />
       <meta name="token" content="{{csrf_token()}}">
 
@@ -98,106 +96,73 @@
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" ></script> --}}
 </body>
 
-   <script>
-
-      
-      
-      document.addEventListener('DOMContentLoaded', function () {
-         
-         // const slides = document.querySelectorAll(".slide");
-         // const prevBtn = document.querySelector(".prev");
-         // const nextBtn = document.querySelector(".next");
-   
-         // let current = 0;
-   
-         // function showSlide(index) {
-         //    slides.forEach(slide => slide.classList.remove("active"));
-         //    slides[index].classList.add("active");
-         // }
-   
-         // prevBtn.addEventListener("click", () => {
-         //    current = (current - 1 + slides.length) % slides.length;
-         //    showSlide(current);
-         // });
-   
-         // nextBtn.addEventListener("click", () => {
-         //    current = (current + 1) % slides.length;
-         //    showSlide(current);
-         // });
-
-
-         Livewire.on('cart', (data) => {
-            document.getElementById('displayCartItem').innerHTML = data;
-            // Swal.fire({
-            //    title: 'Look At!',
-            //    text: data,
-            //    icon: 'Info',
-            //    confirmButtonText: 'OK'
-            // })
-         });
-         Livewire.on('info', (data) => {
-            Swal.fire({
-               title: 'Look At!',
-               text: data,
-               icon: 'Info',
-               confirmButtonText: 'OK'
-            })
-         });
-         Livewire.on('success', (data) => {
-            Swal.fire({
-               title: 'Congrass !',
-               text: data,
-               icon: 'success',
-               confirmButtonText: 'OK'
-            })
-         });
-         Livewire.on('warning', (data) => {
-            Swal.fire({
-               title: 'Alart !',
-               text: data,
-               icon: 'warning',
-               confirmButtonText: 'OK'
-            })
-         });
-         Livewire.on('error', (data) => {
-            Swal.fire({
-               title: 'Attention !',
-               text: data,
-               icon: 'error',
-               confirmButtonText: 'OK'
-            })
-         });
-      });
-      
-   </script>
-
 <script>
-
-/**
- * code for show and hide the sticky nav
- */
-// let desktopNav = document.getElementById('desktop-nav');
-// let stickyNav = document.getElementById('sticky-nav');
-
-document.getElementById('sticky-nav').style.opacity = 0;
-document.getElementById('sticky-nav').style.display = 'none';
-document.addEventListener('scroll', (e) => 
-{
-   if(document.documentElement.scrollTop > 150) {
-      // console.log('scrolled');
-      // console.log(document.getElementById('sticky-nav'));
+   document.addEventListener('DOMContentLoaded', function () {
       
-      document.getElementById('desktop-nav').style.dispaly = 'none';
-      document.getElementById('sticky-nav').style.display = 'block';
-      document.getElementById('sticky-nav').style.opacity = 1;
-   }else{
-      document.getElementById('desktop-nav').style.dispaly = 'block';
-      document.getElementById('sticky-nav').style.display = 'none';
-      document.getElementById('sticky-nav').style.opacity = 0;
-   }
-    
-});
+      // const slides = document.querySelectorAll(".slide");
+      // const prevBtn = document.querySelector(".prev");
+      // const nextBtn = document.querySelector(".next");
 
+      // let current = 0;
+
+      // function showSlide(index) {
+      //    slides.forEach(slide => slide.classList.remove("active"));
+      //    slides[index].classList.add("active");
+      // }
+
+      // prevBtn.addEventListener("click", () => {
+      //    current = (current - 1 + slides.length) % slides.length;
+      //    showSlide(current);
+      // });
+
+      // nextBtn.addEventListener("click", () => {
+      //    current = (current + 1) % slides.length;
+      //    showSlide(current);
+      // });
+
+
+      Livewire.on('cart', (data) => {
+         document.getElementById('displayCartItem').innerHTML = data;
+         // Swal.fire({
+         //    title: 'Look At!',
+         //    text: data,
+         //    icon: 'Info',
+         //    confirmButtonText: 'OK'
+         // })
+      });
+      Livewire.on('info', (data) => {
+         Swal.fire({
+            title: 'Look At!',
+            text: data,
+            icon: 'Info',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('success', (data) => {
+         Swal.fire({
+            title: 'Congrass !',
+            text: data,
+            icon: 'success',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('warning', (data) => {
+         Swal.fire({
+            title: 'Alart !',
+            text: data,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+         })
+      });
+      Livewire.on('error', (data) => {
+         Swal.fire({
+            title: 'Attention !',
+            text: data,
+            icon: 'error',
+            confirmButtonText: 'OK'
+         })
+      });
+   });
 </script>
 
 @stack('script')

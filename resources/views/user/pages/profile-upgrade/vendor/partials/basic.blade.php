@@ -180,142 +180,144 @@
     </x-dashboard.section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
-    <script>
-    
-        let countryCode = '';
-        function getCountryStateCity() {
-            const countrySelectElement = document.getElementById('country');
-            const stateSelectElement = document.getElementById("division");
-            const citySelectElement = document.getElementById("district");
+    @script
+        <script>
+        
+            let countryCode = '';
+            function getCountryStateCity() {
+                const countrySelectElement = document.getElementById('country');
+                const stateSelectElement = document.getElementById("division");
+                const citySelectElement = document.getElementById("district");
 
 
-            // get country name and set to country select element
-            axios.get("https://api.countrystatecity.in/v1/countries", {
-                    headers: {
-                        "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
-                    }
-                })
-                .then(res => {
-                    res.data.forEach(cntry => {
-                        let option = document.createElement("option");
-                        option.value = cntry.name;
-                        option.setAttribute('data-iso2', cntry.iso2);
-                        option.textContent = cntry.name;
-                        countrySelectElement.appendChild(option);
+                // get country name and set to country select element
+                axios.get("https://api.countrystatecity.in/v1/countries", {
+                        headers: {
+                            "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
+                        }
                     })
-                })
-                .then(error => {
-                    // console.log(error);
-                })
+                    .then(res => {
+                        res.data.forEach(cntry => {
+                            let option = document.createElement("option");
+                            option.value = cntry.name;
+                            option.setAttribute('data-iso2', cntry.iso2);
+                            option.textContent = cntry.name;
+                            countrySelectElement.appendChild(option);
+                        })
+                    })
+                    .then(error => {
+                        // console.log(error);
+                    })
 
-            //if country change call api for state data
-            countrySelectElement.addEventListener('change', function () {
-                const sop = this.options[this.selectedIndex];
-                countryCode = sop.getAttribute('data-iso2');
-                // set the country code to the hidden input
-                
-                // countryCode2 = e.getAttribute('data-iso2');
-                // console.log('code is ' + countryCode);
-                
-                // if (countryCode == "BD") {
-                //     // console.log("Bangladesh selected");
-                //     stateSelectElement.style.display = 'none';
-                //     document.getElementById('state_main').classList.add('hidden');
-                //     document.getElementById('state_alt').classList.remove('hidden');
-                // } else {
-                //     stateSelectElement.style.display = 'block';
-                //     document.getElementById('state_main').classList.remove('hidden');
-                //     document.getElementById('state_alt').classList.add('hidden');   
+                //if country change call api for state data
+                countrySelectElement.addEventListener('change', function () {
+                    const sop = this.options[this.selectedIndex];
+                    countryCode = sop.getAttribute('data-iso2');
+                    // set the country code to the hidden input
                     
-                // }
-                // console.log("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states");
-                axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states", {
-                        headers: {
-                            "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
-                        }
-                    })
-                    .then(res => {
-                        let htmlOption = '';
-                        let ifBd = "";
-                        res.data.forEach(state => {
-                            // if (countryCode == "BD") {
-                            //     // console.log(state);
-                            //     console.log(countryCode);
-                            //     if (state.iso2.length > 0) {
-                            //         //get name without  'District' from state.name
-                            //         var str = state.name;
-                            //         var newstr = str.replace(/ District$/, "");
-
-                            //         ifBd +=
-                            //             `
-                            //             <option value="${newstr}">${newstr}</option>
-                                    
-                            //             `;
-                            //     }
-                            // } else {
-                                
-                            //     htmlOption +=
-                            //         `
-                            //         <option value="${state.iso2}">${state.name}</option>
-                                    
-                            //         `;
-                            // }
-                            htmlOption +=
-                                `
-                                <option value="${state.iso2}">${state.name}</option>
-                                
-                                `;
+                    // countryCode2 = e.getAttribute('data-iso2');
+                    // console.log('code is ' + countryCode);
+                    
+                    // if (countryCode == "BD") {
+                    //     // console.log("Bangladesh selected");
+                    //     stateSelectElement.style.display = 'none';
+                    //     document.getElementById('state_main').classList.add('hidden');
+                    //     document.getElementById('state_alt').classList.remove('hidden');
+                    // } else {
+                    //     stateSelectElement.style.display = 'block';
+                    //     document.getElementById('state_main').classList.remove('hidden');
+                    //     document.getElementById('state_alt').classList.add('hidden');   
+                        
+                    // }
+                    // console.log("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states");
+                    axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states", {
+                            headers: {
+                                "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
+                            }
                         })
-                        stateSelectElement.innerHTML = htmlOption;
-                        // citySelectElement.innerHTML = ifBd;
-                    })
-                    .then(error => {
-                        console.log(error);
-                    })
-            })
+                        .then(res => {
+                            let htmlOption = '';
+                            let ifBd = "";
+                            res.data.forEach(state => {
+                                // if (countryCode == "BD") {
+                                //     // console.log(state);
+                                //     console.log(countryCode);
+                                //     if (state.iso2.length > 0) {
+                                //         //get name without  'District' from state.name
+                                //         var str = state.name;
+                                //         var newstr = str.replace(/ District$/, "");
 
-
-            //if change state call api for city
-            stateSelectElement.addEventListener("input", (e) => {
-                // let countryCode = document.getElementById('select_country').getAttribute('data-iso2');
-                let cityCode = e.target.value;
-                console.log(countryCode, cityCode);
-                axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states/" + cityCode + "/cities", {
-                        headers: {
-                            "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
-                        }
-                    })
-                    .then(res => {
-                        let htmlOption = "";
-                        // console.log(res.data[0]);
-                        res.data.forEach(ct => {
-                            htmlOption +=
-                                `
-                                <option value="${ct.name}">${ct.name}</option>
-                                `;
+                                //         ifBd +=
+                                //             `
+                                //             <option value="${newstr}">${newstr}</option>
+                                        
+                                //             `;
+                                //     }
+                                // } else {
+                                    
+                                //     htmlOption +=
+                                //         `
+                                //         <option value="${state.iso2}">${state.name}</option>
+                                        
+                                //         `;
+                                // }
+                                htmlOption +=
+                                    `
+                                    <option value="${state.iso2}">${state.name}</option>
+                                    
+                                    `;
+                            })
+                            stateSelectElement.innerHTML = htmlOption;
+                            // citySelectElement.innerHTML = ifBd;
                         })
-                        citySelectElement.innerHTML = htmlOption;
-                    })
-                    .then(error => {
-                        console.log(error);
-                    })
-            })
-        }
+                        .then(error => {
+                            console.log(error);
+                        })
+                })
 
 
-        document.getElementById('country').addEventListener('click', (e) =>{
-            // let countryCode = e.getAttribute('data-iso2');
-            if(e.target.children.length == 1){
-                getCountryStateCity();
-            };
-            
-        });
+                //if change state call api for city
+                stateSelectElement.addEventListener("input", (e) => {
+                    // let countryCode = document.getElementById('select_country').getAttribute('data-iso2');
+                    let cityCode = e.target.value;
+                    console.log(countryCode, cityCode);
+                    axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states/" + cityCode + "/cities", {
+                            headers: {
+                                "X-CSCAPI-KEY": "eldObUl5V0Q4MWpiaXFQeEpNSEVVSTlBU1R5ZlU5OE5ORmRra1dxRg==",
+                            }
+                        })
+                        .then(res => {
+                            let htmlOption = "";
+                            // console.log(res.data[0]);
+                            res.data.forEach(ct => {
+                                htmlOption +=
+                                    `
+                                    <option value="${ct.name}">${ct.name}</option>
+                                    `;
+                            })
+                            citySelectElement.innerHTML = htmlOption;
+                        })
+                        .then(error => {
+                            console.log(error);
+                        })
+                })
+            }
 
-        // document.getElementById('country').addEventListener('change', (e) => {
-        //     console.log(e.target.data);
-            
-        // })
 
-        getCountryStateCity();
-    </script>
+            document.getElementById('country').addEventListener('click', (e) =>{
+                // let countryCode = e.getAttribute('data-iso2');
+                if(e.target.children.length == 1){
+                    getCountryStateCity();
+                };
+                
+            });
+
+            // document.getElementById('country').addEventListener('change', (e) => {
+            //     console.log(e.target.data);
+                
+            // })
+
+            getCountryStateCity();
+        </script>
+    @endscript
 </form>

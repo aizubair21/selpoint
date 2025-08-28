@@ -26,7 +26,7 @@ class Shop extends Component
 
     public function getDeta()
     {
-        $this->products = Product::where(['status' => 'Active', 'belongs_to_type' => 'reseller', 'user_id' => $this->shops?->user?->id])->get();
+        $this->products = Product::query()->active()->reseller()->where(['user_id' => $this->shops?->user?->id])->get();
         $this->categories = Category::where(['belongs_to' => 'reseller', 'user_id' => $this->shops?->user?->id])->get();
         // dd($this->categories);
     }

@@ -29,6 +29,8 @@ class Product extends Model
 
         'vc',
         'brand',
+        'country',
+        'state',
 
         'cod',
         'couried',
@@ -104,6 +106,11 @@ class Product extends Model
     public function scopeReseller($query)
     {
         return $query->where(['belongs_to_type' => 'reseller']);
+    }
+
+    public function scopeVendor($query)
+    {
+        return $query->where(['belongs_to_type' => 'vendor']);
     }
     // public function scopeDisabled($query)
     // {

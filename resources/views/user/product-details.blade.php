@@ -1,8 +1,24 @@
 @extends("layouts.user.app")
 @section('title')
-    Product Review | Gorom Bazar
+    Product Review 
 @endsection
 @section('content')
+
+@push('meta')
+    <meta name='og:title' content="{{$product->meta_title ?? ""}}">
+    <meta name='og:type' content="{{$product->category?->name ?? ""}}">
+    <meta name='og:url' content={{url()->current()}}>
+    <meta name='og:image' content="{{$product->meta_thumbnail ?? ""}}">
+    <meta name='og:site_name' content="{{config('app.name')}}">
+    <meta name='og:description' content="{{$product->meta_description}}">
+    <meta name="keyword" content="{{$product->keyword}}"
+    
+    {{-- <meta name='fb:page_id' content='43929265776'>
+    <meta name='application-name' content='foursquare'>
+    <meta name='og:email' content='me@example.com'>
+    <meta name='og:phone_number' content='650-123-4567'>
+    <meta name='og:fax_number' content='+1-415-123-4567'> --}}
+@endpush
 
 <style>
     /* @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap'); */

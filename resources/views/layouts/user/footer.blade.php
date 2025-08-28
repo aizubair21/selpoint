@@ -72,16 +72,16 @@
             </div>
             <div class="">
                 <div class="widget_menu py-4 w-100">
+                    
                     <x-nav-link class="d-block mb-2 p-2 d-inline-block rounded text_secondary" href="/page/about-us">
                        <i class="fa-solid fa-phone mr-2"></i> Contact Us
                     </x-nav-link>
                     <br>
-                    <x-nav-link class="p-2 px-4 w-100 rounded-md btn_outline_secondary bold" href="mailto:gorombazar01@gmail.com">
-                        <i class="fa-solid fa-paper-plane mr-2"></i>   Mail US
+                    <x-nav-link class="p-2 px-4 rounded-md btn_outline_secondary bold" href="mailto:gorombazar01@gmail.com">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Mail US
                     </x-nav-link>
                     <br>
                   
-                   
                 </div>
             </div>
 

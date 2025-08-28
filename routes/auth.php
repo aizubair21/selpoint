@@ -10,7 +10,6 @@ use App\Http\Controllers\WithdrawController;
 use App\Livewire\Actions\Logout;
 use App\Http\Middleware\AbleTo;
 use App\Livewire\Profile\Edit;
-use App\Livewire\Shops\Shop;
 use Livewire\Volt\Volt;
 
 
@@ -176,6 +175,5 @@ Route::middleware('auth')->group(function () {
 
         // Route::get('/comissions')->name('comissions');
 
-        Route::get('/{user}/shop', Shop::class)->name('my-shop');
     });
 });

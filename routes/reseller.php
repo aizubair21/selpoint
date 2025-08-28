@@ -4,6 +4,8 @@ use App\Http\Controllers\ResellerController;
 use App\Http\Middleware\AbleTo;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Livewire\Shops\Shop;
 use App\Livewire\Reseller\Products\Index as productIndexPage;
 use App\Livewire\Reseller\Products\Create as productCreatePage;
 use App\Livewire\Reseller\Products\Edit as productEditPge;
@@ -17,6 +19,7 @@ use App\Livewire\Reseller\Resel\Orders\Index as reselOrderIndexPage;
 
 use App\Livewire\Reseller\Orders\Index as resellerOrderIndex;
 use App\Livewire\Reseller\Orders\View;
+use App\Livewire\Reseller\Resel\Shops;
 use App\Livewire\Vendor\Comissions\Index;
 
 Route::prefix('/r/')->group(function () {
@@ -45,6 +48,10 @@ Route::prefix('/r/')->group(function () {
     // comissions
     Route::get('/comissions', Index::class)->name('reseller.comissions.index');
 
+    Route::get('/{user}/shop', Shop::class)->name('my-shop');
 
     Route::get('/product/{id}/order', [ResellerController::class, 'productOrder'])->name('reseller.product.order');
+
+    // vendor shop for reseller 
+    Route::get('/shops', Shops::class)->name('shops');
 })->middleware(AbleTo::class . ":access_reseller_dashboard");
