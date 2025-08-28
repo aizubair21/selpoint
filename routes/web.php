@@ -56,7 +56,7 @@ Route::get('product/order/{id}/{slug}', SingleProductOrder::class)->name('produc
 
 
 /**shops */
-Route::get('/shops', All::class)->name('shops');
+Route::get('/shops', All::class)->name('shops.reseller');
 Route::get('/shops/{id}/{name}', Shop::class)->name('shops.visit');
 
 

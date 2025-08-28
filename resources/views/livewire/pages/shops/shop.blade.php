@@ -84,7 +84,7 @@
                 <i class="fas fa-home pe-2"></i>
             </x-nav-link>
             {{-- <i class="fas fa-slash-back px-2 py-0 m-0"></i> --}}
-            <x-nav-link href="{{route('shops')}}">
+            <x-nav-link href="{{route('shops.reseller')}}">
                 Shops
             </x-nav-link>
             <div class="text-gray-600 ">

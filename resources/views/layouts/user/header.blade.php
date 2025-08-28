@@ -99,7 +99,7 @@ new class extends Component {
                 }
             </style>
 
-            <a wire:navigate href="{{route('shops')}}" class="block px-2" > Shops </a>
+            <a wire:navigate href="{{route('shops.reseller')}}" class="block px-2" > Shops </a>
             <div class="pe-4 max-w-md nv-shop-btn relative" id="" style="width:200px">
                 <div class="flex items-center justify-center cursor-pointer">
                     <div>Category</div>
@@ -425,7 +425,7 @@ new class extends Component {
 
     {{-- other side nav  --}}
     <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px;width:250px;">
-        <a wire:navigate href="{{route('shops')}}" class="w-full p-3 bg-indigo-200 py-4 border rounded flex justify-between items-center mb-4" > Shops <i class="fas fa-caret-right"></i> </a>
+        <a wire:navigate href="{{route('shops.reseller')}}" class="w-full p-3 bg-indigo-200 py-4 border rounded flex justify-between items-center mb-4" > Shops <i class="fas fa-caret-right"></i> </a>
         
         @volt()
             <div>
