@@ -49,6 +49,8 @@ class Shops extends Component
 
         if ($this->q) {
             $query->whereAny(['shop_name_en', 'shop_name_bn'], 'like', "%" . Str::ucfirst($this->q ?? $this->location) . "%");
+            $this->slug = '';
+            $this->id = '';
         }
 
         if ($this->location) {
@@ -58,6 +60,8 @@ class Shops extends Component
                     ->orWhere('village', 'like', '%' . Str::ucfirst($this->location) . '%')
                     ->orWhere('country', 'like', '%' . Str::ucfirst($this->location) . '%');
             });
+            $this->slug = '';
+            $this->id = '';
         }
 
         $shops = $query->paginate(config('app.paginate'));
