@@ -208,8 +208,8 @@ new class extends Component
                 <button>clone</button>
             </div> --}}
             <x-hr/>
-            <div class="flex justify-between items-center text-sm">
-                <x-primary-button x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">Resell Order</x-primary-button>
+            <div class="flex justify-center items-center text-sm">
+                <x-primary-button class=" text-center" x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')">  Purchase <i class="fas fa-angle-right pl-2"></i> </x-primary-button>
                 {{-- <button>To Cart</button> --}}
             </div>
         </div>
@@ -226,18 +226,18 @@ new class extends Component
 
     <x-modal name="orderProduct_{{$pd->id}}" maxWidth="md" >
         <div class="p-3 bold border-b">
-            Reseller Order Product
+            Purchase
         </div>
         @volt('order')
         <div class="p-5">
 
-            <form wire:submit.prevent="takeOrderInfoAndFill" class="bg-gray-100 p-2 rounded">
+            {{-- <form wire:submit.prevent="takeOrderInfoAndFill" class="bg-gray-100 p-2 rounded">
                 <x-input-field inputClass="w-full" type="number" class="md:flex" label="Order ID" wire:model.live="resellerOrderId" name="resellerOrderId" error="resellerOrderId" />
                 <div class="text-end flex justify-end gap-3">
                     <x-secondary-button type="button" wire:click.prevent="resetFindOrder">Reset</x-secondary-button>
                     <x-primary-button>Attach</x-primary-button>
                 </div>
-            </form>
+            </form> --}}
 
             <form wire:submit.prevent="order" >
                 <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" wire:model.live="name" name="name" error="name" />

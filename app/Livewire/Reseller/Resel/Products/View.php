@@ -17,13 +17,21 @@ class View extends Component
 {
     #[URL]
     public $pd;
-    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $resellerCat, $categories, $ableToAdd = true, $totalReselProducts = 0;
+    public $products, $confirmResel = false, $confirmOrder, $forResel = [], $reselPrice, $reselDiscountPrice, $isReselWithDiscountPrice = false, $resellerCat, $categories, $ableToAdd = true, $totalReselProducts = 0;
 
     public function mount()
     {
         $this->products = Product::where(['belongs_to_type' => 'vendor', 'id' => $this->pd, 'status' => 'Active'])->first();
-        $this->forResel = $this->products->only('name', 'title', 'slug', 'description', 'thumbnail', 'price', 'meta_title', 'meta_description', 'meta_tags', 'keyword', 'meta_thunbnail');
-        $this->reselPrice = $this->forResel['price'];
+        $this->forResel = $this->products->only('name', 'title', 'slug', 'discount', 'description', 'thumbnail', 'price', 'meta_title', 'meta_description', 'meta_tags', 'keyword', 'meta_thunbnail');
+
+        if (empty($this->forResel['offer_type'])) {
+
+            $this->reselPrice = $this->forResel['discount'] + 150;
+            $this->reselDiscountPrice = $this->forResel['discount'] + 100;
+        } else {
+            $this->reselPrice = $this->forResel['price'] + 150;
+            $this->reselDiscountPrice = $this->forResel['price'] + 100;
+        }
 
         // get all the categories those are not have any parent
         $this->categories = Category::getAll();
@@ -40,8 +48,10 @@ class View extends Component
 
     public function confirmClone()
     {
+        $this->isReselWithDiscountPrice = $this->reselDiscountPrice ? true : false;
+        $this->reselDiscountPrice = $this->isReselWithDiscountPrice ? $this->reselDiscountPrice : null;
         // clone product basic info
-
+        dd('ok');
         $isAlreadycloned = Reseller_resel_product::where(['parent_id' => $this->products->id, 'user_id' => auth()->user()->id])->exists();
         if (!$isAlreadycloned) {
             # code...
@@ -53,9 +63,13 @@ class View extends Component
                 $this->forResel['belongs_to_type'] = 'reseller';
                 $this->forResel['buying_price'] = $this->products->price;
                 $this->forResel['unit'] = 0;
+                $this->forResel['offer_type'] = $this->isReselWithDiscountPrice;
+                $this->forResel['discount'] = $this->isReselWithDiscountPrice ? $this->reselDiscountPrice : null;
                 $this->forResel['price'] = $this->reselPrice;
                 $this->forResel['category_id'] = $this->resellerCat;
                 $this->forResel['status'] = 'Active';
+                $this->forResel['country'] = auth()->user()->country ?? 'Bangladesh';
+
 
                 // save as new to reseller
                 $newProduct = Product::create($this->forResel);
