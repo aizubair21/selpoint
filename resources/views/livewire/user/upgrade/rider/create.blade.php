@@ -16,7 +16,7 @@
     </x-dashboard.section>
 
 
-    <form wire:submit.prevent="store">
+    <form wire:submit.prevent="store" content-typ="multipart/form-data" class="w-full">
         <x-dashboard.section>
             <x-dashboard.section.inner>
                 <div class="md:flex">
@@ -27,17 +27,17 @@
 
                         <x-input-field label="Your NID No" name="nid" error="nid" wire:model.live="nid" error="nid" placeholder="Your NID No" class="w-full"  />
 
-                        <x-input-file label="You NID Front Image" name="nid_photo_front" error="nid_photo_front">
+                        <x-input-file label="You NID Front Image (max 1Mb)" name="nid_photo_front" error="nid_photo_front">
                             @if ($nid_photo_front)
                                 <img src="{{$nid_photo_front->temporaryUrl()}}" alt="NID Front" style="width: 200px; height:100px" srcset="">
                             @endif
-                            <input type="file"  wire:model.live="nid_photo_front" id="nid_front">
+                            <input type="file"  wire:model="nid_photo_front" id="nid_front">
                         </x-input-file>
-                        <x-input-file label="You NID Back Image" name="nid_photo_back" error="nid_photo_back">
+                        <x-input-file label="You NID Back Image (max 1Mb)" name="nid_photo_back" error="nid_photo_back">
                             @if ($nid_photo_back)
                                 <img src="{{$nid_photo_back->temporaryUrl()}}" alt="NID Back" style="width: 200px; height:100px" srcset="">
                             @endif
-                            <input type="file"  wire:model.live="nid_photo_back" id="nid_back">
+                            <input type="file"  wire:model="nid_photo_back" id="nid_back">
                         </x-input-file>
                     </div>
 

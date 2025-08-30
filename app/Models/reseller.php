@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 
 
 class reseller extends Model
@@ -52,25 +53,32 @@ class reseller extends Model
     protected function country(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes first word
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
         );
     }
     protected function district(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes first word
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
         );
     }
     protected function upozila(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes first word
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
         );
     }
     protected function village(): Attribute
     {
         return Attribute::make(
-            set: fn($value) => ucwords(strtolower($value)), // Capitalizes first word
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+
+    protected function address(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
         );
     }
 

@@ -11,7 +11,7 @@
 
             <x-hr/>
 
-            <x-input-file label="Logo" error="logo" >
+            <x-input-file label="Logo (Max 1Mb)" error="logo" >
                 <p>   
                     100x100 logo
                 </p>  
@@ -28,7 +28,7 @@
                 </div>
             </x-input-file>
            
-            <x-input-file label="Banner" error="banner" >
+            <x-input-file label="Banner (Max 1Mb)" error="banner" >
                 <p>
                     100x300 banner image
                 </p>

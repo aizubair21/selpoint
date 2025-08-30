@@ -29,13 +29,16 @@ class Create extends Component
 
     public function store()
     {
+
+        // validate the image file type
+        // dd($this->nid_photo_front);
         // max image size to 300 KB
         $validData = $this->validate([
             'phone' => 'required|numeric',
             'email' => 'required|email',
             'nid' => 'required',
-            'nid_photo_front' => 'nullable|mimes:jpg,jpeg,png| max:300',
-            'nid_photo_back' => 'nullable|mimes:jpg,jpeg,png| max:300',
+            'nid_photo_front' => 'nullable|mimes:jpg,jpeg,png| max:1024',
+            'nid_photo_back' => 'nullable|mimes:jpg,jpeg,png| max:1024',
             'fixed_address' => 'required',
             'current_address' => 'required',
             'area_condition' => 'required',

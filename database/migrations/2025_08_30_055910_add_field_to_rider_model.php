@@ -22,8 +22,8 @@ return new class extends Migration
             $table->text('doc_3')->nullable();
             $table->text('doc_4')->nullable();
 
-            $table->text('country')->nullable()->default('Bangladesh');
-            $table->text('district')->nullable();
+            $table->string('country')->nullable()->default('Bangladesh');
+            $table->string('district')->nullable();
         });
     }
 
