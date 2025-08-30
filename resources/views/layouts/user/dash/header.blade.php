@@ -125,10 +125,13 @@ new class extends Component{
                                             <x-hr/>
         
                                                 <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'vendor'])">
-                                                    <i class="fas fa-shop pr-2"></i> {{ __('Request Vendor') }}
+                                                    <i class="fas fa-shop pr-2"></i> {{ __('Open Vendor Shop') }}
                                                 </x-dropdown-link>
                                                 <x-dropdown-link :href="route('upgrade.vendor.create', ['upgrade' => 'reseller'])">
-                                                    <i class="fas fa-shop pr-2"></i> {{ __('Request Reseller') }}
+                                                    <i class="fas fa-shop pr-2"></i> {{ __('Open Reseller Shop') }}
+                                                </x-dropdown-link>
+                                                <x-dropdown-link wire:navigate href="{{route('upgrade.rider.create')}}">
+                                                    <i class="fas fa-truck-fast pr-2"></i> {{ __('Request Rider') }} 
                                                 </x-dropdown-link>
 
                                                 

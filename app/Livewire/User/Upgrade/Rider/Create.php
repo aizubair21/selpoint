@@ -17,9 +17,9 @@ class Create extends Component
 
     public function mount()
     {
-        if (auth()->user()?->isRider()->status == 'Pending') {
+        if (auth()->user()?->requestsToBeRider()?->pending()->exists()) {
             Session::flash('warning', 'You have a pending request to be a rider');
-            $this->dispatch('alsert', 'You have an pending request to be a rider');
+            $this->dispatch('alert', 'You have a pending request to be a rider');
             $this->redirectIntended(route('upgrade.rider.index'), true);
         }
     }
@@ -39,7 +39,7 @@ class Create extends Component
             'fixed_address' => 'required',
             'current_address' => 'required',
             'area_condition' => 'required',
-            'targeted_area' => 'nullable',
+            'targeted_area' => 'required',
         ]);
 
         // array_merge($validData)
@@ -48,12 +48,15 @@ class Create extends Component
             'phone' => $validData['phone'],
             'email' => $validData['email'],
             'nid' => $validData['nid'],
-            'nid_photo_front' => $this->handleImageUpload($this->nid_photo_front, 'rider-document', null),
-            'nid_photo_back' => $this->handleImageUpload($this->nid_photo_back, 'rider-document', null),
+            'nid_photo_front' => $this->handleImageUpload($this->nid_photo_front, 'rider', null),
+            'nid_photo_back' => $this->handleImageUpload($this->nid_photo_back, 'rider', null),
             'fixed_address' => $validData['fixed_address'],
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
             'targeted_area' => $this->targeted_area,
+
+            'country' => auth()->user()->country ?? 'Bangladesh',
+            'district' => auth()->user()?->city ?? 'Dhaka',
         ]);
         // rider::created($validData);
         $this->redirectIntended(route('upgrade.rider.index'), true);

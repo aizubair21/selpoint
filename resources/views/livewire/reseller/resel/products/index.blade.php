@@ -2,12 +2,29 @@
     {{-- The whole world belongs to you. --}}
 
     <x-dashboard.page-header>
-        Resel Products
-        <br>    
-        <div>
-            {{-- <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link> --}}
-            <x-nav-link href="{{route('reseller.resel-product.index')}}" :active="request()->routeIs('reseller.resel-product.*')" > Product</x-nav-link>
-            {{-- <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-products.*')" > Category</x-nav-link> --}}
+        <div class="flex justify-between">
+            <div>
+
+                Resel Products
+                <br>    
+                <div>
+                    {{-- <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link> --}}
+                    <x-nav-link href="{{route('reseller.resel-product.index')}}" :active="request()->routeIs('reseller.resel-product.*')" > Product</x-nav-link>
+                    {{-- <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-products.*')" > Category</x-nav-link> --}}
+                </div>
+            </div>
+
+            <div>
+                <div class="flex bg-indigo-900 border border-indigo-900 rounded-xl">
+                    <div class="px-2 bg-white" title="Total Resell Products">
+                        {{$totalReselProducts}}
+                    </div>
+                    <div class="px-2 text-white" title="Max Resell Products">
+                        {{$shop->max_resell_product}}
+                    </div>
+                </div>
+            </div>
+
         </div>
     </x-dashboard.page-header>
 
@@ -48,11 +65,7 @@
         {{-- if reseller is not able to add product  --}}
         @if (!$ableToAdd)
             <div class="p-2 bg-red-200 text-red-800">
-                You have reached the maximum number of products you can upload {{$shop->max_resell_product}}. Please delete some products to add new ones.
-            </div>
-        @else
-            <div class="p-2 bg-green-200 text-green-800">
-                You can add more products to your resel shop. You can add up to {{$shop->max_resell_product}} products. You have currently {{$totalReselProducts}} Reselling products.
+                You have reached the maximum number of products you can upload {{$shop->max_resell_product}}. Please delete some products to add new ones or upgrade your plan.
             </div>
         @endif
 

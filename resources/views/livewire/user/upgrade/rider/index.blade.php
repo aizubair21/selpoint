@@ -11,14 +11,13 @@
                 <x-slot name="content">
                     <div class="flex justify-between">
                         <div>
-                            Upgrade your account to revenew money. To make a new request , click the 
+                            Upgrade your account to revenew money. To make a new request click bellow button.  
                         </div>
                         
                     </div>
-                    <a wire:navigate href="{{route('upgrade.rider.create')}}">
-                        
+                    <x-nav-link-btn wire:navigate href="{{route('upgrade.rider.create')}}">
                         New Request
-                    </a>
+                    </x-nav-link-btn>
                 </x-slot>
             </x-dashboard.section.header>
             <div>
