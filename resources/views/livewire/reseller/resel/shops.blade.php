@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        @if ($id || $slug)
+        @if ($getShops)
             <div>
                 <div class="bg-white overflow-hidden">
                     <div class="relative">
@@ -101,8 +101,8 @@
                                 <div>
                                     <i class="fas fa-heart"></i>
                                 </div>
-                                <x-nav-link href="{{route('shops.visit', ['id' => $getShops->id, 'name'=>$getShops->shop_name_en ?? 'not_found'])}}">
-                                    Visit Shops <i class="fas fa-caret-right px-2"></i>
+                                <x-nav-link href="{{route('shops', ['get' => $getShops->id, 'name'=> Str::slug($getShops->shop_name_en) ?? 'not_found'])}}">
+                                    Visit Shops <i class="fas fa-angle px-2"></i>
                                 </x-nav-link>
                             </div>
                         </div>
@@ -110,26 +110,9 @@
                     </x-dashboard.container>
                 </div>
             </div>
-            <x-dashboard.container>
+                      
 
-                <div class="flex justify-start items-center py-3 mb-3">
-                    <x-nav-link href="/">
-                        <i class="fas fa-home pe-2"></i>
-                    </x-nav-link>
-                    {{-- <i class="fas fa-slash-back px-2 py-0 m-0"></i> --}}
-                    <x-nav-link href="{{route('shops')}}">
-                        Shops
-                    </x-nav-link>
-                    <div class="text-gray-600 ">
-                        {{$getShops?->shop_name_en}}
-                    </div>
-                </div>
-
-            </x-dashboard.container>
-            
-
-            <x-dashboard.container class="my-[100]">
-
+            <x-dashboard.section class="my-[100]">
                 <div x-loading.disabled x-transition>
                     
                     <div class="product_section w-full md:w-3/4" > 
@@ -139,7 +122,7 @@
                             <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
                                     
                                 @foreach ($products as $pd)
-                                     @includeIf('components.dashboard.reseller.resel-product-cart')
+                                        @includeIf('components.dashboard.reseller.resel-product-cart')
                                 @endforeach
                                             
                             </div>
@@ -147,9 +130,8 @@
                         @endif
                     </div>
                 </div>
-            </x-dashboard.container>
+            </x-dashboard.section>
         @else 
-
 
             @if ($q || $location)
             @endif
@@ -196,8 +178,8 @@
                                         <div>
                                             <i class="fas fa-heart"></i>
                                         </div>
-                                        <x-nav-link href="{{route('shops', ['id' => $shop->id, 'slug'=>$shop->slug ?? 'not_found'])}}">
-                                            Visit Shops <i class="fas fa-caret-right px-2"></i>
+                                        <x-nav-link href="{{route('shops', ['get' => $shop->id, 'slug'=> Str::slug($shop->shop_name_en) ?? 'not_found'])}}">
+                                            Visit Shops <i class="fas fa-angle px-2"></i>
                                         </x-nav-link>
                                     </div>
                                 </div>

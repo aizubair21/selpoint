@@ -77,7 +77,7 @@
 
             <div class="w-full">
 
-                <textarea name="address" id="address" wire:model.lazy="address" class="w-full rounded " rows="1" placeholder="Full Address"></textarea>
+                <textarea name="address" id="address" wire:model="address" class="w-full rounded " rows="1" placeholder="Full Address"></textarea>
                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
             </div>
         </div>

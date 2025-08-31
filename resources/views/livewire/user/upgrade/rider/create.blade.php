@@ -55,9 +55,9 @@
                             </div>
                         </x-input-file>
                         <x-hr/>
-                        <div  wire:show="area_condition == 'other'" wire:transition>
+                        <div wire:transition>
                             <p class="text-xs">
-                                If you selected "Outside Of Dhaka", please specify your targeted district or upazila. Where from and which areas you will provide service. Area could your entire district or a upazila.
+                                Please specify your targeted district or upazila. In which areas you will provide service. Area could your entire district or a upazila.
                             </p>
                             <x-input-file label="" name="targeted_area" error="targeted_area">
                                 <x-text-input wire:model.live="targeted_area" placeholder="Write Your Targeted District" />

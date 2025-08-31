@@ -14,7 +14,7 @@ use App\Models\Product;
 class Shops extends Component
 {
     #[URL]
-    public $slug, $id, $q, $location;
+    public $slug, $get, $q, $location;
 
     public $state = '';
 
@@ -50,7 +50,7 @@ class Shops extends Component
         if ($this->q) {
             $query->whereAny(['shop_name_en', 'shop_name_bn'], 'like', "%" . Str::ucfirst($this->q ?? $this->location) . "%");
             $this->slug = '';
-            $this->id = '';
+            $this->get = '';
         }
 
         if ($this->location) {
@@ -61,13 +61,13 @@ class Shops extends Component
                     ->orWhere('country', 'like', '%' . Str::ucfirst($this->location) . '%');
             });
             $this->slug = '';
-            $this->id = '';
+            $this->get = '';
         }
 
         $shops = $query->paginate(config('app.paginate'));
 
-        if ($this->slug) {
-            $getShops = vendor::where(['slug' => $this->slug])->first();
+        if ($this->get) {
+            $getShops = vendor::findOrFail($this->get);
             if ($getShops) {
                 $products = product::query()->active()->vendor()->where('user_id', '=', $getShops->user?->id)->paginate(config('app.paginate'));
             }

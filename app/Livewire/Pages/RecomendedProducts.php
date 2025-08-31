@@ -9,9 +9,11 @@ class RecomendedProducts extends Component
 {
     public $data = [];
 
-    public function get()
+    public function mount()
     {
+        
         $this->data = Product::query()->reseller()->active()->home()->orderBy('vc')->limit(20)->get();
+        // dd($this->data);
     }
     public function render()
     {

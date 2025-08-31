@@ -2,10 +2,10 @@
     <x-dashboard.section>
         <x-dashboard.section.header>
             <x-slot name="title">
-               rider request
+               Rider request
             </x-slot>
             <x-slot name="content">
-                Edit and Upgrade Your Vendor Request Form <a wire:navigate href="{{route('upgrade.rider.index')}}">Previous Request</a>
+                Edit and Upgrade Your Vendor Request Form <a class="border-b font-bold" wire:navigate href="{{route('upgrade.rider.index')}}">Previous Request</a>
                 <br>
                {{-- <x-client.upgrade-status :upgrade="$upgrade" :$id /> --}}
                {{-- @includeIf('components.client.upgrade-status') --}}
@@ -71,25 +71,29 @@
             <x-dashboard.section>
                 <x-dashboard.section.inner>
                     <x-input-file label="Chose Your Area" name="area_condition" error="area_condition">
-                        <div class="flex">
+                        <div class="w-48 space-y-2">
 
                             <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="rider.area_condition" id="area_condition_1" />
+                                <x-text-input style="width:20px; height:20px" type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="rider.area_condition" id="area_condition_1" />
                                 <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
                             </div>
                             <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="rider.area_condition" id="area_condition_2" />
+                                <x-text-input style="width:20px; height:20px" type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="rider.area_condition" id="area_condition_2" />
                                 <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
                             </div>
                         </div>
 
                     </x-input-file>
-                    <div  wire:show="area_condition == 'other'" wire:transition>     
-                        <x-input-file label="" name="targeted_area" error="targeted_area">
+                    <x-hr/>
+                    <div wire:transition>     
+                        <x-input-file label="Targetted Area" name="targeted_area" error="targeted_area">
                             <x-text-input wire:model.live="rider.targeted_area" placeholder="Write Your Targeted District" />
                         </x-input-file>
                     </div>
-                    <x-primary-button>save</x-primary-button>
+                    <x-hr/>
+                    <x-primary-button>
+                        <i class="fas fa-sync pr-2"></i> Update & Save
+                    </x-primary-button>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
         </form>

@@ -110,7 +110,7 @@ class Create extends Component
             $validated['logo'] = $this->handleImageUpload($this->logo, 'shop-logo', '');
             $info = array(
                 [
-                    'slug' => str::slug($this->shop_name_en),
+                    'slug' => Str::slug($this->shop_name_en),
                     'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
                     'fixed_amount' => 500,
                 ]
@@ -169,7 +169,7 @@ class Create extends Component
             $validated['logo'] = $this->handleImageUpload($this->logo, 'shop-logo', '');
             $info = array(
                 [
-                    'slug' => str::slug($this->shop_name_en),
+                    'slug' => Str::slug($this->shop_name_en),
                     'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
                     'fixed_amount' => 500,
                 ]

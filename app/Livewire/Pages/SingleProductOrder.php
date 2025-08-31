@@ -4,6 +4,7 @@ namespace App\Livewire\Pages;
 
 use App\Events\ProductComissions;
 use App\Http\Controllers\ProductComissionController;
+use App\Jobs\UpdateProductSalesIndex;
 use App\Models\cart;
 use App\Models\CartOrder;
 use App\Models\Order;

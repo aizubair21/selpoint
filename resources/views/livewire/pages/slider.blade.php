@@ -70,7 +70,8 @@
             width: 100%;
             max-width: 400px;
             color: #000000;
-            background: #002c3e09;
+            /* background: #002c3e09; */
+            background: #ffffff70;
             padding: 30px;
             margin-left: 40px;
             opacity: 0;

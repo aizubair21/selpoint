@@ -19,7 +19,7 @@
                     Product Create Form
                 </x-slot>
                 <x-slot name="content">
-                    create new product to sell to a cheaf price. to make more profit. Correctly define your <strong>Bying Price</strong> and <strong>Selling Price</strong>. Keep it mind that, system takes <strong>20%</strong> of comission from your profit. 
+                    Create new product to sell to a cheaf price. to make more profit. Correctly define your <strong>Bying Price</strong> and <strong>Selling Price</strong>. Keep it mind that, system takes <strong> {{$shop->system_get_comission ?? "N/A"}}% </strong> of comission from your profit. 
                     <br>
 
                     {{-- notify if user reach maximum product upload limit. --}}

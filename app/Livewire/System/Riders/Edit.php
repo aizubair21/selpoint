@@ -15,18 +15,22 @@ class Edit extends Component
     public $id, $nav = 'user';
     private $data;
 
-    public $rider, $requestStatus;
+    public $rider, $comission, $requestStatus;
 
     #[on('refresh')]
     public function mount()
     {
-
         $this->rider = rider::find($this->id);
+        if ($this->rider) {
+            $this->comission = $this->rider->comission;
+            $this->requestStatus = $this->rider?->status;;
+        }
     }
 
     public function updateStatus()
     {
         $this->rider->status = $this->requestStatus;
+        $this->rider->comission = $this->comission;
         $this->rider->save();
 
         $this->dispatch('success', "Status Updated !");

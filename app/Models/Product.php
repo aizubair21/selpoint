@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attributes;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -58,6 +60,15 @@ class Product extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
         ];
+    }
+
+    // attributes 
+    protected function title() :Attributes 
+    {
+        // make the title Str::title()
+        return Attributes::make(
+            get: fn ($value) => Str::title($value),
+        );
     }
 
 

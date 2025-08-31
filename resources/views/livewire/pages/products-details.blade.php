@@ -275,6 +275,8 @@
                 @endauth
             </x-dashboard.section.inner>
         </x-dashboard.section> --}}
+
+        @livewire('pages.RecomendedProducts')
     </x-dashboard.container>
 
 

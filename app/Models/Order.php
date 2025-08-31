@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\ProductComissions;
 use App\Http\Controllers\ProductComissionController;
+use App\Jobs\UpdateProductSalesIndex;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -38,10 +39,12 @@ class Order extends Model
     protected static function booted(): void
     {
         parent::booted();
-        // static::created(function (Order $order) {
-        //     logger("Order Model Booted $order->id");
-        //     ProductComissionController::dispatchProductComissionsListeners($order->id);
-        // });
+        static::created(function (Order $order) {
+            // logger("Order Model Booted $order->id");
+            // ProductComissionController::dispatchProductComissionsListeners($order->id);
+             
+            UpdateProductSalesIndex::dispatch();
+        });
     }
 
 
