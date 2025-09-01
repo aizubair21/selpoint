@@ -101,7 +101,7 @@
                     <div class="absolute bottom-0 shadow w-full text-center" style="background-color:
                                         #f6f6f69c; backdrop-filter:blur(6px)">
                         {{ Str::limit($item->name, 9, '...') }}
-                    </div>ss
+                    </div>
                 </a>
             </div>
             @endif
