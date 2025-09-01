@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Events\ProductComissions;
 use App\Http\Controllers\ProductComissionController;
 use App\Jobs\UpdateProductSalesIndex;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
@@ -42,11 +44,33 @@ class Order extends Model
         static::created(function (Order $order) {
             // logger("Order Model Booted $order->id");
             // ProductComissionController::dispatchProductComissionsListeners($order->id);
-             
+
             UpdateProductSalesIndex::dispatch();
         });
     }
 
+
+    //////////////// 
+    // Attributes //
+    ///////////////
+    protected function location(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value)
+        );
+    }
+    protected function district(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value)
+        );
+    }
+    protected function upozila(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value)
+        );
+    }
 
     public function user()
     {
