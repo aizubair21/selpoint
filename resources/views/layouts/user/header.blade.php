@@ -118,7 +118,7 @@ new class extends Component {
                             <x-client.cat-loop :item="$item" :key="$item->ids" /> --}}
                             @if ($item->slug != 'default-category')
                             <div class="space-x-2 text-start h-full p-2 " style="">
-                                <x-nav-link class=" text-gray-900 text-xl font-bold" style="font-size: 16px"
+                                <x-nav-link class=" text-gray-900 text-md font-bold" style="font-size: 16px"
                                     href="{{ route('category.products', ['cat' => $item->slug]) }}">
                                     {{-- {{ Str::limit( Str::ucfirst( $item->name), 8,'..') }} --}}
                                     {{$item->name}}
@@ -129,20 +129,22 @@ new class extends Component {
                                     @foreach ($item->children as $child)
                                     <div>
                                         {{-- <x-nav-link class="block">{{$child->name ?? "N/A"}}</x-nav-link> --}}
-                                        <x-nav-link class=" text-gray-900 text-md"
+                                        <x-nav-link class=" text-gray-900 text-sm"
                                             href="{{ route('category.products', ['cat' => $child->slug]) }}">
                                             {{-- <i class="fas fa-chevron-right"></i> --}}
-                                            {{ Str::limit( Str::ucfirst( $child->name), 10,'..') }}
+                                            {{-- {{ Str::limit( Str::ucfirst( $child->name), 10,'..') }} --}}
+                                            {{$child->name}}
                                         </x-nav-link>
                                     </div>
 
 
                                     @foreach ($child->children as $sub)
                                     <div class="ms-3">
-                                        <x-nav-link class=" text-gray-900 text-md"
+                                        <x-nav-link class=" text-gray-900 text-sm"
                                             href="{{ route('category.products', ['cat' => $sub->slug]) }}">
                                             {{-- <i class="fas fa-chevron-right"></i> --}}
-                                            {{ Str::limit( Str::ucfirst( $sub->name), 10,'..') }}
+                                            {{-- {{ Str::limit( Str::ucfirst( $sub->name), 10,'..') }} --}}
+                                            {{$sub->name}}
                                         </x-nav-link>
                                     </div>
                                     @endforeach
