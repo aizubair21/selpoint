@@ -136,4 +136,8 @@ class rider extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function cod()
+    {
+        return $this->hasMany(cod::class, 'id', 'rider_id');
+    }
 }

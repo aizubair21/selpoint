@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\rider as riderModel;
 
 class cod extends Model
 {
@@ -50,6 +51,6 @@ class cod extends Model
 
     public function rider()
     {
-        return $this->belongsTo(Rider::class);
+        return $this->belongsTo(User::class, 'rider_id', 'id');
     }
 }

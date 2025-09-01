@@ -143,7 +143,7 @@ class Order extends Model
 
     public function hasRider()
     {
-        return $this->hasMany(cod::class);
+        return $this->hasMany(cod::class, 'order_id', 'id');
     }
     // public function comissions()
     // {

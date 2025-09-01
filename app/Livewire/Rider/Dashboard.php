@@ -31,6 +31,7 @@ class Dashboard extends Component
             })->accept()->get();
             // dd($this->orders);
         }
+        // dd($this->orders[0]->hasRider()->first()->rider?->name);
     }
 
     public function confirmOrder($orderId)
