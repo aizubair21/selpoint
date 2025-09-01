@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('rider_id')->nullable();
             $table->bigInteger('user_id')->nullable();
             $table->bigInteger('seller_id')->nullable(); // reseller / vendor ID
-            $table->string('serller_type')->nullable(); // reseller / vendor
+            $table->string('seller_type')->nullable(); // reseller / vendor
             $table->string('payment_method')->default('cash');
 
             $table->decimal('amount', 10, 2)->default(0.00); // Amount to be collected rider + reseller + vendor + system
@@ -31,11 +31,12 @@ return new class extends Migration
             $table->decimal('system_amount', 10, 2)->default(0.00); // Amount to be taken by the system
 
             $table->string('comission')->nullable(); // system percent commission take from the rider amount
-            $table->decimal('rider_commission', 10, 2)->default(0.00); // Commission for the rider
-            $table->decimal('reseller_commission', 10, 2)->default(0.00); // Commission for the reseller
-            $table->decimal('vendor_commission', 10, 2)->default(0.00); // Commission for the vendor
-            $table->decimal('system_commission', 10, 2)->default(0.00); // Commission for the system
+            $table->decimal('rider_comission', 10, 2)->default(0.00); // Commission for the rider
+            $table->decimal('reseller_comission', 10, 2)->default(0.00); // Commission for the reseller
+            $table->decimal('vendor_comission', 10, 2)->default(0.00); // Commission for the vendor
+            $table->decimal('system_comission', 10, 2)->default(0.00); // Commission for the system
 
+            $table->text('weight')->nullable(); // weight
             $table->text('seller_note')->nullable();
             $table->text('rider_note')->nullable(); // Note from the rider
             $table->string('status')->default('Pending'); // e.g., pending, completed, failed

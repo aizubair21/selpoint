@@ -141,6 +141,10 @@ class Order extends Model
         return $this->hasMany(CartOrder::class);
     }
 
+    public function hasRider()
+    {
+        return $this->hasMany(cod::class);
+    }
     // public function comissions()
     // {
     //     return $this->hasMany(ComissionTracking::class);

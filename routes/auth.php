@@ -160,6 +160,9 @@ Route::middleware('auth')->group(function () {
 
         include('reseller.php'); // include all route for reseller
 
+        // rider 
+        include('rider.php'); // include all route for rider
+
         // role and permission manage
         Route::get('roles', [RoleController::class, 'admin_list'])->name('system.role.list')->middleware(AbleTo::class . ':role_list');
         // Route::get('roles', roleIndexPage::class)->name('system.role.list')->middleware(AbleTo::class . ':role_list');

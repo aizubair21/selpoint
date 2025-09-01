@@ -21,19 +21,33 @@
         <div style="display:grid; grid-template-columns:repeat(auto-fit, 160px); gap:1rem;">
             @foreach ($orders as $order)
 
-            <div class="bg-white rounded shadow text-center flex flex-col justify-between" style="height:250px">
+            <div class="bg-white rounded shadow text-center flex flex-col justify-between">
                 <div class="py-2 bg-gray-200">
                     <h3 class="text-xs text-gray-500"> Order ID </h3>
                     <div class="font-bold">
                         {{$order->id}}
                     </div>
                 </div>
+
+                <div class="p-2">
+                    <div class="flex justify-center items-center -space-x-2 overflow-hidden">
+                        @foreach ($order->cartOrders as $item)
+                        <img src="{{asset('storage/' . $item->product?->thumbnail)}}"
+                            class="inline-block size-10 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5"
+                            alt="" srcset="">
+                        @endforeach
+                    </div>
+                </div>
                 <div class="px-3 py-2">
-                    <div class="text-4xl font-bold">
+                    @php
+                    $rider_cm_range = auth()->user()?->isRider()?->comission;
+                    $system_cm = ($order->shipping * $rider_cm_range) / 100
+                    @endphp
+                    <div class="text-4xl font-bold ">
                         <sup>
                             ৳
                         </sup>
-                        {{$order->total + $order->shipping}}
+                        {{$order->total + $system_cm}}
                     </div>
                     <div class="text-sm text-gray-500 flex justify-center items-center text-center">
                         {{-- <div>
@@ -55,24 +69,38 @@
                                 </sup>
                             </div> --}}
                             <div class="">
-                                {{$order?->shipping ?? "N/A"}}
+                                {{$system_cm ?? "N/A"}}
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <p class="text-sm  px-3 py-2 text-gray-600" style="line-height: 18px">
-                    {{$order->location}}
-                    <br>
-                    {{$order->number}}
-                </p>
-                <div class="">
 
+                <div class="px-3 py-2">
+                    <div class="text-xs text-gray-500">
+                        <i class="fas fa-map-marker-alt pr-1"></i>
+                        {{-- {{$order->upozila}}, {{$order->district}} --}}
+                        {{$order->location}}
+                    </div>
+                    {{-- <div class="text-gray-500 text-sm">
+                        {{$order->number}}
+                    </div> --}}
+                </div>
+                <div class="">
+                    @if ($order->hasRider()?->accept()->exists() || $order->hasRider()?->pending()->exists() ||
+                    $order->hasRider()?->complete()->exists())
+
+                    <div class="bg-red-300 p-1 flex justify-center items-center">
+                        PICKED <div class="px-2 text-xs"> ({{$order->shipping}}TK) </div>
+                    </div>
+                    @else
                     <div class="p-1">
-                        <x-primary-button>
-                            Confirm
+                        <x-primary-button wire:click="confirmOrder({{$order->id}})">
+                            pick <div class="px-2 text-xs"> ({{$order->shipping}}TK) </div>
                         </x-primary-button>
                     </div>
+                    @endif
+
                 </div>
             </div>
 
