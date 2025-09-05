@@ -17,15 +17,15 @@ class Create extends Component
 
     public function mount()
     {
-        if (auth()->user()?->requestsToBeRider()?->pending()->exists()) {
-            Session::flash('warning', 'You have a pending request to be a rider');
-            $this->dispatch('alert', 'You have a pending request to be a rider');
+        if (auth()->user()?->requestsToBeRider()?->pending()->exists() || auth()->user()?->requestsToBeRider()?->active()->exists()) {
+            Session::flash('warning', 'You have another unprocessable request !');
+            $this->dispatch('alert', 'You have another unprocessable request !');
             $this->redirectIntended(route('upgrade.rider.index'), true);
         }
     }
 
 
-    public $phone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area;
+    public $phone, $otherPhone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area;
 
     public function store()
     {
@@ -57,6 +57,7 @@ class Create extends Component
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
             'targeted_area' => $this->targeted_area,
+            'doc_1' => $this->otherPhone,
 
             'country' => auth()->user()->country ?? 'Bangladesh',
             'district' => auth()->user()?->city ?? 'Dhaka',

@@ -178,5 +178,9 @@ Route::middleware('auth')->group(function () {
 
         // Route::get('/comissions')->name('comissions');
 
+
+        // route for rider 
+
+
     });
 });

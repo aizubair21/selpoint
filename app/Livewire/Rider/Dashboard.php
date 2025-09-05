@@ -28,6 +28,8 @@ class Dashboard extends Component
                 $q->where('district', 'like', "%" . $this->riderInfo?->targeted_area . "%")
                     ->orWhere('location', 'like', "%" . $this->riderInfo?->targeted_area . "%")
                     ->orWhere('upozila', 'like', "%" . $this->riderInfo?->targeted_area . "%");
+            })->whereDoesntHave('hasRider', function ($query) {
+                $query->where('rider_id', auth()->id());
             })->accept()->get();
             // dd($this->orders);
         }
