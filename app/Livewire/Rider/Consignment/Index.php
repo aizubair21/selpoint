@@ -13,11 +13,16 @@ class Index extends Component
 {
 
     #[URL]
-    public $status = 'Pending';
+    public $status = 'All';
 
     public function confirmOrder($order, $status)
     {
         $order = cod::findOrFail($order);
+        // if the order status is not 'Delivery', cod status not change
+        if ($order->order->status != 'Delivery') {
+            $this->dispatch('error', 'Order not shipped yet');
+            return;
+        }
         if ($order && auth()->user()->abailCoin() >= $order->total_amount) {
             $order->status = $status;
             $order->save();
@@ -43,7 +48,12 @@ class Index extends Component
         // dd(auth()->user()->abailCoin());
         $consignments = [];
         // get the consignments belongs to rider id
-        $consignments = cod::where(['rider_id' => auth()->user()->id, 'status' => $this->status])->get();
+        if ($this->status == 'All') {
+            $consignments = cod::where(['rider_id' => auth()->user()->id])->get();
+        } else {
+            $consignments = cod::where(['rider_id' => auth()->user()->id, 'status' => $this->status])->get();
+        }
+        // $consignments = cod::where(['rider_id' => auth()->user()->id, 'status' => $this->status])->get();
 
         // $consignments = Order::whereHas('hasRider', function ($query) {
         //     $query->where('rider_id', auth()->user()->id)

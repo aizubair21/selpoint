@@ -3,7 +3,7 @@
 namespace App\Livewire\Vendor\Orders;
 
 use App\Http\Controllers\ProductComissionController;
-use App\Models\CartOrder;
+use App\Models\{CartOrder, cod, rider};
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\syncOrder;
@@ -23,12 +23,21 @@ class View extends Component
 
     public $orderStatus = 'Pending', $orders, $mainProduct, $isResell = false, $resellerProductId = '', $cartOrderId = '', $cartOrder;
     public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no, $shipping;
+    public $rider = [], $rider_id;
 
     public function mount()
     {
         $this->orders = Order::find($this->order);
         $this->shipping = $this->orders->shipping;
         $this->orderStatus = $this->orders->status;
+
+        // get the rider those who are in the same location
+        $this->rider = rider::where(function ($query) {
+            $query->where('targeted_area', 'like', '%' . $this->orders->district . '%')
+                ->orWhere('targeted_area', 'like', '%' . $this->orders->upozila . '%')
+                ->orWhere('targeted_area', 'like', '%' . $this->orders->location . '%');
+        })
+            ->get();
     }
 
     // public function updated($property)
@@ -232,6 +241,50 @@ class View extends Component
         $this->dispatch('close-modal', 'order-sync-modal');
         $this->dispatch('refresh');
     }
+
+    public function assignRiderToOrder()
+    {
+        // $this->orders->update(['rider_id' => $this->shipping]);
+        $rdr = rider::find($this->rider_id);
+        if (!$rdr) {
+            $this->dispatch('error', 'Rider not found');
+            return;
+        }
+        if ($this->orders->status != 'Accept') {
+            $this->dispatch('error', 'You can assign rider only accepted orders');
+            return;
+        }
+
+        $cod = new cod();
+        $cod->order_id = $this->orders->id;
+        $cod->rider_id = $rdr->user_id;
+        $cod->seller_id = $this->orders->belongs_to;
+        $cod->user_id = $this->orders->user_id;
+        $cod->amount = $this->orders->total;
+        $cod->comission = $rdr->comission;
+        $cod->rider_amount = $this->orders->shipping;
+        $cod->system_comission = ($this->orders->shipping * $rdr->comission) / 100;
+        $cod->total_amount = ($this->orders->total + (($this->orders->shipping * $rdr->comission) / 100));
+        $cod->due_amount = $this->orders->total;
+        $cod->status = 'Pending';
+        $cod->save();
+
+        $this->dispatch('close-modal', 'rider-assign-modal');
+        $this->dispatch('success', 'Rider assigned successfully');
+    }
+
+    public function removeRider($id)
+    {
+        $cod = cod::findOrFail($id);
+        if ($cod) {
+            $cod->delete();
+            $this->dispatch('success', 'Rider removed successfully. You can assign a new rider to this order.');
+        } else {
+            $this->dispatch('error', 'Order not found');
+        }
+    }
+
+
 
     public function render()
     {

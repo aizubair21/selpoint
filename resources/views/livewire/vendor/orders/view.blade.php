@@ -414,7 +414,7 @@
                 <x-slot name="title">
                     <div class="flex justify-between items-center">
                         RIDER
-                        <x-primary-button>
+                        <x-primary-button wire:click="$dispatch('open-modal', 'rider-assign-modal')">
                             <i class="fas fa-plus pr-2"></i> Rider
                         </x-primary-button>
                     </div>
@@ -432,6 +432,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Phone</th>
+                            <th>Shipping</th>
                             <th>Area</th>
                             <th>Status</th>
                             <th>A/C </th>
@@ -444,11 +445,14 @@
                             <td> {{$loop->iteration}} </td>
                             <td> {{$item->rider?->name ?? "N/A"}} </td>
                             <td> {{$item->rider?->phone ?? "N/A"}} </td>
+                            <td> {{$item->rider?->isRider()?->current_address ?? "N/A"}} </td>
                             <td> {{$item->rider?->isRider()?->targeted_area ?? "N/A"}} </td>
                             <td> {{$item->status ?? "N/A"}} </td>
                             <td>
                                 <div class="flex">
-
+                                    <x-danger-button wire:click.prevent="removeRider({{$item->id}})">
+                                        <i class="fas fa-trash"></i>
+                                    </x-danger-button>
                                 </div>
                             </td>
                         </tr>
@@ -554,6 +558,28 @@
                 <x-primary-button wire:click="acceptOrder">
                     Confirm
                 </x-primary-button>
+            </div>
+        </x-modal>
+
+        <x-modal name="rider-assign-modal">
+            <div class="p-2">
+                Assign Rider
+            </div>
+            <x-hr />
+            <div class="p-2">
+                <form wire:submit.prevent="assignRiderToOrder">
+                    <x-input-file label="Select Rider" error='rider_id'>
+                        <select wire:model.live="rider_id" id="">
+                            <option value="">Select Rider</option>
+                            @foreach ($rider as $item)
+                            <option value="{{$item->id}}"> {{$item->user?->name}} - {{$item->phone}} </option>
+                            @endforeach
+                        </select>
+                    </x-input-file>
+                    <x-primary-button>
+                        Assign
+                    </x-primary-button>
+                </form>
             </div>
         </x-modal>
     </x-dashboard.container>

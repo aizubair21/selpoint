@@ -39,11 +39,14 @@ class cod extends Model
                         $rider->coin -= $cod->system_comission;
                         $rider->save();
                     }
-                }
-                if ($seller) {
-                    // cut due_amount from reseller account, and add to seller account
-                    $seller->coin += $cod->due_amount;
-                    $seller->save();
+                    if ($seller) {
+                        // cut due_amount from reseller account, and add to seller account
+                        $seller->coin += $cod->due_amount;
+                        $seller->save();
+                    }
+
+                    // add shipping amount to rider account
+                    $rider->coin += $order->shipping;
                 }
             }
         });
