@@ -218,13 +218,13 @@
                     <div>
                         @if ($orders->hasRider())
                         @php
-                        $rider = $orders->hasRider()->latest()->first();
+                        $rider = $orders->hasRider()?->latest()->first();
                         @endphp
                         <div class="text-lg text-bold font-bold">
-                            {{$rider->rider->name}}
+                            {{$rider?->rider?->name}}
                         </div>
                         <p>
-                            {{$rider->phone ?? $rider->rider->phone}}
+                            {{$rider?->phone ?? $rider?->rider?->phone}}
                         </p>
                         @else
                         <div>
@@ -373,7 +373,7 @@
                             </p>
                             <p class="text-xs">
                                 @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider->rider?->name}} </b>
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
                                 @endif
                             </p>
                         </div>
@@ -450,7 +450,7 @@
                             </p>
                             <p class="text-xs">
                                 @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider->rider?->name}} </b>
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
                                 @endif
                             </p>
                         </div>
@@ -524,7 +524,7 @@
                             </p>
                             <p class="text-xs">
                                 @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider->rider?->name}} </b>
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
                                 @endif
                             </p>
                         </div>
