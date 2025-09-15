@@ -91,7 +91,7 @@
 
 
         <div x-loading.disabled x-transition class="pb-4"
-            style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
+            style="display: grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); grid-gap:10px">
             @foreach ($categories as $item)
             @if ($item->slug != 'default-category')
             <div class="relative text-center rounded-md "
@@ -127,7 +127,7 @@
                 <x-client.products-loop :$products /> --}}
                 @if (count($products))
                 <div class=""
-                    style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
+                    style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
                     @foreach($products as $product)
                     <x-client.product-cart :$product :key="$product->id" />
                     @endforeach

@@ -1,7 +1,7 @@
 <div class="py-4" x-init="$wire.getData">
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-    
-    
+
+
     <div class="">
         @includeIf('components.client.common-heading')
     </div>
@@ -13,7 +13,7 @@
                 @livewire('pages.categories')
                 {{-- @foreach ($categories as $item)
                 <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" />
-                    <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
+                <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
                 @endforeach --}}
             </div>
 
@@ -27,22 +27,22 @@
                 </div>
                 <div x-show="open" x-collapse class="overflow-x-scroll border-t mt-2">
                     {{-- @foreach ($categories as $item)
-                        <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
+                    <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" />
                     @endforeach --}}
                     @livewire('pages.categories')
-                            
+
                 </div>
             </div>
-            
+
             <div class="px-2 w-full">
-                
+
                 <div class="flex flex-wrap justify-between items-center mb-3">
-                    
+
                     <div>
                         <x-text-input type="search" placeholder="Search ...." class="py-1" />
                     </div>
                     <div class="flex items-center justify-between space-x-2">
-                        <x-secondary-button >
+                        <x-secondary-button>
                             <i class="fas fa-filter"></i>
                         </x-secondary-button>
                         <select wire:model.live="sort" id="sort_by" class="w-24 rounded py-1">
@@ -51,19 +51,21 @@
                         </select>
                     </div>
                 </div>
-        
+
                 <div class="product_section" x-loading.disabled x-transition>
-                    {{-- <x-client.products-loop :$products /> --}}
-                    @if (count($products))     
-                        <div class="" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
-                          
-                            @foreach ($products as $product)
-                                <x-client.product-cart :$product :key="$product->id" />
-                            @endforeach
-                                      
-                        </div>
+                    {{--
+                    <x-client.products-loop :$products /> --}}
+                    @if (count($products))
+                    <div class=""
+                        style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
+
+                        @foreach ($products as $product)
+                        <x-client.product-cart :$product :key="$product->id" />
+                        @endforeach
+
+                    </div>
                     @endif
-        
+
                     <div class="text-center" wire:show="load">
                         <button wire:click.prevent="loadMore" class="px-3 py-1 rounded border mt-3">Load More</button>
                     </div>
@@ -73,7 +75,7 @@
         </div>
 
 
-        
+
     </x-dashboard.container>
 
     {{-- <div class="text-center">
@@ -81,7 +83,7 @@
             View All products
         </a>
     </div> --}}
-    
+
 
     <script>
         let ps = document.getElementsByClassName('product_section')[0];

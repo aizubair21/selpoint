@@ -19,10 +19,11 @@
 
             <div class="product_section ">
 
-                {{-- <div class="" style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); grid-gap:10px">
+                {{-- <div class=""
+                    style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); grid-gap:10px">
                     @foreach($products as $product)
-                       <x-client.product-cart :$product :key="$product->id"/>
-                    @endforeach    
+                    <x-client.product-cart :$product :key="$product->id" />
+                    @endforeach
                 </div> --}}
 
                 <div class="md:flex w-full">
@@ -33,11 +34,13 @@
                             <br>
                         </div>
                         @foreach ($categories as $item)
-                        {{-- <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
-                            <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat" style="font-bold"/>
+                        {{--
+                        <x-client.cat :cat="$cat" :active="($cat->name == $this->cat)" /> --}}
+                        <x-client.cat-loop :item="$item" :key="$item->id" :active="$cat == $item->slug" :cat="$cat"
+                            style="font-bold" />
                         @endforeach
                     </div>
-                    
+
                     <div class="block md:hidden px-3 bg-white mb-2 " x-data="{ open: false }">
                         <div x-on:click="open = !open" class="flex justify-between items-center">
                             <div>Categories</div>
@@ -53,7 +56,8 @@
                             </div>
                             <div>
                                 @foreach ($categories as $product)
-                                    <x-client.cat-loop :item="$product" :key="$product->id" :active="$cat == $product->slug" :cat="$cat" />
+                                <x-client.cat-loop :item="$product" :key="$product->id" :active="$cat == $product->slug"
+                                    :cat="$cat" />
                                 @endforeach
                             </div>
                         </div>
@@ -62,20 +66,22 @@
 
 
                     <div class="px-2 w-full">
-                        {{-- <x-client.products-loop :$products /> --}}
-                        <div class="w-full" style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
+                        {{--
+                        <x-client.products-loop :$products /> --}}
+                        <div class="w-full"
+                            style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
                             @foreach ($products as $product)
-                                <x-client.product-cart :$product :key="$product->id" />
+                            <x-client.product-cart :$product :key="$product->id" />
                             @endforeach
                         </div>
                         @if (!$products || count($products) == 0)
-                            <div class="alert alert-info">No Product Found !</div>
+                        <div class="alert alert-info">No Product Found !</div>
                         @endif
                     </div>
                 </div>
-                
+
             </div>
-    
+
         </div>
     </x-dashboard.container>
 </div>
