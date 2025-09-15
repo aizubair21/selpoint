@@ -4,6 +4,7 @@ namespace App\Livewire\Rider\Consignment;
 
 use App\Models\cod;
 use App\Models\Order;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
@@ -13,7 +14,8 @@ class Index extends Component
 {
 
     #[URL]
-    public $status = 'All';
+    public $status = 'All', $created_at, $start_time, $end_time;
+    public $viewConsignments = '';
 
     public function confirmOrder($order, $status)
     {
@@ -40,18 +42,43 @@ class Index extends Component
                     $seller->save();
                 }
             }
+            $this->dispatch('success', 'Shipment Updated. ');
+        } else {
+            $this->dispatch('warning', 'You do not have enough balance to process this request !');
         }
+    }
+
+    public function viewConsignment($id)
+    {
+        // redirect to rider.consignment.view route with $id
+        // $this->viewConsignments = $id;
+        // $this->dispatch('open-modal', 'view-consignment');
+
+        $this->redirectRoute('rider.consignment.view', ['id' => $id], true, true);
     }
 
     public function render()
     {
         // dd(auth()->user()->abailCoin());
-        $consignments = [];
+        $query = cod::query()->where('rider_id', auth()->user()->id);
         // get the consignments belongs to rider id
-        if ($this->status == 'All') {
-            $consignments = cod::where(['rider_id' => auth()->user()->id])->get();
-        } else {
-            $consignments = cod::where(['rider_id' => auth()->user()->id, 'status' => $this->status])->get();
+        if ($this->status != 'All') {
+            $consignments = $query->where(['status' => $this->status]);
+        }
+
+
+        if ($this->created_at != 'any') {
+            if ($this->created_at == 'Today') {
+                $query->whereDate('created_at', now());
+            } elseif ($this->created_at == 'Yesterday') {
+                $query->whereDate('created_at', now()->yesterday());
+            } elseif ($this->created_at == 'Weak') {
+                $query->whereBetween('created_at', [now()->subWeek(), today()]);
+            } elseif ($this->created_at == 'Month') {
+                $query->whereBetween('created_at', [now()->month(), today()]);
+            } elseif ($this->created_at == 'between') {
+                $query->whereBetween('created_at', [$this->start_time, Carbon::parse($this->end_time)->endOfDay()]);
+            }
         }
         // $consignments = cod::where(['rider_id' => auth()->user()->id, 'status' => $this->status])->get();
 
@@ -59,7 +86,7 @@ class Index extends Component
         //     $query->where('rider_id', auth()->user()->id)
         //         ->where('status', $this->status);
         // })->get();
-
+        $consignments = $query->orderby('id', 'desc')->get();
         return view('livewire.rider.consignment.index', compact('consignments'));
     }
 }

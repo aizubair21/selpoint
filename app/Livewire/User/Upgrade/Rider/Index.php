@@ -9,11 +9,11 @@ use Livewire\Attributes\Layout;
 #[layout('layouts.user.dash.userDash')]
 class Index extends Component
 {
-    public $rider, $nav = 'Active';
+    public $rider = [], $nav = 'Active';
 
     public function mount()
     {
-        $this->rider = rider::all();
+        $this->rider = auth()->user()->requestsToBeRider()->get();
     }
 
     public function render()

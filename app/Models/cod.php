@@ -81,6 +81,10 @@ class cod extends Model
 
 
     // relationships, accessors, or other model methods can be added here as needed
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'id');
+    }
     public function order()
     {
         return $this->belongsTo(Order::class);
