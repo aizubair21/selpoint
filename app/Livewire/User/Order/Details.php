@@ -17,7 +17,8 @@ class Details extends Component
 
     public function mount()
     {
-        $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user'])->find($this->id);
+        $this->orders = Order::findOrFail($this->id);
+        // dd($this->orders);
     }
 
     public function render()
