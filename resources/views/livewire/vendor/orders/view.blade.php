@@ -30,7 +30,7 @@
                     </div>
                     @endif
 
-                    @if ($orders->status == 'Pending' && $orders->stauts != 'Confirm')
+                    @if ($orders->status == 'Pending')
                     <x-primary-button @click="$dispatch('open-modal', 'order-accept-modal')">
                         Accept order
                     </x-primary-button>
@@ -297,7 +297,7 @@
                         <th>Product</th>
                         <th>Owner</th>
                         <th>Resel Price</th>
-                        <th>Quantity</th>
+                        <th>Qty</th>
                         <th>Total</th>
                         <th>Attr</th>
                         <th>Sell</th>
@@ -323,25 +323,29 @@
 
                         </td>
                         <td>
-                            {{$item->product?->isResel}}
+                            {{-- {{$item->product?->isResel}} --}}
                             @if ($item->product?->isResel && auth()->user()?->account_type() == 'reseller')
-                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> Vendor </span>
+                            Resel
                             @else
                             <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
                             @endif
 
                             @if ( $item->product?->isResel && auth()->user()?->account_type() == 'reseller')
+
                             @php
                             $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id,
                             'reseller_product_id' => $item->product_id])->first();
+                            // echo($alreadySynced)
                             @endphp
+
                             @if ($alreadySynced && $alreadySynced?->count() > 0)
                             <i @class(['fas', 'fa-link'=> $alreadySynced->status == 'Pending', 'fa-checked-circle' =>
                                 $alreadySynced->status == 'Confirmed'])></i>
                             @else
-                            <x-secondary-button wire:click.prevent="syncOrder({{$item->id}})">
-                                <i class="fas fa-sync"></i>
-                            </x-secondary-button>
+                            <button class="text-xs rounded border p-2" type="button"
+                                wire:click.prevent="syncOrder({{$item->id}})">
+                                <i class="fas fa-angle-right pr-2"></i> Link to Vendor
+                            </button>
                             @endif
                             @endif
                         </td>

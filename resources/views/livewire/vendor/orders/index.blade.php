@@ -3,15 +3,17 @@
     <x-dashboard.page-header>
         Orders
         <br>
-        
-        @if (auth()->user()->active_nav == 'reseller')     
-            <div>
-                <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')" > To Me </x-nav-link>
-                <x-nav-link href="{{route('reseller.resel-order.index')}}" :active="request()->routeIs('reseller.resel-order.*')" > Resel </x-nav-link>
-            </div>
+
+        @if (auth()->user()->active_nav == 'reseller')
+        <div>
+            <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')"> To Me
+            </x-nav-link>
+            <x-nav-link href="{{route('reseller.resel-order.index')}}"
+                :active="request()->routeIs('reseller.resel-order.*')"> Resel </x-nav-link>
+        </div>
 
         @endif
-        
+
     </x-dashboard.page-header>
 
 
@@ -19,7 +21,7 @@
         <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
-                    Orders 
+                    Orders
                 </x-slot>
                 <x-slot name="content">
                     {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account])->count() ?? "0"}}
@@ -30,7 +32,8 @@
                     Pending
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Pending'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' =>
+                    'Pending'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -38,7 +41,8 @@
                     Cancel
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancel'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancel'])->count()
+                    ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -46,7 +50,8 @@
                     Cancel by User
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancelled'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' =>
+                    'Cancelled'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -54,11 +59,12 @@
                     Accepted
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accept'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accept'])->count()
+                    ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
-               
+
             </x-dashboard.overview.div>
         </x-dashboard.overview.section>
 
@@ -66,15 +72,72 @@
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-start items-center space-x-2">
                         <x-secondary-button x-on:click.prevent="$dispatch('open-modal', 'filter-order')">
-                            <i class="fas fa-filter"></i>
+                            <i class="fas fa-filter pr-2"></i> Filter
                         </x-secondary-button>
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <x-secondary-button class="inline-flex items-center ">
+                                    Delivery <i class="fas fa-angle-down ps-2"></i>
+                                </x-secondary-button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                <div class="flex items-center w-full p-2 text-sm">
+                                    <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                        wire:model.live="delivery" value="all"> Not Defined
+                                </div>
+                                <hr />
+                                <div class="flex items-center w-full p-2 text-sm">
+                                    <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                        wire:model.live="delivery" value="cash"> Home Delivery
+                                </div>
+                                <hr />
+                                <div class="flex items-center w-full p-2 text-sm">
+                                    <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                        wire:model.live="delivery" value="courier"> Courier Delivery
+                                </div>
+                                <hr />
+                                <div class="flex items-center w-full p-2 text-sm">
+                                    <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                        wire:model.live="delivery" value="hand"> Hand-to-Hand
+                                </div>
+                            </x-slot>
+                        </x-dropdown>
+
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <x-secondary-button>
+                                    Area <i class="fas fa-angle-down ps-2"></i>
+                                </x-secondary-button>
+                            </x-slot>
+                            <x-slot name="content">
+                                <div class="flex items-center mb-2 rounded-md border p-2 text-sm">
+                                    <input id="home_del" wire:model.live='area' value="all" type="radio" name=""
+                                        class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                    <label for="home_del" class="p-0 m-0"> Both </label>
+                                </div>
+                                <hr />
+                                <div class="flex items-center mb-2 rounded-md border p-2 text-sm">
+                                    <input id="home_del" wire:model.live='area' value="Dhaka" type="radio" name=""
+                                        class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                    <label for="home_del" class="p-0 m-0"> Inside Dhaka </label>
+                                </div>
+                                <hr />
+                                <div class="flex items-center mb-2 rounded-md border p-2 text-sm">
+                                    <input id="home_del" wire:model.live='area' value="Other" type="radio" name=""
+                                        class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                    <label for="home_del" class="p-0 m-0"> Outside of Dhaka </label>
+                                </div>
+                            </x-slot>
+                        </x-dropdown>
                     </div>
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex justify-between">
                         <div>
+                            <x-nav-link href="?nav=All" :active="$nav == 'All'">All </x-nav-link>
                             <x-nav-link href="?nav=Pending" :active="$nav == 'Pending'">Pending </x-nav-link>
                             <x-nav-link href="?nav=Accept" :active="$nav == 'Accept'">Accept</x-nav-link>
                             <x-nav-link href="?nav=Picked" :active="$nav == 'Picked'">Picked</x-nav-link>
@@ -95,7 +158,7 @@
             <x-dashboard.section.inner>
 
                 <x-dashboard.foreach :data="$data">
-                    
+
                     {{$data->links()}}
                     <x-dashboard.table>
                         <thead>
@@ -115,47 +178,87 @@
 
                         <tbody>
                             @foreach ($data as $item)
-                                <tr>
-                                    <td> {{$loop->iteration}} </td>
-                                    <td> 
-                                        <x-nav-link-btn href="{{route('vendor.orders.view', ['order' => $item->id])}}"> view </x-nav-link-btn>    
-                                        <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint </x-nav-link>    
-                                    </td>
-                                    <td> {{$item->id ?? "N/A"}} </td>
-                                   
-                                    <td> 
-                                        {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
-                                    </td>
-                                    
-                                    <td>
-                                        {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping}}</span> 
-                                    </td>
-                                    <td>
-                                        {{$item->status ?? "Pending"}}
-                                    </td>
-                                    <td>
-                                        <div class="text-nowarp">
-                                            <div>
-                                                {{$item->created_at->diffForHumans()}}
-                                            </div>
-                                            <div class="text-xs">
-                                                {{$item->created_at->toFormattedDateString()}}
-                                            </div>
+                            <tr>
+                                <td> {{$loop->iteration}} </td>
+                                <td>
+                                    <x-nav-link href="{{route('vendor.orders.view', ['order' => $item->id])}}"> view
+                                    </x-nav-link>
+                                    <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint
+                                    </x-nav-link>
+                                </td>
+                                <td> {{$item->id ?? "N/A"}} </td>
+
+                                <td>
+                                    {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
+                                </td>
+
+                                <td>
+                                    {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping}}</span>
+                                </td>
+                                <td>
+                                    {{-- {{$item->status ?? "Pending"}} --}}
+                                    {{-- badge --}}
+                                    @if ($item->status == 'Pending')
+                                    <span
+                                        class="text-xs p-1 border rounded-md bg-yellow-200 text-yellow-900">Pending</span>
+                                    @elseif ($item->status == 'Accept')
+                                    <span
+                                        class="text-xs p-1 border rounded-md bg-green-200 text-green-900">Accept</span>
+                                    @elseif ($item->status == 'Picked')
+                                    <span class="text-xs p-1 border rounded-md bg-lime-200 text-lime-900">Picked</span>
+                                    @elseif ($item->status == 'Delivery')
+                                    <span class="text-xs p-1 border rounded-md bg-sky-200 text-sky-900">Delivery</span>
+                                    @elseif ($item->status == 'Delivered')
+                                    <span
+                                        class="text-xs p-1 border rounded-md bg-blue-200 text-blue-900">Delivered</span>
+                                    @elseif ($item->status == 'Confirm')
+                                    <span
+                                        class="text-xs p-1 border rounded-md bg-indigo-200 text-indigo-900">Confirm</span>
+                                    @elseif ($item->status == 'Hold')
+                                    <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Hold</span>
+                                    @elseif ($item->status == 'Cancel')
+                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancel</span>
+                                    @elseif ($item->status == 'Cancelled')
+                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancelled</span>
+                                    @else
+                                    <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Unknown</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="text-nowarp text-xs">
+                                        <div>
+                                            {{$item->created_at->diffForHumans()}}
                                         </div>
-                                    </td>
-                                    <td>
-                                        <p> {{$item->delevery}} </p> 
-                                        <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{ $item->area_condition }}</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs">
-                                            {{$item->number ?? "N/A"}}
-                                        </span>
-                                    </td>
-                                    <th>
-                                        {{ $item->comissionsInfo?->sum('take_comission') }}
-                                    </th>
-                                </tr>
+                                        <div class="text-xs">
+                                            {{$item->created_at->toFormattedDateString()}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex space-x-1">
+                                        <p
+                                            class="text-xs px-1 rounded {{ $item->delevery == 'cash' ? 'bg-green-200' : 'bg-blue-200' }} ">
+                                            {{$item->delevery}}
+                                        </p>
+                                        {{-- <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{
+                                            $item->area_condition }}
+                                        </p> --}}
+                                    </div>
+                                    <p class="text-xs">
+                                        {{$item->location}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <span class="text-xs">
+                                        <div class="text-xs"> {{$item->user?->name}} </div>
+                                        {{$item->number ?? "N/A"}}
+
+                                    </span>
+                                </td>
+                                <th>
+                                    {{ $item->comissionsInfo?->sum('take_comission') }}
+                                </th>
+                            </tr>
                             @endforeach
                         </tbody>
                     </x-dashboard.table>
@@ -168,75 +271,76 @@
     <x-modal name="filter-order" maxWidth="xl">
         <div class="p-2">
             <div>
-                Filter 
+                Filter
             </div>
-            <x-hr/>
-            <div class="md:flex">
+            <x-hr />
+            <div class="md:flex justify-between">
                 <div>
                     <div>
-    
+
                         <div>
                             Delevery Type
                         </div>
                         <div class="px-2">
-                            <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Home" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Home Delebery </label>
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="delivery" value="all"> Not Defined
                             </div>
-                            <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Courier" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Courier Delebery </label>
+                            <hr />
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="delivery" value="cash"> Home
+                                Delivery
                             </div>
-                            <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Shop" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Hand To Hand from shop </label>
+                            <hr />
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="delivery" value="courier"> Courier
+                                Delivery
                             </div>
-                        </div>
-                        
-                    </div>
-        
-                    <div class="mt-2">
-                        <div>
-                            Delevery Area 
-                        </div>
-                        <div class="px-2">
-                            <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Dhaka" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Inside Dhaka </label>
-                            </div>
-                            <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Other" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Outside of Dhaka </label>
+                            <hr />
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="delivery" value="hand">
+                                Hand-to-Hand
                             </div>
                         </div>
+
                     </div>
                 </div>
 
-                <div class="mt-2">
-                
+                <div class="mt-2 w-1/2">
+
                     <div class=" border rounded-md">
                         <div class=" p-2 ">
-                            
-                            <div class="flex items-center p-2 ">
-                                <input id="home_del" value="date" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Date </label>
+
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="create" value="all">All Time
                             </div>
-                            <div class="flex items-center p-2 ">
-                                <input id="home_del" value="between" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
-                                <label for="home_del" class="p-0 m-0"> Date Between </label>
+                            <hr />
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="create" value="day">From First Date
                             </div>
-                            
-                            
+                            <hr />
+                            <div class="flex items-center w-full p-2 text-sm">
+                                <input type="radio" style="width:20px; height:20px" class="mr-2"
+                                    wire:model.live="create" value="between">Between in Range
+                            </div>
+
+
                         </div>
-                        
-                        <div class="flex justify-between items-center p-2 ">
+
+                        <div class="space-y-2 p-2 ">
                             <div>
-                                Start
-                                <input class="rounded-md" type="date" name="start_date" id="">
+                                First Date
+                                <input wire:model.live='start_date' class="rounded-md" type="date" name="start_date"
+                                    id="">
                             </div>
                             <div>
-                                End
-                                <input class="rounded-md" type="date" name="end_date" id="">
+                                Last Date
+                                <input wire:model.live='end_date' class="rounded-md" type="date" name="end_date" id="">
                             </div>
                         </div>
                     </div>

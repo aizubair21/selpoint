@@ -91,7 +91,7 @@
 
 
         <div x-loading.disabled x-transition class="pb-4"
-            style="display: grid; grid-template-columns:repeat(auto-fit, minmax(100px, 1fr)); grid-gap:10px">
+            style="display: grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); grid-gap:10px">
             @foreach ($categories as $item)
             @if ($item->slug != 'default-category')
             <div class="relative text-center rounded-md "

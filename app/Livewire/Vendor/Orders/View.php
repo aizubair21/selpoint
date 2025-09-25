@@ -78,8 +78,9 @@ class View extends Component
             }
         }
 
-        if ($this->orders->status == 'Pending' && auth()->user()->abailCoin() < $this->orders->comissionsInfo->sum('take_comission')) {
-            $this->dispatch('warning', "You Don't have required balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission') . " balance to procces the order ");
+        $ensureBalance = $this->orders->comissionsInfo->sum('take_comission') + $this->orders->resellerProfit?->sum('profit');
+        if ($this->orders->status == 'Pending' && auth()->user()->abailCoin() < $ensureBalance) {
+            $this->dispatch('info', "You Don't have required balance to accept the order. You need ensure minimum" . $ensureBalance . " balance to procces the order ");
             return;
         }
 

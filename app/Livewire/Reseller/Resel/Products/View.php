@@ -51,7 +51,7 @@ class View extends Component
         $this->isReselWithDiscountPrice = $this->reselDiscountPrice ? true : false;
         $this->reselDiscountPrice = $this->isReselWithDiscountPrice ? $this->reselDiscountPrice : null;
         // clone product basic info
-        dd('ok');
+        // dd('ok');
         $isAlreadycloned = Reseller_resel_product::where(['parent_id' => $this->products->id, 'user_id' => auth()->user()->id])->exists();
         if (!$isAlreadycloned) {
             # code...
@@ -102,7 +102,7 @@ class View extends Component
 
                 // $this->redirectIntended('reseller.products.edit', true);
                 $this->dispatch('close-modal', 'confirm-resel');
-                $this->dispatch('success', 'Successfully cloned !');
+                $this->dispatch('success', 'Successfully cloned! Product added to your list');
             } else {
                 $this->dispatch('error', 'Price and Category must be defined !');
             }
