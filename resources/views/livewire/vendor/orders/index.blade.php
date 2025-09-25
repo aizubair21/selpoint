@@ -9,7 +9,7 @@
             <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')"> To Me
             </x-nav-link>
             <x-nav-link href="{{route('reseller.resel-order.index')}}"
-                :active="request()->routeIs('reseller.resel-order.*')"> Resel </x-nav-link>
+                :active="request()->routeIs('reseller.resel-order.*')"> Resel Order</x-nav-link>
         </div>
 
         @endif
