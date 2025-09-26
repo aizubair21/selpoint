@@ -106,6 +106,7 @@
                                 <th> </th>
                                 <th> ID </th>
                                 <th> Shop </th>
+                                <th> Sync</th>
                                 <th> Total </th>
                                 <th> Profit </th>
                                 <th> Shipping </th>
@@ -120,13 +121,37 @@
 
                             <tr>
                                 <td> {{$loop->iteration}} </td>
-                                <td> {{$item->id}} </td>
+                                <td>
+                                    {{$item->id}}
+
+                                </td>
                                 <td>
                                     <x-nav-link-btn
                                         href="{{route('shops', ['get' => $item->seller->vendorShop()->id, 'slug'=>$item->seller->vendorShop()->shop_name_en ?? 'not_found'])}}">
                                         {{$item->seller->vendorShop()->shop_name_en ?? ''}}
                                     </x-nav-link-btn>
                                     {{$item->seller->phone ?? ''}}
+                                </td>
+                                <td>
+                                    @php
+                                    $orderSynced = App\Models\syncOrder::where(['reseller_order_id' =>
+                                    $item->id])->first();
+                                    @endphp
+                                    <div>
+                                        @if ($orderSynced)
+                                        <div class="px-2 bg-gray-200 rounded shadow flex">
+                                            {{$orderSynced->user_order_id}}
+                                            /
+                                            {{$orderSynced->user_cart_order_id}}
+                                        </div>
+                                        <x-nav-link
+                                            href="{{route('vendor.orders.view', ['order' => $orderSynced->user_order_id])}}">
+                                            view
+                                        </x-nav-link>
+                                        @else
+                                        <div class="px-2 rounded bg-indigo-900 text-white">Purchase</div>
+                                        @endif
+                                    </div>
                                 </td>
                                 {{-- <td>
 

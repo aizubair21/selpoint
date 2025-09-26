@@ -339,8 +339,13 @@
                             @endphp
 
                             @if ($alreadySynced && $alreadySynced?->count() > 0)
-                            <i @class(['fas', 'fa-link'=> $alreadySynced->status == 'Pending', 'fa-checked-circle' =>
-                                $alreadySynced->status == 'Confirmed'])></i>
+                            <x-nav-link
+                                href="{{route('reseller.order.view', ['order' => $alreadySynced->reseller_order_id])}}">
+                                <i @class(['fas', 'fa-link'=> $alreadySynced->status == 'Pending', 'fa-checked-circle'
+                                    =>
+                                    $alreadySynced->status == 'Confirmed'])></i>
+                                view
+                            </x-nav-link>
                             @else
                             <button class="text-xs rounded border p-2" type="button"
                                 wire:click.prevent="syncOrder({{$item->id}})">

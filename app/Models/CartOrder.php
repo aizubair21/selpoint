@@ -32,4 +32,14 @@ class CartOrder extends Model
     {
         return $this->belongsTo(order::class);
     }
+
+    /**
+     * order may sync
+     * when reseller get a resel product order
+     * reseller re-order it to the vendor
+     */
+    public function syncDetails()
+    {
+        return $this->hasOne(syncOrder::class, 'user_cart_order_id', 'id');
+    }
 }

@@ -185,4 +185,15 @@ class Order extends Model
             return $this->belongsTo(vendor::class, 'belongs_to', 'user_id');
         }
     }
+
+
+    /**
+     * order may sync
+     * when reseller get a resel product order
+     * reseller re-order it to the vendor
+     */
+    public function syncDetails()
+    {
+        return $this->hasOne(syncOrder::class, 'reseller_order_id', 'id');
+    }
 }
