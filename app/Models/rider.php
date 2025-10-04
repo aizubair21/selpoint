@@ -41,6 +41,12 @@ class rider extends Model
         'village',
 
         'status',
+
+        // rider vehicle info
+        'vehicle_type', // e.g. Bike, Car
+        'vehicle_number', // e.g. Dhaka Metro 1234
+        'vehicle_model', // e.g. Yamaha YZF-R3
+        'vehicle_color', // e.g. Red
     ];
 
     // hidden 
@@ -101,6 +107,27 @@ class rider extends Model
     }
 
     protected function village(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value), // uppercase the world
+        );
+    }
+
+    protected function vehicle_type(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value), // uppercase the world
+        );
+    }
+
+    protected function vehicle_model(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title($value), // uppercase the world
+        );
+    }
+
+    protected function vehicle_color(): Attribute
     {
         return Attribute::make(
             set: fn($value) => Str::title($value), // uppercase the world

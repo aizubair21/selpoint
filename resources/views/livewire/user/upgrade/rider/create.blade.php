@@ -54,31 +54,41 @@
 
 
                     <div class="p-2 flex-1">
-                        <x-input-file label="Please select the area where you will pick up and deliver parcelsea"
-                            name="area_condition" error="area_condition">
+                        <div class="p-2 rounded bg-gray-50"> 
 
-                            <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0"
-                                    value="dhaka" wire:model.live="area_condition" id="area_condition_1" />
-                                <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
-                            </div>
-                            <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other"
-                                    wire:model.live="area_condition" id="area_condition_2" />
-                                <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
-                            </div>
-                        </x-input-file>
-                        <x-hr />
-                        <div wire:transition>
-                            <p class="text-xs">
-                                Please specify your targeted district or upazila. In which areas you will provide
-                                service. Area could your entire district or a upazila.
-                            </p>
-                            <x-input-file label="Targeted Area" name="targeted_area" error="targeted_area">
-                                <x-text-input wire:model.live="targeted_area" placeholder="Write Your Area" />
+                            <x-input-file label="Area Condition" name="area_condition" error="area_condition">
+                               
+                                <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
+                                    <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="area_condition" id="area_condition_1" />
+                                    <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
+                                </div>
+                                <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
+                                    <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="area_condition" id="area_condition_2" />
+                                    <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
+                                </div>
                             </x-input-file>
+                            <x-hr/>
+                            <div>
+                                <x-input-file label="Please select the area where you will pick up and deliver parcelsea" name="targeted_area" error="targeted_area">
+                                    <x-text-input wire:model.live="targeted_area" placeholder="e.g. Uttara" />
+                                </x-input-file>
+                                <x-hr/>
+                            </div>
                         </div>
-
+                        
+                        {{-- rider vehicle info  --}}
+                        <x-input-file label="Vehicle Type" name="vehicle_type" error="vehicle_type">
+                            <x-text-input wire:model.live="vehicle_type" placeholder="e.g. Bike, Car" />
+                        </x-input-file>
+                        <x-input-file label="Vehicle Number" name="vehicle_number" error="vehicle_number">
+                            <x-text-input wire:model.live="vehicle_number" placeholder="e.g. Dhaka Metro 1234" />
+                        </x-input-file>
+                        <x-input-file label="Vehicle Model" name="vehicle_model" error="vehicle_model">
+                            <x-text-input wire:model.live="vehicle_model" placeholder="e.g. Yamaha YZF-R3" />
+                        </x-input-file>
+                        <x-input-file label="Vehicle Color" name="vehicle_color" error="vehicle_color">
+                            <x-text-input wire:model.live="vehicle_color" placeholder="e.g. Red" />
+                        </x-input-file>
                     </div>
 
                 </div>

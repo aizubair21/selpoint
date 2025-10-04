@@ -25,7 +25,7 @@ class Create extends Component
     }
 
 
-    public $phone, $otherPhone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area;
+    public $phone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area, $vehicle_type, $vehicle_number, $vehicle_model, $vehicle_color;
 
     public function store()
     {
@@ -57,7 +57,10 @@ class Create extends Component
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
             'targeted_area' => $this->targeted_area,
-            'doc_1' => $this->otherPhone,
+            'vehicle_type' => $this->vehicle_type,
+            'vehicle_number' => $this->vehicle_number,
+            'vehicle_model' => $this->vehicle_model,
+            'vehicle_color' => $this->vehicle_color,
 
             'country' => auth()->user()->country ?? 'Bangladesh',
             'district' => auth()->user()?->city ?? 'Dhaka',
