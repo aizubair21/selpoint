@@ -215,7 +215,7 @@ class ProductComissionController extends Controller
                 logger("ProductComissionsTake Done");
             } catch (\Throwable $th) {
                 // throw $th;
-                logger("ProductComissionsTake $th");
+                logger("ProductComissionsTakeError : $th");
             }
         }
     }
@@ -224,7 +224,7 @@ class ProductComissionController extends Controller
     {
         $order = Order::findOrFail($id);
         if ($order) {
-            $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get();// pending
+            $tc = TakeComissions::query()->where(['order_id' => $id])->pending()->get(); // pending
 
             if ($tc) {
                 foreach ($tc as $item) {

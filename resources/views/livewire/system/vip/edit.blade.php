@@ -3,7 +3,8 @@
     <x-dashboard.page-header>
         Edit VIP Users
         <br>
-        <x-nav-link href="{{route('system.vip.users')}}"> Index <i class="fa-solid fa-arrow-right ms-2"></i> </x-nav-link>
+        <x-nav-link href="{{route('system.vip.users')}}"> Index <i class="fa-solid fa-arrow-right ms-2"></i>
+        </x-nav-link>
     </x-dashboard.page-header>
 
 
@@ -13,7 +14,10 @@
                 <x-slot name="title">
                     <div class="flex justify-between items-center text-wrap">
                         <div class="flex items-center">
-                            <x-nav-link href="{{route('system.users.edit', ['id' => $vipData->user_id])}}">{{$vipData->name ?? "N/A"}}</x-nav-link> <div class="px-2"></div>  <div class="text-xs">{{$vipData->created_at?->toFormattedDateString() }}</div> 
+                            <x-nav-link href="{{route('system.users.edit', ['id' => $vipData->user_id])}}">
+                                {{$vipData->name ?? "N/A"}}</x-nav-link>
+                            <div class="px-2"></div>
+                            <div class="text-xs">{{$vipData->created_at?->toFormattedDateString() }}</div>
                         </div>
                         <div class="text-sm px-2 py-1 border rounded shadow bg-slate-900 text-white">
                             {{$vipData->package?->name ?? "N/A"}}
@@ -22,15 +26,44 @@
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex text-sm ">
-                        <div wire:click="updateStatusToActive()" @class(["px-2 rounded cursor-pointer", "bg-indigo-800 text-white text-bold" => $vipData->status && !$vipData->deleted_at])>Active</div>
-                        <div wire:click="updateStatusToPending()" @class(["px-2 rounded cursor-pointer space-x-2", "bg-indigo-800 text-white text-bold" => !$vipData->status && !$vipData->deleted_at])>Pending</div>
-                        <div wire:click="updateStatusToReject()" @class(["px-2 rounded cursor-pointer", "bg-indigo-800 text-white text-bold" => $vipData->deleted_at])>Trash</div>
+                        <div wire:click="updateStatusToActive()" @class(["px-2 rounded
+                            cursor-pointer", "bg-indigo-800 text-white text-bold"=> $vipData->status &&
+                            !$vipData->deleted_at])>Active</div>
+                        <div wire:click="updateStatusToPending()" @class(["px-2 rounded cursor-pointer
+                            space-x-2", "bg-indigo-800 text-white text-bold"=> !$vipData->status &&
+                            !$vipData->deleted_at])>Pending</div>
+                        <div wire:click="updateStatusToReject()" @class(["px-2 rounded
+                            cursor-pointer", "bg-indigo-800 text-white text-bold"=> $vipData->deleted_at])>Trash</div>
                     </div>
                 </x-slot>
             </x-dashboard.section.header>
+            <x-dashboard.section.inner>
+
+                @if($vipData->valid_till < now() && $vipData->status)
+
+                    <div class="px-1 rounded inline-flex bg-yellow-200 text-xs">
+                        Expired
+                    </div>
+
+                    @endif
+            </x-dashboard.section.inner>
+            <hr />
+            <x-dashboard.section.inner>
+                <div class="flex justify-end items-center space-x-2">
+                    {{-- button for re-calculate ref comission --}}
+                    <x-secondary-button wire:click="reCalculateRefComission">
+                        Re-Calculate Comission
+                    </x-secondary-button>
+
+                    {{-- button for push back ref comission --}}
+                    <x-secondary-button wire:click="pushBackRefComission">
+                        Push Back Comission
+                    </x-secondary-button>
+                </div>
+            </x-dashboard.section.inner>
         </x-dashboard.section>
 
-        {{-- user payment details  --}}
+        {{-- user payment details --}}
         <x-dashboard.section x-data={up : false}>
             <x-dashboard.section.header>
                 <x-slot name="title">
@@ -42,8 +75,8 @@
             </x-dashboard.section.header>
 
             <div x:show="up">
-                <x-dashboard.section.inner >
-    
+                <x-dashboard.section.inner>
+
                     <div class="flex flex-wrap">
                         <div class="w-md py-2 border-b">
                             <div class="text-sm">
@@ -79,12 +112,40 @@
                         </div>
                         <div class="w-md py-2 border-b">
                             <div class="text-sm">
-                                Data
+                                Date
                             </div>
                             <div class="text-md">
-                                 {{$vipData->created_at?->toFormattedDateString()}}
+                                {{$vipData->created_at?->toFormattedDateString()}}
                             </div>
                         </div>
+                        <div class="w-md py-2 border-b">
+                            <div class="text-sm">
+                                Comission
+                            </div>
+                            <div class="text-md">
+                                {{$vipData->comission ?? "N/A"}} TK
+                            </div>
+                        </div>
+                        <div class="w-md py-2 border-b">
+
+                            <div class="text-sm">
+                                Reffer By
+                            </div>
+                            <div class="text-md">
+                                {{$vipData->referBy->name ?? "N/A"}} -
+                                {{$vipData->referBy->email ?? "N/A"}}
+                            </div>
+                        </div>
+                        <div class="w-md py-2 border-b">
+
+                            <div class="text-sm">
+                                Ref Code
+                            </div>
+                            <div class="text-md">
+                                {{$vipData->reference ?? "N/A"}}
+                            </div>
+                        </div>
+
                         {{-- <table class="w-full">
                             <thead class="text-left">
                                 <th class="">Payment Method</th>
@@ -115,16 +176,17 @@
                         </table> --}}
                     </div>
                 </x-dashboard.section.inner>
-           
-                <div class="flex">
-                    <img class="border rounded" src="{{{asset('storage/'. $vipData->nid_front ?? "")}}}" width="150px" height="80px" alt="">
-                    <img class="border rounded" src="{{{asset('storage/'. $vipData->nid_back ?? "")}}}" width="150px" height="80px" alt="">
+
+                <div class="flex space-x-3 mt-2">
+                    <img class="border rounded" src="{{{asset('storage/'. $vipData->nid_front ?? "")}}}" width="300px"
+                        height="80px" alt="">
+                    <img class="border rounded" src="{{{asset('storage/'. $vipData->nid_back ?? "")}}}" width="300px"
+                        height="80px" alt="">
                 </div>
             </div>
         </x-dashboard.section>
 
-
-        {{-- package udpate  --}}
+        {{-- package udpate --}}
         <div class=" md:flex justify-start items-start">
             <x-dashboard.section>
                 <x-dashboard.section.header>
@@ -132,25 +194,27 @@
                         User VIP Package Update
                     </x-slot>
                     <x-slot name="content">
-                        currently user belongs to <strong>{{$vipData->package?->name ?? "N/A" }}</strong> package. Migrate to other package.
+                        currently user belongs to <strong>{{$vipData->package?->name ?? "N/A" }}</strong> package.
+                        Migrate to other package.
                     </x-slot>
                 </x-dashboard.section.header>
                 <x-dashboard.section.inner>
                     @foreach ($vips as $item)
-                        <div class="flex items-center mb-3 p-2 border rounded">
-                            <input type="radio" wire:model="package" value="{{$item->id}}" style="width:20px; height:20px" class="rounded mr-3" id="package_{{$item->id}}">
-                            <div class="flex items-center">
-                                <x-input-label :value="$item->name" />
-                                <i class="fa-solid fa-arrow-right px-2"></i>
-                                <div >
-                                    {{$item->price}} TK
-                                </div>
+                    <div class="flex items-center mb-3 p-2 border rounded">
+                        <input type="radio" wire:model="package" value="{{$item->id}}" style="width:20px; height:20px"
+                            class="rounded mr-3" id="package_{{$item->id}}">
+                        <div class="flex items-center">
+                            <x-input-label :value="$item->name" />
+                            <i class="fa-solid fa-arrow-right px-2"></i>
+                            <div>
+                                {{$item->price}} TK
                             </div>
                         </div>
+                    </div>
                     @endforeach
                     <br>
                     <div class="text-end">
-                        <x-danger-button>Procced to Migrate</x-danger-button>
+                        <x-secondary-button>Procced to Migrate</x-secondary-button>
                     </div>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
@@ -167,32 +231,33 @@
                 <x-dashboard.section.inner>
                     <div class="flex flex-wrap">
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="daily" class="rounded mr-3" id="valid_1">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="daily"
+                                class="rounded mr-3" id="valid_1">
                             <x-input-label value="Daily" />
                         </div>
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="monthly" class="rounded mr-3" id="valid_2">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="monthly"
+                                class="rounded mr-3" id="valid_2">
                             <x-input-label value="Monthly" />
                         </div>
                         <div class="flex items-center m-1 border rounded p-2">
-                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="disabled" class="rounded mr-3" id="valid_3">
+                            <input type="radio" style="width:20px; height:20px" wire:model="task" value="disabled"
+                                class="rounded mr-3" id="valid_3">
                             <x-input-label value="Disabled Task" />
                         </div>
                     </div>
                     <br>
                     <div class="text-end">
-                        <x-danger-button type="button" wire:click.prevent="updateTask">
+                        <x-primary-button type="button" wire:click.prevent="updateTask">
                             Update
-                        </x-danger-button>
+                        </x-primary-button>
                     </div>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
         </div>
 
-        <x-hr/>
-
-        {{-- validation update  --}}
-        <div class="md:flex justify-start items-start">
+        {{-- validation update --}}
+        <div>
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
@@ -202,19 +267,19 @@
                         Update validation time for next 360 days, or your custom days. Give the valid day in input.
                     </x-slot>
                 </x-dashboard.section.header>
-                
-                <x-dashboard.section.inner>
-                    
-                    <div class="p-3 my-2 border-b border-t md:flex flex-col items-start justify-start space-y-2 ">
-                        <div class="p-2 rounded shadow">
-                            Package purchase valid till <strong> {{ \Carbon\Carbon::parse($vipData->valid_till)->toFormattedDateString()}} </strong> ({{\Carbon\Carbon::parse($vipData->valid_till)->diffForHumans()}})
-                        </div>
 
-                        <x-hr/>
+                <x-dashboard.section.inner>
+
+                    <div class="p-3 my-2 w-full bg-red-100 text-red-900 rounded">
+                        <div class="p-2 rounded">
+                            Package will expire on <strong> {{
+                                \Carbon\Carbon::parse($vipData->valid_till)->toFormattedDateString()}} </strong>
+                            ({{\Carbon\Carbon::parse($vipData->valid_till)->diffForHumans()}})
+                        </div>
 
                         <div class="" x-show="new">
                             <x-input-label value="New Valid Days" />
-                            <x-text-input wire:model.live="vlid_days" class="w-full" />
+                            <x-text-input wire:model.live="vlid_days" />
                         </div>
                     </div>
                     <div class="text-end">
@@ -226,7 +291,7 @@
                 </x-dashboard.section.inner>
             </x-dashboard.section>
 
-            @if ($vipData->deleted_at)     
+            @if ($vipData->deleted_at)
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
@@ -239,13 +304,11 @@
 
                 <x-dashboard.section.inner>
                     <x-danger-button wire:click="restore">Restore</x-danger-button>
-                    <x-danger-button  wire:click="delete">Permanently Delete</x-danger-button>
+                    <x-danger-button wire:click="delete">Permanently Delete</x-danger-button>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
             @endif
         </div>
-        
-        <x-hr/>
 
         <x-dashboard.section>
             <x-dashboard.section.header>
@@ -260,16 +323,14 @@
                     user tasks and earning against this packages.
                 </x-slot>
             </x-dashboard.section.header>
-            
+
             <x-dashboard.section.inner>
                 <x-nav-link-btn href="">
                     View All
                 </x-nav-link-btn>
             </x-dashboard.section.inner>
         </x-dashboard.section>
-        
 
 
-        
     </x-dashboard.container>
 </div>

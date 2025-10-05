@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\vip;
 use Illuminate\Support\Facades\Storage;
 
+use function Illuminate\Log\log;
+
 #[layout('layouts.user.dash.userDash')]
 class Checkout extends Component
 {
@@ -50,6 +52,10 @@ class Checkout extends Component
                      * store the request to database with status 0
                      */
                     $validate['status'] = 0;
+                    $validate['name'] = $this->name;
+                    $validate['phone'] = $this->phone;
+                    $validate['payment_by'] = $this->payment_by;
+                    $validate['trx'] = $this->trx;
                     $validate['user_id'] = Auth::id();
                     $validate['package_id'] = $this->package?->id;
 
@@ -57,11 +63,13 @@ class Checkout extends Component
                      * process the image upload
                      * image saved to the $validate array
                      */
+
                     $validate['nid_front'] = $this->handleImageUpload($this->nid_front, 'vips', null);
                     $validate['nid_back'] = $this->handleImageUpload($this->nid_back, 'vip', null);
                     $validate['reference'] = Auth::user()->reference;
                     $validate['comission'] = $this->package?->ref_owner_get_coin;
                     $validate['refer'] = Auth::user()->getReffOwner?->owner?->id;
+                    $validate['task_type'] = $this->task_type;
 
                     // dd($validate);
                     $userPackage = vip::create($validate);
@@ -86,6 +94,7 @@ class Checkout extends Component
                     $this->redirectIntended(route('user.vip.index'), true);
                 } catch (\Throwable $th) {
                     //throw $th;
+                    log($th);
                     $this->dispatch('error', 'Have an error while purchasing, try again later.');
                 }
             }

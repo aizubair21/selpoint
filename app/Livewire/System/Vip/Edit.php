@@ -3,12 +3,15 @@
 namespace App\Livewire\System\Vip;
 
 use App\Models\Packages;
+use App\Models\User;
 use App\Models\user_has_refs;
 use App\Models\vip;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
+
+use function Illuminate\Log\log;
 
 #[layout('layouts.app')]
 class Edit extends Component
@@ -86,15 +89,19 @@ class Edit extends Component
                  *  Reference user get the comission of vip purchase
                  */
 
-                $ref = user_has_refs::query()->where(['ref' => $vipUser?->reference])->first();
+
+                // $ref = user_has_refs::query()->where(['ref' => $vipUser?->reference])->first();
+                $ref = User::find($this->vipData->refer);
                 // dd($ref->owner);
-                if ($vipUser && $ref && ($this->vipData?->created_at == $this->vipData->updated_at)) {
-                    $ref->owner->coin += $this->vipData->comission ?? 100;
-                    $ref->owner->save();
+                // if ($vipUser && $ref && ($this->vipData?->created_at == $this->vipData->updated_at)) {
+                if ($vipUser && $ref) {
+                    $ref->coin += $this->vipData->comission ?? 100;
+                    $ref->save();
                 }
             }
         } catch (\Throwable $th) {
             //throw $th;
+            log($th->getMessage());
         }
         $this->dispatch('refresh');
     }
@@ -127,6 +134,46 @@ class Edit extends Component
     {
         $this->vipData->restore();
         $this->dispatch('success', 'Succfully restored !');
+    }
+
+
+    public function reCalculateRefComission()
+    {
+        // check if the vip has refer
+        if ($this->vipData->refer) {
+            $refUser = User::find($this->vipData->refer);
+            if ($refUser) {
+                // add the comission to the refer user
+                $refUser->coin += $this->vipData->comission ?? 100;
+                $refUser->save();
+                $this->dispatch('success', 'Comission added to refer user !');
+            } else {
+                $this->dispatch('error', 'Refer user not found !');
+            }
+        } else {
+            $this->dispatch('error', 'No refer associated with this vip !');
+        }
+    }
+
+    public function pushBackRefComission()
+    {
+        // check if the vip has refer
+        if ($this->vipData->refer) {
+            $refUser = User::find($this->vipData->refer);
+            if ($refUser) {
+                // add the comission to the refer user
+                $refUser->coin -= $this->vipData->comission ?? 100;
+                if ($refUser->coin < 0) {
+                    $refUser->coin = 0;
+                }
+                $refUser->save();
+                $this->dispatch('success', 'Comission removed from refer user !');
+            } else {
+                $this->dispatch('error', 'Refer user not found !');
+            }
+        } else {
+            $this->dispatch('error', 'No refer associated with this vip !');
+        }
     }
 
 

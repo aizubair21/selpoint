@@ -23,7 +23,20 @@
 
     {{--
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"> --}}
+    <style>
+        td,
+        th {
+            white-space: nowrap
+        }
 
+        tr:hover {
+            background-color: #f3f4f6
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fafb
+        }
+    </style>
 </head>
 
 <body class="font-sans h-screen antialiased overflow-x-hidden bg-gray-100">
@@ -39,8 +52,8 @@
 
         <!-- Page Heading -->
         <div class="flex px-2 sm:px-6 lg:px-8 ">
-            <div class="w-48 hidden md:block h-auto">
-                <div class="pt-2 pb-3 space-y-1">
+            <div class=" w-[150px] hidden md:block h-auto">
+                <div class="pt-2 pb-3 space-y-1 w-[150px]">
                     {{-- <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                         wire:navigate>
                         {{ __('Dashboard') }}

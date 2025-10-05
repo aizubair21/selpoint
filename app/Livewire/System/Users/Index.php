@@ -28,7 +28,16 @@ class Index extends Component
 
         if (!empty($this->search)) {
             // rider::where('name', 'like', '%' . $this->search . '%')->paginate(20);
-            $users = User::where('name', 'like', '%' . $this->search . "%")->orWhere('id', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->paginate(config('app.paginate'));
+            $users = User::where(function ($query) {
+                $query->whereAny(['name', 'email', 'reference', 'id'], 'like', '%' . $this->search . "%")
+                    ->orWhereHas('subscription', function ($q) {
+                        $q->where('name', 'like', '%' . $this->search . "%");
+                    })
+                    ->orWhereHas('myRef', function ($q) {
+                        $q->where('ref', 'like', '%' . $this->search . "%");
+                    })
+                ;
+            })->orderBy('id', 'desc')->paginate(config('app.paginate'));
         }
         return view('livewire.system.users.index', compact('users'));
     }

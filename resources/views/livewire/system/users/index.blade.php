@@ -10,16 +10,17 @@
                         <x-nav-link href="">Vendor Role</x-nav-link>
                         <x-nav-link href="">Reseller Role</x-nav-link>
                         <x-nav-link href="">Rider Role</x-nav-link> --}}
-                        
+
                     </x-slot>
                     <x-slot name="content">
                         <div class="flex justify-between">
                             <div></div>
                             <div class="flex">
-                                <x-primary-button  class="mx-1">
+                                <x-primary-button class="mx-1">
                                     <i class="fa-solid fa-filter"></i>
                                 </x-primary-button>
-                                <x-text-input wire:model.live="search" type="search" placeholder="search" class="py-1"/>
+                                <x-text-input wire:model.live="search" type="search" placeholder="search"
+                                    class="py-1" />
                             </div>
                         </div>
                     </x-slot>
@@ -28,88 +29,118 @@
                 <x-dashboard.section.inner>
                     {{$users->links()}}
 
-                    <x-dashboard.foreach :data="$users" >
-                        {{-- <div  x-data="{ users: @js($users) }"> --}}
-                        <div>
-                            <x-dashboard.table >
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Ref</th>
-                                        <th>Role</th>
-                                        <th>Permissions</th>
-                                        <th>VIP</th>
-                                        <th>Order</th>
-                                        <th>Wallet</th>
-                                        <th>Created</th>
-                                        <th>A/C</th>
-                                    </tr>
-                                </thead>
-    
-                                <tbody>
-                                   
-                                    @foreach ($users as $key => $user)
+                    <x-dashboard.foreach :data="$users">
+                        {{-- <div x-data="{ users: @js($users) }"> --}}
+                            <div>
+                                <x-dashboard.table>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Ref & Reference</th>
+                                            <th>Role</th>
+                                            <th>Permissions</th>
+                                            <th>VIP</th>
+                                            <th>Order</th>
+                                            <th>Wallet</th>
+                                            <th>Created</th>
+                                            <th>A/C</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        @foreach ($users as $key => $user)
                                         <tr>
                                             <td> {{$loop->iteration}} </td>
                                             <td> {{$user->id ?? "N/A"}} </td>
-                                            <td> 
-                                                {{$user->name ?? "N/A" }} 
+                                            <td>
+                                                {{$user->name ?? "N/A" }}
                                                 <br>
-                                                <b class="text-xs">{{$user  ->email ?? "N/A" }}</b>
+                                                <b class="text-xs">{{$user ->email ?? "N/A" }}</b>
                                             </td>
                                             <td>
-                                                {{$user->myRef->ref ?? "N/A"}} 
+                                                {{$user->myRef->ref ?? "N/A"}}
                                                 <br>
                                                 <span class="px-2 text-xs rounded border">
-                                                    {{$user->reference ?? "Not Found" }} > {{$user->getReffOwner?->owner?->name}}
+                                                    {{$user->reference ?? "Not Found" }} >
+                                                    {{$user->getReffOwner?->owner?->name}}
                                                 </span>
                                             </td>
-                                            <td> 
+                                            <td>
                                                 @php
-                                                    $uroles = $user?->getRoleNames();
+                                                $uroles = $user?->getRoleNames();
                                                 @endphp
                                                 <div class="flex">
-            
+
                                                     @foreach ($uroles as $role)
-                                                        <div class="px-1 rounded border m-1 text-sm">{{$role}}</div>
+                                                    <div class="px-1 rounded border m-1 text-sm">{{$role}}</div>
                                                     @endforeach
                                                 </div>
-            
+
                                             </td>
                                             <td> {{$user->permissions?->count() ?? "Not Found !"}} </td>
-                                            <td> {{$user->vipPurchase?->package?->name ?? "No"}} </td>
-                                            <td> {{count($user->order?? []) ?? "0"}} </td>
+                                            <td>
+                                                @if ($user->subscription)
+
+                                                @if ($user->subscription?->valid_till > now() &&
+                                                $user->subscription->status)
+                                                <div class="px-1 rounded inline-flex bg-green-200 text-xs">
+                                                    {{$user->subscription?->package?->name ?? "N/A"}}
+                                                </div>
+                                                @elseif($user->subscription?->valid_till < now() && $user->
+                                                    subscription->status)
+
+                                                    <div class="px-1 rounded inline-flex bg-yellow-200 text-xs">
+                                                        Expired
+                                                    </div>
+
+                                                    @elseif(!$user->subscription?->status)
+                                                    <div class="px-1 rounded inline-flex bg-blue-200 text-xs">
+                                                        Pending
+                                                    </div>
+                                                    @endif
+
+                                                    @else
+                                                    <div class="px-1 rounded inline-flex bg-red-200 text-xs">NO</div>
+                                                    @endif
+                                            </td>
+                                            <td>
+                                                {{$user->myOrderAsUser()?->count() ?? "0"}}
+                                            </td>
                                             <td> {{$user->coin ?? "0"}} </td>
                                             <td>
                                                 {{$user->created_at?->toFormattedDateString() ?? ""}}
                                             </td>
                                             <td>
                                                 <div class="flex">
-                                                    <x-nav-link href="{{route('system.users.edit', ['id' => $user->id])}}" >                                           
-                                                        Edit
+                                                    <x-nav-link
+                                                        href="{{route('system.users.edit', ['id' => $user->id])}}">
+                                                        <i class="fa-solid fa-pen mr-2"></i> Edit
                                                     </x-nav-link>
-                                                    <x-nav-link-btn>VIEW</x-nav-link-btn>
+                                                    <x-nav-link>
+                                                        <i class="fa-solid fa-eye mr-2"></i> view
+                                                    </x-nav-link>
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </x-dashboard.table>
+                                        @endforeach
+                                    </tbody>
+                                </x-dashboard.table>
 
-                        </div>
+                            </div>
                     </x-dashboard.foreach>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
         </x-dashboard.container>
     </div>
-    
-    
+
+
     @script
-        <script sec="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
-        <script>
-            let table = new DataTable('#myTable');
-        </script>
+    <script sec="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#myTable');
+    </script>
     @endscript
 </div>

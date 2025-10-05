@@ -24,7 +24,7 @@ class Index extends Component
         $this->withdraw = Withdraw::where(['user_id' => Auth::id(), 'status' => 'Pending'])->latest()->get();
         $this->comission = DistributeComissions::where(['user_id' => Auth::id(), 'confirmed' => true])->whereDate('updated_at', today())->sum('amount');
         $this->cut = TakeComissions::where(['user_id' => Auth::id(), 'confirmed' => true])->whereDate('updated_at', today())->sum('take_comission');
-        $this->reffer = vip::where(['reference' => Auth::id()])->sum('reference');
+        $this->reffer = auth()->user()->getMyvipRef()->whereDate('updated_at', today())->sum('comission');
     }
 
     public function render()

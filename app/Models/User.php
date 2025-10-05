@@ -288,6 +288,14 @@ class User extends Authenticatable
     }
 
     /**
+     * get vip reff
+     */
+    public function getMyvipRef()
+    {
+        return $this->hasMany(vip::class, 'refer', 'id');
+    }
+
+    /**
      * @return the referred user
      */
     public function referred()

@@ -20,7 +20,7 @@ new class extends Component
     public $pd, $alreadyLiked = false, $discountPercent, $haveDiscount = false, $resellerOrderId = '', $needToSync = false, $myOrder = '';
 
     #[validate('required')]
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no;
+    public $district, $upozila, $location, $area_condition, $delevery, $quantity = 1, $rprice, $attr = '', $name, $phone, $house_no, $road_no;
 
     public function mount() 
     {
@@ -207,10 +207,10 @@ new class extends Component
             </div> --}}
             <x-hr />
             <div class="flex justify-center items-center text-sm">
-                <x-nav-link-btn class=" text-center"
+                <x-primary-button class=" text-center"
                     x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')"> Purchase <i
-                        class="fas fa-angle-right pl-2"></i> </x-nav-link-b>
-                    {{-- <button>To Cart</button> --}}
+                        class="fas fa-angle-right pl-2"></i> </x-primary-button>
+                {{-- <button>To Cart</button> --}}
             </div>
         </div>
 
@@ -226,11 +226,65 @@ new class extends Component
     </div>
 
     <x-modal name="orderProduct_{{$pd->id}}" maxWidth="md">
-        <div class="p-3 bold border-b">
-            Purchase
+        <div class="p-3 bold border-b flex justify-between items-center">
+            <div>
+                Purchase
+            </div>
+            <div class="bold text-lg">
+                @php
+                $pp = 0;
+                if ($pd->offer_type && $pd->discount) {
+                $pp = $pd->discount;
+                }else{
+                $pp = $pd->price;
+                }
+                @endphp
+                {{$pp ?? "0"}} * {{$this->quantity ?? 1}} = {{($pp ?? 0) * ($this->quantity ?? 1)}} TK
+            </div>
+        </div>
+        <div class="flex items-start justify-start mb-3 p-5 bg-gray-100">
+            <div class="flex">
+                <img src="{{asset('storage/'. $pd->thumbnail)}}" class="w-12 h-12 rounded shadow mr-3" alt="">
+            </div>
+            <div>
+                <div class="text-lg bold">
+                    {{$pd->name ?? "N/A"}}
+                </div>
+                <div class="text-sm">
+                    @if ($pd->offer_type)
+                    <div class="flex items-baseline gap-2">
+                        <div class="bold">
+                            Price : {{$pd->discount ?? "0"}} TK
+                        </div>
+                        <div class="text-xs">
+                            <del>
+                                MRP : {{$pd->price ?? "0"}} TK
+                            </del>
+                        </div>
+                        <div class="text-xs">
+                            @php
+                            $dis = $pd->price - $pd->discount;
+                            @endphp
+                            {{ round(($dis / $pd->price) * 100, 1) ?? 0}}% off
+                        </div>
+                    </div>
+
+                    @else
+                    <div class="bold">
+                        Pirce : {{$pd->price ?? "0"}} TK
+                    </div>
+
+                    @endif
+                    <div class="text-xs">
+                        Available Stock: {{$pd->stock ?? "0"}}
+                    </div>
+                </div>
+            </div>
+
         </div>
         @volt('order')
         <div class="p-5">
+
 
             {{-- <form wire:submit.prevent="takeOrderInfoAndFill" class="bg-gray-100 p-2 rounded">
                 <x-input-field inputClass="w-full" type="number" class="md:flex" label="Order ID"
@@ -242,49 +296,91 @@ new class extends Component
             </form> --}}
 
             <form wire:submit.prevent="order">
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" wire:model.live="name"
-                    name="name" error="name" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer Phone" wire:model.live="phone"
-                    name="phone" error="phone" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer District" wire:model.live="district"
-                    name="district" error="district" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer Upozila" wire:model.live="upozila"
-                    name="upozila" error="upozila" />
-                <x-input-field inputClass="w-full" label="Customer Full Address" name="location"
-                    wire:model.live="location" error="location" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer Road No" name="road_no"
-                    wire:model.live="road_no" error="house_no" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Customer House No" name="house_no"
-                    wire:model.live="house_no" error="house_no" />
-                <x-hr />
-                <div class="text-xs">
-                    Original Price : {{$this->pd->price}}
-                </div>
-                <x-input-field inputClass="w-full" class="md:flex" label="Reseller Price  " wire:model.live="rprice"
-                    name="rprice" error="rprice" />
+                <x-input-field inputClass="w-full" label="Name" wire:model.live="name" name="name" error="name" />
+                <x-input-field inputClass="w-full" label="Phone" wire:model.live="phone" name="phone" error="phone" />
+                <x-input-field inputClass="w-full" label="District" wire:model.live="district" name="district"
+                    error="district" />
+                <x-input-field inputClass="w-full" label="Upozila" wire:model.live="upozila" name="upozila"
+                    error="upozila" />
+                {{--
+                <x-input-field inputClass="w-full" label="Full Address" name="location" wire:model.live="location"
+                    error="location" /> --}}
+                <textarea wire:model.live="" id="full_address" cols="3" class="w-full rounded-md p-2 mb-2"
+                    placeholder="Full Address"></textarea>
+                <x-input-field inputClass="w-full" label="Road No" name="road_no" wire:model.live="road_no"
+                    error="house_no" />
+                <x-input-field inputClass="w-full" label="House No" name="house_no" wire:model.live="house_no"
+                    error="house_no" />
+                <div class="bg-gray-100 p-2 my-2 space-y-2 rounded shadow-lg">
+                    <div class="w-full mb-2">
+                        <div class="text-md">
+                            @if ($pd->offer_type)
+                            <div class="flex items-baseline gap-2">
+                                <div class="bold">
+                                    Price : {{$pd->discount ?? "0"}} TK
+                                </div>
+                                <div class="text-xs">
+                                    <del>
+                                        MRP : {{$pd->price ?? "0"}} TK
+                                    </del>
+                                </div>
+                            </div>
+                            @else
+                            <div class="bold">
+                                Pirce : {{$pd->price ?? "0"}} TK
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    <x-input-field inputClass="w-full py-1" class="md:flex" label="Reseller Price  "
+                        wire:model.live="rprice" name="rprice" error="rprice" />
 
-                <div class="text-xs" wire:show='rprice'>
-                    Profit: <strong> {{$this->rprice - $this->pd->price}} </strong>
+                    <div class="text-xs" wire:show='rprice'>
+                        Profit: <strong> {{$this->rprice - $this->pd->price}} </strong>
+                    </div>
                 </div>
-
-                <x-hr />
+                {{--
                 <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity"
-                    name="quantity" error="quantity" />
-                <x-input-field inputClass="w-full" class="md:flex" label="Product Size/Attribute" wire:model.live="attr"
-                    name="attr" error="attr" />
+                    name="quantity" error="quantity" /> --}}
+                <x-input-file label="Quantity" name="quantity" error="quantity">
+                    {{$this->pd->stock}}
+                    <select wire:model.live="quantity" id="" class="rounded-md py-1 border">
+                        <option value="">Select Quantity</option>
+                        @for ($i = 1; $i <= $this->pd->stock; $i++) <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                    </select>
+                    <div class="text-xs">
+                        @if ($this->pd->stock < 1) Stock Out @else You can order maximum {{$this->pd->stock}} item
+                            @endif
+                    </div>
+                </x-input-file>
+
+                <x-input-file inputClass="w-full" class="md:flex" label="Product Size/Attribute" name="attr"
+                    error="attr">
+                    <select wire:model.live="attr" id="product_attr" class="rounded-md py-1 border">
+                        <option value="">Select Size/Attribute</option>
+                        @if ($this->pd->attr)
+                        @foreach ($this->pd->attr->value as $attr)
+                        <option value="{{$attr}}">{{$attr}}</option>
+                        @endforeach
+                        @else
+                        <option value="N/A">N/A</option>
+                        @endif
+                    </select>
+                </x-input-file>
                 <x-hr />
                 <x-input-file label="Area Condition" error='area_condition'>
-                    <select wire:model.live="area_condition" id="">
+                    <select wire:model.live="area_condition" id="" class="rounded py-1">
                         <option value="">Select Area</option>
                         <option value="Dhaka">Inside Dhaka</option>
                         <option value="Other">Out side of Dhaka</option>
                     </select>
                 </x-input-file>
-                <x-input-file label="Delevery Method" name="delevery" error="delevery">
-                    <select wire:model.live="delevery" id="">
-                        <option value="">Select Shipping Type</option>
+                <x-input-file label="Shipping " name="delevery" error="delevery">
+                    <select wire:model.live="delevery" id="" class="rounded py-1">
+                        <option value=""> Shipping Type</option>
                         <option value="Courier">Courier</option>
-                        <option value="Home">Home Delevery</option>
+                        <option value="Home">Home Deli`very</option>
                     </select>
                 </x-input-file>
                 <x-primary-button>Order</x-primary-button>

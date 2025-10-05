@@ -15,7 +15,8 @@ class Reffer extends Component
     use WithPagination;
     public function render()
     {
-        $refs = vip::where(['reference' => Auth::user()->reference])->paginate(config('app.pagination'));
+        $refs = auth()->user()->getMyvipRef;
+        // dd(auth()->user()->getMyvipRef);
         return view('livewire.user.wallet.reffer', compact('refs'));
     }
 }

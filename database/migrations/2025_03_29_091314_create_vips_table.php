@@ -26,6 +26,10 @@ return new class extends Migration
             $table->text('valid_till')->nullable();
             $table->text('valid_from')->nullable();
             $table->string('task_type')->nullable()->default('daily');
+            $table->string('reference', 100)->nullable()->default('REF101U');
+            $table->string('comission', 100)->nullable()->default(100);
+            $table->string('refer')->nullable();
+            
             $table->softDeletes();
             $table->timestamps();
         });
