@@ -30,7 +30,7 @@ class Index extends Component
             // rider::where('name', 'like', '%' . $this->search . '%')->paginate(20);
             $users = User::where(function ($query) {
                 $query->whereAny(['name', 'email', 'reference', 'id'], 'like', '%' . $this->search . "%")
-                    ->orWhereHas('subscription', function ($q) {
+                    ->orWhereHas('subscription.package', function ($q) {
                         $q->where('name', 'like', '%' . $this->search . "%");
                     })
                     ->orWhereHas('myRef', function ($q) {
