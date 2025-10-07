@@ -14,7 +14,7 @@
         <div class=""
             style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
             @foreach($topSales as $product)
-            <x-client.product-cart :$product :key="$product->id" />
+            @livewire('pages.product-cart', ['product' => $product], key($product->id))
             @endforeach
         </div>
         @endif
