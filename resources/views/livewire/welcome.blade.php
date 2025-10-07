@@ -136,10 +136,10 @@
 
             </div>
 
-            @livewire('pages.topSales')
-
-            @livewire('pages.RecomendedProducts')
         </div>
+        @livewire('pages.topSales')
+
+        @livewire('pages.RecomendedProducts')
 
 </div>
 

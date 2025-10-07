@@ -50,16 +50,16 @@ new class extends Component
 
     <div class="lg:flex justify-between item-start p-2">
         <!-- card left -->
-        <div class="bg-white p-3 rounded" style="width:100%; max-width:600px">
-            <div class="img-display sm:flex sm:justify-start items-start lg:block rounded" style="width:100%">
+        <div class="bg-white p-3 rounded" style="width:100%; max-width:400px">
+            <div class="img-display sm:flex sm:justify-start items-start lg:block rounded">
                 <div class="img-showcase" style="">
-                    <img id="preview" class="p-2 rounded"
-                        style="width: 100%; object-fit:contain; max-width:600px; height:300px" height="400"
+                    <img id="preview" class="p-2 rounded-md shadow-lg"
+                        style="width: 100%; object-fit:contain; max-width:400px;" height="400"
                         src="{{ asset('storage/' . $product?->thumbnail) }}" alt="image">
                 </div>
 
                 @if ($product->showcase)
-                <div class="flex items-center md:block  lg:flex flex-wrap">
+                <div class="flex items-center md:block lg:flex flex-wrap">
                     <button class="p-1 rounded mb-1">
                         <img class=" border p-1 rounded" onclick="previewImage(this)"
                             src="{{asset('storage/'. $product?->thumbnail)}}" width="45px" height="45px" alt="">
@@ -89,7 +89,7 @@ new class extends Component
                     </strong>
                 </div>
                 <div style="font-size: 28px; font-weight:bold;" class="capitalize">{{$product->title}}</div>
-                {{-- <div class="flex justify-between items-center py-2" style="font-size: 14px">
+                <div class="flex justify-between items-center py-2" style="font-size: 14px">
 
                     <div class="flex items-center">
                         <i class="text_primary fas fa-star"></i>
@@ -107,7 +107,7 @@ new class extends Component
                         <div>save for later</div>
                     </div>
 
-                </div> --}}
+                </div>
 
 
             </div>
@@ -188,16 +188,16 @@ new class extends Component
             </div>
             <x-hr />
 
-            <div class="purchase-info flex justify-start items-center w-full">
-                <x-nav-link-btn wire:navigate class="mr-2 rounded px-3 py-1 text-center"
+            <div class="purchase-info flex justify-start items-center w-full space-x-2">
+                <x-primary-button wire:navigate
                     href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
-                    <i class="fas fa-arrow-right mx-2"></i>Buy Now
-                </x-nav-link-btn>
+                    Buy Now<i class="fas fa-arrow-right ms-2"></i>
+                </x-primary-button>
 
                 @volt('cartAdd')
-                <x-primary-button wire:click="addToCart" type="button" class="option1">
+                <x-secondary-button wire:click="addToCart" type="button" class="option1">
                     <i class="fas fa-cart-plus"></i> <span class="hidden md:block"></span>
-                </x-primary-button>
+                </x-secondary-button>
                 @endvolt
 
             </div>
@@ -250,7 +250,7 @@ new class extends Component
         @endif
     </div>
 
-    <div class="flex flex-wrap items-center p-3">
+    {{-- <div class="flex flex-wrap items-center p-3">
         @if ($product->cod)
         <div class="flex items-center p-2 w-full">
             <i class="fas fa-check-circle pr-2 m-0 w-6 h-6"></i>
@@ -278,7 +278,7 @@ new class extends Component
         </div>
         <x-hr />
         @endif
-    </div>
+    </div> --}}
 
     @if (isset($relatedProduct))
     <hr>

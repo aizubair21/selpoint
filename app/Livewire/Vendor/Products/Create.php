@@ -20,7 +20,7 @@ class Create extends Component
     use HandleImageUpload, WithFileUploads;
 
     #[Validate]
-    public $products = [], $thumb, $categories, $attr = [];
+    public $products = [], $thumb, $categories, $attrName, $sttrValue;
     public $belongs_to, $shop, $ableToCreate = true, $meta = ['meta_thumbnail' => '', 'meta_title' => '', 'keyword' => '', 'meta_tags' => '', 'meta_description' => ''];
 
     protected function rules()
@@ -100,7 +100,7 @@ class Create extends Component
                 'belongs_to_type' => $this->belongs_to,
                 'country' => Auth::user()->country ?? 'Bangladesh',
                 'state' => Auth::user()->city ?? null,
-                
+
                 'meta_title' => $this->meta['meta_title'],
                 'meta_description' => $this->meta['meta_description'],
                 'meta_tags' => $this->meta['meta_tags'],
