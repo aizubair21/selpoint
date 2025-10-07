@@ -8,12 +8,12 @@ use Livewire\Component;
 
 class TopSales extends Component
 {
-    public $topSales = [];
+    public $topSales;
 
     public function mount()
     {
-        $ids = productSalesIndex::query()->orderBy('total_sales')->limit(20)->get('id')->pluck('id');
-        $this->topSales = Product::whereIn('id', $ids)->get();
+        $this->topSales = productSalesIndex::query()->orderBy('total_sales')->limit(20)->get();
+        // $this->topSales = Product::whereIn('id', $ids)->get();
     }
 
     public function render()

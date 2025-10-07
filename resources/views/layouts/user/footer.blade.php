@@ -2,9 +2,10 @@
 
     <footer>
         <x-dashboard.container>
-            <div class="" style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap-20">
+            <div class="justify-between"
+                style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap-10">
 
-                <div class=" py-4">
+                <div class=" py-4 mb-4">
                     <div class="w-full">
                         <div class="logo_footer">
                             <a wire:navigate href="/" class="">
@@ -27,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="mb-4">
                     <div class=" py-4">
                         <div class="text-lg mb-3 bold">Menu</div>
                         <x-nav-link class="py-1 mb-1 d-block" href="/">Home</x-nav-link>
@@ -38,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="mb-4">
                     <div class=" py-4">
                         <div class="text-lg mb-3 bold">Account</div>
                         <x-nav-link class="py-1 mb-1 d-block" href="{{route('login')}}">Login</x-nav-link>
@@ -47,7 +48,7 @@
                     </div>
                 </div>
 
-                <div class="">
+                <div class="mb-4">
                     <div class=" py-4">
                         <div class="text-lg mb-3 bold">Links</div>
                         <x-nav-link class="py-1 mb-1 d-block" title="earn with gorom bazar" href="/page/earn">Earn
@@ -63,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="text-center">
+                <div class="mb-4">
                     <div class=" py-4 w-100">
 
                         <x-nav-link class="d-block mb-2 p-2 d-inline-block rounded text_secondary"
