@@ -23,7 +23,7 @@ class Slider extends Component
 
     #[validate('required')]
     public $sliderName;
-    public $sliderImage, $sliderPlacement = 'web', $status = true, $sler = '', $slides = [], $ss, $updateable = [];
+    public $sliderImage, $sliderPlacement = 'web', $status = true, $sler = '', $slides = [], $ss, $updateable = [], $background_color;
 
 
     public function mount()
@@ -66,6 +66,7 @@ class Slider extends Component
                     'name' => $this->sliderName,
                     'placement' => $this->sliderPlacement,
                     'image' => $this->handleImageUpload($this->sliderImage, 'slider', null),
+                    'backgrond_color' => $this->background_color,
                     'status' => $this->status,
                 ]);
             });

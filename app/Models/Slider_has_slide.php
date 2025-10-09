@@ -19,6 +19,9 @@ class Slider_has_slide extends Model
         'action_type',
         'action_url',
         'action_target',
+        'title_color',
+        'des_color',
+        'action_text',
     ];
 
 

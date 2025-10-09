@@ -1,7 +1,8 @@
 <div>
 
     @assets
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"> --}}
+    {{--
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"> --}}
     @endassets
     <style>
         .body {
@@ -69,9 +70,8 @@
             z-index: 1;
             width: 100%;
             max-width: 400px;
-            color: #000000;
             /* background: #002c3e09; */
-            background: #ffffff70;
+            background-color: #ffffffe8;
             padding: 30px;
             margin-left: 40px;
             opacity: 0;
@@ -84,13 +84,13 @@
         }
 
         .slide.active .description {
-        opacity: 1;
-        transform: translateX(0);
+            opacity: 1;
+            transform: translateX(0);
         }
-        
+
         .description h1 {
-        margin: 0 0 10px;
-        font-size: 28px;
+            margin: 0 0 10px;
+            font-size: 28px;
         }
 
         .description p {
@@ -114,13 +114,13 @@
         } */
 
         .dots {
-        position: absolute;
-        bottom: 15px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 8px;
-        z-index: 9;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 9;
         }
 
         .dot {
@@ -131,41 +131,44 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        
+
         .dot.active {
             background-color: #000;
         }
+
         .slide.exit {
-        opacity: 0;
-        transform: scale(0.95);
-        visibility: hidden;
-        z-index: 1;
+            opacity: 0;
+            transform: scale(0.95);
+            visibility: hidden;
+            z-index: 1;
         }
     </style>
 
     @if ($slides?->count())
-        <div class="body">
+    <div class="body">
 
-            <div class="slider">
-                <div class="slides">
-                    @foreach ($slides as $key => $item)      
-                    <div class="slide {{ $key == 0 ? 'active' : '' }}">
-                        {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
-                        <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation class="slide-link">
-                            {{-- <img src="https://placehold.co/600x400/orange/white" /> --}}
-                            <img src="{{asset('storage'."/".$item->image)}}" />
-                        </a>
-                        @if ($item->main_title)
-                        <div class="description hidden md:block">
-                            {{-- <div class="description"> --}}
-                                <div>
-                                    <h1>{{$item->main_title }}</h1>
-                                    <p>{{$item->description }}</p>                
-                                </div>
-                                <a class="inline-flex items-center px-4 py-2 bg-white border border-indigo-900 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150" href="{{ $item->action_url ?? route('products.index') }}">
-                                    Shop Now
-                                </a>
+        <div class="slider">
+            <div class="slides">
+                @foreach ($slides as $key => $item)
+                <div class="slide {{ $key == 0 ? 'active' : '' }}">
+                    {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
+                    <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation class="slide-link">
+                        {{-- <img src="https://placehold.co/600x400/orange/white" /> --}}
+                        <img src="{{asset('storage'." /".$item->image)}}" />
+                    </a>
+                    @if ($item->main_title)
+                    <div class="description hidden md:block"
+                        style="background-color: {{$item->action_target}}!important">
+                        {{-- <div class="description"> --}}
+                            <div>
+                                <h1 style="color: {{$item->title_color}}">{{$item->main_title }}</h1>
+                                <p style="color:{{$item->des_color}}">{{$item->description }}</p>
                             </div>
+                            <a class="inline-flex items-center px-4 py-2 bg-white border border-indigo-900 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150"
+                                href="{{ $item->action_url ?? route('products.index') }}">
+                                {{$item->action_text ?? "Shop Now"}}
+                            </a>
+                        </div>
                         @endif
                     </div>
                     @endforeach
@@ -175,47 +178,46 @@
                 </div>
 
                 @if ($slides->count() > 1)
-                    
-                    <button class="prev"><i class="fas fa-chevron-left"></i></button>
-                    <button class="next"><i class="fas fa-chevron-right"></i></button>
-                    <div class="dots">
-                        @foreach ($slides as $key => $item)
 
-                            <span @class(['dot', 'active' => $loop->first ])"dot" data-index="{{$key}}"></span>
-                            {{-- <span class="dot" data-index="1"></span> --}}
-                            {{-- <span class="dot" data-index="2"></span> --}}
-                        @endforeach
-                    </div>
+                <button class="prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="next"><i class="fas fa-chevron-right"></i></button>
+                <div class="dots">
+                    @foreach ($slides as $key => $item)
+
+                    <span @class(['dot', 'active'=> $loop->first ])"dot" data-index="{{$key}}"></span>
+                    {{-- <span class="dot" data-index="1"></span> --}}
+                    {{-- <span class="dot" data-index="2"></span> --}}
+                    @endforeach
+                </div>
                 @endif
 
             </div>
 
         </div>
-    @endif
+        @endif
 
 
-    {{-- <section class="splide" aria-label="Splide Basic HTML Example">
-        <div class="splide__track">
-            <ul class="splide__list">
-                @foreach ($slides as $item)
-                
+        {{-- <section class="splide" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach ($slides as $item)
+
                     <li class="splide__slide">Slide 01</li>
                     <li class="splide__slide">Slide 02</li>
                     <li class="splide__slide">Slide 03</li>
-                @endforeach
-            </ul>
-        </div>
-    </section> --}}
+                    @endforeach
+                </ul>
+            </div>
+        </section> --}}
 
-    {{-- <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" ></script> --}}
-    
+        {{-- <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script> --}}
 
-        
-        
-    @script
+
+
+
+        @script
         <script>
-
-        const slides = document.querySelectorAll(".slide");
+            const slides = document.querySelectorAll(".slide");
         const dots = document.querySelectorAll(".dot");
 
         let current = 0;
@@ -275,5 +277,5 @@
         startAutoplay();
         
         </script>
-    @endscript
-</div>
+        @endscript
+    </div>

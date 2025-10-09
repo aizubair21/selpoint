@@ -52,8 +52,8 @@
 
         <!-- Page Heading -->
         <div class="flex px-2 sm:px-6 lg:px-8 ">
-            <div class=" w-[150px] hidden md:block h-auto">
-                <div class="pt-2 pb-3 space-y-1 w-[150px]">
+            <div class=" w-[180px] hidden md:block h-auto">
+                <div class="pt-2 pb-3 space-y-1 w-[180px]">
                     {{-- <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                         wire:navigate>
                         {{ __('Dashboard') }}
@@ -81,7 +81,7 @@
                     @endif
                 </div>
             </div>
-            <div class="w-full ">
+            <div class="w-full">
 
                 @if (isset($header))
                 <header class="">
