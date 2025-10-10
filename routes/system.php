@@ -180,6 +180,12 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/sliders/slides', Slides::class)->name('slider.slides')->middleware(AbleTo::class . ":slider_edit");
 
 
+    /**
+     * static slider
+     */
+    Route::get('/static-slider', \App\Livewire\System\StaticSlider\Slider::class)->name('static-slider.index');
+    Route::get('/static-slider/{id}', \App\Livewire\System\StaticSlider\Sliders::class)->name('static-slider.slides');
+
     /**deposit */
     Route::get('/deposit', DepositIndex::class)->name('deposit.index')->middleware(AbleTo::class . ":deposit_view");
 
