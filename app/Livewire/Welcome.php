@@ -10,6 +10,7 @@ use Livewire\Attributes\Layout;
 use App\Models\Product;
 use App\Models\Slider;
 use App\Models\Slider_has_slide;
+use App\Models\Static_slider;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 
@@ -32,6 +33,11 @@ class Welcome extends Component
     public function render()
     {
 
-        return view('livewire.welcome');
+        return view(
+            'livewire.welcome',
+            [
+                'ss' => Static_slider::query()->home()->active()->with('slides')->get()
+            ]
+        );
     }
 }
