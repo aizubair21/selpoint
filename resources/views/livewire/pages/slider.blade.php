@@ -154,7 +154,7 @@
                     {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
                     <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation class="slide-link">
                         {{-- <img src="https://placehold.co/600x400/orange/white" /> --}}
-                        <img src="{{asset('storage'." /".$item->image)}}" />
+                        <img src="{{asset('storage/' .$item->image)}}" />
                     </a>
                     @if ($item->main_title)
                     <div class="description hidden md:block"

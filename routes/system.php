@@ -183,7 +183,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     /**
      * static slider
      */
-    Route::get('/static-slider', \App\Livewire\System\StaticSlider\Slider::class)->name('static-slider.index');
+    Route::get('/static-slider', \App\Livewire\System\StaticSlider\Index::class)->name('static-slider.index');
     Route::get('/static-slider/{id}', \App\Livewire\System\StaticSlider\Sliders::class)->name('static-slider.slides');
 
     /**deposit */
