@@ -17,7 +17,7 @@ class Dashboard extends Component
         $this->products = Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->limit('50')->get();
         $this->tp = Product::where(['belongs_to_type' => 'vendor'])->count();
         $this->vendor = vendor::count();
-        $this->category = Category::where(['belongs_to' => 'vendor'])->count();
+        $this->category = Category::count();
         // dd($this->products);
     }
 
