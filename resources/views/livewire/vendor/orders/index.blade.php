@@ -63,9 +63,7 @@
                     ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
 
-            </x-dashboard.overview.div>
         </x-dashboard.overview.section>
 
 
@@ -160,6 +158,18 @@
                 <x-dashboard.foreach :data="$data">
 
                     {{$data->links()}}
+
+                    <x-dashboard.table>
+                        <thead>
+                            <tr class="">
+                                <th colspan="3"> {{count($data)}} Products </th>
+                                <th>
+                                    {{$data->sum('total')}} TK
+                                </th>
+                            </tr>
+                        </thead>
+                    </x-dashboard.table>
+
                     <x-dashboard.table>
                         <thead>
                             <tr>

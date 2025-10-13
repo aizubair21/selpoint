@@ -23,6 +23,50 @@ class CartOrder extends Model
         'status',
     ];
 
+
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'Pending');
+    }
+
+    public function scopeAccept($query)
+    {
+        return $query->where('status', 'Accept');
+    }
+
+    public function scopePicked($query)
+    {
+        return $query->where('status', 'Picked');
+    }
+
+    public function scopeDelivery($query)
+    {
+        return $query->where('status', 'Delivery');
+    }
+
+    public function scopeDelivered($query)
+    {
+        return $query->where('status', 'Delivered');
+    }
+
+    public function scopeHold($query)
+    {
+        return $query->where('status', 'Hold');
+    }
+
+    public function scopeCancel($query)
+    {
+        return $query->where('status', 'Cancel');
+    }
+
+    public function scopeConfirm($query)
+    {
+        return $query->where('status', 'Confirm');
+    }
+
+
+
     public function product()
     {
         return $this->belongsTo(Product::class);

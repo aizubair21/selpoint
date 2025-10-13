@@ -47,6 +47,15 @@ class Order extends Model
 
             UpdateProductSalesIndex::dispatch();
         });
+
+        static::updated(function (Order $order) {
+            if ($order->isDirty('status')) {
+                $order->cartOrders()->each(function ($item, $order) {
+                    $item->status = $item->order->status;
+                    $item->save();
+                });
+            }
+        });
     }
 
 

@@ -2,14 +2,17 @@
 
     <x-dashboard.page-header>
         Products
-        <br>    
+        <br>
         <div>
-            <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')" >Your Product</x-nav-link>
+            <x-nav-link href="{{route('vendor.products.view')}}" :active="request()->routeIs('vendor.products.*')">Your
+                Product</x-nav-link>
             {{-- if ther user is reseller then show this link --}}
             @if (auth()->user()->hasRole('reseller'))
-                <x-nav-link href="{{route('reseller.resel-products.index')}}" :active="request()->routeIs('reseller.resel-products.*')" >Reseller Product</x-nav-link>
+            <x-nav-link href="{{route('reseller.resel-products.index')}}"
+                :active="request()->routeIs('reseller.resel-products.*')">Reseller Product</x-nav-link>
             @endif
-            {{-- <x-nav-link href="{{route('reseller.resel-products.catgory')}}" :active="request()->routeIs('reseller.resel-product.*')" >Vendor Product</x-nav-link> --}}
+            {{-- <x-nav-link href="{{route('reseller.resel-products.catgory')}}"
+                :active="request()->routeIs('reseller.resel-product.*')">Vendor Product</x-nav-link> --}}
         </div>
     </x-dashboard.page-header>
 
@@ -32,33 +35,33 @@
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
-    
+
     <x-dashboard.container>
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="flex justify-between items-center">
-                        <div >
+                        <div>
 
                             <div x-show="!$wire.selectedModel.length > 0">
                                 <x-nav-link href="?nav=Active" :active="$nav && !$take">
                                     Active
                                 </x-nav-link>
-                                <x-nav-link href="?nav=Draft" :active="$nav == '0'" >
+                                <x-nav-link href="?nav=Draft" :active="$nav == '0'">
                                     In Active
                                 </x-nav-link>
-                                <x-nav-link href="?take=trash" :active="$take == 'trash'" >
+                                <x-nav-link href="?take=trash" :active="$take == 'trash'">
                                     Trash
                                 </x-nav-link>
                             </div>
                             <div x-show="$wire.selectedModel.length && !$wire.take" wire-transition>
-                                
+
                                 <x-primary-button wire:click="moveToTrash">
                                     Move to Trash
                                 </x-primary-button>
                             </div>
                             <div x-show="$wire.selectedModel.length && $wire.take" wire-transition>
-                                
+
                                 <x-primary-button wire:click="restoreFromTrash">
                                     Restore
                                 </x-primary-button>
@@ -67,8 +70,10 @@
 
 
                         <div class="flex items-center">
-                            <x-text-input type="search" wire:model.live="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1"></x-text-input>
-                            <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')" >Filter</x-primary-button>
+                            <x-text-input type="search" wire:model.live="search" placeholder="Search by name"
+                                class="mx-2 hidden lg:block py-1"></x-text-input>
+                            <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')">
+                                Filter</x-primary-button>
                         </div>
                     </div>
                 </x-slot>
@@ -76,7 +81,7 @@
             </x-dashboard.section.header>
             <x-dashboard.section.inner>
 
-                <x-dashboard.foreach :data="$products" >
+                <x-dashboard.foreach :data="$products">
 
                     <x-dashboard.table>
                         <thead>
@@ -94,33 +99,37 @@
                         </thead>
                         <tbody>
                             @foreach ($products as $product)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" wire:model.live="selectedModel" value="{{$product->id}}" style="width:20px; height:20px" />
-                                    </td>
-                                    <td> {{$loop->iteration}} </td>
-                                    <td>
-                                        <img height="50px" width="100px" src="{{asset('/storage/'. $product->thumbnail)}}" />
-                                    </td>
-                                    <td>
-                                        {{$product->name ?? "N/A"}}
-                                    </td>
-                                    <td>
-                                        {{$product->status ? 'Active' : "In Active"}}
-                                    </td>
-                                    <td>
-                                        0
-                                    </td>
-                                    <td>
-                                        0
-                                    </td>
-                                    <td> 
-                                        {{$product->created_at?->diffForHumans() ?? "N/A"}}    
-                                    </td>
-                                    <td >
-                                        <x-nav-link-btn href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">view</x-nav-link-btn>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" wire:model.live="selectedModel" value="{{$product->id}}"
+                                        style="width:20px; height:20px" />
+                                </td>
+                                <td> {{$loop->iteration}} </td>
+                                <td>
+                                    <img height="50px" width="100px"
+                                        src="{{asset('/storage/'. $product->thumbnail)}}" />
+                                </td>
+                                <td>
+                                    {{$product->name ?? "N/A"}}
+                                </td>
+                                <td>
+                                    {{$product->status ? 'Active' : "In Active"}}
+                                </td>
+                                <td>
+                                    {{$product->orders()->count()}}
+                                </td>
+                                <td>
+                                    0
+                                </td>
+                                <td>
+                                    {{$product->created_at?->diffForHumans() ?? "N/A"}}
+                                </td>
+                                <td>
+                                    <x-nav-link-btn
+                                        href="{{route('vendor.products.edit', ['product' => encrypt($product->id) ])}}">
+                                        view</x-nav-link-btn>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </x-dashboard.table>
@@ -132,7 +141,7 @@
     </x-dashboard.container>
 
 
-    {{-- filter model  --}}
+    {{-- filter model --}}
     <x-modal name="filter-modal" maxWidth="xl" focusable class="h-screen overflow-y-scroll">
         <div class="p-3">
             <x-dashboard.section.header>
@@ -140,7 +149,7 @@
                     Filter Your Own
                 </x-slot>
                 <x-slot name="content">
-                    
+
                 </x-slot>
             </x-dashboard.section.header>
             <x-dashboard.section.inner>
@@ -169,8 +178,8 @@
                                 </li>
                             </ul>
                         </div>
-                        
-                        
+
+
                         <div>
                             <h3>Filter by Status</h3>
                             <ul class="ms-4 mt-2">
@@ -187,7 +196,7 @@
                                         <x-text-input class="p-0 m-0 mr-3" type="radio" name="" value="today" />
                                         <x-input-label class="p-0 m-0">Trash</x-input-label>
                                     </div>
-                                    
+
                                 </li>
                             </ul>
                         </div>

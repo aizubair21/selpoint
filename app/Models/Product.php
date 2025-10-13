@@ -63,11 +63,11 @@ class Product extends Model
     }
 
     // attributes 
-    protected function title() :Attributes 
+    protected function title(): Attributes
     {
         // make the title Str::title()
         return Attributes::make(
-            get: fn ($value) => Str::title($value),
+            get: fn($value) => Str::title($value),
         );
     }
 
@@ -152,7 +152,7 @@ class Product extends Model
      */
     public function orders()
     {
-        return $this->hasMany(CartOrder::class);
+        return $this->hasMany(CartOrder::class, 'product_id', 'id');
     }
 
     public function owner()
