@@ -47,11 +47,12 @@ use App\Livewire\System\Vip\Edit;
 use App\Livewire\System\Store\Index;
 
 use App\Livewire\System\Products\Index as systemGlobalProductsIndexPage;
+use App\Livewire\System\Products\Filter;
+use App\Livewire\System\Products\Edit as systemGlobalProductsEditPage;
 
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
 use App\Livewire\System\Orders\Details;
 use App\Livewire\System\Orders\Index as SystemOrdersIndex;
-use App\Livewire\System\Products\Filter;
 use App\Livewire\System\Settings\Index as SettingsIndex;
 use App\Livewire\System\Settings\Pages\Index as PagesIndex;
 use App\Livewire\System\Settings\Pages\Edit as PagesEdit;
@@ -159,6 +160,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
      */
     Route::prefix('products')->group(function () {
         Route::get('/index', systemGlobalProductsIndexPage::class)->name('products.index');
+        Route::get('/{product}/edit', systemGlobalProductsEditPage::class)->name('products.edit');
     })->middleware(AbleTo::class . 'product_view');
 
 

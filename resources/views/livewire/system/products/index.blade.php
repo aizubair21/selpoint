@@ -217,10 +217,11 @@
                                     </td>
                                     <td>
                                         <div class="flex">
-                                            <x-nav-link href="/">
+                                            {{-- <x-nav-link href="/">
                                                 Disable
-                                            </x-nav-link>
-                                            <x-nav-link href="/">
+                                            </x-nav-link> --}}
+                                            <x-nav-link
+                                                href="{{route('system.products.edit', ['product' => $item->id])}}">
                                                 View
                                             </x-nav-link>
                                         </div>
