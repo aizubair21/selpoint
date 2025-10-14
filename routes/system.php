@@ -16,6 +16,7 @@ use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
 use App\Livewire\System\Comissions\TakesDistributes;
 use App\Livewire\System\Deposit\Index as DepositIndex;
+use App\Livewire\System\EarnBySell\Index as EarnBySellIndex;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -288,6 +289,9 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/pages/add-new', PagesCreate::class)->name('pages.create');
     // Route::get('/pages/{slug}', Pages::class);
 
+
+    // earn and sell
+    Route::get('/earn/index', EarnBySellIndex::class)->name('earn.index');
 
     Route::get('/builder/footer', FooterBuilder::class)->name('footer.builder');
 

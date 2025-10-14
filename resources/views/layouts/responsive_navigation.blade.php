@@ -110,6 +110,10 @@
 
 @can('comission_view')
 
+<x-responsive-nav-link :href="route('system.earn.index')" :active="request()->routeIs('system.earn.*')">
+    <i class="fas fa-money-bill pr-2 w-6"></i> {{ __('Sell') }}
+</x-responsive-nav-link>
+
 <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
     <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Comission') }}
 </x-responsive-nav-link>
