@@ -11,13 +11,17 @@ class Dashboard extends Component
 {
     public $products = [], $tp,  $category, $vendor, $trands;
 
-
-    public function getData()
+    public function mount()
     {
-        $this->products = Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->limit('50')->get();
+
         $this->tp = Product::where(['belongs_to_type' => 'vendor'])->count();
         $this->vendor = vendor::count();
         $this->category = Category::count();
+        $this->products = Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->limit('50')->get();
+    }
+
+    public function getData()
+    {
         // dd($this->products);
     }
 
