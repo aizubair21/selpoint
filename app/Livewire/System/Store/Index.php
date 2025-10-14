@@ -2,6 +2,7 @@
 
 namespace App\Livewire\System\Store;
 
+use App\Models\TakeComissions;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -12,19 +13,15 @@ class Index extends Component
 {
 
     #[URL]
-    public $nav = 'store', $type = 'withdraw';
+    public $nav = 'donation', $type = 'withdraw';
     // $query = request('get') ?? "store";
     // $type = request('type') ?? 'withdraw';
 
 
     public function render()
     {
-        // $track = AdminCoinStoreTracking::query();
+        $strack = [];
         // switch ($this->nav) {
-        //     case 'store':
-        //         $track = $track->store();
-        //         break;
-
         //     case 'donation':
         //         $track = $track->donation();
         //         break;
@@ -34,7 +31,6 @@ class Index extends Component
         //         break;
         // }
         // $strack = $track->whereDate('created_at', today())->orderBy('created_at', 'desc')->get();
-        $strack = [];
         return view('livewire.system.store.index', compact('strack'));
     }
 }

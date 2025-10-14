@@ -56,9 +56,9 @@
                     {{$profit}}
                 </x-slot>
             </x-dashboard.overview.div> --}}
-           
-            
-           
+
+
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Distributed
@@ -67,7 +67,7 @@
                     {{$give}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Stored
@@ -76,7 +76,7 @@
                     {{$store}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Returned
@@ -109,17 +109,17 @@
                     {{$order}}
                 </x-slot>
             </x-dashboard.overview.div>
-          
+
         </x-dashboard.overview.section>
-        <x-hr/>
-        
+        <x-hr />
+
         <div class="flex justify-between items-center">
             <div>
                 Today's Overview
             </div>
 
             <div class="flex">
-                <x-text-input class="bg-transparent py-1" type="date"/>
+                <x-text-input class="bg-transparent py-1" type="date" />
             </div>
         </div>
 
@@ -132,7 +132,7 @@
                     {{$tgen ?? 0}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Take
@@ -141,7 +141,7 @@
                     {{$ttake ?? 0}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Give
@@ -150,7 +150,7 @@
                     {{$tgive ?? 0}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Store
@@ -159,7 +159,7 @@
                     {{$tstore ?? 0}}
                 </x-slot>
             </x-dashboard.overview.div>
-           
+
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Return
@@ -172,7 +172,7 @@
 
         <x-dashboard.section>
             <x-dashboard.table>
-                
+
                 <thead>
                     <th>ID</th>
                     <th>Order</th>
@@ -194,39 +194,42 @@
                 <tbody>
 
                     @foreach ($todaysTakeComissions as $item)
-                        <tr >
-                            <td> {{$item->id ?? "N/A"}} </td>
-                            <td> {{$item->order_id ?? 0}} </td>
-                            <td> {{$item->product_id ?? 0}} </td>
-                            <td> {{$item->buying_price ?? 0}} </td>
-                            <td> {{$item->selling_price ?? 0}} </td>
-                            <td> {{$item->profit ?? "0"}} </td>
-                            <td> {{$item->comission_range ?? "0"}} % </td>
-                            <td> {{$item->take_comission ?? "0"}}</td>
-                            <td> {{$item->distribute_comission ?? "0"}}</td>
-                            <td> {{$item->store ?? "0"}}</td>
-                            <td> {{$item->return ?? "0"}}</td>
-                            <td>
-                                @if ($item->confirmed == true)
-                                    <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
-                                    <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}" > Refund </x-nav-link>
-                                @else 
-                                    <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
-                                    <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}" > Confirm </x-nav-link>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="flex space-x-2">
-                                    <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">Details</x-nav-link>
-                                </div>
-                            </td>
-                        </tr>    
+                    <tr>
+                        <td> {{$item->id ?? "N/A"}} </td>
+                        <td> {{$item->order_id ?? 0}} </td>
+                        <td> {{$item->product_id ?? 0}} </td>
+                        <td> {{$item->buying_price ?? 0}} </td>
+                        <td> {{$item->selling_price ?? 0}} </td>
+                        <td> {{$item->profit ?? "0"}} </td>
+                        <td> {{$item->comission_range ?? "0"}} % </td>
+                        <td> {{$item->take_comission ?? "0"}}</td>
+                        <td> {{$item->distribute_comission ?? "0"}}</td>
+                        <td> {{$item->store ?? "0"}}</td>
+                        <td> {{$item->return ?? "0"}}</td>
+                        <td>
+                            @if ($item->confirmed == true)
+                            <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
+                            <x-nav-link href="{{route('system.comissions.take.refund', ['id' => $item->id])}}"> Refund
+                            </x-nav-link>
+                            @else
+                            <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
+                            <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm
+                            </x-nav-link>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="flex space-x-2">
+                                <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">
+                                    Details</x-nav-link>
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
-                
+
                 </tbody>
-                
+
             </x-dashboard.table>
-        </x-dashboard.section> 
+        </x-dashboard.section>
 
     </x-dashboard.container>
 

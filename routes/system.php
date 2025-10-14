@@ -194,7 +194,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/comissions', ComissionsIndex::class)->name('comissions.index')->middleware(AbleTo::class . ":comission_view");
     Route::get('/comissions/take', Takes::class)->name('comissions.takes')->middleware(AbleTo::class . ":comission_view");
     Route::get('/comissions/{id}', TakesDetails::class)->name('comissions.details')->middleware(AbleTo::class . ":comission_view");
-    Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('comissions.distributes')->middleware(AbleTo::class . ":comission_confirm");
+    Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('comissions.distributes')->middleware(AbleTo::class . ":comission_confim");
 
     Route::post('/comissions/delete', [ProductComissionController::class, 'deleteComissions'])->name('comissions.destroy')->middleware(AbleTo::class . ":comission_delete");
     Route::delete('/comissions/reseller-profit/delete/{id}', [ProductComissionController::class, 'deleteResellerProfit'])->name('reseller-profit.destroy')->middleware(AbleTo::class . ":comission_delete");
