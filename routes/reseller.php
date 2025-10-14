@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ResellerController;
 use App\Http\Middleware\AbleTo;
+use App\Livewire\EarnBySell\Index as EarnBySellIndex;
 use Illuminate\Support\Facades\Route;
 
 
@@ -51,6 +52,9 @@ Route::prefix('/r/')->group(function () {
     Route::get('/{user}/shop', Shop::class)->name('my-shop');
 
     Route::get('/product/{id}/order', [ResellerController::class, 'productOrder'])->name('reseller.product.order');
+
+    // sell
+    Route::get('/sels', EarnBySellIndex::class)->name('reseller.sel.index');
 
     // vendor shop for reseller 
     Route::get('/shops', Shops::class)->name('shops');

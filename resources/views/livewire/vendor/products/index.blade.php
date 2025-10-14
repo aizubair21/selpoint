@@ -89,7 +89,7 @@
                                 <th></th>
                                 <th>#</th>
                                 <th>Product</th>
-                                <th>Name</th>
+                                <th>Price</th>
                                 <th>Status</th>
                                 <th>Sell</th>
                                 <th>Earning</th>
@@ -106,11 +106,13 @@
                                 </td>
                                 <td> {{$loop->iteration}} </td>
                                 <td>
-                                    <img height="50px" width="100px"
-                                        src="{{asset('/storage/'. $product->thumbnail)}}" />
+                                    <div class="flex items-center">
+                                        <img height="50px" width="100px"
+                                            src="{{asset('/storage/'. $product->thumbnail)}}" />
+                                        {{$product->name ?? "N/A"}}
+                                    </div>
                                 </td>
                                 <td>
-                                    {{$product->name ?? "N/A"}}
                                 </td>
                                 <td>
                                     {{$product->status ? 'Active' : "In Active"}}

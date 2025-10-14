@@ -61,10 +61,13 @@
                             <th></th>
                             <th>#</th>
                             <th>Product</th>
+                            <th>In Stock</th>
                             <th>Name</th>
                             <th>Status</th>
-                            <th>Sell</th>
-                            <th>Earning</th>
+                            <th>Order</th>
+                            <th>Cost</th>
+                            <th>Price</th>
+                            <th>Sel Price</th>
                             <th>Insert At</th>
                             <th>A/C</th>
                         </tr>
@@ -80,11 +83,13 @@
                             </td>
                             <td> {{$loop->iteration}} </td>
                             <td>
-                                <div class="relative">
-
+                                <div class="flex items-start">
                                     <img class="w-12 h-12 rounded-md shadow"
                                         src="{{asset('/storage/'. $product->thumbnail)}}" />
                                 </div>
+                            </td>
+                            <td>
+                                {{$product->unit}}
                             </td>
                             <td>
                                 <p>
@@ -108,9 +113,20 @@
                                 {{$product->orders()->count()}}
                             </td>
                             <td>
-                                {{
-                                $product->orders()->confirm()->sum('total')
-                                }}
+                                {{$product->buying_price }}
+                            </td>
+                            <td>
+                                {{-- {{
+                                $product->orders()->confirm()->sum('total') . " / " .
+                                $product->orders()->sum('total')
+                                }} --}}
+                                {{$product->price}}
+                                {{-- @if ($product->offer_type)
+                                <div class="px-2 bg-gray-100"> {{$product->discount}} </div>
+                                @endif --}}
+                            </td>
+                            <td>
+                                {{$product->offer_type ? $product->discount : $product->price}}
                             </td>
                             <td>
                                 {{$product->created_at?->diffForHumans() ?? "N/A"}}
