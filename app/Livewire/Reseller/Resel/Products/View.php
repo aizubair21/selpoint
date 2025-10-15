@@ -54,15 +54,20 @@ class View extends Component
         // dd('ok');
         $isAlreadycloned = Reseller_resel_product::where(['parent_id' => $this->products->id, 'user_id' => auth()->user()->id])->exists();
         if (!$isAlreadycloned) {
-            # code...
+            $this->validate(
+                [
+                    'reselPrice' => ['required'],
+                    'resellerCat' => ['required']
+                ]
+            );
             if (!empty($this->resellerCat || !empty($this->reselPrice))) {
                 // $rc = new ResellerController();
                 // $rc->cloneProducts($this->products->id, $this->reselPrice, $this->resellerCat);
 
                 $this->forResel['user_id'] = auth()->user()->id;
                 $this->forResel['belongs_to_type'] = 'reseller';
-                $this->forResel['buying_price'] = $this->products->price;
-                $this->forResel['unit'] = 0;
+                $this->forResel['buying_price'] = $this->products->totalPrice();
+                $this->forResel['unit'] = 1;
                 $this->forResel['offer_type'] = $this->isReselWithDiscountPrice;
                 $this->forResel['discount'] = $this->isReselWithDiscountPrice ? $this->reselDiscountPrice : null;
                 $this->forResel['price'] = $this->reselPrice;

@@ -20,7 +20,7 @@ new class extends Component
     public $pd, $alreadyLiked = false, $discountPercent, $haveDiscount = false, $resellerOrderId = '', $needToSync = false, $myOrder = '';
 
     #[validate('required')]
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity = 1, $rprice, $attr = '', $name, $phone, $house_no, $road_no;
+    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr = '', $name, $phone, $house_no, $road_no;
 
     public function mount() 
     {
@@ -100,7 +100,7 @@ new class extends Component
                     'price' => $this->rprice,
                     'size' => $this->attr,
                     'total' => $this->quantity * $this->rprice,
-                    'buying_price' => $this->pd->offer_type ? $this->pd->discount : $this->pd->price,
+                    'buying_price' => $this->pd->totalPrice(),
                     'status' => 'Pending',
                 ]
             );
@@ -251,10 +251,11 @@ new class extends Component
                     {{$pd->name ?? "N/A"}}
                 </div>
                 <div class="text-sm">
+
                     @if ($pd->offer_type)
                     <div class="flex items-baseline gap-2">
                         <div class="bold">
-                            Price : {{$pd->discount ?? "0"}} TK
+                            Price : {{$pd->totalPrice() ?? "0"}} TK
                         </div>
                         <div class="text-xs">
                             <del>
@@ -317,7 +318,7 @@ new class extends Component
                             @if ($pd->offer_type)
                             <div class="flex items-baseline gap-2">
                                 <div class="bold">
-                                    Price : {{$pd->discount ?? "0"}} TK
+                                    Price : {{$pd->totalPrice() ?? "0"}} TK
                                 </div>
                                 <div class="text-xs">
                                     <del>
@@ -336,7 +337,7 @@ new class extends Component
                         wire:model.live="rprice" name="rprice" error="rprice" />
 
                     <div class="text-xs" wire:show='rprice'>
-                        Profit: <strong> {{$this->rprice - $this->pd->price}} </strong>
+                        Profit: <strong> {{intVal($this->rprice) - intVal($this->pd->totalPrice())}} </strong>
                     </div>
                 </div>
                 {{--
@@ -354,6 +355,9 @@ new class extends Component
                             @endif
                     </div>
                 </x-input-file>
+                {{-- @error('quantity')
+                <p class="text-red-400"> {{$message}} </p>
+                @enderror --}}
 
                 <x-input-file inputClass="w-full" class="md:flex" label="Product Size/Attribute" name="attr"
                     error="attr">
@@ -380,7 +384,8 @@ new class extends Component
                     <select wire:model.live="delevery" id="" class="rounded py-1">
                         <option value=""> Shipping Type</option>
                         <option value="Courier">Courier</option>
-                        <option value="Home">Home Deli`very</option>
+                        <option value="Home">Home Delivery</option>
+                        <option value="Hand">Hand-To-Hand</option>
                     </select>
                 </x-input-file>
                 <x-primary-button>Order</x-primary-button>

@@ -147,6 +147,11 @@ class Product extends Model
         return $this->hasMany(product_has_image::class);
     }
 
+    public function totalPrice()
+    {
+        return $this->offer_type ? $this->discount : $this->price;
+    }
+
     /**
      * Product has many order
      */

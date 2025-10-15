@@ -84,7 +84,7 @@
                             <td> {{$loop->iteration}} </td>
                             <td>
                                 <div class="flex items-start">
-                                    <img class="w-12 h-12 rounded-md shadow"
+                                    <img class="w-8 h-8 rounded-md shadow"
                                         src="{{asset('/storage/'. $product->thumbnail)}}" />
                                 </div>
                             </td>
@@ -95,22 +95,22 @@
                                 <p>
                                     {{$product->name ?? "N/A"}}
                                 </p>
-                                <a title="Pending Order #{{$product->orders()->first()->id}}" @class(['rounded
+                                <a title="Pending Order #{{$product->orders()?->first()->id ?? ""}}" @class(['rounded
                                     text-white px-1 bg-red-900 mr-1 inline-flex text-xs hidden' , ' block'=>
-                                    $product->orders()->pending()->exists()])>
-                                    {{$product->orders()->first()->id ?? 'N\A'}}
+                                    $product->orders()?->pending()->exists()])>
+                                    {{$product->orders()?->first()->id ?? 'N\A'}}
                                 </a>
-                                <a title="Accept Order #{{$product->orders()->first()->id}}" @class(['rounded text-white
-                                    px-1 bg-green-900 mr-1 inline-flex text-xs hidden', ' block'=>
-                                    $product->orders()->accept()->exists()])>
-                                    {{$product->orders()->first()->id ?? 'N\A'}}
+                                <a title="Accept Order #{{$product->orders()?->first()->id ?? ""}}" @class(['rounded
+                                    text-white px-1 bg-green-900 mr-1 inline-flex text-xs hidden', ' block'=>
+                                    $product->orders()?->accept()->exists()])>
+                                    {{$product->orders()?->first()->id ?? 'N\A'}}
                                 </a>
                             </td>
                             <td>
                                 {{$product->status ? 'Active' : "In Active"}}
                             </td>
                             <td>
-                                {{$product->orders()->count()}}
+                                {{$product->orders()?->count()}}
                             </td>
                             <td>
                                 {{$product->buying_price }}
