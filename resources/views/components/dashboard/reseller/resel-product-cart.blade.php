@@ -344,14 +344,14 @@ new class extends Component
                 <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity"
                     name="quantity" error="quantity" /> --}}
                 <x-input-file label="Quantity" name="quantity" error="quantity">
-                    {{$this->pd->stock}}
+                    {{$this->pd?->unit}}
                     <select wire:model.live="quantity" id="" class="rounded-md py-1 border">
                         <option value="">Select Quantity</option>
-                        @for ($i = 1; $i <= $this->pd->stock; $i++) <option value="{{$i}}">{{$i}}</option>
+                        @for ($i = 1; $i <= $this->pd?->unit; $i++) <option value="{{$i}}">{{$i}}</option>
                             @endfor
                     </select>
                     <div class="text-xs">
-                        @if ($this->pd->stock < 1) Stock Out @else You can order maximum {{$this->pd->stock}} item
+                        @if ($this->pd?->unit < 1) Stock Out @else You can order maximum {{$this->pd?->unit}} item
                             @endif
                     </div>
                 </x-input-file>
