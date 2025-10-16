@@ -8,6 +8,7 @@ use App\Models\Reseller_has_order;
 use App\Models\Reseller_order_details;
 use App\Models\Order;
 use App\Models\CartOrder;
+use Livewire\Attributes\On;
 
 use App\Http\Controllers\ProductComissionController;
 
@@ -22,6 +23,7 @@ new class extends Component
     #[validate('required')]
     public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr = '', $name, $phone, $house_no, $road_no;
 
+    #[On('refresh')]
     public function mount() 
     {
         // dd($this->pd);
@@ -34,7 +36,6 @@ new class extends Component
         // check this product alreay in liked list of reseller    
         $this->alreadyLiked = Reseller_like_product::where(['user_id' => auth()->user()->id, 'product_id' => $this->pd->id])->exists();
     }
-    
 
     public function like ()
     {
@@ -72,9 +73,9 @@ new class extends Component
                     'belongs_to_type' => 'vendor',
                     
                     'quantity' => $this->quantity,
-                    'total' => $this->quantity * $this->rprice,
+                    'total' => $this->quantity * $this->pd?->totalPrice(),
                     'status' => 'Pending',
-
+                    
                     'name' => $this->name,
                     'district' => $this->district,
                     'upozila' => $this->upozila,
@@ -84,10 +85,10 @@ new class extends Component
                     'area_condition' => $this->area_condition,
                     'delevery' => $this->delevery,
                     'number' => $this->phone,
-                    'shipping' => $this->area_condition == 'Dhaka' ? 80 : 120,
-                ]
-            );
-    
+                    'shipping' => $this->area_condition == 'Dhaka' ? $this->pd?->shipping_in_dhaka : $this->pd?->shipping_out_dhaka,
+                    ]
+                );
+                
             $cor = CartOrder::create(
                 [
                     'user_id' => Auth::id(),
@@ -102,20 +103,23 @@ new class extends Component
                     'total' => $this->quantity * $this->rprice,
                     'buying_price' => $this->pd->totalPrice(),
                     'status' => 'Pending',
-                ]
+                    ]
             );
             
             
+            // $this->dispatch('refresh');
+            $this->reset('name', 'rprice');
             $this->dispatch('refresh');
             $this->dispatch('success', 'Order Done');
-
+            // $this->dispatch('close-modal', 'orderProduct_'.{{$pd->id}});
             if ($order->id && $cor->id) {
                 # code...
                 ProductComissionController::dispatchProductComissionsListeners($order->id);
             }
-   
+            
         } catch (\Throwable $th) {
-            throw $th;
+            Log::info($th->getMessage());
+            // throw $th;
             $this->dispatch('info', 'Have an Error');
         }
     }
@@ -181,36 +185,39 @@ new class extends Component
         <div class="h-[120px] overflow-hidden shadow-md p-1">
             <img src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
         </div>
-        <div class="p-2 bg-white">
+        <div class="p-2 bg-white h-36 flex flex-col justify-between">
             <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}">
                 <div class="text-sm">{{$pd->name ?? "N/A"}}</div>
             </x-nav-link>
 
-            <div class="text-md">
-                @if ($pd->offer_type)
-                <div class="bold">
-                    {{$pd->discount ?? "0"}} TK
-                </div>
-                <div class="text-xs">
-                    <del>
+            <div>
+
+                <div class="text-md mb-3">
+                    @if ($pd->offer_type)
+                    <div class="bold">
+                        {{$pd->discount ?? "0"}} TK
+                    </div>
+                    <div class="text-xs">
+                        <del>
+                            {{$pd->price ?? "0"}} TK
+                        </del>
+                    </div>
+                    @else
+                    <div class="bold">
                         {{$pd->price ?? "0"}} TK
-                    </del>
+                    </div>
+                    @endif
                 </div>
-                @else
-                <div class="bold">
-                    {{$pd->price ?? "0"}} TK
+                {{-- <div class="text-right">
+                    <button>clone</button>
+                </div> --}}
+                <div class="flex justify-center items-center text-sm">
+                    <x-hr />
+                    <x-primary-button class=" text-center"
+                        x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')"> Purchase <i
+                            class="fas fa-angle-right pl-2"></i> </x-primary-button>
+                    {{-- <button>To Cart</button> --}}
                 </div>
-                @endif
-            </div>
-            {{-- <div class="text-right">
-                <button>clone</button>
-            </div> --}}
-            <x-hr />
-            <div class="flex justify-center items-center text-sm">
-                <x-primary-button class=" text-center"
-                    x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')"> Purchase <i
-                        class="fas fa-angle-right pl-2"></i> </x-primary-button>
-                {{-- <button>To Cart</button> --}}
             </div>
         </div>
 
@@ -231,20 +238,22 @@ new class extends Component
                 Purchase
             </div>
             <div class="bold text-lg">
-                @php
+                {{-- @php
                 $pp = 0;
                 if ($pd->offer_type && $pd->discount) {
                 $pp = $pd->discount;
                 }else{
                 $pp = $pd->price;
                 }
-                @endphp
-                {{$pp ?? "0"}} * {{$this->quantity ?? 1}} = {{($pp ?? 0) * ($this->quantity ?? 1)}} TK
+                @endphp --}}
+                {{-- {{$pd?->totalPrice() ?? "0"}} * {{$quantity ?? 0}} = {{($pd?->totalPrice() ?? 0) *
+                ($quantity ?? 0)}} TK --}}
+                {{$pd->totalPrice()}} TK
             </div>
         </div>
         <div class="flex items-start justify-start mb-3 p-5 bg-gray-100">
             <div class="flex">
-                <img src="{{asset('storage/'. $pd->thumbnail)}}" class="w-12 h-12 rounded shadow mr-3" alt="">
+                <img src="{{asset('storage/'. $pd?->thumbnail)}}" class="w-12 h-12 rounded shadow mr-3" alt="">
             </div>
             <div>
                 <div class="text-lg bold">
@@ -277,7 +286,7 @@ new class extends Component
 
                     @endif
                     <div class="text-xs">
-                        Available Stock: {{$pd->stock ?? "0"}}
+                        Available Stock: {{$pd->unit ?? "0"}}
                     </div>
                 </div>
             </div>
@@ -306,8 +315,11 @@ new class extends Component
                 {{--
                 <x-input-field inputClass="w-full" label="Full Address" name="location" wire:model.live="location"
                     error="location" /> --}}
-                <textarea wire:model.live="" id="full_address" cols="3" class="w-full rounded-md p-2 mb-2"
+                <textarea wire:model.live="location" id="full_address" cols="3" class="w-full rounded-md p-2 mb-2"
                     placeholder="Full Address"></textarea>
+                @error('location')
+                <span class="text-red-900">{{$message}}</span>
+                @enderror
                 <x-input-field inputClass="w-full" label="Road No" name="road_no" wire:model.live="road_no"
                     error="house_no" />
                 <x-input-field inputClass="w-full" label="House No" name="house_no" wire:model.live="house_no"
@@ -344,7 +356,7 @@ new class extends Component
                 <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity"
                     name="quantity" error="quantity" /> --}}
                 <x-input-file label="Quantity" name="quantity" error="quantity">
-                    {{$this->pd?->unit}}
+                    {{-- {{$pd?->unit}} --}}
                     <select wire:model.live="quantity" id="" class="rounded-md py-1 border">
                         <option value="">Select Quantity</option>
                         @for ($i = 1; $i <= $this->pd?->unit; $i++) <option value="{{$i}}">{{$i}}</option>

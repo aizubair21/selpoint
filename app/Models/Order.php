@@ -45,6 +45,16 @@ class Order extends Model
             // logger("Order Model Booted $order->id");
             // ProductComissionController::dispatchProductComissionsListeners($order->id);
 
+            /**
+             * if order created, then lower the product unit
+             */
+            $order->cartOrders()->each(function ($item) {
+                $item->product->decrement('unit', $item->quantity);
+            });
+
+            /**
+             * count all comission againt order
+             */
             UpdateProductSalesIndex::dispatch();
         });
 

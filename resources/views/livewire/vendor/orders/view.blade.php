@@ -30,12 +30,13 @@
                     </div>
                     @endif
 
-                    @if ($orders->status == 'Pending')
+                    @if ($orders->status == 'Pending' )
                     <x-primary-button @click="$dispatch('open-modal', 'order-accept-modal')">
                         Accept order
                     </x-primary-button>
                     @else
-                    <div class="mb-2 flex gap-2">
+
+                    <div @class(['mb-2 flex gap-2 hidden', 'block'=> $orders->status != 'Reject'])>
                         <div wire:click="updateOrderStatusTo('Pending')" @class(["p-2 px-3 rounded-md cursor-pointer
                             text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white'=>
                             in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered',

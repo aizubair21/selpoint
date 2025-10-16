@@ -23,7 +23,7 @@
                     Your Products
                 </x-slot>
                 <x-slot name="content">
-                    Your have total 30 products active, and 10 inactive.
+                    Your have product to resel
                 </x-slot>
             </x-dashboard.section.header>
 
@@ -89,10 +89,11 @@
                                 <th></th>
                                 <th>#</th>
                                 <th>Product</th>
+                                <th>Stock</th>
+                                <th>Build Cost</th>
                                 <th>Price</th>
+                                <th>Discount</th>
                                 <th>Status</th>
-                                <th>Sell</th>
-                                <th>Earning</th>
                                 <th>Insert At</th>
                                 <th>A/C</th>
                             </tr>
@@ -107,22 +108,30 @@
                                 <td> {{$loop->iteration}} </td>
                                 <td>
                                     <div class="flex items-center">
-                                        <img height="50px" width="100px"
+                                        <img class="w-8 h-8 mr-2 rounded-md"
                                             src="{{asset('/storage/'. $product->thumbnail)}}" />
                                         {{$product->name ?? "N/A"}}
                                     </div>
                                 </td>
                                 <td>
+                                    {{$product->unit}}
                                 </td>
+                                <td>
+                                    {{$product->buying_price}}
+                                </td>
+                                <td>
+                                    {{$product->price}}
+                                </td>
+                                <td>
+                                    {{$product->discount ?? "0"}}
+                                </td>
+                                {{-- <td>
+                                    {{$product->orders()->count()}}
+                                </td> --}}
                                 <td>
                                     {{$product->status ? 'Active' : "In Active"}}
                                 </td>
-                                <td>
-                                    {{$product->orders()->count()}}
-                                </td>
-                                <td>
-                                    0
-                                </td>
+
                                 <td>
                                     {{$product->created_at?->diffForHumans() ?? "N/A"}}
                                 </td>

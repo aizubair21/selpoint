@@ -23,7 +23,31 @@ class CartOrder extends Model
         'status',
     ];
 
+    protected static function booted(): void
+    {
+        parent::booted();
+        static::created(function (CartOrder $order) {
+            // logger("Order Model Booted $order->id");
+            // ProductComissionController::dispatchProductComissionsListeners($order->id);
 
+            /**
+             * if order created, then lower the product unit
+             */
+            $order->product->decrement('unit', $order->quantity);
+            // $order->cartOrders()->each(function ($item) {
+            // });
+
+        });
+        
+        /**
+         * if status updated to reject, then upper the product stock
+         */
+        static::updated(function (CartOrder $order) {
+            if ($order->isDirty('status') && $order->status == 'Reject') {
+                $order->product->increment('unit', $order->quantity);
+            }
+        });
+    }
 
     public function scopePending($query)
     {

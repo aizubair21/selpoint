@@ -84,7 +84,8 @@
                             <option value="Delivered">Delivered</option>
                             <option value="Confirm">Confirm</option>
                             <hr class="my-1" />
-                            <option value="Cancel">Cancel</option>
+                            <option value="Reject">Reject</option>
+                            <option value="Hold">Hold</option>
 
                         </select>
 
@@ -149,7 +150,7 @@
                                             view
                                         </x-nav-link>
                                         @else
-                                        <div class="px-2 rounded bg-indigo-900 text-white">Purchase</div>
+                                        <div class="px-2 inline-flex rounded bg-indigo-900 text-white">Purchase</div>
                                         @endif
                                     </div>
                                 </td>
@@ -200,8 +201,8 @@
                                         class="text-xs p-1 border rounded-md bg-indigo-200 text-indigo-900">Confirm</span>
                                     @elseif ($item->status == 'Hold')
                                     <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Hold</span>
-                                    @elseif ($item->status == 'Cancel')
-                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancel</span>
+                                    @elseif ($item->status == 'Reject')
+                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Rejected</span>
                                     @elseif ($item->status == 'Cancelled')
                                     <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancelled</span>
                                     @else

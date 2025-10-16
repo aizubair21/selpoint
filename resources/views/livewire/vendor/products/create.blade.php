@@ -412,8 +412,8 @@
                             <hr>
                             {!! $products['description'] !!}
                             <hr> --}}
-
-                            <x-primary-button>
+                            <br>
+                            <x-primary-button type="submit" class="block">
                                 create
                             </x-primary-button>
                         </x-input-file>

@@ -143,7 +143,7 @@
                             <x-nav-link href="?nav=Delivered" :active="$nav == 'Delivered'">Delivered</x-nav-link>
                             <x-nav-link href="?nav=Confirm" :active="$nav == 'Confirm'">Confirm</x-nav-link>
                             <x-nav-link href="?nav=Hold" :active="$nav == 'Hold'">Hold</x-nav-link>
-                            <x-nav-link href="?nav=Cancel" :active="$nav == 'Cancel'">Cancel</x-nav-link>
+                            <x-nav-link href="?nav=Reject" :active="$nav == 'Reject'">Reject</x-nav-link>
                             <x-nav-link href="?nav=Cancelled" :active="$nav == 'Cancelled'">Cancel by User</x-nav-link>
                         </div>
 
@@ -226,8 +226,8 @@
                                         class="text-xs p-1 border rounded-md bg-indigo-200 text-indigo-900">Confirm</span>
                                     @elseif ($item->status == 'Hold')
                                     <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Hold</span>
-                                    @elseif ($item->status == 'Cancel')
-                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancel</span>
+                                    @elseif ($item->status == 'Reject')
+                                    <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Reject</span>
                                     @elseif ($item->status == 'Cancelled')
                                     <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancelled</span>
                                     @else
