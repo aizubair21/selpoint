@@ -224,19 +224,16 @@
     <x-dashboard.container>
         {{-- categories --}}
         @if (count($categories))
-        <div class="pt-4">
-            Categories
-        </div>
 
-
-        <div x-loading.disabled x-transition class="pb-4"
-            style="display: grid; grid-template-columns:repeat(auto-fill, minmax(100px, 1fr)); grid-gap:10px">
+        <div x-loading.disabled x-transition class="pb-4 flex overflow-x-scroll gap-3 ">
             @foreach ($categories as $item)
             @if ($item->slug != 'default-category')
-            <div class="relative text-center rounded-md "
-                style="backdrop-filter:blur(3px); background-color:#fff; height:100px">
-                <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate>
-                    <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
+            <div class="relative text-center rounded-md"
+                style="backdrop-filter:blur(3px); background-color:#fff; width:100px; height:100px">
+                <a href="{{ route('category.products', ['cat' => $item->slug]) }}" class="block w-full h-full"
+                    style="width:100px!important; height: 100px!important;" wire:navigate>
+                    <img src="{{asset('storage/'.$item->image)}}"
+                        style="width:100px!important; height:100px!important; " alt="">
                     <div class="absolute bottom-0 shadow w-full text-center" style="background-color:
                                         #f6f6f69c; backdrop-filter:blur(6px)">
                         {{ Str::limit($item->name, 9, '...') }}

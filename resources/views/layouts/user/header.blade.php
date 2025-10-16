@@ -448,7 +448,8 @@ new class extends Component {
 
 
     {{-- other side nav --}}
-    <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll" x-show="open" style="top:40px;width:250px;">
+    <div class="fixed left-0 h-screen bg-white shadow-lg overflow-y-scroll hidden" :class="{'hidden' : !open}"
+        x-transition style="top:40px;width:250px;">
         <a wire:navigate href="{{route('shops.reseller')}}"
             class="w-full p-3 bg-indigo-200 py-4 border rounded flex justify-between items-center mb-4"> Shops <i
                 class="fas fa-caret-right"></i> </a>
