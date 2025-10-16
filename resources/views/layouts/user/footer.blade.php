@@ -3,7 +3,7 @@
     <footer>
         <x-dashboard.container>
             <div class="justify-between"
-                style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap-10">
+                style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap-10">
 
                 <div class=" py-4 mb-4">
                     <div class="w-full">
