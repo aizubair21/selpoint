@@ -6,10 +6,11 @@
 
         @if (auth()->user()->active_nav == 'reseller')
         <div>
-            <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')"> To Me
+            <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')"> User
+                Orders
             </x-nav-link>
             <x-nav-link href="{{route('reseller.resel-order.index')}}"
-                :active="request()->routeIs('reseller.resel-order.*')"> Resel Order</x-nav-link>
+                :active="request()->routeIs('reseller.resel-order.*')"> My Resel Order</x-nav-link>
         </div>
 
         @endif
@@ -116,13 +117,11 @@
                                         class="w-5 h-5 p-0 m-0 mr-3" id="">
                                     <label for="home_del" class="p-0 m-0"> Both </label>
                                 </div>
-                                <hr />
                                 <div class="flex items-center mb-2 rounded-md border p-2 text-sm">
                                     <input id="home_del" wire:model.live='area' value="Dhaka" type="radio" name=""
                                         class="w-5 h-5 p-0 m-0 mr-3" id="">
                                     <label for="home_del" class="p-0 m-0"> Inside Dhaka </label>
                                 </div>
-                                <hr />
                                 <div class="flex items-center mb-2 rounded-md border p-2 text-sm">
                                     <input id="home_del" wire:model.live='area' value="Other" type="radio" name=""
                                         class="w-5 h-5 p-0 m-0 mr-3" id="">

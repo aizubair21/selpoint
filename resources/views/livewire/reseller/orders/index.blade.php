@@ -3,15 +3,17 @@
     <x-dashboard.page-header>
         Orders
         <br>
-        
-        @if (auth()->user()->active_nav == 'reseller')     
-            <div>
-                <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')" > To Me </x-nav-link>
-                <x-nav-link href="{{route('reseller.resel-order.index')}}" :active="request()->routeIs('reseller.resel-order.*')" > Resel </x-nav-link>
-            </div>
+
+        @if (auth()->user()->active_nav == 'reseller')
+        <div>
+            <x-nav-link href="{{route('vendor.orders.index')}}" :active="request()->routeIs('vendor.orders.*')"> User
+                Orders </x-nav-link>
+            <x-nav-link href="{{route('reseller.resel-order.index')}}"
+                :active="request()->routeIs('reseller.resel-order.*')"> My Resel Order </x-nav-link>
+        </div>
 
         @endif
-        
+
     </x-dashboard.page-header>
 
 
@@ -30,7 +32,8 @@
                     Pending
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Pending'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' =>
+                    'Pending'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -38,7 +41,8 @@
                     Cancel
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancel'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancel'])->count()
+                    ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -46,7 +50,8 @@
                     Cancel by User
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Cancelled'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' =>
+                    'Cancelled'])->count() ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -54,11 +59,12 @@
                     Accepted
                 </x-slot>
                 <x-slot name="content">
-                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accept'])->count() ?? "0"}}
+                    {{auth()->user()->orderToMe()->where(['belongs_to_type' => $account, 'status' => 'Accept'])->count()
+                    ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
-               
+
             </x-dashboard.overview.div>
         </x-dashboard.overview.section>
 
@@ -95,7 +101,7 @@
             <x-dashboard.section.inner>
 
                 <x-dashboard.foreach :data="$data">
-                    
+
                     {{$data->links()}}
                     <x-dashboard.table>
                         <thead>
@@ -115,47 +121,50 @@
 
                         <tbody>
                             @foreach ($data as $item)
-                                <tr>
-                                    <td> {{$loop->iteration}} </td>
-                                    <td> 
-                                        <x-nav-link-btn href="{{route('reseller.order.view', ['order' => $item->id])}}"> view </x-nav-link-btn>    
-                                        <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint </x-nav-link>    
-                                    </td>
-                                    <td> {{$item->id ?? "N/A"}} </td>
-                                   
-                                    <td> 
-                                        {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
-                                    </td>
-                                    
-                                    <td>
-                                        {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping}}</span> 
-                                    </td>
-                                    <td>
-                                        {{$item->status ?? "Pending"}}
-                                    </td>
-                                    <td>
-                                        <div class="text-nowarp">
-                                            <div>
-                                                {{$item->created_at->diffForHumans()}}
-                                            </div>
-                                            <div class="text-xs">
-                                                {{$item->created_at->toFormattedDateString()}}
-                                            </div>
+                            <tr>
+                                <td> {{$loop->iteration}} </td>
+                                <td>
+                                    <x-nav-link-btn href="{{route('reseller.order.view', ['order' => $item->id])}}">
+                                        view </x-nav-link-btn>
+                                    <x-nav-link href="{{route('vendor.orders.cprint', ['order' => $item->id])}}"> Pint
+                                    </x-nav-link>
+                                </td>
+                                <td> {{$item->id ?? "N/A"}} </td>
+
+                                <td>
+                                    {{$item->cartOrders()->count() ?? "N/A"}} / {{$item->quantity ?? "N/A"}}
+                                </td>
+
+                                <td>
+                                    {{$item->total ?? "N/A"}} <br> <span class="text-xs">+ {{$item->shipping}}</span>
+                                </td>
+                                <td>
+                                    {{$item->status ?? "Pending"}}
+                                </td>
+                                <td>
+                                    <div class="text-nowarp">
+                                        <div>
+                                            {{$item->created_at->diffForHumans()}}
                                         </div>
-                                    </td>
-                                    <td>
-                                        <p> {{$item->delevery}} </p> 
-                                        <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{ $item->area_condition }}</p>
-                                    </td>
-                                    <td>
-                                        <span class="text-xs">
-                                            {{$item->number ?? "N/A"}}
-                                        </span>
-                                    </td>
-                                    <th>
-                                        {{ $item->comissionsInfo?->sum('take_comission') }}
-                                    </th>
-                                </tr>
+                                        <div class="text-xs">
+                                            {{$item->created_at->toFormattedDateString()}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p> {{$item->delevery}} </p>
+                                    <p class="border px-2 rounded bg-gray-900 text-white inline-block bold">{{
+                                        $item->area_condition }}</p>
+                                </td>
+                                <td>
+                                    <span class="text-xs">
+                                        {{$item->number ?? "N/A"}}
+                                    </span>
+                                </td>
+                                <th>
+                                    {{ $item->comissionsInfo?->sum('take_comission') }}
+                                </th>
+                            </tr>
                             @endforeach
                         </tbody>
                     </x-dashboard.table>
@@ -165,47 +174,52 @@
         </x-dashboard.section>
     </x-dashboard.container>
 
-     <x-modal name="filter-order" maxWidth="xl">
+    <x-modal name="filter-order" maxWidth="xl">
         <div class="p-2">
             <div>
-                Filter 
+                Filter
             </div>
-            <x-hr/>
+            <x-hr />
             <div class="md:flex">
                 <div>
                     <div>
-    
+
                         <div>
                             Delevery Type
                         </div>
                         <div class="px-2">
                             <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Home" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="Home" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Home Delebery </label>
                             </div>
                             <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Courier" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="Courier" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Courier Delebery </label>
                             </div>
                             <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Shop" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="Shop" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Hand To Hand from shop </label>
                             </div>
                         </div>
-                        
+
                     </div>
-        
+
                     <div class="mt-2">
                         <div>
-                            Delevery Area 
+                            Delevery Area
                         </div>
                         <div class="px-2">
                             <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Dhaka" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="Dhaka" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Inside Dhaka </label>
                             </div>
                             <div class="flex items-center mb-2 rounded-md border p-2">
-                                <input id="home_del" value="Other" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="Other" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Outside of Dhaka </label>
                             </div>
                         </div>
@@ -213,22 +227,24 @@
                 </div>
 
                 <div class="mt-2">
-                
+
                     <div class=" border rounded-md">
                         <div class=" p-2 ">
-                            
+
                             <div class="flex items-center p-2 ">
-                                <input id="home_del" value="date" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="date" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Date </label>
                             </div>
                             <div class="flex items-center p-2 ">
-                                <input id="home_del" value="between" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3" id="">
+                                <input id="home_del" value="between" type="radio" name="" class="w-5 h-5 p-0 m-0 mr-3"
+                                    id="">
                                 <label for="home_del" class="p-0 m-0"> Date Between </label>
                             </div>
-                            
-                            
+
+
                         </div>
-                        
+
                         <div class="flex justify-between items-center p-2 ">
                             <div>
                                 Start
@@ -246,5 +262,5 @@
 
         </div>
     </x-modal>
-    
+
 </div>

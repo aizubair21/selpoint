@@ -20,7 +20,7 @@ class Order extends Model
         'belongs_to_type', // 1: vendor, 2: reseller
         // 'product_id',
         // 'size',
-        // 'name',
+        'name',
         // 'price',
         'quantity',
         'number',

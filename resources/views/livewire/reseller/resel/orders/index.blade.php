@@ -90,12 +90,12 @@
                         </select>
                         <select id="type" wire:model.live='type' class="py-1 px-2 rounded-md border">
                             <option value="All">All</option>
-                            <option value="Sync">Resel</option>
+                            <option value="Resel">Resel</option>
                             <option value="Purchase">Purchase</option>
                         </select>
 
                     </div>
-                </x-slot>
+                </x-slot>`
 
                 <x-slot name="content">
                     View your resel product, income and comission here. You might find the order that have already

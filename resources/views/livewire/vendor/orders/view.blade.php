@@ -1,7 +1,7 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <x-dashboard.page-header>
-        View Orders (a)
+        View Orders
         <br>
         <div class="text-sm font-normal">
             {{$orders->user_type}} <i class="fas fa-arrow-right mx-2"></i> {{ $orders->belongs_to_type}}
@@ -171,7 +171,7 @@
 
                 <div>
 
-                    @if (auth()->user()->active_nav == 'vendor' && $orders->name == 'Sync')
+                    @if (auth()->user()->active_nav == 'vendor' && $orders->name == 'Resel')
                     <x-secondary-button x-on:click="$dispatch('open-modal', 'profit-modal')"> Resel Profit
                         {{$orders->resellerProfit?->sum('profit') ?? 0}} TK </x-secondary-button>
                     @endif
@@ -225,21 +225,22 @@
                     Your Profit
                 </x-slot>
                 <x-slot name="content">
-                    @php
-                    $buy = $orders->cartOrders->sum('product.buying_price');
-                    $total = $orders->cartOrders->sum('buying_price');
-                    @endphp
                     @if (auth()->user()->active_nav == 'reseller')
                     {{ $orders->cartOrders->sum('price') - $orders->cartOrders->sum('buying_price') }}
                     @endif
                     @if (auth()->user()->active_nav == 'vendor')
+                    @php
+                    $buy = $orders->cartOrders->sum('product.buying_price');
+                    $total = $orders->cartOrders->sum('buying_price');
+                    @endphp
+                    {{$total - $buy}} TK
                     {{-- {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('price')
                     }} --}}
                     @php
-                    $profit = intVal($orders->cartOrders?->sum('price')) -
-                    intVal($orders->cartOrders?->sum('buying_price'));
+                    // $profit = intVal($orders->cartOrders?->sum('price')) -
+                    // intVal($orders->cartOrders?->sum('buying_price'));
                     @endphp
-                    {{ $profit * $orders->cartOrders->sum('quantity') }} TK
+                    {{-- {{ $profit * $orders->cartOrders->sum('quantity') }} TK --}}
                     @endif
                     {{-- {{ $total ."=". $buy ?? "0"}} --}}
                 </x-slot>
@@ -309,7 +310,9 @@
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Attr</th>
-                        {{-- <th>Sell</th> --}}
+                        @if (auth()->user()->account_type() == 'vendor')
+                        <th>Sell</th>
+                        @endif
                         <th>Cost</th>
                         <th>Profit</th>
                         <th>Comissions</th>
@@ -375,22 +378,29 @@
                         <td>
                             {{$item->size ?? "N/A"}}
                         </td>
-                        {{-- <td>
-                            @if (auth()->user()->account_type() == 'reseller')
+                        @if (auth()->user()->account_type() == 'vendor')
+                        <td>
 
-                            {{$item->product?->price ?? "N/A"}} TK
-                            @else
+                            {{-- {{$item->price ?? "N/A"}} TK --}}
                             {{$item->buying_price ?? "N/A"}} TK
-                            @endif
-                        </td> --}}
+                        </td>
+                        @endif
                         <td>
 
                             {{$item->product?->buying_price ?? "N/A"}} TK
 
                         </td>
                         <td>
+                            {{-- @if (a)
+
+                            @endif --}}
                             @php
+                            $profit = 0;
+                            if ($item->order?->name == 'Resel') {
+                            $profit = intVal($item->buying_price) - intVal($item->product?->buying_price);
+                            }else{
                             $profit = intVal($item->price) - intVal($item->buying_price);
+                            }
                             @endphp
                             {{$profit}} * {{$item->quantity}} = {{ $profit * $item->quantity }} TK
                         </td>
@@ -518,36 +528,36 @@
             <div class="p-5">
 
                 <form wire:submit.prevent="confirmSyncOrder">
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" wire:model.live="name"
-                        name="name" error="name" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Phone" wire:model.live="phone"
-                        name="phone" error="phone" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer District"
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Name" disabled
+                        wire:model.live="name" name="name" error="name" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Phone" disabled
+                        wire:model.live="phone" name="phone" error="phone" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer District" disabled
                         wire:model.live="district" name="district" error="district" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Upozila"
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Upozila" disabled
                         wire:model.live="upozila" name="upozila" error="upozila" />
-                    <x-input-field inputClass="w-full" label="Customer Full Address" name="location"
+                    <x-input-field inputClass="w-full" label="Customer Full Address" disabled name="location"
                         wire:model.live="location" error="location" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Road No" name="road_no"
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer Road No" disabled name="road_no"
                         wire:model.live="road_no" error="house_no" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Customer House No" name="house_no"
-                        wire:model.live="house_no" error="house_no" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Customer House No" disabled
+                        name="house_no" wire:model.live="house_no" error="house_no" />
                     <x-hr />
 
-                    <x-input-field inputClass="w-full" class="md:flex" label="Reseller Price  " wire:model.live="rprice"
-                        name="rprice" error="rprice" />
+                    <x-input-field inputClass="w-full" class="md:flex" label="Reseller Price" disabled
+                        wire:model.live="rprice" name="rprice" error="rprice" />
 
                     <div class="text-xs" wire:show='rprice'>
                         {{-- Profit: <strong> {{$this->rprice - $this->pd->price}} </strong> --}}
                     </div>
 
                     <x-hr />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity"
+                    <x-input-field inputClass="w-full" class="md:flex" disabled label="Product Quantity"
                         wire:model.live="quantity" name="quantity" error="quantity" />
-                    <x-input-field inputClass="w-full" class="md:flex" label="Product Size/Attribute"
+                    <x-input-field inputClass="w-full" class="md:flex" disabled label="Product Size/Attribute"
                         wire:model.live="attr" name="attr" error="attr" />
                     <x-hr />
-                    <x-input-file label="Area Condition" error='area_condition'>
+                    <x-input-file label="Area Condition" error='area_condition' disabled>
                         <select wire:model.live="area_condition" id="">
                             <option value="">Select Area</option>
                             <option value="Dhaka">Inside Dhaka</option>
@@ -557,10 +567,11 @@
                     <x-input-file label="Delivery Method" name="delevery" error="delevery">
                         <select wire:model.live="delevery" id="">
                             <option value="">Select Shipping Type</option>
-                            <option value="Courier">Courier</option>
-                            <option value="Home">Home Delivery</option>
+                            <option value="courier">Courier</option>
+                            <option value="home">Home Delivery</option>
                         </select>
                     </x-input-file>
+                    <hr />
                     <x-primary-button>Order</x-primary-button>
                 </form>
             </div>

@@ -193,7 +193,7 @@
                     $total = $orders->cartOrders->sum('total');
                     @endphp
                     {{ $total - $buy ?? "0"}} --}}
-                    @if ($orders->name == 'Sync')
+                    @if ($orders->name == 'Resel')
                     {{$orders->resellerProfit()?->sum('profit') ?? "0"}}
                     @else
                     0
@@ -326,14 +326,14 @@
                             {{$item->size ?? "N/A"}}
                         </td>
                         <td>
-                            @if ($item->order?->name == "Sync")
+                            @if ($item->order?->name == "Resel")
                             {{$item->buying_price ?? "N/A"}} TK
                             @endif
                         </td>
 
                         <td>
 
-                            @if ($item->order?->name == "Sync")
+                            @if ($item->order?->name == "Resel")
                             {{-- {{$item->buying_price ?? "N/A"}} TK --}}
                             {{ ($item->price - $item->buying_price) * $item->quantity }}
                             @endif

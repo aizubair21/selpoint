@@ -130,6 +130,14 @@ class View extends Component
 
     public function syncOrder($ci)
     {
+        /**
+         * check order satatus isn't Pending, ro Hold, or Rejected
+         */
+        if (in_array($this->orders->status, ['Pending', 'Hold', 'Cancelled', 'Cancel', 'Reject'])) {
+            $this->dispatch('error', 'You can sync only accepted orders');
+            return;
+        };
+
         $this->cartOrder = CartOrder::findOrFail($ci);
 
         if ($this->cartOrder->product?->isResel()) {
@@ -165,6 +173,13 @@ class View extends Component
 
     public function confirmSyncOrder()
     {
+        /**
+         * check order satatus isn't Pending, ro Hold, or Rejected
+         */
+        if (in_array($this->orders->status, ['Pending', 'Hold', 'Cancelled', 'Cancel', 'Reject'])) {
+            $this->dispatch('error', 'You can sync only accepted orders');
+            return;
+        };
         // dd($this->mainProduct?->id,);
         // $isExists = Order::where(
         //     [
@@ -187,7 +202,7 @@ class View extends Component
                 'total' => $this->quantity * $this->rprice,
                 'status' => 'Pending',
 
-                'name' => $this->name,
+                'name' => 'Resel',
                 'district' => $this->district,
                 'upozila' => $this->upozila,
                 'location' => $this->location,
