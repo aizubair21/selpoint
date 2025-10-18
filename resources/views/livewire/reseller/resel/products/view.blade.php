@@ -341,7 +341,7 @@
                         @if ($isReselWithDiscountPrice)
                         <div>
                             <x-text-input placeholder="Discount Price" min="{{$products->price}}" type="number"
-                                wire:model="reselDiscountPrice" class="w-full" />
+                                wire:model.live="reselDiscountPrice" class="w-full" />
                         </div>
                         @endif
                     </div>
