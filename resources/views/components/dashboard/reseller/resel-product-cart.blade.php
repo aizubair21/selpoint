@@ -18,10 +18,10 @@ use Livewire\Attributes\Validate;
 
 new class extends Component 
 {
-    public $pd, $alreadyLiked = false, $discountPercent, $haveDiscount = false, $resellerOrderId = '', $needToSync = false, $myOrder = '';
+    public $pd, $alreadyLiked = false, $discountPercent, $haveDiscount = false, $rprice, $resellerOrderId = '', $needToSync = false, $myOrder = '';
 
     #[validate('required')]
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr = '', $name, $phone, $house_no, $road_no;
+    public $district, $upozila, $location, $area_condition, $delevery, $quantity = 1, $attr = '', $name, $phone, $house_no, $road_no;
 
     #[On('refresh')]
     public function mount() 
@@ -35,6 +35,7 @@ new class extends Component
         }
         // check this product alreay in liked list of reseller    
         $this->alreadyLiked = Reseller_like_product::where(['user_id' => auth()->user()->id, 'product_id' => $this->pd->id])->exists();
+        $this->rprice = $this->pd->totalPrice();
     }
 
     public function like ()
@@ -98,10 +99,10 @@ new class extends Component
                     'order_id' => $order->id,
                     'product_id' => $this->pd->id,
                     'quantity' => $this->quantity,
-                    'price' => $this->rprice,
+                    'price' => $this->rprice ?? $this->pd->totalPrice(),
                     'size' => $this->attr,
-                    'total' => $this->quantity * $this->rprice,
-                    'buying_price' => $this->pd->totalPrice(),
+                    'total' => $this->quantity * $this->rprice ?? $this->pd->totalPrice(),
+                    'buying_price' => $this->pd->buying_price,
                     'status' => 'Pending',
                     ]
             );
@@ -324,7 +325,7 @@ new class extends Component
                     error="house_no" />
                 <x-input-field inputClass="w-full" label="House No" name="house_no" wire:model.live="house_no"
                     error="house_no" />
-                <div class="bg-gray-100 p-2 my-2 space-y-2 rounded shadow-lg">
+                {{-- <div class="bg-gray-100 p-2 my-2 space-y-2 rounded shadow-lg">
                     <div class="w-full mb-2">
                         <div class="text-md">
                             @if ($pd->offer_type)
@@ -351,7 +352,8 @@ new class extends Component
                     <div class="text-xs" wire:show='rprice'>
                         Profit: <strong> {{intVal($this->rprice) - intVal($this->pd->totalPrice())}} </strong>
                     </div>
-                </div>
+                </div> --}}
+
                 {{--
                 <x-input-field inputClass="w-full" class="md:flex" label="Product Quantity" wire:model.live="quantity"
                     name="quantity" error="quantity" /> --}}
@@ -362,11 +364,24 @@ new class extends Component
                         @for ($i = 1; $i <= $this->pd?->unit; $i++) <option value="{{$i}}">{{$i}}</option>
                             @endfor
                     </select>
+                </x-input-file>
+                <div class="p-2 bg-indigo-100 ">
+
                     <div class="text-xs">
                         @if ($this->pd?->unit < 1) Stock Out @else You can order maximum {{$this->pd?->unit}} item
                             @endif
                     </div>
-                </x-input-file>
+
+                    <div class="flex justify-between items-center">
+                        <div>
+                            Total
+                        </div>
+                        <div>
+                            {{$this->quantity}} * {{$this->pd->totalPrice()}} = {{intVal($this->quantity) *
+                            intVal($this->pd->totalPrice())}}
+                        </div>
+                    </div>
+                </div>
                 {{-- @error('quantity')
                 <p class="text-red-400"> {{$message}} </p>
                 @enderror --}}
