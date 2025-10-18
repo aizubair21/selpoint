@@ -75,8 +75,13 @@ class ProductComissionController extends Controller
                     $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
                     $distribute = round(($comission * 30) / 100, 2);
 
-                    // calculate reseller profit from vendor if the seller is vendor
-                    if ($ord->user_type == 'reseller' && $ord->belongs_to_type == 'vendor') {
+                    /**
+                     * calculate the reseller profit
+                     * if the seller is vendor
+                     * and the order isnot purchase by reseller
+                     */
+
+                    if ($ord->user_type == 'reseller' && $ord->belongs_to_type == 'vendor' && $ord->order?->name == 'Resel') {
                         $rprofit = 0;
                         $p = ($ord->price - $ord->buying_price) * $ord->quantity;
                         $rprofit += $p;

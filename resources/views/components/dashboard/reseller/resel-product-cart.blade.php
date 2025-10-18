@@ -77,7 +77,7 @@ new class extends Component
                     'total' => $this->quantity * $this->pd?->totalPrice(),
                     'status' => 'Pending',
                     
-                    'name' => $this->name,
+                    'name' => 'Purchase',
                     'district' => $this->district,
                     'upozila' => $this->upozila,
                     'location' => $this->location,

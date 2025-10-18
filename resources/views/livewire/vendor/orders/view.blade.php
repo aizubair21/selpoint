@@ -36,7 +36,7 @@
                     </x-primary-button>
                     @else
 
-                    <div @class(['mb-2 flex gap-2 hidden', 'block'=> $orders->status != 'Reject'])>
+                    <div @class(['mb-2 flex gap-2', 'hidden'=> $orders->status == 'Reject'])>
                         <div wire:click="updateOrderStatusTo('Pending')" @class(["p-2 px-3 rounded-md cursor-pointer
                             text-gray-600 border-gray-600 text-center", 'bg-indigo-900 text-white'=>
                             in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered',
@@ -149,8 +149,8 @@
                             </div>
                         </div>
                     </div>
-                    @if ($orders->status == 'Rejecte')
-                    <x-danger-button> Order Cancelled </x-danger-button>
+                    @if ($orders->status == 'Reject')
+                    <x-danger-button> Order Has Been Cancelled </x-danger-button>
                     @endif
                 </div>
                 {{-- @if ($orders->status != 'Confirm' && $orders->status == 'Pending')
@@ -165,18 +165,20 @@
                     COMISSIONS</x-nav-link> --}}
                 @if ($orders->hasRider()->count())
                 <x-primary-button>
-                    <i class="fas fa-truck-fast pr-2"></i> rider
+                    <i class="fas fa-truck-fast pr-2"></i> Rider Assigned
                 </x-primary-button>
                 @endif
 
-
-
                 <div>
 
-                    @if (auth()->user()->active_nav == 'vendor')
+                    @if (auth()->user()->active_nav == 'vendor' && $orders->name == 'Sync')
                     <x-secondary-button x-on:click="$dispatch('open-modal', 'profit-modal')"> Resel Profit
                         {{$orders->resellerProfit?->sum('profit') ?? 0}} TK </x-secondary-button>
                     @endif
+                    @if (auth()->user()->active_nav == 'vendor' && $orders->name == 'Purchase')
+                    <x-primary-button> Purchase </x-primary-button>
+                    @endif
+
                     <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'"
                         x-on:click="$dispatch('open-modal', 'comission-modal')"> {{ auth()->user()->account_type() ==
                         'reseller' ? auth()->user()->resellerShop()->system_get_comission ?? 0 :
@@ -231,7 +233,13 @@
                     {{ $orders->cartOrders->sum('price') - $orders->cartOrders->sum('buying_price') }}
                     @endif
                     @if (auth()->user()->active_nav == 'vendor')
-                    {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('product.buying_price') }}
+                    {{-- {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('price')
+                    }} --}}
+                    @php
+                    $profit = intVal($orders->cartOrders?->sum('price')) -
+                    intVal($orders->cartOrders?->sum('buying_price'));
+                    @endphp
+                    {{ $profit * $orders->cartOrders->sum('quantity') }} TK
                     @endif
                     {{-- {{ $total ."=". $buy ?? "0"}} --}}
                 </x-slot>
@@ -301,8 +309,8 @@
                         <th>Qty</th>
                         <th>Total</th>
                         <th>Attr</th>
-                        <th>Sell</th>
-                        <th>Buy</th>
+                        {{-- <th>Sell</th> --}}
+                        <th>Cost</th>
                         <th>Profit</th>
                         <th>Comissions</th>
                     </tr>
@@ -367,21 +375,24 @@
                         <td>
                             {{$item->size ?? "N/A"}}
                         </td>
-                        <td>
+                        {{-- <td>
                             @if (auth()->user()->account_type() == 'reseller')
 
                             {{$item->product?->price ?? "N/A"}} TK
                             @else
                             {{$item->buying_price ?? "N/A"}} TK
                             @endif
-                        </td>
+                        </td> --}}
                         <td>
 
                             {{$item->product?->buying_price ?? "N/A"}} TK
 
                         </td>
                         <td>
-                            {{ ($item->price - $item->buying_price) * $item->quantity }}
+                            @php
+                            $profit = intVal($item->price) - intVal($item->buying_price);
+                            @endphp
+                            {{$profit}} * {{$item->quantity}} = {{ $profit * $item->quantity }} TK
                         </td>
                         <th>
                             {{$item->order->comissionsInfo?->sum('take_comission')}}

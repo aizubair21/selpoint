@@ -75,7 +75,7 @@
                         <x-secondary-button x-on:click.prevent="$dispatch('open-modal', 'filter-order')">
                             <i class="fas fa-filter pr-2"></i> Filter
                         </x-secondary-button>
-                        <select name="" id="status" wire:model.live='nav' class="py-1 px-2 rounded-md border">
+                        <select id="status" wire:model.live='nav' class="py-1 px-2 rounded-md border">
                             <option value="All">Any</option>
                             <option value="Pending">Pending</option>
                             <option value="Accept">Accept</option>
@@ -87,6 +87,11 @@
                             <option value="Reject">Reject</option>
                             <option value="Hold">Hold</option>
 
+                        </select>
+                        <select id="type" wire:model.live='type' class="py-1 px-2 rounded-md border">
+                            <option value="All">All</option>
+                            <option value="Sync">Resel</option>
+                            <option value="Purchase">Purchase</option>
                         </select>
 
                     </div>
@@ -168,9 +173,11 @@
                                 </td> --}}
                                 <td> {{$item->total ?? 0}} + {{$item->shipping ?? 0}} </td>
                                 <td class="font-bold">
-                                    {{
-                                    $item->resellerProfit()->sum('profit') ?? 0
-                                    }}
+                                    @if ($orderSynced || $item->order?->name == 'Sync')
+                                    {{ $item->resellerProfit()->sum('profit') ?? 0 }}
+                                    @else
+                                    0
+                                    @endif
                                 </td>
                                 <td>
                                     <p class="inline-flex text-xs px-1 rounded {{ $item->delevery == 'cash' ?

@@ -16,7 +16,7 @@ class Index extends Component
     use WithPagination;
 
     #[URL]
-    public $nav = 'Pending', $delivery = 'all', $create = 'all', $start_date = '', $end_date = '', $area = 'all';
+    public $nav = 'Pending', $delivery = 'all', $create = 'all', $type = 'All', $start_date = '', $end_date = '', $area = 'all';
     public function render()
     {
         // $data = [];
@@ -28,6 +28,10 @@ class Index extends Component
             $this->nav != 'All'
         ) {
             $query->where(['status' => $this->nav]);
+        }
+
+        if ($this->type != "All") {
+            $query->where('name', $this->type);
         }
 
         if ($this->create == 'day') {

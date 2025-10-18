@@ -52,9 +52,6 @@ class Order extends Model
                 $item->product->decrement('unit', $item->quantity);
             });
 
-            /**
-             * count all comission againt order
-             */
             UpdateProductSalesIndex::dispatch();
         });
 

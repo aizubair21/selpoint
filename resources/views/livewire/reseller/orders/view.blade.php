@@ -1,7 +1,7 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <x-dashboard.page-header>
-        View Orders
+        Your Reseller Orders
         <br>
         <div class="text-sm font-normal">
             {{$orders->user_type}} <i class="fas fa-caret-right mx-2"></i> {{ $orders->belongs_to_type}}
@@ -188,11 +188,16 @@
                     Your Profit
                 </x-slot>
                 <x-slot name="content">
-                    @php
+                    {{-- @php
                     $buy = $orders->cartOrders->sum('buying_price');
                     $total = $orders->cartOrders->sum('total');
                     @endphp
-                    {{ $total - $buy ?? "0"}}
+                    {{ $total - $buy ?? "0"}} --}}
+                    @if ($orders->name == 'Sync')
+                    {{$orders->resellerProfit()?->sum('profit') ?? "0"}}
+                    @else
+                    0
+                    @endif
                 </x-slot>
             </x-dashboard.overview.div>
             {{-- <x-dashboard.overview.div>
@@ -279,7 +284,7 @@
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Attr</th>
-                        <th>Net Price</th>
+                        <th>Buying Price</th>
                         <th>Profit</th>
                         <th>Comissions</th>
                     </tr>
@@ -302,10 +307,10 @@
                             </div>
                         </td>
                         <td>
-                            <x-nav-link-btn
+                            <x-nav-link
                                 href="{{route('shops', ['get' => $item->order?->seller?->vendorShop()->id, 'slug'=>$item->order?->seller?->vendorShop()->shop_name_en ?? 'not_found'])}}">
                                 {{$item->order?->seller?->vendorShop()->shop_name_en ?? ''}}
-                            </x-nav-link-btn>
+                            </x-nav-link>
                             {{$item->order?->seller?->phone ?? ''}}
                         </td>
                         <td>
@@ -315,20 +320,26 @@
                             {{$item->quantity}}
                         </td>
                         <td>
-                            {{$item->total}} TK
+                            {{$item->price}} * {{$item->quantity}}= {{$item->total}} TK
                         </td>
                         <td>
                             {{$item->size ?? "N/A"}}
                         </td>
                         <td>
+                            @if ($item->order?->name == "Sync")
                             {{$item->buying_price ?? "N/A"}} TK
+                            @endif
                         </td>
 
                         <td>
+
+                            @if ($item->order?->name == "Sync")
+                            {{-- {{$item->buying_price ?? "N/A"}} TK --}}
                             {{ ($item->price - $item->buying_price) * $item->quantity }}
+                            @endif
                         </td>
                         <th>
-                            {{$item->order->comissionsInfo?->sum('take_comission')}}
+                            {{$item->order->comissionsInfo?->sum('take_comission') ?? '0'}}
                         </th>
                     </tr>
                     @endforeach
