@@ -17,8 +17,9 @@ class ProductComissionController extends Controller
     public function deleteComissions(Request $request)
     {
         $tc = TakeComissions::where(['order_id' => $request->id])->exists();
-        if ($tc && !$tc->confirmed == true) {
-            $tc->delete();
+        if ($tc) {
+            TakeComissions::where(['order_id' => $request->id])->delete();
+            DistributeComissions::where(['order_id' => $request->id])->delete();
             return redirect()->back()->with('success', 'Deleted comissions');
         } else {
             return redirect()->back()->with('error', 'Nothing Found or You need to role back first');
@@ -28,14 +29,13 @@ class ProductComissionController extends Controller
     public function deleteResellerProfit(Request $request)
     {
         $pc = ResellerResellProfits::where(['order_id' => $request->id])->exists();
-        if ($pc && !$pc->confirmed == true) {
-            $pc->delete();
+        if ($pc) {
+            ResellerResellProfits::where(['order_id' => $request->id])->delete();
             return redirect()->back()->with('success', 'Receller Profit Deleted');
         } else {
             return redirect()->back()->with('error', 'Nothing Found or You need to role back first');
         }
     }
-
 
     public static function dispatchProductComissionsListeners($id)
     {
@@ -68,7 +68,12 @@ class ProductComissionController extends Controller
                     // echo $products->id;
 
                     if ($orderData->belongs_to_type == 'vendor') {
-                        $profit = ($ord->product?->price - $ord->product?->buying_price) * $ord->quantity; // total profit of selling product
+                        // if ($orderData?->name == "Purchase") {
+                        //     $profit = ($ord->buying_price - $products?->buying_price) * $ord->quantity;
+                        // } else {
+                        //     $profit = ($products?->totalPrice() - $products?->buying_price) * $ord->quantity; // total profit of selling product
+                        // }
+                        $profit = ($products?->totalPrice() - $products?->buying_price) * $ord->quantity; // total profit of selling product
                     } else {
                         $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
                     }
@@ -110,10 +115,22 @@ class ProductComissionController extends Controller
                             $rrp->save();
                         }
                     }
-                    // reseller profit end
 
+                    /**
+                     * calculate comissions
+                     */
                     if ($products && $shop->system_get_comission) {
 
+                        // $slp = 0;
+                        // if ($orderData->belongs_to_type == 'vendor') {
+                        //     if ($orderData->name == 'Purchase') {
+                        //         $slp = $products->totalPrice();
+                        //     }else{
+
+                        //     }
+                        // } else {
+                        //     $slp = $ord->total;
+                        // }
                         // take the comissions and store in databse
                         $takeComissions = new TakeComissions();
                         $takeComissions->forceFill(
@@ -122,7 +139,7 @@ class ProductComissionController extends Controller
                                 'product_id' => $products->id,
                                 'order_id' => $orderData->id,
                                 'buying_price' => $products->buying_price,
-                                'selling_price' => $orderData->belongs_to_type == 'vendor' ? $products->price : $ord->total, // 
+                                'selling_price' => $orderData->belongs_to_type == 'vendor' ? $products->totalPrice() : $ord->total, // 
                                 'take_comission' => $comission,
                                 'distribute_comission' => $distribute,
                                 'store' => round($comission - $distribute, 2),
@@ -250,7 +267,6 @@ class ProductComissionController extends Controller
         }
     }
 
-
     public function confirmSingleTakeComissions($takeId)
     {
         try {
@@ -276,8 +292,6 @@ class ProductComissionController extends Controller
             //throw $th;
         }
     }
-
-
 
     public function distributeComissions($id)
     {

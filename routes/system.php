@@ -204,7 +204,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::post('/comissions/order/{id}', function ($id) {
         $cc = new ProductComissionController();
         $cc->dispatchProductComissionsListeners($id);
-
+        // dd($cc);
         if (empty($cc)) {
             return redirect()->back()->with('success', 'Comission Confirmed');
         } else {
