@@ -2,6 +2,7 @@
 
 namespace App\Livewire\System\Withdraw;
 
+use App\Http\Controllers\UserWalletController;
 use App\Models\Withdraw;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -46,26 +47,23 @@ class View extends Component
             if (!$this->withdraw->is_rejected) {
 
                 $this->validate();
-                $sf = round(($this->withdraw * 0.2) / 100, 2);
-                $mf = round(($this->withdraw * 0.3) / 100, 2);
-                $tf = $sf + $mf;
+                // $sf = round(($this->withdraw * 0.2) / 100, 2);
+                // $mf = round(($this->withdraw * 0.3) / 100, 2);
+                // $tf = $sf + $mf;
 
 
                 $deta = [
-                    'confirmed_by' => Auth::user()->name . "-" . Auth::user()->email,
+                    'confirmed_by' => auth()->user()->name . "-" . auth()->user()->email,
                     'status' => true,
                     'paid_from' => $this->paid_from,
                     'transaction_id' => $this->trx,
-                    'payable_amount' => $this->withdraw->amount - $tf,
-                    'total_fee' => $tf,
-                    'server_fee' => $sf,
-                    'maintenance_fee' => $mf,
                 ];
                 $this->withdraw->forcefill($deta);
                 $this->withdraw->save();
 
                 // reduce amount from user
-                $this->withdraw->user->coin -= $this->withdraw->amount;;
+                // $this->withdraw->user->coin -= $this->withdraw->amount;
+                UserWalletController::remove($this->withdraw->user_id, $this->withdraw->amount);
 
                 $this->dispatch('refresh');
                 $this->dispatch('success', 'Withdraw Confirmed !');
@@ -82,7 +80,7 @@ class View extends Component
     public function rejectPayment()
     {
         return false;
-        if (!$this->withdraw->status) {
+        if ($this->withdraw->status == false) {
 
 
 

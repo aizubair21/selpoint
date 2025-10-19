@@ -7,19 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Withdraw extends Model
 {
     //
-    protected $fillable = [
-        'id',
-        'user_id', // id of user
-        'phone', // phone number
-        'pay_by', // bank name, or wallet name, or mobile banking
-        'pay_to', // deails of payment method
-        'amount', // amount in taka
-        'is_rejected', // 
-        'reject_for', // 
-        'seen_by_admin', // 0 = not seen, 1 = seen
-        'status', // 0 pending, 1 confirmed, 2 rejected
-
-    ];
+    protected $guarded = [];
 
 
     /**
@@ -35,7 +23,7 @@ class Withdraw extends Model
      */
     public function scopeRejected($query)
     {
-        return $query->wherNotNull('is_rejected');
+        return $query->whereNotNull('is_rejected');
     }
 
     /**
@@ -43,7 +31,10 @@ class Withdraw extends Model
      */
     public function scopeAccepted($query)
     {
-        return $query->whereNull('is_rejected')->where('status', 1);
+        return $query->where(function ($q) {
+            $q->whereNull('is_rejected')
+                ->where('status', 1);
+        });
     }
 
     /**

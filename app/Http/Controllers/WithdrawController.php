@@ -38,9 +38,17 @@ class WithdrawController extends Controller
             ]
         );
         // related data
+        $tp = $request->amount * .05;
+        $payable = $request->amount - $tp;
+
         $data = array(
             'user_id' => auth()->user()->id,
             'status' => 0,
+            'fee_range' => '5',
+            'total_fee' => $tp,
+            'maintenance_fee' => $request->amount * .03,
+            'server_fee' => $request->amount * .02,
+            'payable_amount' => $payable,
         );
 
 

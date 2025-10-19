@@ -3,31 +3,31 @@
         Withdraws
     </x-dashboard.page-header>
 
-    
-    <x-dashboard.container>
-        <x-dashboard.overview.section>
+
+    <x-dashboard.container x-init="$wire.getWithdraw">
+        <x-dashboard.overview.section x-loading.disabled>
             <x-dashboard.overview.div>
                 <x-slot name="title">
-                    Total
+                    Amount
                 </x-slot>
                 <x-slot name="content">
-                    20000
+                    {{$withdraw?->sum('amount')}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
                 <x-slot name="title">
-                    Pending
+                    Payable
                 </x-slot>
                 <x-slot name="content">
-                    200
+                    {{$withdraw?->sum('payable_amount')}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
                 <x-slot name="title">
-                    Rejected
+                    Comission
                 </x-slot>
                 <x-slot name="content">
-                    20000
+                    {{$withdraw?->sum('server_fee')}} | {{$withdraw?->sum('maintenance_fee')}}
                 </x-slot>
             </x-dashboard.overview.div>
             <x-dashboard.overview.div>
@@ -35,7 +35,7 @@
                     Paid
                 </x-slot>
                 <x-slot name="content">
-                    20000
+                    {{$paid}}
                 </x-slot>
             </x-dashboard.overview.div>
         </x-dashboard.overview.section>
@@ -47,24 +47,26 @@
 
                 <x-slot name="title">
                     {{-- Pending Withdraw --}}
-                    
+
                 </x-slot>
                 <x-slot name="content">
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center overflow-x-scroll" style="scroll-behavior: smooth">
 
                         <div>
                             <select wire:model.live="fst" class="rounded border" id="filter_status">
-                                <option value="Pending">Pending</option>
-                                <option value="Accept">Accepted</option>
-                                <option value="Reject">Rejected</option>
+                                <option value="Pending">Pending {{$pending}}</option>
+                                <option value="Accept">Accepted {{$paid}}</option>
+                                <option value="Reject">Rejected {{$reject}} </option>
                             </select>
                         </div>
-    
+
                         <div class="flex space-x-2">
-                            <x-secondary-button>
+                            {{-- <x-primary-button @click="$dispatch('open-modal', 'withdraw-filter-modal')">
                                 <i class="fas fa-filter"></i>
-                            </x-secondary-button>
-                            <x-text-input type="date" class="w-24" />
+                            </x-primary-button> --}}
+
+                            <x-text-input type="date" id="sdate" wire:model.live='sdate' class="w-24" />
+                            <x-text-input type="date" id="edate" wire:model.live='edate' class="w-24" />
                         </div>
 
                     </div>
@@ -75,7 +77,7 @@
         </x-dashboard.section>
         <x-dashboard.section>
             {{$withdraw->links()}}
-            
+
             <x-dashboard.table :data="$withdraw">
                 <thead>
                     <tr>
@@ -91,49 +93,61 @@
 
                 <tbody>
                     @foreach ($withdraw as $item)
-                        <tr @class(["bg-gray-200 font-bold" => !$item->seen_by_admin])>
-                            <td> {{$loop->iteration}} </td>
-                            <td> {{$item->id}} </td>
-                            <td>
-                                <div>
-                                    <div class="flex">
-                                        {{$item->user?->name}}
-                                        @if ($item->user?->subscription)
-                                            <span class="bg-indigo-900 text-white ms-1 px-1 rounded">
-                                                vip
-                                            </span>
-                                        @endif
-                                        <span class="bg-gray-900 text-white ms-1 px-1 rounded-full">
-                                            U
-                                        </span>
-                                    </div>
-                                    
-                                    {{$item->user?->email}}
-                                </div>
-                            </td>
-                            <td>
-                                {{$item->amount ?? '0'}} TK
-                            </td>
-                            <td>
-                                @if (!$item->is_rejected)
-                                    {{$item->status ? "Accept" : 'Pending'}}
-                                @else 
-                                    <div class="p-1">Reject</div>
-                                @endif
-                            </td>
-                            <td>
-                                {{$item->created_at?->toFormattedDateString() }}
-                            </td>
-                            <td>
+                    <tr @class(["bg-gray-200 font-bold"=> !$item->seen_by_admin])>
+                        <td> {{$loop->iteration}} </td>
+                        <td> {{$item->id}} </td>
+                        <td>
+                            <div>
                                 <div class="flex">
-                                    <x-nav-link href="{{route('system.withdraw.view', ['id' => $item->id])}}" >Details</x-nav-link>
+                                    {{$item->user?->name}}
+                                    @if ($item->user?->subscription)
+                                    <span class="bg-indigo-900 text-white ms-1 px-1 rounded">
+                                        vip
+                                    </span>
+                                    @endif
+                                    <span class="bg-gray-900 text-white ms-1 px-1 rounded-full">
+                                        U
+                                    </span>
                                 </div>
-                            </td>
-                        </tr>
+
+                                {{$item->user?->email}}
+                            </div>
+                        </td>
+                        <td>
+                            {{$item->amount ?? '0'}} TK
+                        </td>
+                        <td>
+                            @if (!$item->is_rejected)
+                            {{$item->status ? "Accept" : 'Pending'}}
+                            @else
+                            <div class="p-1">Reject</div>
+                            @endif
+                        </td>
+                        <td>
+                            {{$item->created_at?->toFormattedDateString() }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <x-nav-link href="{{route('system.withdraw.view', ['id' => $item->id])}}">Details
+                                </x-nav-link>
+                            </div>
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </x-dashboard.table>
-            
+
         </x-dashboard.section>
     </x-dashboard.container>
+
+    <x-modal name="withdraw-filter-modal" maxWidth="sm">
+        <div class="p-3">
+            Filter
+        </div>
+        <hr />
+        <div class="p-3">
+            <div class="text-xs">Filter By Date</div>
+
+        </div>
+    </x-modal>
 </div>
