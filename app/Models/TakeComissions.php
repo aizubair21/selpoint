@@ -26,7 +26,9 @@ class TakeComissions extends Model
                     $dcti->confirmed = true;
                     $dcti->save();
                 }
-            } elseif ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == false) {
+            }
+
+            if ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == false) {
                 UserWalletController::add($takeComissions->user_id, $takeComissions->take_comission);
                 $dc = DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->confirmed()->get();
                 foreach ($dc as $dci) {

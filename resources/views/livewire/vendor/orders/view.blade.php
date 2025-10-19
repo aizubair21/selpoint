@@ -20,15 +20,13 @@
             <div class="p-2 border rounded bg-red-50">
                 <i class="fas fa-bell px-2 text-red-900"></i> Order has been cancelled by the buyer !
             </div>
+            @elseif($orders->status == 'Confirm')
+            <div class="bg-green-900 text-white p-2 mb-2 rounded shadow">
+                Confirmed !
+            </div>
             @else
             <div class="md:flex justify-between items-center space-y-2 w-full overflow-hidden overflow-x-scroll">
                 <div>
-
-                    @if ($orders->status == 'Confirm')
-                    <div class="bg-green-900 text-white p-2 rounded shadow">
-                        Confirmed !
-                    </div>
-                    @endif
 
                     @if ($orders->status == 'Pending' )
                     <x-primary-button @click="$dispatch('open-modal', 'order-accept-modal')">
@@ -335,36 +333,40 @@
 
                         </td>
                         <td>
-                            {{-- {{$item->product?->isResel}} --}}
-                            @if ($item->product?->isResel && auth()->user()?->account_type() == 'reseller')
-                            Resel
-                            @else
-                            <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
-                            @endif
+                            <div class="flex items-center space-x-1 text-xs">
+                                {{-- {{$item->product?->isResel}} --}}
+                                @if ($item->product?->isResel && auth()->user()?->account_type() == 'reseller')
+                                Resel
+                                @else
+                                <span class="bg-indigo-900 text-md text-white rounded-lg px-2"> You </span>
+                                @endif
 
-                            @if ( $item->product?->isResel && auth()->user()?->account_type() == 'reseller')
+                                @if ( $item->product?->isResel && auth()->user()?->account_type() == 'reseller')
 
-                            @php
-                            $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id,
-                            'reseller_product_id' => $item->product_id])->first();
-                            // echo($alreadySynced)
-                            @endphp
+                                @php
+                                $alreadySynced = App\Models\syncOrder::where(['user_order_id' => $orders->id,
+                                'reseller_product_id' => $item->product_id])->first();
+                                // echo($alreadySynced)
+                                @endphp
 
-                            @if ($alreadySynced && $alreadySynced?->count() > 0)
-                            <x-nav-link
-                                href="{{route('reseller.order.view', ['order' => $alreadySynced->reseller_order_id])}}">
-                                <i @class(['fas', 'fa-link'=> $alreadySynced->status == 'Pending', 'fa-checked-circle'
-                                    =>
-                                    $alreadySynced->status == 'Confirmed'])></i>
-                                view
-                            </x-nav-link>
-                            @else
-                            <button class="text-xs rounded border p-2" type="button"
-                                wire:click.prevent="syncOrder({{$item->id}})">
-                                <i class="fas fa-angle-right pr-2"></i> Link to Vendor
-                            </button>
-                            @endif
-                            @endif
+                                @if ($alreadySynced && $alreadySynced?->count() > 0)
+                                <x-nav-link
+                                    href="{{route('reseller.order.view', ['order' => $alreadySynced->reseller_order_id])}}"
+                                    class="">
+                                    <i @class(['fas', 'fa-link'=> $alreadySynced->status == 'Pending',
+                                        'fa-checked-circle'
+                                        =>
+                                        $alreadySynced->status == 'Confirm'])></i>
+                                    {{$alreadySynced->status}}
+                                </x-nav-link>
+                                @else
+                                <button class="text-xs rounded border p-2" type="button"
+                                    wire:click.prevent="syncOrder({{$item->id}})">
+                                    <i class="fas fa-angle-right pr-2"></i> Link to Vendor
+                                </button>
+                                @endif
+                                @endif
+                            </div>
                         </td>
                         <td>
                             {{$item->price}} TK

@@ -320,7 +320,7 @@
                             {{$item->quantity}}
                         </td>
                         <td>
-                            {{$item->price}} * {{$item->quantity}}= {{$item->total}} TK
+                            {{$item->total}} TK
                         </td>
                         <td>
                             {{$item->size ?? "N/A"}}
@@ -335,7 +335,8 @@
 
                             @if ($item->order?->name == "Resel")
                             {{-- {{$item->buying_price ?? "N/A"}} TK --}}
-                            {{ ($item->price - $item->buying_price) * $item->quantity }}
+                            {{ ($item->price -
+                            $item->buying_price) * $item->quantity }}
                             @endif
                         </td>
                         <th>

@@ -32,10 +32,10 @@ class DistributeComissions extends Model
                 }
             }
 
-            if (DistributeComissions::query()->where(['parent_id' => $distributeComissions->parent_id])->confirmed()->count() == 0) {
-                $takeCom->confirmed = false;
-                $takeCom->save();
-            }
+            // if (DistributeComissions::where(['parent_id' => $distributeComissions->parent_id])->confirmed()->count() == 0) {
+            //     $takeCom->confirmed = false;
+            //     $takeCom->save();
+            // }
         });
     }
 

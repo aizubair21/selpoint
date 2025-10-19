@@ -195,7 +195,7 @@ class View extends Component
             [
                 'user_id' => auth()->user()->id,
                 'user_type' => 'reseller',
-                'belongs_to' => $this->cartOrder?->product?->isResel?->belongs_to,
+                'belongs_to' => $this->cartOrder?->product?->isResel?->belongs_to, // vendor id
                 'belongs_to_type' => 'vendor',
 
                 'quantity' => $this->quantity,
@@ -219,7 +219,7 @@ class View extends Component
             [
                 'user_id' => Auth::id(),
                 'user_type' => 'reseller',
-                'belongs_to' => intval($this->cartOrder?->product?->isResel?->user_id),
+                'belongs_to' => intval($this->cartOrder?->product?->isResel?->belongs_to), // vendor id
                 'belongs_to_type' => 'vendor',
                 'order_id' => $order->id,
                 'product_id' => $this->mainProduct?->parent_id,
