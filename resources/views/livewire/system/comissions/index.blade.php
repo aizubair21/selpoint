@@ -213,8 +213,14 @@
                             </x-nav-link>
                             @else
                             <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
-                            <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm
-                            </x-nav-link>
+                            <form action="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"
+                                method="post">
+                                @csrf
+                                <button type="submit">Confirm</button>
+                            </form>
+                            {{-- <x-nav-link href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}">
+                                Confirm
+                            </x-nav-link> --}}
                             @endif
                         </td>
                         <td>

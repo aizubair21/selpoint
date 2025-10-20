@@ -214,6 +214,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
 
     Route::post('/comissions/confirm/take/{id}', function ($id) {
         // 
+        // return 'hellow';
         try {
 
             $cc = new ProductComissionController();

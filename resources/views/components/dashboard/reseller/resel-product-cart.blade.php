@@ -181,7 +181,7 @@ new class extends Component
             @endphp
             {{ round(($dis / $pd->price) * 100, 1) ?? 0}}% off
         </div>
-        
+
         @endif
 
         <div class=" overflow-hidden shadow-md p-1">
@@ -225,13 +225,13 @@ new class extends Component
         </div>
 
         {{-- <i class="fa-thin fa-thumbs-up"></i> --}}
-        @volt('pd')
+        {{-- @volt('pd')
         <button wire:click="like"
             class="absolute top-0 right-0 w-8 h-8 rounded-full shadow flex justify-center items-center bg-gray-100">
             <i wire:show="!alreadyLiked" wire:transition class="fa-regular fa-heart"> </i>
             <i wire:show="alreadyLiked" wire:transition class="fa-solid fa-heart"> </i>
         </button>
-        @endvolt
+        @endvolt --}}
         {{-- <i class="fa-thin fa-circle-check"></i> --}}
     </div>
 

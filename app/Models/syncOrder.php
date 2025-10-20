@@ -21,7 +21,7 @@ class syncOrder extends Model
             // if the status field if updated
             if ($data->isDirty('status')) {
                 // logger("Order Model Updated $data->id");
-                Order::where(['id', $data->user_order_id])->update(['status' => $data->status]);
+                Order::where(['id' => $data->user_order_id])->update(['status' => $data->status]);
             }
         });
     }
