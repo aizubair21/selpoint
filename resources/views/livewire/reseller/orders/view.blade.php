@@ -142,12 +142,29 @@
 
             </div>
             <div class="flex justify-end items-center space-x-2">
+                @if ($orders->name == 'Resel')
                 {{-- <x-nav-link
                     href="{{route('system.comissions.takes', ['query_for' => 'order_id', 'qry' => $orders->id])}}">
                     COMISSIONS</x-nav-link> --}}
-                <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'"
+                {{-- <x-secondary-button x-show="$wire.$orders->user_type == 'reseller'"
                     x-on:click="$dispatch('open-modal', 'comission-modal')"> comission
-                    {{$orders->comissionsInfo?->sum('take_comission') ?? 0}} TK </x-secondary-button>
+                    {{$orders->comissionsInfo?->sum('take_comission') ?? 0}} TK </x-secondary-button> --}}
+
+                <div class="inline-flex items-center px-2 bg-gray-200 text-xs rounded shadow">
+                    @php
+                    $orderSynced = App\Models\syncOrder::where(['reseller_order_id' => $orders->id])->first();
+                    @endphp
+                    <x-nav-link href="{{route('vendor.orders.view', ['order' => $orderSynced->user_order_id])}}">
+                        synced
+                        {{$orderSynced->user_order_id}}
+                        /
+                        {{$orderSynced->user_cart_order_id}}
+                        view
+                    </x-nav-link>
+                </div>
+                @else
+                <div class="px-4 rounded-md shadow py-1 text-indigo-900 font-bold">Purchase</div>
+                @endif
             </div>
             {{-- <x-nav-link>Print</x-nav-link> --}}
         </x-dashboard.section>
@@ -195,9 +212,8 @@
                     {{ $total - $buy ?? "0"}} --}}
                     @if ($orders->name == 'Resel')
                     {{$orders->resellerProfit()?->sum('profit') ?? "0"}}
-                    @else
-                    0
                     @endif
+
                 </x-slot>
             </x-dashboard.overview.div>
             {{-- <x-dashboard.overview.div>
@@ -214,25 +230,14 @@
             <div class="flex justify-between items-start px-5">
                 <div class="order-info">
 
-                    @php
-                    $orderSynced = App\Models\syncOrder::where(['reseller_order_id' => $orders->id])->first();
-                    @endphp
+
                     <div>
                         Order ID: {{ $orders->id }}
-                        @if ($orderSynced)
-                        <div class="inline-flex items-center px-2 bg-gray-200 text-xs rounded shadow">
-                            <x-nav-link
-                                href="{{route('vendor.orders.view', ['order' => $orderSynced->user_order_id])}}">
-                                synced
-                                {{$orderSynced->user_order_id}}
-                                /
-                                {{$orderSynced->user_cart_order_id}}
-                                view
-                            </x-nav-link>
-                        </div>
+                        {{-- @if ($orderSynced)
+
                         @else
                         <div class="inline text-xs px-2 rounded bg-indigo-900 text-white">Purchase</div>
-                        @endif
+                        @endif --}}
                     </div>
                     <div>Date: <span class="text-xs"> {{ $orders->created_at->toDayDateTimeString() }}</span> </div>
 
@@ -340,7 +345,9 @@
                             @endif
                         </td>
                         <th>
+                            @if ($item->order?->name == 'Resel')
                             {{$item->order->comissionsInfo?->sum('take_comission') ?? '0'}}
+                            @endif
                         </th>
                     </tr>
                     @endforeach

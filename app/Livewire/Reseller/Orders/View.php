@@ -37,7 +37,7 @@ class View extends Component
                 $this->orders->status = $status;
                 $this->orders->save();
 
-                $ct = new ProductComissionController(); // instance to cul tomissions
+                $ct = new ProductComissionController(); // instance to coomissions
                 $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions
                 UpdateProductSalesIndex::dispatch(); // index product sales
 

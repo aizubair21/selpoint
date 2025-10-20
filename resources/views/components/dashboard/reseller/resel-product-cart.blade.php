@@ -181,11 +181,13 @@ new class extends Component
             @endphp
             {{ round(($dis / $pd->price) * 100, 1) ?? 0}}% off
         </div>
+        
         @endif
 
-        <div class="h-[120px] overflow-hidden shadow-md p-1">
-            <img src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
+        <div class=" overflow-hidden shadow-md p-1">
+            <img style="height: 120px" src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
         </div>
+
         <div class="p-2 bg-white h-36 flex flex-col justify-between">
             <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}">
                 <div class="text-sm">{{$pd->name ?? "N/A"}}</div>

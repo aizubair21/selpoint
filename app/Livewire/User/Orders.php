@@ -43,7 +43,7 @@ class Orders extends Component
     public function getData()
     {
         if ($this->nav) {
-            $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user'])->get();
+            $this->orders = Order::where(['user_id' => auth()->user()->id, 'user_type' => 'user'])->orderBy('id', 'desc')->get();
         }
     }
 

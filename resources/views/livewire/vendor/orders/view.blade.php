@@ -218,7 +218,7 @@
                     {{$orders->cartOrders->sum('quantity') ?? "0"}}
                 </x-slot>
             </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
+            {{-- <x-dashboard.overview.div>
                 <x-slot name="title">
                     Your Profit
                 </x-slot>
@@ -232,17 +232,17 @@
                     $total = $orders->cartOrders->sum('buying_price');
                     @endphp
                     {{$total - $buy}} TK
-                    {{-- {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('price')
-                    }} --}}
+                    {{ $orders->cartOrders->sum('buying_price') - $orders->cartOrders->sum('price')
+                    }}
                     @php
-                    // $profit = intVal($orders->cartOrders?->sum('price')) -
-                    // intVal($orders->cartOrders?->sum('buying_price'));
+                    $profit = intVal($orders->cartOrders?->sum('price')) -
+                    intVal($orders->cartOrders?->sum('buying_price'));
                     @endphp
-                    {{-- {{ $profit * $orders->cartOrders->sum('quantity') }} TK --}}
+                    {{ $profit * $orders->cartOrders->sum('quantity') }} TK
                     @endif
-                    {{-- {{ $total ."=". $buy ?? "0"}} --}}
+                    {{ $total ."=". $buy ?? "0"}}
                 </x-slot>
-            </x-dashboard.overview.div>
+            </x-dashboard.overview.div> --}}
             {{-- <x-dashboard.overview.div>
                 <x-slot name="title">
                     Comissions
@@ -408,6 +408,7 @@
                         </td>
                         <th>
                             {{$item->order->comissionsInfo?->sum('take_comission')}}
+
                         </th>
                     </tr>
                     @endforeach

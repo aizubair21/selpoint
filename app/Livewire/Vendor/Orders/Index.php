@@ -15,12 +15,13 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $nav = 'Pending', $delivery = 'all', $create = 'all', $start_date = '', $end_date = '', $area = 'all';
+    public $nav = 'Pending', $delivery = 'all', $create = 'day', $start_date = '', $end_date = '', $area = 'all';
 
     public $otme, $account;
 
     public function mount()
     {
+        $this->start_date = now();
         $this->getData();
         $this->account = auth()->user()->account_type();
     }

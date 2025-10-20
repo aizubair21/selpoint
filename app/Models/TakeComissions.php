@@ -18,7 +18,7 @@ class TakeComissions extends Model
         //     ProductComissions::dispatch($takeComissions->id);
         // });
 
-        static::updated(function ($takeComissions) {
+        static::updated(function (TakeComissions $takeComissions) {
             if ($takeComissions->isDirty('confirmed') && $takeComissions->confirmed == true && !$takeComissions->product->isResel) {
                 UserWalletController::remove($takeComissions->user_id, $takeComissions->take_comission);
                 $dct = DistributeComissions::query()->where(['parent_id' => $takeComissions->id])->pending()->get();
