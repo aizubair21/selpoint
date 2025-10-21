@@ -313,7 +313,7 @@
                         @endif
                         <th>Cost</th>
                         <th>Profit</th>
-                        <th>Comissions</th>
+                        {{-- <th>Comissions</th> --}}
                     </tr>
                 </thead>
 
@@ -406,10 +406,10 @@
                             @endphp
                             {{$profit}} * {{$item->quantity}} = {{ $profit * $item->quantity }} TK
                         </td>
-                        <th>
+                        {{-- <th>
                             {{$item->order->comissionsInfo?->sum('take_comission')}}
 
-                        </th>
+                        </th> --}}
                     </tr>
                     @endforeach
                 <tbody>

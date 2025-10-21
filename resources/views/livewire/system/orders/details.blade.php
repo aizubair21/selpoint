@@ -111,7 +111,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($order->cartOrders as $item)
+                    @foreach ($order->cartOrders as $key => $item)
                     <tr>
                         <td> {{$loop->iteration}} </td>
                         <td> {{$item->id ?? "N/A"}} </td>
@@ -155,7 +155,7 @@
                             <div class="flex rounded border justify-between bg-gray-200">
 
                                 <div class="bg-white px-1 rounded">
-                                    {{$item->order->comissionsInfo?->sum('take_comission')}}
+                                    {{$item->order?->comissionsInfo[$key]->take_comission}}
 
                                 </div>
 

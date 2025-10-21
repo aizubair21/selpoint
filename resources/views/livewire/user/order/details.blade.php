@@ -239,8 +239,7 @@
 
                     @if ($orders->status == 'Pending')
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -254,8 +253,7 @@
 
                     @if ($orders->status == 'Accept')
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -263,8 +261,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -278,8 +275,7 @@
 
                     @if ($orders->status == 'Picked')
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Packed.
@@ -290,8 +286,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -299,8 +294,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -314,8 +308,7 @@
 
                     @if ($orders->status == 'Delivery')
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Send
@@ -330,8 +323,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Packed.
@@ -342,8 +334,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -351,8 +342,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -363,10 +353,10 @@
                         </div>
                     </div>
                     @endif
+
                     @if ($orders->status == 'Delivery' && $orders->hasRider())
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Assignedd to Rider
@@ -379,8 +369,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Send
@@ -395,8 +384,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Packed.
@@ -407,8 +395,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -416,8 +403,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -428,10 +414,10 @@
                         </div>
                     </div>
                     @endif
+
                     @if ($orders->status == 'Delivered' && $orders->hasRider())
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Delivered
@@ -442,8 +428,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Assigned
@@ -456,8 +441,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Send
@@ -472,8 +456,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Packed.
@@ -484,8 +467,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -493,8 +475,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order
@@ -505,10 +486,10 @@
                         </div>
                     </div>
                     @endif
-                    @if ($orders->status == 'Confirmed')
+
+                    @if ($orders->status == 'Confirm')
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Success and Finished
@@ -516,8 +497,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Assigned
@@ -530,8 +510,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Send
@@ -546,8 +525,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order Packed.
@@ -558,8 +536,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Order has been accepted by seller.
@@ -567,8 +544,7 @@
                         </div>
                     </div>
                     <div class="relative px-2 py-2 flex items-center border-l">
-                        <i class="fas absolute fa-check-circle w-12 h-12"
-                            style="left:-8px; top:50%; transform:translatey(-50%)"></i>
+                        <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
                                 Placed the order

@@ -345,9 +345,9 @@
                             @endif
                         </td>
                         <th>
-                            @if ($item->order?->name == 'Resel')
+                            {{-- @if ($item->order?->name == 'Resel')
                             {{$item->order->comissionsInfo?->sum('take_comission') ?? '0'}}
-                            @endif
+                            @endif --}}
                         </th>
                     </tr>
                     @endforeach

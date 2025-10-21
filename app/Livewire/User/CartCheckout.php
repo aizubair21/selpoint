@@ -145,7 +145,6 @@ class CartCheckout extends Component
                 $order->district = $this->district;
                 $order->upozila = $this->upozila;
                 $order->location = $this->location;
-                $order->phone = $this->phone;
                 $order->road_no = $this->road_no;
                 $order->house_no = $this->house_no;
                 $order->shipping = $this->area_condition == 'Dhaka' ? 80 : 120;
@@ -185,6 +184,9 @@ class CartCheckout extends Component
 
                 // dispatch comissions
                 ProductComissionController::dispatchProductComissionsListeners($order->id);
+                $this->redirectRoute('user.orders.view');
+                // $this->reset('name', 'phone', 'location', 'district');
+                // $this->dispatch('success', "Product added to order list");
             }
         } catch (\Throwable $th) {
             $this->dispatch('error', $th->getMessage());
@@ -193,10 +195,7 @@ class CartCheckout extends Component
 
 
 
-        // $this->reset('name', 'phone', 'location', 'district');
-        $this->redirectRoute('user.orders.view');
         $this->dispatch('refresh');
-        $this->dispatch('success', "Product added to order list");
     }
 
 
