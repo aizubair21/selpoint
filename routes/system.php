@@ -311,4 +311,5 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
             return view('Api.auth');
         })->name('api.auth');
     });
+    Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
 });

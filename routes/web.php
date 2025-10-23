@@ -132,9 +132,9 @@ Route::get('/queue', function () {
     return redirect()->back();
 })->name('queue');
 
-Route::get('check-product', function () {
-    // get the product, those who have the isResel relation
-    return Product::query()->whereHas('isResel', function ($query) {
-        $query->with('isResel');
-    })->with('isResel')->get();
-});
+// Route::get('check-product', function () {
+//     // get the product, those who have the isResel relation
+//     return Product::query()->whereHas('isResel', function ($query) {
+//         $query->with('isResel');
+//     })->with('isResel')->get();
+// });

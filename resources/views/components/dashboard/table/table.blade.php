@@ -1,4 +1,3 @@
-
 @props(['data' => ''])
 
 <div {{$attributes}} class="overflow-hidden overflow-x-scroll">
@@ -11,18 +10,18 @@
             font-size: 15px;
             text-align: left;
         }
+
         td {
             padding: 12px;
-            font-size:14px;
+            font-size: 14px;
         }
-       
     </style>
 
     @if (isset($data) || count($data) > 0)
-        <table id="myTable" class="w-full mb-2">
-            {{$slot}}
-        </table>
+    <table id="myTable" class="w-full mb-2 border-collapse border">
+        {{$slot}}
+    </table>
     @else
-        <div class="alert alert-danger">No Data Found !</div>
+    <div class="alert alert-danger">No Data Found !</div>
     @endif
 </div>
