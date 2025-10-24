@@ -102,7 +102,13 @@ class Order extends Model
 
     public function seller()
     {
-        return $this->belongsTo(User::class, 'belongs_to');
+        return $this->belongsTo(User::class, 'belongs_to')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Rider',
+                'email' => 'not found',
+            ]
+        );
     }
 
 
@@ -149,7 +155,13 @@ class Order extends Model
     public function product()
     {
         // return $this->belongsTo(Product::class, 'product_id');
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id')->withDefault([
+            'id' => 0,
+            'slug' => 'deleted-product',
+            'name' => 'Deleted Product',
+            'image' => 'default.png',
+            'price' => 0,
+        ]);
     }
 
     public function cartOrders()

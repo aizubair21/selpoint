@@ -182,7 +182,13 @@ class reseller extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Reseller',
+                'email' => 'not found',
+            ]
+        );
     }
 
     /**

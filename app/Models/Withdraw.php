@@ -60,7 +60,13 @@ class Withdraw extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted User',
+                'email' => 'not found',
+            ]
+        );
     }
 
     /**

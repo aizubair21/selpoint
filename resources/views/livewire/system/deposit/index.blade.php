@@ -12,9 +12,11 @@
                 </x-slot>
                 <x-slot name="content">
                     <div class="flex space-x-1">
-                        <select wire:model.live="status" id="">
+                        <select wire:model.live="status" id=""
+                            class="py-1 rounded-md border border-gray-300 focus:border-blue-500 focus:ring-blue-500 focus:ring-1">
                             <option value="0">Pending</option>
                             <option value="1">Confirmed</option>
+
                         </select>
                     </div>
                 </x-slot>
@@ -36,35 +38,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                         @foreach ($history as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->user?->id])}}"> {{$item->user?->name ?? 'N/A'}} </x-nav-link-btn>
-                                </td>
-                                <td>{{ $item->amount ?? 0 }}</td>
-                                <td>
-                                    <div class="flex items-center">
+                        @foreach ($history as $item)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                {{-- User Name --}}
+                                <x-nav-link-btn href="{{route('system.users.edit', ['id' => $item->user?->id ?? ''])}}">
+                                    {{$item->user?->name ?? 'N/A'}}
+                                </x-nav-link-btn>
 
-                                        {{ $item->senderAccountNumber }} <i class="fas fa-caret-right px-2"></i> {{$item->paymentMethod}} <i class="fas fa-caret-right px-2"></i> {{$item->receiverAccountNumber}}
-                                    </div>
-                                </td>
-                                <td>
-                                    {{ $item->transactionId ?? 'N/A' }}
-                                </td>
-                                <td>{{ $item->confirmed ? 'Confirmed' : 'Pending' }}</td>
-                                <td>{{ $item->created_at->diffForHumans() }} </td>
-                                <td>
-                                    <div class="flex">
-                                        <x-primary-button wire:click="confirmDeposit({{$item->id}})">
-                                            <i class="fas fa-check"></i>
-                                        </x-primary-button>
-                                        <x-danger-button wire:click.prevent="denayDeposit({{$item->id}})">
-                                            <i class="fas fa-times"></i>
-                                        </x-danger-button>
-                                    </div>
-                                </td>
-                            </tr>
+                            </td>
+                            <td>{{ $item->amount ?? 0 }}</td>
+                            <td>
+                                <div class="flex items-center">
+
+                                    {{ $item->senderAccountNumber }} <i class="fas fa-caret-right px-2"></i>
+                                    {{$item->paymentMethod}} <i class="fas fa-caret-right px-2"></i>
+                                    {{$item->receiverAccountNumber}}
+                                </div>
+                            </td>
+                            <td>
+                                {{ $item->transactionId ?? 'N/A' }}
+                            </td>
+                            <td>{{ $item->confirmed ? 'Confirmed' : 'Pending' }}</td>
+                            <td>{{ $item->created_at->diffForHumans() }} </td>
+                            <td>
+                                <div class="flex">
+                                    <x-primary-button wire:click="confirmDeposit({{$item->id}})">
+                                        <i class="fas fa-check"></i>
+                                    </x-primary-button>
+                                    <x-danger-button wire:click.prevent="denayDeposit({{$item->id}})">
+                                        <i class="fas fa-times"></i>
+                                    </x-danger-button>
+                                </div>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </x-dashboard.table>

@@ -8,8 +8,14 @@ class userDeposit extends Model
 {
     //
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class)->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted User',
+                'email' => 'not found',
+            ]
+        );
     }
-    
 }

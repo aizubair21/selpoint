@@ -13,7 +13,12 @@ class Cart extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id')->withDefault([
+            'id' => 0,
+            'slug' => 'deleted-product',
+            'name' => 'Deleted Product',
+            'image' => 'default.png',
+            'price' => 0,
+        ]);
     }
-
 }

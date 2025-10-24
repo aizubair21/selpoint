@@ -83,20 +83,44 @@ class cod extends Model
     // relationships, accessors, or other model methods can be added here as needed
     public function seller()
     {
-        return $this->belongsTo(User::class, 'seller_id', 'id');
+        return $this->belongsTo(User::class, 'seller_id', 'id')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Seller',
+                'email' => 'not found',
+            ]
+        );
     }
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class)->withDefault(
+            [
+                'id' => 0,
+                'total' => 0,
+                'status' => 'Deleted',
+            ]
+        );
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted User',
+                'email' => 'not found',
+            ]
+        );
     }
 
     public function rider()
     {
-        return $this->belongsTo(User::class, 'rider_id', 'id');
+        return $this->belongsTo(User::class, 'rider_id', 'id')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Rider',
+                'email' => 'not found',
+            ]
+        );
     }
 }

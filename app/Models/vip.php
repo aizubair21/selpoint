@@ -12,7 +12,7 @@ class vip extends Model
     protected $fillable =
     [
 
-        'name', 
+        'name',
         'phone',
         'nid_front',
         'nid_back',
@@ -34,17 +34,35 @@ class vip extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted User',
+                'email' => 'not found',
+            ]
+        );
     }
 
     public function referBy()
     {
-        return $this->belongsTo(User::class, 'refer', 'id');
+        return $this->belongsTo(User::class, 'refer', 'id')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted User',
+                'email' => 'not found',
+            ]
+        );
     }
 
     public function package()
     {
-        return $this->belongsTo(Packages::class);
+        return $this->belongsTo(Packages::class)->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Package',
+                'email' => 'not found',
+            ]
+        );
     }
 
     /**

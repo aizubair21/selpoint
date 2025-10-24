@@ -38,7 +38,7 @@ class CartOrder extends Model
             // });
 
         });
-        
+
         /**
          * if status updated to reject, then upper the product stock
          */
@@ -93,12 +93,24 @@ class CartOrder extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withDefault([
+            'id' => 0,
+            'slug' => 'deleted-product',
+            'name' => 'Deleted Product',
+            'image' => 'default.png',
+            'price' => 0,
+        ]);
     }
 
     public function order()
     {
-        return $this->belongsTo(order::class);
+        return $this->belongsTo(order::class)->withDefault(
+            [
+                'id' => 0,
+                'total' => 0,
+                'status' => 'Deleted',
+            ]
+        );
     }
 
     /**

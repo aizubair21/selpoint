@@ -157,12 +157,22 @@ class Product extends Model
      */
     public function orders()
     {
-        return $this->hasMany(CartOrder::class, 'product_id', 'id');
+        return $this->hasMany(CartOrder::class, 'product_id', 'id')->withDefault([
+            'id' => 0,
+            'total' => 0,
+            'status' => 'Deleted',
+        ]);
     }
 
     public function owner()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withDefault(
+            [
+                'id' => 0,
+                'name' => 'Deleted Owner',
+                'email' => 'not found',
+            ]
+        );
     }
 
     /**
