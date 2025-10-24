@@ -89,12 +89,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class)->withDefault([
-            'id' => 0,
-            'slug' => 'deleted-product',
-            'name' => 'Deleted Product',
-            'image' => 'default.png',
-            'price' => 0,
-        ]);
+        return $this->hasMany(Product::class);
     }
 }

@@ -292,13 +292,7 @@ class User extends Authenticatable
      */
     public function getMyvipRef()
     {
-        return $this->hasMany(vip::class, 'refer', 'id')->withDefault(
-            [
-                'id' => 0,
-                'name' => 'Deleted User',
-                'email' => 'not found',
-            ]
-        );
+        return $this->hasMany(vip::class, 'refer', 'id');
     }
 
     /**
@@ -349,13 +343,7 @@ class User extends Authenticatable
 
     private function papp()
     {
-        return $this->hasMany(Product::class)->withDefault([
-            'id' => 0,
-            'slug' => 'deleted-product',
-            'name' => 'Deleted Product',
-            'image' => 'default.png',
-            'price' => 0,
-        ]);
+        return $this->hasMany(Product::class);
     }
 
     public function account_type()

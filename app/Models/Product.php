@@ -157,11 +157,7 @@ class Product extends Model
      */
     public function orders()
     {
-        return $this->hasMany(CartOrder::class, 'product_id', 'id')->withDefault([
-            'id' => 0,
-            'total' => 0,
-            'status' => 'Deleted',
-        ]);
+        return $this->hasMany(CartOrder::class, 'product_id', 'id');
     }
 
     public function owner()
