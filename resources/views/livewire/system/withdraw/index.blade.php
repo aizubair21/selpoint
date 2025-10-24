@@ -53,7 +53,7 @@
                     <div class="flex justify-between items-center overflow-x-scroll" style="scroll-behavior: smooth">
 
                         <div>
-                            <select wire:model.live="fst" class="rounded border" id="filter_status">
+                            <select wire:model.live="fst" class="rounded border py-1 mb-2" id="filter_status">
                                 <option value="Pending">Pending {{$pending}}</option>
                                 <option value="Accept">Accepted {{$paid}}</option>
                                 <option value="Reject">Rejected {{$reject}} </option>
@@ -65,17 +65,16 @@
                                 <i class="fas fa-filter"></i>
                             </x-primary-button> --}}
 
-                            <x-text-input type="date" id="sdate" wire:model.live='sdate' class="w-24" />
-                            <x-text-input type="date" id="edate" wire:model.live='edate' class="w-24" />
+                            <x-text-input type="date" id="sdate" wire:model.live='sdate' class="py-1" />
+                            <x-text-input type="date" id="edate" wire:model.live='edate' class="py-1" />
                         </div>
 
                     </div>
                 </x-slot>
 
             </x-dashboard.section.header>
+            <br>
 
-        </x-dashboard.section>
-        <x-dashboard.section>
             {{$withdraw->links()}}
 
             <x-dashboard.table :data="$withdraw">
@@ -135,8 +134,14 @@
                     </tr>
                     @endforeach
                 </tbody>
+                <tfoot>
+                    <tr class="font-bold">
+                        <td colspan="3" class="text-right font-bold">Total</td>
+                        <td class="font-bold">{{$withdraw?->sum('amount')}}</td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tfoot>
             </x-dashboard.table>
-
         </x-dashboard.section>
     </x-dashboard.container>
 

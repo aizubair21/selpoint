@@ -393,7 +393,7 @@ new class extends Component
                     <select wire:model.live="attr" id="product_attr" class="rounded-md py-1 border">
                         <option value="">Select Size/Attribute</option>
                         @if ($this->pd?->attr?->value)
-                        @foreach ($this->pd->attr->value as $attr)
+                        @foreach ($this->pd?->attr?->value as $attr)
                         <option value="{{$attr}}">{{$attr}}</option>
                         @endforeach
                         @else

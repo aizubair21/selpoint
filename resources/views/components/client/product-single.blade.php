@@ -58,7 +58,7 @@ new class extends Component
                         src="{{ asset('storage/' . $product?->thumbnail) }}" alt="image">
                 </div>
 
-                @if ($product->showcase)
+                @if ($product?->showcase)
                 <div class="flex items-center md:block lg:flex flex-wrap">
                     <button class="p-1 rounded mb-1">
                         <img class=" border p-1 rounded" onclick="previewImage(this)"

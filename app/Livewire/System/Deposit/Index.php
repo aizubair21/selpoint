@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Carbon;
 
 
 #[layout('layouts.app')]
@@ -14,8 +15,13 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $status = false;
+    public $status = false, $sdate = '', $edate = '';
 
+    public function mount()
+    {
+        $this->sdate = today();
+        $this->edate = today();
+    }
 
     public function confirmDeposit($id)
     {
@@ -37,7 +43,12 @@ class Index extends Component
 
     public function render()
     {
-        $history = userDeposit::where(['confirmed' => $this->status])->orderBy('id', 'desc')->paginate(config('app.config'));
+        $qry = userDeposit::query();
+        $qry->where(['confirmed' => $this->status]);
+
+        $qry->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
+
+        $history = $qry->orderBy('id', 'desc')->paginate(config('app.config'));
         return view('livewire.system.deposit.index', compact('history'));
     }
 }
