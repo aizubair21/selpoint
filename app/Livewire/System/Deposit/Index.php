@@ -15,12 +15,12 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $status = false, $sdate = '', $edate = '';
+    public $status = false, $sdate = '', $edate = '', $search;
 
     public function mount()
     {
-        $this->sdate = today();
-        $this->edate = today();
+        $this->sdate = now()->format('Y-m-d');
+        $this->edate = today()->format('Y-m-d');
     }
 
     public function confirmDeposit($id)
@@ -40,6 +40,18 @@ class Index extends Component
         // $dp = userDeposit::findOrFail($id);
     }
 
+    public function print()
+    {
+        $url = route('system.deposit.print-summery', [
+            'status' => $this->status,
+            'sdate' => $this->sdate,
+            'edate' => $this->edate,
+            'search' => $this->search,
+        ]);
+        $this->dispatch('open-printable', [
+            'url' => $url,
+        ]);
+    }
 
     public function render()
     {

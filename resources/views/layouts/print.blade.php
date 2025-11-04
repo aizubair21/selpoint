@@ -33,33 +33,22 @@
         integrity="sha384-XA15Ika7T33czAD4/Zkh7J3FU0WX8LUo7A86AGyMJNlq8bSJYRMLO913NMbnUC5f" crossorigin="anonymous">
     </script> --}}
 
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-     --}}
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
-    {{-- <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-100"> --}}
-        <div>
-            {{-- <div>
-                <a href="/" wire:navigate>
-                    <x-application-logo class="w-24 h-24 fill-current text-gray-500" />
-                </a>
-            </div> --}}
+    <div>
+        {{ $slot }}
+    </div>
+</body>
 
-            {{-- <div class="w-full px-6 py-4 mx-auto flex justify-center overflow-hidden sm:rounded-lg" ">
-                {{ $slot }}
-            </div> --}}
-            {{-- <div class=" w-full px-6 py-4 mx-auto flex justify-center overflow-hidden sm:rounded-lg" ">
-            </div> --}}
-            {{ $slot }}
-        </div>
-    </body>
 
-    <script>
-        // let table = new DataTable('#myTable', {
+<script>
+    // let table = new DataTable('#myTable', {
         //     autoFill: true,
         //         layout: {
         //             topStart: {
@@ -95,5 +84,185 @@
         // for(var i=1;i<=$(this).attr('colspan');$i++){ colCount.push('*'); } }else{ colCount.push('*'); } });
         //     doc.content[1].table.widths=colCount; } } ];
             // $('#myTable').ataTable(settings);
-    </script>
+</script>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        Livewire.on('open-printable', (data) => {
+            // Use an async IIFE to safely use await inside a non-module environment
+            (async () => {
+            try {
+            // --- Basic checks ---
+            console.log('PDF generation started');
+            if (typeof html2canvas === 'undefined') {
+            console.error('html2canvas is not loaded (undefined).');
+            alert('html2canvas not loaded. Make sure the CDN script tag is present.');
+            return;
+            }
+            if (typeof window.jspdf === 'undefined') {
+            console.error('jsPDF is not loaded (window.jspdf undefined).');
+            alert('jsPDF not loaded. Make sure the CDN script tag is present.');
+            return;
+            }
+            
+            // Get jsPDF constructor
+            const { jsPDF } = window.jspdf || {};
+            if (typeof jsPDF !== 'function') {
+            console.error('jsPDF import failed, window.jspdf:', window.jspdf);
+            alert('jsPDF not available. Check console for window.jspdf object.');
+            return;
+            }
+            
+            // Find the element to convert
+            const element = document.querySelector('#pdf-content');
+            if (!element) {
+            console.error('No element found with id="pdf-content"');
+            alert('No #pdf-content element found. Please add id="pdf-content" to the container you want to export.');
+            return;
+            }
+            
+            console.log('Calling html2canvas on element:', element);
+            
+            // --- Call html2canvas and await the promise ---
+            const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+            
+            // Debug: what did we get?
+            console.log('html2canvas resolved value:', canvas);
+            if (!canvas) {
+            throw new Error('html2canvas returned null/undefined.');
+            }
+            
+            // Validate it's a canvas and has toDataURL
+            if (typeof canvas.toDataURL !== 'function') {
+            console.error('Returned object is not a canvas or has no toDataURL. Constructor/type:', canvas.constructor?.name ||
+            typeof canvas);
+            // Extra attempt: if html2canvas returned an array or object, try to get .canvas property
+            if (canvas?.canvas && typeof canvas.canvas.toDataURL === 'function') {
+            console.warn('Using canvas.canvas.toDataURL fallback');
+            doPdfFromCanvas(canvas.canvas, jsPDF);
+            return;
+            }
+            throw new Error('The object returned by html2canvas does not support toDataURL.');
+            }
+            
+            // All good -> create PDF
+            doPdfFromCanvas(canvas, jsPDF);
+            
+            } catch (err) {
+            console.error('PDF generation failed:', err);
+            alert('PDF generation error — see console for details: ' + (err && err.message ? err.message : err));
+            }
+            })();
+        });
+        
+    });
+    
+    function makepdf()
+    {
+        console.log('call the function');
+        
+        // Use an async IIFE to safely use await inside a non-module environment
+        (async () => {
+        try {
+        // --- Basic checks ---
+        console.log('PDF generation started');
+        if (typeof html2canvas === 'undefined') {
+        console.error('html2canvas is not loaded (undefined).');
+        alert('html2canvas not loaded. Make sure the CDN script tag is present.');
+        return;
+        }
+        if (typeof window.jspdf === 'undefined') {
+        console.error('jsPDF is not loaded (window.jspdf undefined).');
+        alert('jsPDF not loaded. Make sure the CDN script tag is present.');
+        return;
+        }
+        
+        // Get jsPDF constructor
+        const { jsPDF } = window.jspdf || {};
+        if (typeof jsPDF !== 'function') {
+        console.error('jsPDF import failed, window.jspdf:', window.jspdf);
+        alert('jsPDF not available. Check console for window.jspdf object.');
+        return;
+        }
+        
+        // Find the element to convert
+        const element = document.querySelector('#pdf-content');
+        if (!element) {
+        console.error('No element found with id="pdf-content"');
+        alert('No #pdf-content element found. Please add id="pdf-content" to the container you want to export.');
+        return;
+        }
+        
+        console.log('Calling html2canvas on element:', element);
+        
+        // --- Call html2canvas and await the promise ---
+        const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+        
+        // Debug: what did we get?
+        console.log('html2canvas resolved value:', canvas);
+        if (!canvas) {
+        throw new Error('html2canvas returned null/undefined.');
+        }
+        
+        // Validate it's a canvas and has toDataURL
+        if (typeof canvas.toDataURL !== 'function') {
+        console.error('Returned object is not a canvas or has no toDataURL. Constructor/type:', canvas.constructor?.name ||
+        typeof canvas);
+        // Extra attempt: if html2canvas returned an array or object, try to get .canvas property
+        if (canvas?.canvas && typeof canvas.canvas.toDataURL === 'function') {
+        console.warn('Using canvas.canvas.toDataURL fallback');
+        doPdfFromCanvas(canvas.canvas, jsPDF);
+        return;
+        }
+        throw new Error('The object returned by html2canvas does not support toDataURL.');
+        }
+        
+        // All good -> create PDF
+        doPdfFromCanvas(canvas, jsPDF);
+        
+        } catch (err) {
+        console.error('PDF generation failed:', err);
+        alert('PDF generation error — see console for details: ' + (err && err.message ? err.message : err));
+        }
+        })();
+    }
+
+
+    // Helper that takes a valid HTMLCanvasElement and opens PDF
+    function doPdfFromCanvas(canvas, jsPDF) {
+        try {
+            const imgData = canvas.toDataURL('image/png');
+            
+            // Create ajsPDF instance sized to A4
+            const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            format: 'a4'
+            });
+            
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            // If image is taller than page, we add it and let PDF client handle multiple pages
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            
+            const blob = pdf.output('blob');
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+            window.close();
+            
+            console.log('PDF created and opened in new tab.');
+        } catch (err) {
+            console.error('doPdfFromCanvas failed:', err);
+            alert('Failed to create PDF from canvas: ' + err.message);
+        }
+    };
+    
+</script>
+
 </html>

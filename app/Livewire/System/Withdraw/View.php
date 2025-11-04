@@ -75,6 +75,7 @@ class View extends Component
             $this->dispatch('warning', 'User too low balance !');
         }
         // dd('payment confirm method');
+        $this->dispatch('success', 'Withdraw Confirmed !');
     }
 
     public function rejectPayment()

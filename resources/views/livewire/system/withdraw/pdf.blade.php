@@ -74,12 +74,12 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Amount</th>
-                    <th>Status</th>
                     <th>Date</th>
-                    <th>A/C</th>
+                    <th>Details</th>
+                    <th>Amount</th>
+                    <th>Com</th>
+                    <th>Payable</th>
+                    <th>Status</th>
                 </tr>
             </thead>
 
@@ -87,7 +87,9 @@
                 @foreach ($withdraws as $item)
                 <tr @class(["bg-gray-200 font-bold"=> !$item->seen_by_admin])>
                     <td> {{$loop->iteration}} </td>
-                    <td> {{$item->id}} </td>
+                    <td>
+                        {{$item->created_at?->toFormattedDateString() }}
+                    </td>
                     <td>
                         <div>
                             <div class="flex">
@@ -108,21 +110,20 @@
                     <td>
                         {{$item->amount ?? '0'}} TK
                     </td>
+
+                    <td>
+                        {{$item->total_fee ?? '0'}} TK
+                    </td>
+                    <td>
+                        {{$item->payable_amount ?? '0'}} TK
+                    </td>
+
                     <td>
                         @if (!$item->is_rejected)
                         {{$item->status ? "Accept" : 'Pending'}}
                         @else
                         <div class="p-1">Reject</div>
                         @endif
-                    </td>
-                    <td>
-                        {{$item->created_at?->toFormattedDateString() }}
-                    </td>
-                    <td>
-                        <div class="flex">
-                            <x-nav-link href="{{route('system.withdraw.view', ['id' => $item->id])}}">Details
-                            </x-nav-link>
-                        </div>
                     </td>
                 </tr>
                 @endforeach
@@ -131,7 +132,9 @@
                 <tr class="font-bold">
                     <td colspan="3" class="text-right font-bold">Total</td>
                     <td class="font-bold">{{$withdraws?->sum('amount')}}</td>
-                    <td colspan="3"></td>
+                    <td class="font-bold">{{$withdraws?->sum('total_fee')}}</td>
+                    <td class="font-bold">{{$withdraws?->sum('payable_amount')}}</td>
+                    <td colspan=""></td>
                 </tr>
             </tfoot>
         </x-dashboard.table>

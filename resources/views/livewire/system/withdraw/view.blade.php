@@ -89,6 +89,7 @@
             </x-dashboard.section.header>
         </x-dashboard.section>
 
+        @if (!$withdraw?->status && !$withdraw?->is_rejected)
         <x-dashboard.section x-loading.disabled @class(["mt-2"])>
             <x-dashboard.section.header>
                 <x-slot name="title">
@@ -174,6 +175,7 @@
                 </div>
             </x-dashboard.section.inner>
         </x-dashboard.section>
+        @endif
 
         <x-dashboard.section @class(['hidden'=> $withdraw?->status || $withdraw?->is_rejected ])>
             <x-dashboard.section.header>
@@ -194,9 +196,9 @@
                 @error('rMessage')
                 <div class="text-red-900">
                     {{$message}}
-                    </d>
-                    @enderror
-                    <x-danger-button type="submit">Confirm Reject</x-danger-button>
+                </div>
+                @enderror
+                <x-danger-button type="submit">Confirm Reject</x-danger-button>
 
             </form>
         </x-dashboard.section>

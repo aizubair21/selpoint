@@ -20,13 +20,14 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> --}}
-
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> --}}
 
     {{--
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"> --}}
+
     <style>
         /* td,
         th {
@@ -186,6 +187,7 @@
 @endif
 
 {{-- <script>
+
     document.addEventListener('DOMContentLoaded', function () {
         Livewire.on('open-printable', (data) => {
             // Use an async IIFE to safely use await inside a non-module environment
@@ -288,7 +290,6 @@
         }
     };
     
-        
 </script> --}}
 @stack('script')
 

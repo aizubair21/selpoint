@@ -16,6 +16,7 @@ use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
 use App\Livewire\System\Comissions\TakesDistributes;
 use App\Livewire\System\Deposit\Index as DepositIndex;
+use App\Livewire\System\Deposit\PrintSummery;
 use App\Livewire\System\EarnBySell\Index as EarnBySellIndex;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
@@ -194,6 +195,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
 
     /**deposit */
     Route::get('/deposit', DepositIndex::class)->name('deposit.index')->middleware(AbleTo::class . ":deposit_view");
+    Route::get('/deposit/print', PrintSummery::class)->name('deposit.print-summery');
 
 
     Route::get('/comissions', ComissionsIndex::class)->name('comissions.index')->middleware(AbleTo::class . ":comission_view");

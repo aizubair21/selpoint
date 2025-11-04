@@ -124,6 +124,10 @@
 <x-responsive-nav-link :href="route('system.comissions.index')" :active="request()->routeIs('system.comissions.*')">
     <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Comission') }}
 </x-responsive-nav-link>
+{{-- <x-responsive-nav-link :href="route('system.comissions.index')"
+    :active="request()->routeIs('system.comissions.*')">
+    <i class="fas fa-money-bill-transfer pr-2 w-6"></i> {{ __('Com Distribute') }}
+</x-responsive-nav-link> --}}
 @endcan
 
 @can('withdraw_view')
@@ -132,11 +136,10 @@
     <i class="fas fa-arrow-up-from-bracket pr-2 w-6"></i> {{ __('Withdraw') }}
 </x-responsive-nav-link>
 @endcan
-<hr />
 
-<x-responsive-nav-link :href="route('system.logs')" :active="request()->routeIs('system.logs')">
+{{-- <x-responsive-nav-link :href="route('system.logs')" :active="request()->routeIs('system.logs')">
     <i class="fas fa-file-lines pr-2 w-6"></i> {{ __('Logs') }}
-</x-responsive-nav-link>
+</x-responsive-nav-link> --}}
 {{-- <x-responsive-nav-link :href="route('system.footer.builder')" :active="request()->routeIs('system.footer.*')">
     <i class="fas fa-pen pr-2 w-6"></i> Builder
 </x-responsive-nav-link> --}}
