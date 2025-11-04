@@ -1,4 +1,7 @@
 <div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <x-dashboard.page-header>
         Withdraws
     </x-dashboard.page-header>
@@ -60,13 +63,16 @@
                             </select>
                         </div>
 
-                        <div class="flex space-x-2">
-                            {{-- <x-primary-button @click="$dispatch('open-modal', 'withdraw-filter-modal')">
-                                <i class="fas fa-filter"></i>
-                            </x-primary-button> --}}
 
-                            <x-text-input type="date" id="sdate" wire:model.live='sdate' class="py-1" />
-                            <x-text-input type="date" id="edate" wire:model.live='edate' class="py-1" />
+
+                        <div class="flex space-x-2">
+
+                            <x-secondary-button @click="$dispatch('open-modal','withdraw_filter_modal')">
+                                <i class="fas fa-filter"></i>
+                            </x-secondary-button>
+                            <x-primary-button wire:click='print'>
+                                <i class="fas fa-print"></i>
+                            </x-primary-button>
                         </div>
 
                     </div>
@@ -142,17 +148,208 @@
                     </tr>
                 </tfoot>
             </x-dashboard.table>
+
+            {{-- <div class="" id="pdf-content">
+
+                @livewire('system.withdraw.pdf', ['from' => $sdate, 'to' => $edate, 'where' => $where, 'q' => $this->q,
+                'fst' => $fst])
+            </div> --}}
+
+            {{-- <x-dashboard.section.inner>
+                <div class="p-3">
+                    Filter
+                </div>
+                <hr />
+                <div class="p-3">
+                    <div>
+                        <p>
+                            Search Criteria
+                        </p>
+                        <div class="flex">
+                            <select wire:model.live="fst" class="rounded border py-1 mb-2" id="filter_status">
+                                <option value="Pending">Pending {{$pending}}</option>
+                                <option value="Accept">Accepted {{$paid}}</option>
+                                <option value="Reject">Rejected {{$reject}} </option>
+                            </select>
+                            <select wire:model.live="where" id="search_where"
+                                class="border-0 rounded-md py-1 shadow-none">
+                                <option value="find"> ID </option>
+                                <option value="query"> User </option>
+                            </select>
+                        </div>
+                        <br>
+                        <x-text-input type="text" class="w-full" wire:model.live="q"
+                            placeholder="Search by User Name or ID" />
+                    </div>
+                    <hr class="my-2" />
+                    <div class="flex items-center justify-between">
+                        <x-text-input type="date" wire:model.live="sdate" placeholder="From Date" />
+                        <x-text-input type="date" wire:model.live="edate" placeholder="To Date" />
+                    </div>
+
+                </div>
+                <hr class="my-2">
+                <div class="p-3">
+                    <x-secondary-button @click="$dispatch('close-modal', 'withdraw_filter_modal')">
+                        Close
+                    </x-secondary-button>
+                    <x-primary-button wire:click='filter'>
+                        Filter
+                    </x-primary-button>
+                    <x-primary-button wire:click='print'>
+                        <i class="fas fa-print"></i>
+                    </x-primary-button>
+                </div>
+            </x-dashboard.section.inner> --}}
         </x-dashboard.section>
     </x-dashboard.container>
 
-    <x-modal name="withdraw-filter-modal" maxWidth="sm">
+    <x-modal name="withdraw_filter_modal" maxWidth="sm">
         <div class="p-3">
             Filter
         </div>
         <hr />
         <div class="p-3">
-            <div class="text-xs">Filter By Date</div>
+            <div>
+                <p>
+                    Search Criteria
+                </p>
+                <select wire:model.live="where" id="search_where" class="border-0 rounded-md py-1 shadow-none">
+                    <option value="find"> ID </option>
+                    <option value="query"> User </option>
+                </select>
+                <br>
+                <x-text-input type="text" class="w-full" wire:model.live="q" placeholder="Search by User Name or ID" />
+            </div>
+            <hr class="my-2" />
+            <div class="flex items-center justify-between">
+                <x-text-input type="date" wire:model.live="sdate" placeholder="From Date" />
+                <x-text-input type="date" wire:model.live="edate" placeholder="To Date" />
+            </div>
 
         </div>
+        <hr class="my-2">
+        <div class="p-3">
+            <x-secondary-button @click="$dispatch('close-modal', 'withdraw_filter_modal')">
+                Close
+            </x-secondary-button>
+            <x-primary-button wire:click='filter'>
+                Filter
+            </x-primary-button>
+        </div>
     </x-modal>
+
+    <script>
+        window.addEventListener('open-printable', (e) => {
+            // console.log(e.detail[0].url);
+            window.open(e.detail[0].url, '_blank');
+        });
+        
+    </script>
+
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Livewire.on('open-printable', (data) => {
+                // Use an async IIFE to safely use await inside a non-module environment
+                (async () => {
+                try {
+                // --- Basic checks ---
+                console.log('PDF generation started');
+                if (typeof html2canvas === 'undefined') {
+                console.error('html2canvas is not loaded (undefined).');
+                alert('html2canvas not loaded. Make sure the CDN script tag is present.');
+                return;
+                }
+                if (typeof window.jspdf === 'undefined') {
+                console.error('jsPDF is not loaded (window.jspdf undefined).');
+                alert('jsPDF not loaded. Make sure the CDN script tag is present.');
+                return;
+                }
+                
+                // Get jsPDF constructor
+                const { jsPDF } = window.jspdf || {};
+                if (typeof jsPDF !== 'function') {
+                console.error('jsPDF import failed, window.jspdf:', window.jspdf);
+                alert('jsPDF not available. Check console for window.jspdf object.');
+                return;
+                }
+                
+                // Find the element to convert
+                const element = document.querySelector('#pdf-content');
+                if (!element) {
+                console.error('No element found with id="pdf-content"');
+                alert('No #pdf-content element found. Please add id="pdf-content" to the container you want to export.');
+                return;
+                }
+                
+                console.log('Calling html2canvas on element:', element);
+                
+                // --- Call html2canvas and await the promise ---
+                const canvas = await html2canvas(element, { scale: 2, useCORS: true });
+                
+                // Debug: what did we get?
+                console.log('html2canvas resolved value:', canvas);
+                if (!canvas) {
+                throw new Error('html2canvas returned null/undefined.');
+                }
+                
+                // Validate it's a canvas and has toDataURL
+                if (typeof canvas.toDataURL !== 'function') {
+                console.error('Returned object is not a canvas or has no toDataURL. Constructor/type:', canvas.constructor?.name ||
+                typeof canvas);
+                // Extra attempt: if html2canvas returned an array or object, try to get .canvas property
+                if (canvas?.canvas && typeof canvas.canvas.toDataURL === 'function') {
+                console.warn('Using canvas.canvas.toDataURL fallback');
+                doPdfFromCanvas(canvas.canvas, jsPDF);
+                return;
+                }
+                throw new Error('The object returned by html2canvas does not support toDataURL.');
+                }
+                
+                // All good -> create PDF
+                doPdfFromCanvas(canvas, jsPDF);
+                
+                } catch (err) {
+                console.error('PDF generation failed:', err);
+                alert('PDF generation error — see console for details: ' + (err && err.message ? err.message : err));
+                }
+                })();
+            });
+            
+        });
+    
+        // Helper that takes a valid HTMLCanvasElement and opens PDF
+        function doPdfFromCanvas(canvas, jsPDF) {
+            try {
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Create ajsPDF instance sized to A4
+                const pdf = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a4'
+                });
+                
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                const imgWidth = pageWidth;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                // If image is taller than page, we add it and let PDF client handle multiple pages
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                
+                const blob = pdf.output('blob');
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+                
+                console.log('PDF created and opened in new tab.');
+            } catch (err) {
+                console.error('doPdfFromCanvas failed:', err);
+                alert('Failed to create PDF from canvas: ' + err.message);
+            }
+        };
+        
+            
+    </script> --}}
 </div>

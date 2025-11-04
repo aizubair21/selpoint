@@ -103,7 +103,7 @@ class ProductComissionController extends Controller
                                         'buy' => $ord->buying_price,
                                         'sel' => $ord->price,
                                         'to' => $ord->user_id,
-                                        'profit' => $rprofit,
+                                        'profit' => round($rprofit, 2),
                                         'confirmed' => false,
                                     ]
                                 );
@@ -140,11 +140,11 @@ class ProductComissionController extends Controller
                                 'order_id' => $orderData->id,
                                 'buying_price' => $products->buying_price,
                                 'selling_price' => $orderData->belongs_to_type == 'vendor' ? $products->totalPrice() : $ord->total, // 
-                                'take_comission' => $comission,
-                                'distribute_comission' => $distribute,
+                                'take_comission' => round($comission, 2),
+                                'distribute_comission' => round($distribute, 2),
                                 'store' => round($comission - $distribute, 2),
-                                'return' => $profit - $comission,
-                                'profit' => $profit,
+                                'return' => round($profit - $comission, 2),
+                                'profit' => round($profit, 2),
                                 'confirmed' => false,
                                 'comission_range' => $shop->system_get_comission,
                             ]

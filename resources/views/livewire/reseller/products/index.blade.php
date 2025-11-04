@@ -3,7 +3,7 @@
         <div class="flex justify-between items-start">
             Products
 
-            <div class="flex">
+            <div class="flex space-x-1">
                 <x-nav-link-btn href="{{route('vendor.products.create')}}">
                     <i class="fas fa-plus pr-2"></i> New
                 </x-nav-link-btn>
@@ -25,15 +25,15 @@
 
     <x-dashboard.container>
 
-
         <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title" class="float-right clearfix">
-                    <div class="flex items-center">
+                    <div class="flex justify-between items-center">
+                        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')">
+                            <i class="fas fa-filter"></i>
+                        </x-primary-button>
                         <x-text-input type="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1">
                         </x-text-input>
-                        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')">Filter
-                        </x-primary-button>
                     </div>
 
                 </x-slot>

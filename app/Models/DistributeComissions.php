@@ -40,6 +40,19 @@ class DistributeComissions extends Model
     }
 
 
+    // cast 
+    protected $casts = [
+        'confirmed' => 'boolean',
+        'amount' => 'float',
+        'take_comission' => 'float',
+        'distribute_comission' => 'float',
+        'store' => 'float',
+        'return' => 'float',
+        'profit' => 'float',
+    ];
+
+
+
     /**
      * scope
      */

@@ -15,7 +15,7 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $user = null, $fst = 'Pending', $sdate, $edate;
+    public $where, $q, $fst = 'Pending', $sdate, $edate;
     public $total, $pending, $reject, $paid;
 
     public function getWithdraw()
@@ -25,9 +25,22 @@ class Index extends Component
         $this->pending = withdraw::pending()->count();
         $this->paid = withdraw::accepted()->count();
         $this->reject = withdraw::rejected()->count();
-        $this->edate = today();
+        $this->sdate = now()->format('Y-m-d');
+        $this->edate = now()->format('Y-m-d');
     }
-    public function render()
+
+    public function print()
+    {
+        // Build query string for customization options
+        $url = route('system.withdraw.print', ['from' => $this->sdate, 'to' => $this->edate]);
+        $this->dispatch('open-printable', ['url' => $url]);
+    }
+
+    public function filter()
+    {
+        $this->withdraws();
+    }
+    private function withdraws()
     {
         $qry = Withdraw::query();
         if ($this->fst == 'Reject') {
@@ -39,9 +52,22 @@ class Index extends Component
             $qry->where(['status' => $sts]);
         }
 
-        $qry->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
+        if ($this->where == 'query') {
+            $qry->whereHas('user', function ($query) {
+                $query->where('name', 'like', '%' . $this->q . '%');
+            });
+        } elseif ($this->where == 'find') {
+            $qry->where('id', $this->q);
+        }
 
-        $withdraw = $qry->orderBy('id', 'desc')->paginate(config('app.pagination'));
+        return $qry->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
+    }
+
+    public function render()
+    {
+
+
+        $withdraw = $this->withdraws()->orderBy('id', 'desc')->paginate(config('app.pagination'));
         // dd($withdraw);
         return view('livewire.system.withdraw.index', compact('withdraw'));
     }

@@ -1,119 +1,44 @@
-<div x-data="{}" x-init="$wire.getData">
+<div x-data="{}">
 
     <x-dashboard.page-header>
         <div class="flex justify-between">
             <div>
                 Comissions
             </div>
-
-            <x-nav-link-btn href="{{route('system.comissions.takes', ['ord' => true])}}">
-                Track
-            </x-nav-link-btn>
         </div>
     </x-dashboard.page-header>
 
     <x-dashboard.container>
-        <x-dashboard.overview.section>
+        <div class="flex justify-between items-end mb-4">
+            <div>
+                <x-primary-button @click="$dispatch('open-modal', 'comission-filter-modal')">
+                    <i class="fas fa-filter"></i>
+                </x-primary-button>
+            </div>
+            <div class="flex justify-start items-end mb-2 space-x-1">
+                <x-primary-button wire:click="openPrintable" class="btn">
+                    <i class="fas fa-print"></i>
+                </x-primary-button>
+                {{-- <x-primary-button wire:click="print" class="btn">
+                    <i class="fas fa-print"></i>
+                </x-primary-button> --}}
 
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Pending
-                </x-slot>
-                <x-slot name="content">
-                    {{$pc}} / {{$pcc}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Pending Give
-                </x-slot>
-                <x-slot name="content">
-                    {{$pg}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Pending Store
-                </x-slot>
-                <x-slot name="content">
-                    {{$ps}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Confirmed
-                </x-slot>
-                <x-slot name="content">
-                    {{$cc}} / {{$ccc}}
-                </x-slot>
-            </x-dashboard.overview.div>
+                <div>
+                    <x-text-input class=" py-1 w-full " type="date" wire:model.live="from" />
+                    <x-input-error :messages="$errors->get('from')" class="mt-2" />
+                </div>
 
-            {{-- <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Generate
-                </x-slot>
-                <x-slot name="content">
-                    {{$profit}}
-                </x-slot>
-            </x-dashboard.overview.div> --}}
+                <div>
+                    <x-text-input class=" py-1 w-full " type="date" wire:model.live="to" />
+                    <x-input-error :messages="$errors->get('to')" class="mt-2" />
+                </div>
 
+            </div>
+        </div>
 
+        <x-hr class="my-2" />
 
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Distributed
-                </x-slot>
-                <x-slot name="content">
-                    {{$give}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Stored
-                </x-slot>
-                <x-slot name="content">
-                    {{$store}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Returned
-                </x-slot>
-                <x-slot name="content">
-                    {{$return}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Seller
-                </x-slot>
-                <x-slot name="content">
-                    {{$seller}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Product
-                </x-slot>
-                <x-slot name="content">
-                    {{$product}}
-                </x-slot>
-            </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Order
-                </x-slot>
-                <x-slot name="content">
-                    {{$order}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-        </x-dashboard.overview.section>
-        <x-hr />
-
-        <div class="flex justify-between items-center">
+        {{-- <div class="flex justify-between items-center">
             <div>
                 Today's Overview
             </div>
@@ -121,9 +46,9 @@
             <div class="flex">
                 <x-text-input class="bg-transparent py-1" type="date" />
             </div>
-        </div>
+        </div> --}}
 
-        <x-dashboard.overview.section>
+        {{-- <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
                     Generate
@@ -168,12 +93,42 @@
                     {{$treturn ?? 0}}
                 </x-slot>
             </x-dashboard.overview.div>
-        </x-dashboard.overview.section>
+        </x-dashboard.overview.section> --}}
 
-        <x-dashboard.section>
+        <x-dashboard.section.inner>
+            <div>
+
+                <x-dashboard.table :data="$comissions">
+                    <thead>
+                        <tr>
+                            <th>Seller Total Profit</th>
+                            <th>Cut comission</th>
+                            <th>Distribute</th>
+                            <th>Store</th>
+                            <th>Return</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td> {{$comissions->sum('profit') ?? 0}} </td>
+                            <td> {{$comissions->sum('take_comission') ?? 0}} </td>
+                            <td> {{$comissions->sum('distribute_comission') ?? 0}} </td>
+                            <td> {{$comissions->sum('store') ?? 0}} </td>
+                            <td> {{$comissions->sum('return') ?? 0}} </td>
+                        </tr>
+                    </tbody>
+                </x-dashboard.table>
+            </div>
+        </x-dashboard.section.inner>
+
+        <x-dashboard.section id="pdf-content">
+            <hr>
+            {{$comissions->links()}}
             <x-dashboard.table>
-
                 <thead>
+                    <th>#</th>
+                    <th>DT</th>
                     <th>ID</th>
                     <th>Order</th>
                     <th>Product</th>
@@ -193,8 +148,12 @@
 
                 <tbody>
 
-                    @foreach ($todaysTakeComissions as $item)
+                    @foreach ($comissions as $item)
                     <tr>
+                        <td>{{$loop->iteration }}</td>
+                        <td>
+                            {{ Carbon\Carbon::parse($item->created_at)->format('d M Y') }}
+                        </td>
                         <td> {{$item->id ?? "N/A"}} </td>
                         <td> {{$item->order_id ?? 0}} </td>
                         <td> {{$item->product_id ?? 0}} </td>
@@ -234,9 +193,79 @@
 
                 </tbody>
 
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th> {{$comissions->sum('buying_price')}} </th>
+                        <th> {{$comissions->sum('selling_price')}} </th>
+                        <th> {{$comissions->sum('profit')}} </th>
+                        <td></td>
+                        <th> {{$comissions->sum('take_comission')}} </th>
+                        <th> {{$comissions->sum('distribute_comission')}} </th>
+                        <th> {{$comissions->sum('store')}} </th>
+                        <th> {{$comissions->sum('return')}} </th>
+                        <th></th>
+                        <th></th>
+
+
+                    </tr>
+                </tfoot>
+
             </x-dashboard.table>
         </x-dashboard.section>
 
     </x-dashboard.container>
+
+    <x-modal name="comission-filter-modal">
+        <div class="p-3">
+            Filter Comissions
+        </div>
+        <hr class='my-1' />
+
+        <div class="p-3">
+            <div class="my-2 flex justify-between items-start space-x-1">
+                <div>
+                    <p>Comission Type</p>
+                    <select wire:model.live='where' class="rounded-md w-full ">
+                        <option value="">-- Select -- </option>
+                        <option value="user_id">User</option>
+                        <option value="product_id">Product</option>
+                        <option value="order_id">Order</option>
+                    </select>
+                </div>
+                <div>
+                    <p>ID</p>
+                    <x-text-input class="w-full" placeholder="ID" wire:model.live="wid" />
+                </div>
+            </div>
+        </div>
+        <hr class="my-1" />
+        <div class="p-3">
+            <div class="flex w-full justify-end items-center space-x-1">
+                <x-secondary-button class="" wire:click="$dispatch('close-modal', 'comission-filter-modal')">
+                    Cancel
+                </x-secondary-button>
+
+            </div>
+        </div>
+    </x-modal>
+
+    <script>
+        window.addEventListener('open-printable', (e) => {
+            // console.log(e.detail[0].url);
+            window.open(e.detail[0].url, '_blank');
+            
+        });
+        
+        
+        // window.addEventListener('notify', e => {
+        //     console.log(e);
+        //     alert(e.detail.message);
+        // });
+    </script>
 
 </div>

@@ -185,7 +185,8 @@ new class extends Component
         @endif
 
         <div class=" overflow-hidden shadow-md p-1">
-            <img style="height: 120px" src="{{asset('storage/'. $pd->thumbnail)}}" alt="image">
+            <img style="height: 120px" src="{{asset('storage/'. $pd->thumbnail)}}" class="w-full object-cover"
+                alt="image">
         </div>
 
         <div class="p-2 bg-white h-36 flex flex-col justify-between">

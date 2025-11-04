@@ -62,6 +62,9 @@ use App\Livewire\System\Slider\Slides;
 use App\Livewire\System\Withdraw\Index as WithdrawIndex;
 use App\Livewire\System\Withdraw\View as WithdrawDetails;
 
+use App\Livewire\System\Report\Index as ReportIndex;
+use App\Livewire\System\Report\Report;
+use App\Livewire\System\Withdraw\Pdf;
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
 
@@ -198,6 +201,8 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/comissions/{id}', TakesDetails::class)->name('comissions.details')->middleware(AbleTo::class . ":comission_view");
     Route::get('/comissions/takes/{id}', TakesDistributes::class)->name('comissions.distributes')->middleware(AbleTo::class . ":comission_confim");
 
+    // Rotue::get()->name('comissions.');
+
     Route::post('/comissions/delete', [ProductComissionController::class, 'deleteComissions'])->name('comissions.destroy')->middleware(AbleTo::class . ":comission_delete");
     Route::delete('/comissions/reseller-profit/delete/{id}', [ProductComissionController::class, 'deleteResellerProfit'])->name('reseller-profit.destroy')->middleware(AbleTo::class . ":comission_delete");
 
@@ -282,6 +287,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         function () {
             Route::get('/', WithdrawIndex::class)->name('withdraw.index');
             Route::get('/take{id}', WithdrawDetails::class)->name('withdraw.view');
+            Route::get('/print', Pdf::class)->name('withdraw.print');
         }
     )->middleware(AbleTo::class . ":withdraw_view");
 
@@ -295,8 +301,10 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
 
     // earn and sell
     Route::get('/earn/index', EarnBySellIndex::class)->name('earn.index');
-
     Route::get('/builder/footer', FooterBuilder::class)->name('footer.builder');
+
+    Route::get('/reports', ReportIndex::class)->name('report.index');
+    Route::get('/reports/generate', Report::class)->name('report.generate');
 
     /**
      * API Docs

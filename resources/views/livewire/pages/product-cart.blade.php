@@ -1,4 +1,4 @@
-<div class="box border bg-white">
+<div class="box border bg-white relative">
 
 
     @if($product->offer_type && $product->discount)
@@ -38,6 +38,7 @@
     <div class="img-box">
         <img src="{{ asset('storage/' . $product->thumbnail) }}">
     </div>
+
 
     {{-- card body --}}
     <div class=" p-2 flex flex-col justify-between">
@@ -134,5 +135,16 @@
 
 
     </div>
+
+
+    {{-- stock out wrapper --}}
+    @if ($product->unit < 2) <div
+        class="absolute top-0 left-0 w-full h-full text-bold font-bold flex justify-center items-center z-10 text-sm"
+        style="background-color: rgba(0,0,0, 30%)">
+        <div class="w-full py-1 uppercase text-center bg-white">
+            sold out
+        </div>
+</div>
+@endif
 
 </div>

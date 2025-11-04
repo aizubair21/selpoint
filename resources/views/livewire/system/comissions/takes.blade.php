@@ -1,76 +1,36 @@
 <div>
-    <x-dashboard.page-header>
-        Comission Takes
-        <br>
-        <form wire:submit.prevent="check">
-            <div class="flex">
-                <select wire:model.live="query_for" id="query_for" class="border-0 text-xs ">
-                    <option selected value="">Chose Option</option>
-                    <option value="order_id">Order</option>
-                    <option value="product_id">Product</option>
-                    {{-- <option value="user_id">Shop</option> --}}
-                </select>
-                <x-text-input class="border-0 rounded-none w-24" placeholder="ID's" wire:model.live="qry" />
-                <x-primary-button class="my-1" type="submit">check</x-primary-button>
-            </div> 
-        </form>
-
-    </x-dashboard.page-header>
-
+    <style>
+        @page {
+            size: A4;
+        }
+    </style>
     <x-dashboard.container>
-        <x-dashboard.section.header>
-            <x-slot name="title">
-                <div class="md:flex justify-between">
+        <div class="w-ful text-center">
 
-
-
-                </div>
-            </x-slot>
-            <x-slot name="content"></x-slot>
-        </x-dashboard.section.header>
-
+            <div class="tex-xl">
+                <x-application-name />
+            </div>
+            <div>
+                <p class=""> Comisstion Summery form {{carbon\carbon::parse($from)->format('d/m/Y')}}
+                    to {{carbon\carbon::parse($to)->format('d/m/Y') }} </p>
+            </div>
+        </div>
         <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    Total Overview
-                </x-slot>
-                <x-slot name="content">
-
-                </x-slot>
-            </x-dashboard.section.header>
-            <x-dashboard.section.inner>
-                <x-dashboard.table :data="$takes">
-                    <thead>
-                        <tr>
-                            <th>Seller Total Profit</th>
-                            <th>Cut comission</th>
-                            <th>Distribute</th>
-                            <th>Store</th>
-                            <th>Return</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td> {{$takes->sum('profit') ?? 0}} </td>
-                            <td> {{$takes->sum('take_comission') ?? 0}} </td>
-                            <td> {{$takes->sum('distribute_comission') ?? 0}} </td>
-                            <td> {{$takes->sum('store') ?? 0}} </td>
-                            <td> {{$takes->sum('return') ?? 0}} </td>
-                        </tr>
-                    </tbody>
-                </x-dashboard.table>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
-
-        <x-dashboard.section>
-            <x-dashboard.table :data="$takes">
+            <x-dashboard.table :data="$comissions">
 
                 <thead>
                     <th>ID</th>
+                    @if ($where == 'user_id')
                     <th>Seller</th>
+                    @endif
+                    @if ($where == 'order_id')
+
                     <th>Order</th>
+                    @endif
+                    @if ($where == 'product_id')
+
                     <th>Product</th>
+                    @endif
                     <th>Buy</th>
                     <th>Sell</th>
                     <th>Profit</th>
@@ -78,26 +38,31 @@
                     <th>Take</th>
                     <th>Give</th>
                     <th>Store</th>
-                    <th>Return</th>
                     <th>Date</th>
                     <th>Confirmed</th>
-                    <th>
-                        A/C
-                    </th>
                 </thead>
 
                 <tbody>
 
-                    @foreach ($takes as $item)
+                    @foreach ($comissions as $item)
                     <tr>
                         <td> {{$item->id ?? "N/A"}} </td>
+                        @if ($where == 'user_id')
+
                         <th>
                             {{$item->user_id}}
                         </th>
+                        @endif
+                        @if ($where == 'order_id')
+
                         <td> {{$item->order_id ?? 0}} </td>
+                        @endif
+                        @if ($where == 'product_id')
+
                         <td>
                             {{$item->product_id ?? 0}}
                         </td>
+                        @endif
                         <td> {{$item->buying_price ?? 0}} </td>
                         <td> {{$item->selling_price ?? 0}} </td>
                         <td> {{$item->profit ?? "0"}} </td>
@@ -105,40 +70,47 @@
                         <td> {{$item->take_comission ?? "0"}}</td>
                         <td> {{$item->distribute_comission ?? "0"}}</td>
                         <td> {{$item->store ?? "0"}}</td>
-                        <td> {{$item->return ?? "0"}}</td>
                         <td>
                             {{ $item->created_at?->toFormattedDateString() }}
                         </td>
                         <td>
                             @if ($item->confirmed == true)
                             <span class="p-1 px-2 rounded-xl bg-green-900 text-white">Confirmed</span>
-                            <x-nav-link wire:show="ord"
-                                href="{{route('system.comissions.take.refund', ['id' => $item->id])}}"> Refund
-                            </x-nav-link>
+
                             @else
                             <span class="p-1 px-2 rounded-xl bg-gray-900 text-white">Pending</span>
-                            <x-nav-link wire:show="ord"
-                                href="{{route('system.comissions.take.confirm', ['id' => $item->id])}}"> Confirm
-                            </x-nav-link>
+
                             @endif
-                        </td>
-                        <td>
-                            <div class="flex space-x-2" wire:show="ord">
-                                <x-nav-link href="{{route('system.comissions.distributes', ['id' => $item->id])}}">
-                                    Details</x-nav-link>
-                            </div>
                         </td>
                     </tr>
                     @endforeach
 
                 </tbody>
 
+                <tfoot>
+                    <tr class="py-2 bg-gray-200">
+                        <td>
+                            {{count($comissions)}}
+                        </td>
+                        <td class="font-bold"> {{$comissions->sum('buying_price')}} </td>
+                        <td class="font-bold"> {{$comissions->sum('selling_price')}} </td>
+                        <td class="font-bold"> {{$comissions->sum('profit')}} </td>
+                        <td></td>
+                        <td class="font-bold"> {{$comissions->sum('take_comission')}} </td>
+                        <td class="font-bold"> {{$comissions->sum('distribute_comission')}} </td>
+                        <td class="font-bold"> {{$comissions->sum('store')}} </td>
+                        <td class="font-bold"></td>
+                        <td class="font-bold"></td>
+
+
+                    </tr>
+                </tfoot>
             </x-dashboard.table>
         </x-dashboard.section>
     </x-dashboard.container>
 
 
-    <x-modal name="filter-modal" maxWidth="lg">
+    {{-- <x-modal name="filter-modal" maxWidth="lg">
         <div class="p-2">
             <div>
                 Filter
@@ -167,5 +139,16 @@
                 <x-hr />
             </div>
         </div>
-    </x-modal>
+    </x-modal> --}}
+
+    <script>
+        // If opened via browser printable flow, auto open print dialog
+        setTimeout(() => window.print(), 500);
+        // if (window.location.search.includes('autoPrint=1')) {
+        // }
+        
+        // close the window, while close window.print()
+        
+        
+    </script>
 </div>
