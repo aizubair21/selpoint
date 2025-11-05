@@ -10,6 +10,7 @@ use Livewire\Attributes\Url;
 #[layout('layouts.app')]
 class Index extends Component
 {
+    #[URL]
     public $nav = 'Deposit', $sdate, $edate, $sid;
     private $model;
 

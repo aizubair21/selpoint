@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithPagination;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Carbon;
 
 #[layout('layouts.app')]
 class Index extends Component
@@ -14,18 +15,42 @@ class Index extends Component
     use WithPagination;
 
     #[URL]
-    public $search = '', $date, $sd = '', $ed = '', $qf = 'id', $type, $status;
+    public $search = '', $date, $sd, $ed, $qf = 'id', $type, $status;
     public $pagn = 0, $pendingCount, $acceptCount, $totalAmount;
 
     public function mount()
     {
         // $this->date = 'today';
+        $this->date = 'today';
         $this->pagn = config('app.paginate');
+        $this->sd = now()->format('Y-m-d');
+        $this->ed = now()->format('Y-m-d');
     }
 
-    public function updated()
+    public function updated($prop)
     {
         // $this->dispatch('refresh');
+        if ( $prop == 'date' &&  $this->date == 'between') {
+            $this->sd = now()->format('Y-m-d');
+            $this->ed = now()->format('Y-m-d');
+        }
+    }
+
+    public function print()
+    {
+        $url = route(
+            'system.orders.sprint',
+            [
+                'date' => $this->date,
+                'sd' => $this->sd,
+                'ed' => $this->ed,
+                'search' => $this->search,
+                'type' => $this->type,
+                'qf' => $this->qf,
+                'status' => $this->status
+            ]
+        );
+        $this->dispatch('open-printable', ['url' => $url]);
     }
 
 
@@ -52,8 +77,9 @@ class Index extends Component
 
 
                 case 'between':
-                    if ($this->sd && $this->ed) {
-                        $query->whereBetween('created_at', [$this->sd, $this->ed]);
+                    
+                    if (!empty($this->sd) && !empty($this->ed)) {
+                        $query->whereBetween('created_at', [$this->sd, carbon::parse($this->ed)->endofDay()]);
                     }
                     break;
             }

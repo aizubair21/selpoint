@@ -12,46 +12,46 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Carbon;
 
-#[Layout('layouts.guest')]
+#[Layout('layouts.print')]
 class Report extends Component
 {
     #[URL]
     public $nav, $sdate, $edate, $id;
-    private $model;
+    // private $model;
 
-    public function mount()
-    {
-        switch ($this->nav) {
-            case 'Deposit':
-                $this->model = userDeposit::class;
-                break;
+    // public function mount()
+    // {
+    //     switch ($this->nav) {
+    //         case 'Deposit':
+    //             $this->model = userDeposit::class;
+    //             break;
 
-            case 'Withdraw':
-                $this->model = Withdraw::class;
-                break;
+    //         case 'Withdraw':
+    //             $this->model = Withdraw::class;
+    //             break;
 
-            case "Sells":
-                $this->model = Order::class;
-                break;
+    //         case "Sells":
+    //             $this->model = Order::class;
+    //             break;
 
-            case "Vip":
-                $this->model = vip::class;
-                break;
+    //         case "Vip":
+    //             $this->model = vip::class;
+    //             break;
 
-            case 'Product':
-                $this->model = Product::class;
-                break;
+    //         case 'Product':
+    //             $this->model = Product::class;
+    //             break;
 
-            default:
-                $this->model = userDeposit::class;
-                break;
-        }
-    }
+    //         default:
+    //             $this->model = userDeposit::class;
+    //             break;
+    //     }
+    // }
     public function render()
     {
-        $qry = $this->model::query();
-        $qry->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
+        // $qry = $this->model::query();
+        // $qry->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
 
-        return view('livewire.system.report.report', ['data' => $qry->get()]);
+        return view('livewire.system.report.report');
     }
 }

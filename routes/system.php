@@ -54,6 +54,7 @@ use App\Livewire\System\Products\Edit as systemGlobalProductsEditPage;
 use App\Livewire\System\Navigations\Index as NavigationsIndex;
 use App\Livewire\System\Orders\Details;
 use App\Livewire\System\Orders\Index as SystemOrdersIndex;
+use App\Livewire\System\Orders\PrintSummery as OrdersPrintSummery;
 use App\Livewire\System\Settings\Index as SettingsIndex;
 use App\Livewire\System\Settings\Pages\Index as PagesIndex;
 use App\Livewire\System\Settings\Pages\Edit as PagesEdit;
@@ -281,6 +282,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         }
     )->middleware(AbleTo::class . ':order_view');
 
+    Route::get('/print-summery', OrdersPrintSummery::class)->name('orders.sprint');
 
     /**
      * system withdraw

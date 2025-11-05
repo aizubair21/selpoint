@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
 class Pdf extends Component
 {
     #[URL]
-    public $sdate, $edate, $fst, $q, $where;
+    public $sdate, $edate, $fst = 'Accept', $q, $where;
 
     private function withdraws()
     {
