@@ -25,7 +25,7 @@ class Index extends Component
         $this->pending = withdraw::pending()->count();
         $this->paid = withdraw::accepted()->count();
         $this->reject = withdraw::rejected()->count();
-        $this->sdate = now()->format('Y-m-d');
+        $this->sdate = now()->subday(30)->format('Y-m-d');
         $this->edate = now()->format('Y-m-d');
     }
 

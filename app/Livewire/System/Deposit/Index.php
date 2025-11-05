@@ -19,7 +19,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->sdate = now()->format('Y-m-d');
+        $this->sdate = now()->subday(30)->format('Y-m-d');
         $this->edate = today()->format('Y-m-d');
     }
 

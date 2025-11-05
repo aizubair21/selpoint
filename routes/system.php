@@ -67,6 +67,7 @@ use App\Livewire\System\Withdraw\View as WithdrawDetails;
 use App\Livewire\System\Report\Index as ReportIndex;
 use App\Livewire\System\Report\Report;
 use App\Livewire\System\Users\PrintSummery as UsersPrintSummery;
+use App\Livewire\System\Vip\PrintSummery as VipPrintSummery;
 use App\Livewire\System\Withdraw\Pdf;
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
@@ -153,6 +154,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
 
     Route::get('/vip/{vip}', Edit::class)->name('vip.edit')->middleware(AbleTo::class . ":vip_user_edit");
     Route::get('/vips', systemVipUsersIndex::class)->name('vip.users')->middleware(AbleTo::class . ":vip_user_view");
+    Route::get('/vips/print-summery', VipPrintSummery::class)->name('vip.print-summery')->middleware(AbleTo::class . ":vip_user_view");
 
 
 

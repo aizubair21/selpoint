@@ -2,44 +2,21 @@
 
 namespace App\Livewire\System\Vip;
 
-use App\Models\vip;
-use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
-use Livewire\WithPagination;
+use App\Models\vip;
+use Illuminate\Support\Carbon;
 
-#[layout('layouts.app')]
-class Users extends Component
+
+class PrintSummery extends Component
 {
-    use WithPagination;
     #[URL]
     public $nav = 'Pending', $search = '', $sdate, $edate, $type, $validity;
-
-    public function mount()
-    {
-        $this->validity = 'All';
-        $this->type = 'All';
-        $this->sdate = now()->subDay(30)->format('Y-m-d');
-        $this->edate = now()->format('Y-m-d');
-    }
-
-    public function print()
-    {
-        $url = route('system.vip.print-summery', [
-            'nav' => $this->nav,
-            'search' => $this->search,
-            'sdate' => $this->sdate,
-            'edate' => $this->edate,
-            'type' => $this->type,
-            'validity' => $this->validity,
-        ]);
-        $this->dispatch('open-printable', ['url' => $url]);
-    }
-
     public function render()
     {
         $st = false;
+        $vip = '';
         $query = vip::query()->whereBetween('created_at', [$this->sdate, Carbon::parse($this->edate)->endOfDay()]);
         if ($this->nav !== 'Pending') {
             $st = true;
@@ -70,12 +47,12 @@ class Users extends Component
             $query->whereDate('valid_till', $this->validity == 'valid' ? ">" : "<", now()->format('Y-m-d'));
         }
 
-        $vip = $query->paginate(config('app.paginate'));
 
         if (isset($this->search) && !empty($this->search)) {
             $vip = vip::where('name', 'like', '%' . $this->search . '%')->orWhere('phone', 'like', '%' . $this->search . '%')->paginate(config('app.paginate'));
         }
 
-        return view('livewire.system.vip.users', compact('vip'));
+        $vip = $query->paginate(config('app.paginate'));
+        return view('livewire.system.vip.print-summery', compact('vip'));
     }
 }
