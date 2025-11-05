@@ -44,6 +44,8 @@
         'edate' => $edate,
         ])
         @endif
+
+
     </x-dashboard.container>
     {{-- <script>
         let table = new DataTable('#myTable');

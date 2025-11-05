@@ -66,6 +66,7 @@ use App\Livewire\System\Withdraw\View as WithdrawDetails;
 
 use App\Livewire\System\Report\Index as ReportIndex;
 use App\Livewire\System\Report\Report;
+use App\Livewire\System\Users\PrintSummery as UsersPrintSummery;
 use App\Livewire\System\Withdraw\Pdf;
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
@@ -129,6 +130,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         Route::get('/', systemUserIndexPage::class)->name('users.view')->middleware(AbleTo::class . ":users_view");
         Route::get('/edit/{id}', systemUserEditPage::class)->name('users.edit')->middleware(AbleTo::class . ":users_edit");
         Route::post('/update/{id}', [SystemUsersController::class, 'admin_update'])->name("users.update")->middleware(AbleTo::class . ":users_update");
+        Route::get('/print-summery', UsersPrintSummery::class)->name('users.print-summery');
     });
 
 

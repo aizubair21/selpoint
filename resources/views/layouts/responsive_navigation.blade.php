@@ -33,11 +33,11 @@
 </x-responsive-nav-link>
 @endcan
 
-@if(Route::has('system.report.index'))
+{{-- @if(Route::has('system.report.index'))
 <x-responsive-nav-link :href="route('system.report.index')" :active="request()->routeIs('system.report.*')">
     <i class="fas fa-chart-bar pr-2 w-6"></i> Report
 </x-responsive-nav-link>
-@endif
+@endif --}}
 
 
 <x-hr />

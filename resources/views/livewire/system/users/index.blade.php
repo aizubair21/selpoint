@@ -1,10 +1,12 @@
 <div>
+    <x-dashboard.page-header>
+        Users
+    </x-dashboard.page-header>
     <div>
         <x-dashboard.container>
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
-                        Users
                         {{-- <x-nav-link href="" :active="true">Any Role</x-nav-link>
                         <x-nav-link href="">Admin Role</x-nav-link>
                         <x-nav-link href="">Vendor Role</x-nav-link>
@@ -13,12 +15,18 @@
 
                     </x-slot>
                     <x-slot name="content">
-                        <div class="flex justify-between">
-                            <div></div>
-                            <div class="flex">
-                                <x-primary-button class="mx-1">
-                                    <i class="fa-solid fa-filter"></i>
+                        <div class="flex justify-between items-center gap-2">
+                            <div>
+                                <x-primary-button wire:click='print'>
+                                    <i class="fas fa-print"></i>
                                 </x-primary-button>
+                            </div>
+                            <div class="flex gap-2">
+                                {{-- <x-primary-button class="mx-1" @click="$dispatch('open-modal', 'filter-modal')">
+                                    <i class="fa-solid fa-filter"></i>
+                                </x-primary-button> --}}
+                                <x-text-input type="date" wire:model.live='sd' class="py-1" />
+                                <x-text-input type="date" wire:model.live='ed' class="py-1" />
                                 <x-text-input wire:model.live="search" type="search" placeholder="search"
                                     class="py-1" />
                             </div>
@@ -136,11 +144,33 @@
         </x-dashboard.container>
     </div>
 
+    <x-modal name='filter-modal'>
+        <x-slot name="title">
+            Filter Users
+        </x-slot>
+        <x-slot name="content">
+            <div class="flex flex-col gap-2">
 
+            </div>
+        </x-slot>
+        <x-slot name="footer">
+            <x-secondary-button @click="$dispatch('close-modal', 'filter-modal')">Close</x-secondary-button>
+        </x-slot>
+    </x-modal>
+    {{--
     @script
     <script sec="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
     <script>
         let table = new DataTable('#myTable');
     </script>
-    @endscript
+    @endscript --}}
+
+
+    <script>
+        window.addEventListener('open-printable', (e) => {
+                // console.log(e.detail[0].url);
+                window.open(e.detail[0].url, '_blank');
+            });
+            
+    </script>
 </div>

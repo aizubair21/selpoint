@@ -2,41 +2,19 @@
 
 namespace App\Livewire\System\Users;
 
+use Livewire\Component;
+use Livewire\Attributes\Url;
 use App\Models\User;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
-use Livewire\Component;
 use Livewire\Attributes\Layout;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
 
-
-
-#[layout('layouts.app')]
-class Index extends Component
+#[Layout('layouts.print')]
+class PrintSummery extends Component
 {
-    use WithPagination;
 
     #[URL]
     public $search, $sd, $ed;
 
-    public function mount()
-    {
-        $this->search = '';
-        $this->sd = now()->subDays(30)->format('Y-m-d');
-        $this->ed = now()->format('Y-m-d');
-    }
-
-    public function print()
-    {
-        $url = route('system.users.print-summery', [
-            'search' => $this->search,
-            'sd' => $this->sd,
-            'ed' => $this->ed,
-        ]);
-
-        $this->dispatch('open-printable', ['url' => $url]);
-    }
 
     public function render()
     {
@@ -54,8 +32,9 @@ class Index extends Component
                     ->orWhereHas('myRef', function ($q) {
                         $q->where('ref', 'like', '%' . $this->search . "%");
                     });
-            })->orderBy('id', 'desc')->paginate(config('app.paginate'));
+            })->get();
         }
-        return view('livewire.system.users.index', compact('users'));
+
+        return view('livewire.system.users.print-summery', compact('users'));
     }
 }

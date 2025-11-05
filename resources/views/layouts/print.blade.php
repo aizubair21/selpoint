@@ -37,17 +37,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* td,
-            th {
-                white-space: nowrap
-            } */
+        /* A4 pagper with landscape orientation */
+        @page {
+            size: A4 landscape;
+            margin: 20mm;
+        }
+
+        td,
+        th {
+            white-space: nowrap
+        }
 
         tr:hover {
             background-color: #f3f4f6
         }
 
         tr:nth-child(even) {
-            background-color: #f9fafb
+            background-color: #e2e2e2
         }
     </style>
     <!-- Scripts -->
