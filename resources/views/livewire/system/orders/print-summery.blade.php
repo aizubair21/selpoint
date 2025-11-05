@@ -116,4 +116,17 @@
             </table>
         </div>
     </x-dashboard.container>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // Trigger the print dialog after the content is loaded
+        // window.dispatchEvent(new Event('open-printable', {
+        // detail: [{
+        // url: window.location.href
+        // }]
+        // }));
+        setTimeout(() => {
+        window.print();
+        }, 1000);
+        });
+    </script>
 </div>
