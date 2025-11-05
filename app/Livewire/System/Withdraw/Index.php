@@ -32,7 +32,7 @@ class Index extends Component
     public function print()
     {
         // Build query string for customization options
-        $url = route('system.withdraw.print', ['where' => $this->where, 'fst' => $this->fst, 'from' => $this->sdate, 'to' => $this->edate]);
+        $url = route('system.withdraw.print', ['where' => $this->where, 'fst' => $this->fst, 'sdate' => $this->sdate, 'edate' => $this->edate]);
         $this->dispatch('open-printable', ['url' => $url]);
     }
 
