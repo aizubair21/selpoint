@@ -14,6 +14,7 @@ use App\Livewire\Pages\Search;
 use App\Livewire\Pages\Shops\All;
 use App\Livewire\Pages\Shops\Shop;
 use App\Livewire\Pages\SingleProductOrder;
+use App\Models\country;
 use App\Models\DistributeComissions;
 use App\Models\Order;
 use App\Models\Product;
@@ -138,3 +139,9 @@ Route::get('/queue', function () {
 //         $query->with('isResel');
 //     })->with('isResel')->get();
 // });
+
+Route::get('/countries', function () {
+    $countries = country::get();
+    return response()->json($countries);
+})->name('countries');
+

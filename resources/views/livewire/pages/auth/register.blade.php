@@ -73,13 +73,14 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div class="w-full bg-white p-4"  style="max-width:800px" >
+<div class="w-full bg-white p-4" style="max-width:800px">
     <style>
-        .pasDiv{
+        .pasDiv {
             position: relative;
-            width: 100%!important;
+            width: 100% !important;
         }
-        .showOrHide{
+
+        .showOrHide {
 
             position: absolute;
             top: 13px;
@@ -91,182 +92,183 @@ new #[Layout('layouts.guest')] class extends Component
         }
     </style>
     <form wire:submit="register">
-    
+
         <x-auth-session-status class="mb-4" :status="session('status')" />
-        <div class=" lg:flex items-start justify-between mb-4 w-full" >
+        <div class=" lg:flex items-start justify-between mb-4 w-full">
             <div>
                 <!-- Name -->
                 <div>
                     <x-input-label for="name" :value="__('Name')" />
-                    <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required autofocus autocomplete="name" />
+                    <x-text-input wire:model="name" id="name" class="block mt-1 w-full" type="text" name="name" required
+                        autofocus autocomplete="name" />
                     <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
-        
+
                 <!-- Email Address -->
                 <div class="mt-4">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
+                    <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email"
+                        required autocomplete="username" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
-        
+
                 <!-- Password -->
-        
+
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
                     <div class="pasDiv">
-                        <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                        <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password"
+                            name="password" required autocomplete="new-password" />
                         <div onclick="showOrHide(this, '#password')" class="showOrHide">show</div>
                     </div>
-        
+
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
-        
+
                 <!-- Confirm Password -->
                 <div class="mt-4">
                     <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
                     <div class="pasDiv">
-                        <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                        <x-text-input wire:model="password_confirmation" id="password_confirmation"
+                            class="block mt-1 w-full" type="password" name="password_confirmation" required
+                            autocomplete="new-password" />
                         <div onclick="showOrHide(this, '#password_confirmation')" class="showOrHide">show</div>
                     </div>
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
-        
+
                 {{-- phone number --}}
                 <div class="mt-4">
                     <x-input-label for="phone" value='Phone Number'></x-input-label>
-        
-                    <x-text-input wire:model="phone" id="rejerence" class="block mt-1 w-full"
-                                    type="text"
-                                    name="phone" />
-        
+
+                    <x-text-input wire:model="phone" id="rejerence" class="block mt-1 w-full" type="text"
+                        name="phone" />
+
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
-               
-        
-                {{-- referrence  --}}
+
+
+                {{-- referrence --}}
                 <div class="mt-4">
                     <x-input-label for="reference" value='Reference'></x-input-label>
-                    <p class="text-sm text-gray-600">If you have a reference, please enter it. If not, leave it blank.</p>
-        
-                    <x-text-input wire:model="reference" id="rejerence" class="block mt-1 w-full"
-                                    type="text"
-                                    name="reference" />
-        
+                    <p class="text-sm text-gray-600">If you have a reference, please enter it. If not, leave it blank.
+                    </p>
+
+                    <x-text-input wire:model="reference" id="rejerence" class="block mt-1 w-full" type="text"
+                        name="reference" />
+
                     <x-input-error :messages="$errors->get('reference')" class="mt-2" />
                 </div>
 
             </div>
-                {{-- <div>
-                    <input type="search" id="country_list" name="country_list" list="country_lists">
-                    <datalist id="country_lists">
-                        <option value="Ban" />
-                        <option value="Ind" />
-                        <option value="Jap" />
-                    </datalist>
-                </div>
+            {{-- <div>
+                <input type="search" id="country_list" name="country_list" list="country_lists">
+                <datalist id="country_lists">
+                    <option value="Ban" />
+                    <option value="Ind" />
+                    <option value="Jap" />
+                </datalist>
+            </div>
 
-                <label for="browser">Choose your browser from the list:</label>
-                <input list="browsers" name="browser" id="browser">
+            <label for="browser">Choose your browser from the list:</label>
+            <input list="browsers" name="browser" id="browser">
 
-                <datalist id="browsers">
+            <datalist id="browsers">
                 <option value="Edge">
                 <option value="Firefox">
                 <option value="Chrome">
                 <option value="Opera">
                 <option value="Safari">
-                </datalist> --}}
+            </datalist> --}}
 
             <div>
-                {{-- country field  --}}
+                {{-- country field --}}
                 <div class="mt-4">
                     <x-input-label for="country" value='Your Country'></x-input-label>
                     {{-- <p class="text-sm text-gray-600">Please select your country.</p> --}}
-                    
-                    {{-- <x-text-input type="search" list="countries" wire:model="country" id="country" class="block mt-1 w-full"
-                                    type="text"
-                                    name="country" />
-                        <datalist id="countries">
-                            <option value="Bangladesh" data-con='BD' />
-                        </datalist> --}}
+
+                    {{--
+                    <x-text-input type="search" list="countries" wire:model="country" id="country"
+                        class="block mt-1 w-full" type="text" name="country" />
+                    <datalist id="countries">
+                        <option value="Bangladesh" data-con='BD' />
+                    </datalist> --}}
                     <input type="hidden" wire:model.live="country_code" id="country_code" />
                     <select wire:model="country" id="select_country" class="rounded border-0 ring-1 block mt-1 w-full">
                         <option value="">Select your country</option>
-                    </select>                    
-        
+                    </select>
+
                     <x-input-error :messages="$errors->get('country')" class="mt-2" />
                 </div>
 
-                {{-- state field  --}}
+                {{-- state field --}}
                 <div class="mt-4" id="state_main">
                     <x-input-label for="Division / State" value='Division / State'></x-input-label>
                     <p class="text-sm text-gray-600">Please select your State.</p>
-        
-                    {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
-                                    type="text"
-                                    name="district" /> --}}
+
+                    {{--
+                    <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
+                        name="district" /> --}}
                     <select wire:model="state" id="select_state" class="rounded border-0 ring-1 block mt-1 w-full">
                         <option value="">Select your state</option>
                     </select>
-        
+
                     <x-input-error :messages="$errors->get('state')" class="mt-2" />
                 </div>
                 <div class="mt-4 hidden" id="state_alt">
                     <x-input-label for="Division / State" value='Division / State'></x-input-label>
                     <p class="text-sm text-gray-600">Write Your State / Division Name.</p>
-        
-                    <x-text-input wire:model="state" id="district" class="block mt-1 w-full"
-                                    type="text"
-                                    name="district" />
+
+                    
+                    <x-text-input wire:model="state" id="district" class="block mt-1 w-full" type="text"
+                        name="district" />
                     {{-- <select wire:model="state" id="select_state" class="rounded border-0 ring-1 block mt-1 w-full">
                         <option value="">Select your state</option>
                     </select> --}}
-        
+
                     <x-input-error :messages="$errors->get('state')" class="mt-2" />
                 </div>
 
 
-                {{-- state field  --}}
+                {{-- state field --}}
                 <div class="mt-4">
                     <x-input-label for="District / City" value='District / City'></x-input-label>
                     <p class="text-sm text-gray-600">Please select your District / City.</p>
 
-                    {{-- <x-text-input wire:model="district" id="district" class="block mt-1 w-full"
-                                    type="text"
-                                    name="district" /> --}}
+                    {{--
+                    <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
+                        name="district" /> --}}
                     <select wire:model="city" id="select_city" class="rounded border-0 ring-1 block mt-1 w-full">
                         <option value="">Select your City</option>
                     </select>
-        
+
                     <x-input-error :messages="$errors->get('city')" class="mt-2" />
                 </div>
-               
-               
-                {{-- state field  --}}
+
+
+                {{-- state field --}}
                 {{-- <div class="mt-4">
                     <x-input-label for="Upozila / Town" value='Town'></x-input-label>
                     <p class="text-sm text-gray-600">Please select your Town.</p>
 
-                    <x-text-input wire:model="upozila" id="upozila" class="block mt-1 w-full"
-                                    type="text"
-                                    name="upozila" />        
+                    <x-text-input wire:model="upozila" id="upozila" class="block mt-1 w-full" type="text"
+                        name="upozila" />
                     <x-input-error :messages="$errors->get('district')" class="mt-2" />
                 </div> --}}
 
 
 
 
-                {{-- <p class="text-sm text-gray-600">By registering, you agree to our <a href="{{ route('terms') }}" class="text-blue-500 underline">Terms of Service</a> and <a href="{{ route('privacy') }}" class="text-blue-500 underline">Privacy Policy</a>.</p> --}}
+                {{-- <p class="text-sm text-gray-600">By registering, you agree to our <a href="{{ route('terms') }}"
+                        class="text-blue-500 underline">Terms of Service</a> and <a href="{{ route('privacy') }}"
+                        class="text-blue-500 underline">Privacy Policy</a>.</p> --}}
             </div>
         </div>
-        <x-hr/>
+        <x-hr />
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                href="{{ route('login') }}" wire:navigate>
                 {{ __('Already registered?') }}
             </a>
 
@@ -320,20 +322,20 @@ new #[Layout('layouts.guest')] class extends Component
                 countryCode = sop.getAttribute('data-iso2');
                 // set the country code to the hidden input
                 
-                // countryCode2 = e.getAttribute('data-iso2');
-                // console.log('code is ' + countryCode);
+                countryCode2 = sop.getAttribute('data-iso2');
+                console.log('code is ' + countryCode);
                 
-                // if (countryCode == "BD") {
-                //     // console.log("Bangladesh selected");
-                //     stateSelectElement.style.display = 'none';
-                //     document.getElementById('state_main').classList.add('hidden');
-                //     document.getElementById('state_alt').classList.remove('hidden');
-                // } else {
-                //     stateSelectElement.style.display = 'block';
-                //     document.getElementById('state_main').classList.remove('hidden');
-                //     document.getElementById('state_alt').classList.add('hidden');   
+                if (countryCode == "BD") {
+                    // console.log("Bangladesh selected");
+                    stateSelectElement.style.display = 'none';
+                    document.getElementById('state_main').classList.add('hidden');
+                    document.getElementById('state_alt').classList.remove('hidden');
+                } else {
+                    stateSelectElement.style.display = 'block';
+                    document.getElementById('state_main').classList.remove('hidden');
+                    document.getElementById('state_alt').classList.add('hidden');   
                     
-                // }
+                }
                 // console.log("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states");
                 axios.get("https://api.countrystatecity.in/v1/countries/" + countryCode + "/states", {
                         headers: {
@@ -344,28 +346,28 @@ new #[Layout('layouts.guest')] class extends Component
                         let htmlOption = '';
                         let ifBd = "";
                         res.data.forEach(state => {
-                            // if (countryCode == "BD") {
-                            //     // console.log(state);
-                            //     console.log(countryCode);
-                            //     if (state.iso2.length > 0) {
-                            //         //get name without  'District' from state.name
-                            //         var str = state.name;
-                            //         var newstr = str.replace(/ District$/, "");
+                            if (countryCode == "BD") {
+                                // console.log(state);
+                                console.log(countryCode);
+                                if (state.iso2.length > 0) {
+                                    //get name without  'District' from state.name
+                                    var str = state.name;
+                                    var newstr = str.replace(/ District$/, "");
 
-                            //         ifBd +=
-                            //             `
-                            //             <option value="${newstr}">${newstr}</option>
+                                    ifBd +=
+                                        `
+                                        <option value="${newstr}">${newstr}</option>
                                     
-                            //             `;
-                            //     }
-                            // } else {
+                                        `;
+                                }
+                            } else {
                                 
-                            //     htmlOption +=
-                            //         `
-                            //         <option value="${state.iso2}">${state.name}</option>
+                                htmlOption +=
+                                    `
+                                    <option value="${state.iso2}">${state.name}</option>
                                     
-                            //         `;
-                            // }
+                                    `;
+                            }
                             htmlOption +=
                                 `
                                 <option value="${state.iso2}">${state.name}</option>
@@ -373,7 +375,7 @@ new #[Layout('layouts.guest')] class extends Component
                                 `;
                         })
                         stateSelectElement.innerHTML = htmlOption;
-                        // citySelectElement.innerHTML = ifBd;
+                        citySelectElement.innerHTML = ifBd;
                     })
                     .then(error => {
                         console.log(error);

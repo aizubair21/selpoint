@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        
         // User::factory(10000)->create();
 
         // call PermissionSeeder here to create permission seeder
