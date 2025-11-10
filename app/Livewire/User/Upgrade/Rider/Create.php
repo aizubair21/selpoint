@@ -46,7 +46,7 @@ class Create extends Component
             'fixed_address' => 'required',
             'current_address' => 'required',
             'area_condition' => 'required',
-            'targeted_area' => 'required',
+            'area_name' => 'required',
         ]);
 
         // array_merge($validData)
@@ -60,7 +60,7 @@ class Create extends Component
             'fixed_address' => $validData['fixed_address'],
             'current_address' => $validData['current_address'],
             'area_condition' => $validData['area_condition'],
-            'targeted_area' => $this->targeted_area,
+            'targeted_area' => $this->area_name,
             'vehicle_type' => $this->vehicle_type,
             'vehicle_number' => $this->vehicle_number,
             'vehicle_model' => $this->vehicle_model,

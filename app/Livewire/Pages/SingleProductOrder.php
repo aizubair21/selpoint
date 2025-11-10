@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
+use App\Models\city;
+use App\Models\country;
+use App\Models\state;
+use App\Models\ta;
 
 #[layout('layouts.user.app')]
 class SingleProductOrder extends Component
@@ -24,7 +28,7 @@ class SingleProductOrder extends Component
     public $product, $size, $total, $price;
 
     #[validate('required')]
-    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 0, $delevery;
+    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 0, $delevery, $area_name;
 
     public function updated($property)
     {
@@ -86,6 +90,7 @@ class SingleProductOrder extends Component
                         'road_no' => $this->road_no,
                         'house_no' => $this->house_no,
                         'shipping' => $this->shipping,
+                        'target_area' => $this->area_name,
                         // 'buying_price' => $this->product?->buying_price,
                     ]
                 );
@@ -122,6 +127,19 @@ class SingleProductOrder extends Component
 
     public function render()
     {
-        return view('livewire.pages.single-product-order');
+        $city = [];
+        $area = [];
+        if ($this->district) {
+            $city = city::where('state_id', state::where('name', $this->district)->first()?->id)->get();
+        }
+        if ($this->upozila) {
+            $area = ta::where('city_id', city::where('name', $this->upozila)->first()?->id)->get();
+        }
+
+        return view('livewire.pages.single-product-order', [
+            'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+            'cities' => $city,
+            'area' => $area,
+        ]);
     }
 }
