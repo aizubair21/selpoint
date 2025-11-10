@@ -117,6 +117,7 @@ class SingleProductOrder extends Component
 
                 ProductComissionController::dispatchProductComissionsListeners($order->id);
             } catch (\Throwable $th) {
+                dd($th->getMessage());
                 $this->dispatch('error', $th->getMessage());
             }
         } else {

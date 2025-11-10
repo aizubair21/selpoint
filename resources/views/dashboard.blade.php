@@ -291,7 +291,7 @@ $cat = Category::count();
     @if (auth()->user()?->active_nav == 'rider')
     {{-- rider dashboard overview --}}
     <x-has-role name="rider">
-        @livewire('rider.dashboard')
+        @livewire('rider.consignment.index')
     </x-has-role>
     @endif
 

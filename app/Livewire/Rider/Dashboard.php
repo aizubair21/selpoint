@@ -20,17 +20,17 @@ class Dashboard extends Component
     {
         if (auth()->user()?->requestsToBeRider() && auth()->user()?->isRider()) {
             $this->riderInfo = auth()->user()?->isRider();
+            // dd($this->riderInfo?->targeted_area);
         }
 
         // get the order those are match with active user rider info
         if ($this->riderInfo) {
-            $this->orders = Order::query()->where(['delevery' => 'cash'])->where(function ($q) {
-                $q->where('district', 'like', "%" . $this->riderInfo?->targeted_area . "%")
-                    ->orWhere('location', 'like', "%" . $this->riderInfo?->targeted_area . "%")
-                    ->orWhere('upozila', 'like', "%" . $this->riderInfo?->targeted_area . "%");
+            $this->orders = Order::query()->where(['delevery' => 'cash'])->where(function ($itm) {
+                $itm->where('target_area', 'like', '%' . $this->riderInfo?->targeted_area . '%')
+                    ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered']);
             })->whereDoesntHave('hasRider', function ($query) {
                 $query->where('rider_id', auth()->id());
-            })->accept()->get();
+            })->get();
             // dd($this->orders);
         }
         // dd($this->orders[0]->hasRider()->first()->rider?->name);
@@ -54,6 +54,11 @@ class Dashboard extends Component
             $system_cm = ($order->shipping * $rider_cm_range) / 100;
 
             // assign necessary info to cod model
+            $totalNotResel = $order->cartOrders->each(function ($item) {
+                // if the item is not resellable, then return true
+                // resellable can easily be determined by checking if the item has isResel relation
+                return !$item->product?->isResel;
+            })->sum('total');
             cod::create(
                 [
                     'order_id' => $order->id,
@@ -62,9 +67,9 @@ class Dashboard extends Component
                     'user_id' => $order->user_id,
                     'rider_id' => Auth::id(),
 
-                    'amount' => $order->total,
-                    'due_amount' => $order->total,
-                    'total_amount' => $order->total + $system_cm,
+                    'amount' => $totalNotResel,
+                    'due_amount' => $totalNotResel,
+                    'total_amount' => $totalNotResel + $system_cm,
 
                     'rider_amount' => $order->shipping,
                     'comission' => $rider_cm_range,

@@ -1,26 +1,25 @@
 <div>
     {{-- The best athlete wants his opponent at his best. --}}
-    <x-dashboard.page-header>
-        <div class="flex justify-between items-center">
-            <div>
-                Consignments
-            </div>
 
-            <x-nav-link-btn href="{{ route('dashboard')}}">
-                <i class="fas fa-plus pr-2"></i> Pick
-            </x-nav-link-btn>
-        </div>
-    </x-dashboard.page-header>
 
     <x-dashboard.container>
+
+        @php
+        $lt = 0;
+        $earn = 0;
+        @endphp
+
         <div class="flex justify-between items-center">
-            <select wire:model.live="status" class="py-1 mt-1 rounded" id="select_status">
-                <option value="All"> -- All -- </option>
-                <option value="Pending">Pending</option>
-                <option value="Received">Received</option>
-                <option value="Completed">Delivered</option>
-                <option value="Returned">Returned</option>
-            </select>
+            <div class="flex gap-2 items-center">
+                <select wire:model.live="status" class="py-1 mt-1 rounded" id="select_status">
+                    <option value="All"> -- All -- </option>
+                    <option value="Pending">Pending</option>
+                    <option value="Received">Received</option>
+                    <option value="Completed">Delivered</option>
+                    <option value="Returned">Returned</option>
+                </select>
+
+            </div>
 
             {{-- <div>
                 <input type="date" name="datetime" id="datetime" class="py-1" />
@@ -48,17 +47,25 @@
                             View </div>
                     </h3>
                     <div class="font-bold">
-                        {{$cod->id}}
+                        {{$cod->order?->id}}
 
                     </div>
                 </div>
 
                 <div class="p-2">
+                    @php
+                    $totalFroNotResel = 0;
+                    @endphp
                     <div class="flex justify-center items-center -space-x-2 overflow-hidden">
                         @foreach ($cod->order?->cartOrders as $item)
+                        @if (!$item->product?->isResel)
+                        @php
+                        $totalFroNotResel += $item->total;
+                        @endphp
                         <img src="{{asset('storage/' . $item->product?->thumbnail)}}"
                             class="inline-block size-10 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5"
                             alt="" srcset="">
+                        @endif
                         @endforeach
                     </div>
                 </div>
@@ -66,7 +73,7 @@
                 <div class="px-3 py-2">
 
                     <div class="text-2xl font-bold flex justify-center ">
-                        {{$cod->total_amount}} Tk
+                        {{$totalFroNotResel + $cod->system_comission }} Tk
                     </div>
                     <div class="text-sm text-gray-500 flex justify-center items-center text-center">
                         {{-- <div>
@@ -75,7 +82,7 @@
                             </sup>
                         </div> --}}
                         <div class=" pl-1 font-bold">
-                            {{$cod?->amount ?? "N/A"}}
+                            {{$totalFroNotResel ?? "N/A"}}
                         </div>
                         <div class="px-1" style="line-height:8px">
                             +
@@ -137,9 +144,31 @@
                 @endif
 
             </div>
-
+            @php
+            $lt += $totalFroNotResel;
+            $earn += $cod->order->shipping;
+            @endphp
             @endforeach
+
         </div>
+        <table class="w-full border p-2">
+            <tr class="p-2">
+                <td>
+                    Delivery
+                </td>
+                <td>
+                    {{$lt}} TK
+                </td>
+            </tr>
+            <tr class="p-2">
+                <td>
+                    Earn
+                </td>
+                <td>
+                    {{$earn}}
+                </td>
+            </tr>
+        </table>
 
         @else
         <p class="bg-gray-50 p-1">No Consignment Found !</p>

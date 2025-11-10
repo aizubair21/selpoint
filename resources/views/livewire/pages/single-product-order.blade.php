@@ -72,7 +72,7 @@
                                 @endphp
                                 <x-input-label style="width: 350px" for="size">{{ $product->attr?->name }}
                                 </x-input-label>
-                                <select wire:model.live="size" class=" rounded border-gray-300" required>
+                                <select wire:model.live="size" class="w-full rounded border-gray-300" required>
 
                                     <option value="Size Less" selected disable> -- select -- </option>
                                     @if (count($arrayOfAttr) > 0)

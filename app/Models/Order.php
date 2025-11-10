@@ -34,6 +34,7 @@ class Order extends Model
         'house_no',
         'shipping',
         'delevery',
+        'target_area'
         // 'buying_price'
     ];
 

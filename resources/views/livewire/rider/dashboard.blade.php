@@ -3,7 +3,7 @@
 
     <div class="flex justify-between items-center p-2">
         <div>
-
+          
             @if (count($orders))
             {{count($orders)}} consignment are available.
             @else
@@ -20,6 +20,7 @@
     <div>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, 160px); gap:1rem;">
             @foreach ($orders as $order)
+            @if (count($order->cartOrders) == 1 && !$order->cartOrders[0]->product?->isResel)
 
             <div class="bg-white rounded shadow text-center flex flex-col justify-between">
                 <div class="py-2 bg-gray-200">
@@ -30,14 +31,23 @@
                 </div>
 
                 <div class="p-2">
+                    @php
+                    $totalFroNotResel = 0;
+                    @endphp
                     <div class="flex justify-center items-center -space-x-2 overflow-hidden">
                         @foreach ($order->cartOrders as $item)
+                        @if (!$item->product?->isResel)
+                        @php
+                        $totalFroNotResel += $item->total;
+                        @endphp
                         <img src="{{asset('storage/' . $item->product?->thumbnail)}}"
                             class="inline-block size-10 rounded-full ring-2 ring-white outline -outline-offset-1 outline-black/5"
                             alt="" srcset="">
+                        @endif
                         @endforeach
                     </div>
                 </div>
+
                 <div class="px-3 py-2">
                     @php
                     $rider_cm_range = auth()->user()?->isRider()?->comission;
@@ -47,7 +57,7 @@
                         <sup>
                             ৳
                         </sup>
-                        {{$order->total + $system_cm}}
+                        {{$totalFroNotResel + $system_cm}}
                     </div>
                     <div class="text-sm text-gray-500 flex justify-center items-center text-center">
                         {{-- <div>
@@ -56,7 +66,7 @@
                             </sup>
                         </div> --}}
                         <div class=" pl-1 font-bold">
-                            {{$order?->total ?? "N/A"}}
+                            {{$totalFroNotResel ?? "N/A"}}
                         </div>
                         <div class="px-1" style="line-height:8px">
                             +
@@ -103,10 +113,10 @@
 
                 </div>
             </div>
+            @endif
 
             @endforeach
         </div>
     </div>
-    <x-hr />
 
 </div>
