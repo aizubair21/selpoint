@@ -20,7 +20,7 @@ class Create extends Component
     use HandleImageUpload, WithFileUploads;
 
     #[Validate]
-    public $products = [], $thumb, $categories, $attrName, $sttrValue;
+    public $products = [], $thumb, $categories, $attrName, $attrValue;
     public $belongs_to, $shop, $ableToCreate = true, $meta = ['meta_thumbnail' => '', 'meta_title' => '', 'keyword' => '', 'meta_tags' => '', 'meta_description' => ''];
 
     protected function rules()
@@ -111,15 +111,14 @@ class Create extends Component
 
         try {
             $pd = Product::create($data);
-
-            if ($pd->id && $this->attr) {
+            if ($pd->id && $this->attrName) {
 
                 // update product attr
                 product_has_attribute::create(
                     [
                         'product_id' => $pd->id,
-                        'name' => $this->attr['name'],
-                        'value' => $this->attr['value'],
+                        'name' => $this->attrName ?? "",
+                        'value' => $this->attrValue ?? "",
                     ]
                 );
             }

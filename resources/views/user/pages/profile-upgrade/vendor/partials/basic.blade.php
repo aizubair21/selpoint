@@ -103,23 +103,7 @@
         <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="house_no" label="House No"
             name="house_no" error="house_no" />
 
-        {{-- upozila field --}}
-        <div class="mt-4 md:flex">
-            <div style="width:350px">
-
-                <x-input-label for="Upozila" value='Upozila / Town'></x-input-label>
-                <x-input-error :messages="$errors->get('upozila')" class="mt-2" />
-            </div>
-            {{--
-            <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text" name="district" />
-            --}}
-
-            <div class="w-full">
-
-                <x-text-input wire:model="upozila" class="w-full" placeholder="upozila" />
-
-            </div>
-        </div>
+      
 
         {{-- country field --}}
         <div class="mt-4 md:flex items-center">
@@ -138,45 +122,30 @@
             <div class="w-full">
 
                 <select wire:model="country" id="country" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your country</option>
+                    <option value="Bangladesh">Bangladesh</option>
                 </select>
             </div>
 
         </div>
 
         {{-- state field --}}
-        <div class="mt-4 md:flex items-center" id="state_main">
+        <div class="mt-4 md:flex items-center" id="">
             <div style="width:350px">
-                <x-input-label for="division" value='Division / State'></x-input-label>
-                <p class="text-sm text-gray-600">Please select your Division / State.</p>
-                <x-input-error :messages="$errors->get('division')" class="mt-2" />
+                <x-input-label for="district" value='District'></x-input-label>
+                <x-input-error :messages="$errors->get('district')" class="mt-2" />
             </div>
 
             {{--
             <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text" name="district" />
             <div class="w-full"> --}}
 
-                <select id="division" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your state</option>
+                <select wire:model.live="district" id="discript" class="w-full rounded-md ">
+                    <option value=""> -- Select Upozila --</option>
+                    @foreach ($states as $state)
+                    <option value="{{$state->name}}">{{$state->name}}</option>
+                    @endforeach
                 </select>
             </div>
-
-        </div>
-        <div class="mt-4 md:flex items-center" id="state_alt">
-            <div style="width:350px">
-                <x-input-label for="division" value='Division / State'></x-input-label>
-                <p class="text-sm text-gray-600">Write Your Division / State.</p>
-                <x-input-error :messages="$errors->get('division')" class="mt-2" />
-            </div>
-
-
-            <x-text-input class="block mt-1 w-full" type="text" name="district" />
-            {{-- <div class="w-full">
-
-                <select id="division" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your state</option>
-                </select>
-            </div> --}}
 
         </div>
 
@@ -184,17 +153,18 @@
         <div class="mt-4 md:flex">
             <div style="width:350px">
 
-                <x-input-label for="district" value='District / City'></x-input-label>
-                <p class="text-sm text-gray-600">Please select your District / Town.</p>
-                <x-input-error :messages="$errors->get('district')" class="mt-2" />
+                <x-input-label for="upozila" value='Upozila'></x-input-label>
+                <x-input-error :messages="$errors->get('upozila')" class="mt-2" />
 
             </div>
 
 
             <div class="w-full">
-
-                <select wire:model="district" id="district" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Select your City</option>
+                <select wire:model.live="upozila" id="upozila" class="w-full rounded-md ">
+                    <option value=""> -- Select Upozila --</option>
+                    @foreach ($cities as $item)
+                    <option value="{{$item->name}}">{{$item->name}}</option>
+                    @endforeach
                 </select>
 
             </div>
@@ -211,7 +181,7 @@
     </x-dashboard.section.inner>
 </x-dashboard.section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
 @script
 <script>
     document.getElementById('state_alt').style.display = 'none';
@@ -351,5 +321,5 @@
 
             getCountryStateCity();
 </script>
-@endscript
+@endscript --}}
 </form>

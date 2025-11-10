@@ -235,7 +235,7 @@
                 </x-dashboard.section>
 
                 {{-- attributed --}}
-                {{-- <x-dashboard.section>
+                <x-dashboard.section>
                     <x-dashboard.section.header>
                         <x-slot name="title">
                             Products Attributes
@@ -248,10 +248,10 @@
                     <x-dashboard.section.inner>
                         <div class="md:flex">
                             <x-text-input wire:model='attrName' placeholder="Name" />
-                            <x-text-input wire:model='sttrValue' placeholder="Value" />
+                            <x-text-input wire:model='attrValue' placeholder="Value" />
                         </div>
                     </x-dashboard.section.inner>
-                </x-dashboard.section> --}}
+                </x-dashboard.section>
 
                 {{-- product thumbnail --}}
                 <x-dashboard.section>

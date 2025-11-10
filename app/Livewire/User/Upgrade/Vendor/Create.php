@@ -12,6 +12,11 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
+use App\Models\city;
+use App\Models\country;
+use App\Models\state;
+use App\Models\ta;
+
 
 #[layout('layouts.user.dash.userDash')]
 class Create extends Component
@@ -21,7 +26,7 @@ class Create extends Component
     #[URL]
     public $upgrade = 'vendor';
 
-    public $shop_name_en, $shop_name_bn, $phone, $email, $country, $district, $upozila, $village, $zip, $road_no, $house_no, $address, $logo, $banner, $description;
+    public $shop_name_en, $shop_name_bn, $phone, $email, $country = 'Bangladesh', $district, $upozila, $village, $zip, $road_no, $house_no, $address, $logo, $banner, $description;
 
     public function mount()
     {
@@ -48,7 +53,21 @@ class Create extends Component
 
     public function render()
     {
-        return view('livewire.user.upgrade.vendor.create');
+        $city = [];
+        if ($this->district) {
+            $city = city::where('state_id', state::where('name', $this->district)->first()?->id)->get();
+        }
+        // if ($this->city_name) {
+        //     $area = ta::where('city_id', city::where('name', $this->city_name)->first()?->id)->get();
+        // }
+
+        return view(
+            'livewire.user.upgrade.vendor.create',
+            [
+                'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+                'cities' => $city,
+            ]
+        );
     }
 
 
@@ -89,7 +108,7 @@ class Create extends Component
                     'string'
                 ],
                 'upozila' => [
-                    'nullable',
+                    'required',
                     'string'
                 ],
                 'village' => [
@@ -149,7 +168,7 @@ class Create extends Component
                     'string'
                 ],
                 'upozila' => [
-                    'nullable',
+                    'required',
                     'string'
                 ],
                 'village' => [
