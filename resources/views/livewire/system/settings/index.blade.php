@@ -81,6 +81,7 @@
                     <x-nav-link-btn href="">Countries</x-nav-link-btn>
                     <x-nav-link-btn href="">States</x-nav-link-btn>
                     <x-nav-link-btn href="{{route('system.geolocations.cities')}}">Cities</x-nav-link-btn>
+                    <x-nav-link-btn href="{{route('system.geolocations.area')}}">Target Area</x-nav-link-btn>
                 </div>
             </x-dashboard.section.inner>
         </x-dashboard.section>

@@ -25,6 +25,15 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div>
+                                <x-input-label value="City" />
+                                <select wire:model.live="city_id" class="py-1 rounded-md" id="selectState">
+                                    <option value=""> -- State -- </option>
+                                    @foreach ($cities as $item)
+                                    <option value="{{$item->id}}"> {{$item->name}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <x-primary-button @click="$dispatch('open-modal', 'newCityModal')">
@@ -38,7 +47,7 @@
             </x-dashboard.section.header>
 
             <x-dashboard.section.inner>
-                @foreach ($cities as $item)
+                @foreach ($area as $item)
                 <div class="flex justify-between items-center mb-2 p-2 shadow">
                     <div class="flex items-center">
                         <div class="mr-2">
@@ -52,13 +61,26 @@
                         <x-danger-button wire:click='deleteCity({{$item->id}})'>
                             <i class="fas fa-trash"></i>
                         </x-danger-button>
-                        <x-nav-link-btn href="{{route('system.geolocations.area', ['state_id' => $state_id, 'city_id' => $item->id])}}">
+                        <x-nav-link-btn href="">
                             <i class="fas fa-angle-right"></i>
                         </x-nav-link-btn>
                     </div>
                 </div>
                 @endforeach
 
+                @if ($state_id && $city_id)
+
+                <div class="p-2 rounded-md border ">
+                    <p>Area Name</p>
+                    <x-text-input wire:model.live='area_name' placeholder="Area Name" class="w-full"></x-text-input>
+                    @error('area_name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                    <div class="flex items-center justify-end my-2">
+                        <x-primary-button wire:click='newArea'>Add</x-primary-button>
+                    </div>
+                </div>
+                @endif
             </x-dashboard.section.inner>
         </x-dashboard.section>
     </x-dashboard.container>
