@@ -33,7 +33,7 @@
                 <x-slot name="title">
                     <div class="flex items-center justify-between">
                         <div>
-                            QUEUE Setup
+                            Queue Setup
                         </div>
                     </div>
                 </x-slot>
@@ -53,6 +53,35 @@
                     Start Queue
                 </x-primary-button>
                 @endif
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
+
+        <x-dashboard.section>
+            <x-dashboard.section.header>
+                <x-slot name="title">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            Geolocation Setup
+                        </div>
+                    </div>
+                </x-slot>
+
+                <x-slot name="content">
+                    Setup your rider targeted area from here. also edit and delete your gelolocation names. Country,
+                    State and City.
+                </x-slot>
+            </x-dashboard.section.header>
+
+            <x-dashboard.section.inner>
+
+                {{-- <x-nav-link-btn href="{{route('system.geolocations.index')}}" class="">
+                    Go To Setup
+                </x-nav-link-btn> --}}
+                <div class="flex items-center gap-2">
+                    <x-nav-link-btn href="">Countries</x-nav-link-btn>
+                    <x-nav-link-btn href="">States</x-nav-link-btn>
+                    <x-nav-link-btn href="{{route('system.geolocations.cities')}}">Cities</x-nav-link-btn>
+                </div>
             </x-dashboard.section.inner>
         </x-dashboard.section>
 

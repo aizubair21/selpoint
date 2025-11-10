@@ -18,6 +18,7 @@ use App\Livewire\System\Comissions\TakesDistributes;
 use App\Livewire\System\Deposit\Index as DepositIndex;
 use App\Livewire\System\Deposit\PrintSummery;
 use App\Livewire\System\EarnBySell\Index as EarnBySellIndex;
+use App\Livewire\System\Geolocation\Cities;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -328,4 +329,10 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
         })->name('api.auth');
     });
     Route::get('/logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('logs');
+
+
+    // geolocations
+    // Rotue::get('/geolocations', \App\Livewire\System\Geolocation\Index::class)->name('geolocations.index')->middleware(AbleTo::class . ":geolocation_view");
+    Route::get('/geolocations', \App\Livewire\System\Geolocation\Index::class)->name('geolocations.index');
+    Route::get('/geolocations/cities', Cities::class)->name('geolocations.cities');
 });
