@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
+use App\Models\city;
+use App\Models\country;
+use App\Models\state;
+use App\Models\ta;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -17,11 +21,29 @@ new #[Layout('layouts.guest')] class extends Component
     public string $password_confirmation = '';
     public $reference;
     public $phone = '';
-    public $country = '';
+    public $country = 'Bangladesh'; // default country
     public $city = '';
     public $state = '';
     public $country_code = '';
 
+    public $states = [], $cities = [];
+
+
+    public function mount()
+    {
+        $this->states = state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get();
+    }
+
+    public function updated($prop)
+    {
+        // dd($prop);
+        if ($prop == 'state') {
+        $this->cities = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
+        }
+        // if ($prop == $this->city) {
+        // $this->areas = ta::where('city_id', city::where('name', $this->city)->first()?->id)->get();
+        // }
+    }
     
 
     /**
@@ -52,7 +74,7 @@ new #[Layout('layouts.guest')] class extends Component
         }
 
         // set country code
-        $validated['country_code'] = $this->country_code;
+        $validated['country_code'] = 'BD';
         
 
         //validate the reference 
@@ -71,7 +93,11 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
+
+
+}; 
+
+?>
 
 <div class="w-full bg-white p-4" style="max-width:800px">
     <style>
@@ -193,9 +219,8 @@ new #[Layout('layouts.guest')] class extends Component
                     <datalist id="countries">
                         <option value="Bangladesh" data-con='BD' />
                     </datalist> --}}
-                    <input type="hidden" wire:model.live="country_code" id="country_code" />
-                    <select wire:model="country" id="select_country" class="rounded border-0 ring-1 block mt-1 w-full">
-                        <option value="">Select your country</option>
+                    <select wire:model="country" id="country" class="w-full rounded-md ">
+                        <option value="Bangladesh">Bangladesh</option>
                     </select>
 
                     <x-input-error :messages="$errors->get('country')" class="mt-2" />
@@ -203,43 +228,35 @@ new #[Layout('layouts.guest')] class extends Component
 
                 {{-- state field --}}
                 <div class="mt-4" id="state_main">
-                    <x-input-label for="Division / State" value='Division / State'></x-input-label>
-                    <p class="text-sm text-gray-600">Please select your State.</p>
+                    <x-input-label for="" value='District'></x-input-label>
 
                     {{--
                     <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
                         name="district" /> --}}
-                    <select wire:model="state" id="select_state" class="rounded border-0 ring-1 block mt-1 w-full">
-                        <option value="">Select your state</option>
+                    <select wire:model.live="state" id="states" class="w-full rounded-md ">
+                        <option value=""> -- Select District --</option>
+                        @foreach ($states as $state)
+                        <option value="{{$state->name}}">{{$state->name}}</option>
+                        @endforeach
                     </select>
 
                     <x-input-error :messages="$errors->get('state')" class="mt-2" />
                 </div>
-                <div class="mt-4 hidden" id="state_alt">
-                    <x-input-label for="Division / State" value='Division / State'></x-input-label>
-                    <p class="text-sm text-gray-600">Write Your State / Division Name.</p>
 
-                    
-                    <x-text-input wire:model="state" id="district" class="block mt-1 w-full" type="text"
-                        name="district" />
-                    {{-- <select wire:model="state" id="select_state" class="rounded border-0 ring-1 block mt-1 w-full">
-                        <option value="">Select your state</option>
-                    </select> --}}
-
-                    <x-input-error :messages="$errors->get('state')" class="mt-2" />
-                </div>
 
 
                 {{-- state field --}}
                 <div class="mt-4">
-                    <x-input-label for="District / City" value='District / City'></x-input-label>
-                    <p class="text-sm text-gray-600">Please select your District / City.</p>
+                    <x-input-label for="" value='Upozila'></x-input-label>
 
                     {{--
                     <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
                         name="district" /> --}}
-                    <select wire:model="city" id="select_city" class="rounded border-0 ring-1 block mt-1 w-full">
-                        <option value="">Select your City</option>
+                    <select wire:model.live="city" id="Upozila" class="w-full rounded-md ">
+                        <option value=""> -- Select Upozila --</option>
+                        @foreach ($cities as $item)
+                        <option value="{{$item->name}}">{{$item->name}}</option>
+                        @endforeach
                     </select>
 
                     <x-input-error :messages="$errors->get('city')" class="mt-2" />
@@ -278,7 +295,7 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
     </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
     <script>
         function showOrHide(div, input) {
             if (div.textContent === 'show') {
@@ -425,5 +442,5 @@ new #[Layout('layouts.guest')] class extends Component
         // })
 
         // getCountryStateCity();
-    </script>
+    </script> --}}
 </div>

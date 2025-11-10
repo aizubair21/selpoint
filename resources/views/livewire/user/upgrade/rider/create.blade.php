@@ -54,29 +54,62 @@
 
 
                     <div class="p-2 flex-1">
-                        <div class="p-2 rounded bg-gray-50"> 
+                        <div class="p-2 rounded bg-gray-50">
 
-                            <x-input-file label="Area Condition" name="area_condition" error="area_condition">
-                               
+                            {{-- <x-input-file label="Area Condition" name="area_condition" error="area_condition">
+
                                 <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                    <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0" value="dhaka" wire:model.live="area_condition" id="area_condition_1" />
+                                    <x-text-input type="radio" name="area_condition" :checked='true' class="mr-3 m-0"
+                                        value="dhaka" wire:model.live="area_condition" id="area_condition_1" />
                                     <x-input-label for="area_condition_1" class="m-0">Inside of Dhaka</x-input-label>
                                 </div>
                                 <div class="flex items-center justify-start border rounded-lg shadow-sm px-3 py-2">
-                                    <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other" wire:model.live="area_condition" id="area_condition_2" />
+                                    <x-text-input type="radio" name="area_condition" class="mr-3 m-0" value="other"
+                                        wire:model.live="area_condition" id="area_condition_2" />
                                     <x-input-label for="area_condition_2" class="m-0"> Outside Of Dhaka </x-input-label>
                                 </div>
                             </x-input-file>
-                            <x-hr/>
+                            <x-hr /> --}}
+
                             <div>
-                                <x-input-file label="Please select the area where you will pick up and deliver parcelsea" name="targeted_area" error="targeted_area">
-                                    <x-text-input wire:model.live="targeted_area" placeholder="e.g. Uttara" />
+                                <x-input-file label="Country" name="country" error="country">
+                                    <select name="country" id="country" class="w-full rounded-md ">
+                                        <option value="">Bangladesh</option>
+                                    </select>
                                 </x-input-file>
-                                <x-hr/>
+                                <x-hr />
+                                <x-input-file label="State" name="state" error="state">
+                                    <select wire:model.live="state_name" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select State --</option>
+                                        @foreach ($states as $state)
+                                        <option value="{{$state->name}}">{{$state->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
+                                <x-input-file label="City" name="city" error="city">
+                                    <select wire:model.live="city_name" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select City --</option>
+                                        @foreach ($cities as $item)
+                                        <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
+                                <x-input-file label="Area" name="targeted_area" error="targeted_area">
+
+                                    <select wire:model.live="area_name" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select Area --</option>
+                                        @foreach ($area as $item)
+                                        <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
                             </div>
                         </div>
-                        
-                        {{-- rider vehicle info  --}}
+
+                        {{-- rider vehicle info --}}
                         <x-input-file label="Vehicle Type" name="vehicle_type" error="vehicle_type">
                             <x-text-input wire:model.live="vehicle_type" placeholder="e.g. Bike, Car" />
                         </x-input-file>
@@ -118,7 +151,5 @@
         </x-dashboard.section>
     </form>
 
-    @php
-    // dd(auth()->user()->requestsToBeRider()->latest()->first());
-    @endphp
+
 </div>

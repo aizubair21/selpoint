@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tas', function (Blueprint $table) {
             $table->id();
             $table->engine = 'InnoDB';
-            $table->string('name')->unique();
-            $table->string('slug')->unique();
+            $table->string('name');
+            $table->string('slug');
             $table->string('city_id');
             $table->timestamps();
         });

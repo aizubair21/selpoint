@@ -9,11 +9,18 @@ use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\WithFileUploads;
 use App\HandleImageUpload;
+use App\Models\city;
+use App\Models\country;
+use App\Models\state;
+use App\Models\ta;
 
 #[layout('layouts.user.dash.userDash')]
 class Create extends Component
 {
     use WithFileUploads, HandleImageUpload;
+
+    public $phone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area, $vehicle_type, $vehicle_number, $vehicle_model, $vehicle_color;
+    public  $state_name, $city_name, $area_name;
 
     public function mount()
     {
@@ -23,9 +30,6 @@ class Create extends Component
             $this->redirectIntended(route('upgrade.rider.index'), true);
         }
     }
-
-
-    public $phone, $email, $nid, $nid_photo_front, $nid_photo_back, $fixed_address, $current_address, $area_condition, $targeted_area, $vehicle_type, $vehicle_number, $vehicle_model, $vehicle_color;
 
     public function store()
     {
@@ -83,15 +87,40 @@ class Create extends Component
         }
     }
 
-    public function update()
+    public function updated($property)
     {
-        //     
+        // dd($property);
+        // if ($property == 'state_name') {
+        //     $this->cities = city::where('state_id', state::where('name', $this->state_name)->first()?->id)->get();
+        // }
+
+        // if ($property == 'city_name') {
+        //     $this->area = ta::where('city_id', city::where('name', $this->city_name)->first()?->id)->get();
+        // }
     }
 
 
 
     public function render()
     {
-        return view('livewire..user.upgrade.rider.create');
+
+        $city = [];
+        $area = [];
+        if ($this->state_name) {
+            $city = city::where('state_id', state::where('name', $this->state_name)->first()?->id)->get();
+        }
+        if ($this->city_name) {
+            $area = ta::where('city_id', city::where('name', $this->city_name)->first()?->id)->get();
+        }
+
+        // return state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get('id');
+        return view(
+            'livewire..user.upgrade.rider.create',
+            [
+                'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+                'cities' => $city,
+                'area' => $area,
+            ]
+        );
     }
 }
