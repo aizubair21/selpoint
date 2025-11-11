@@ -39,6 +39,10 @@
 </x-responsive-nav-link>
 @endif --}}
 
+<x-responsive-nav-link :href="route('system.consignment.index')" :active="request()->routeIs('system.consignment.*')">
+    <i class="fas fa-truck-fast pr-2 w-6"></i> Consignment
+</x-responsive-nav-link>
+
 
 <x-hr />
 @can('product_view')

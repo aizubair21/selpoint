@@ -61,14 +61,20 @@
                             <div>
 
                                 <x-nav-link :active="$condition == 'all' " href="?condition=all"> All </x-nav-link>
-                                <x-nav-link :active="$condition == 'Active' " href="?condition=Active"> Active </x-nav-link>
-                                <x-nav-link :active="$condition == 'Pending' " href="?condition=Pending"> Pending </x-nav-link>
-                                <x-nav-link :active="$condition == 'Disabled' " href="?condition=Disabled"> Disabled </x-nav-link>
-                                <x-nav-link :active="$condition == 'Suspended' " href="?condition=Suspended"> Suspended </x-nav-link>
+                                <x-nav-link :active="$condition == 'Active' " href="?condition=Active"> Active
+                                </x-nav-link>
+                                <x-nav-link :active="$condition == 'Pending' " href="?condition=Pending"> Pending
+                                </x-nav-link>
+                                <x-nav-link :active="$condition == 'Disabled' " href="?condition=Disabled"> Disabled
+                                </x-nav-link>
+                                <x-nav-link :active="$condition == 'Suspended' " href="?condition=Suspended"> Suspended
+                                </x-nav-link>
                             </div>
 
                             <div class="flex">
-                                {{-- <x-text-input class="py-1 mr-1" wire:model.live="search" type="search" placeholder="Search" /> --}}
+                                {{--
+                                <x-text-input class="py-1 mr-1" wire:model.live="search" type="search"
+                                    placeholder="Search" /> --}}
                                 <x-secondary-button>Filter</x-secondary-button>
                             </div>
                         </div>
@@ -86,7 +92,6 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Status</th>
-                                    <th>Ride Count</th>
                                     <th>Join Data</th>
                                     <th>A/C</th>
                                 </tr>
@@ -94,23 +99,24 @@
 
                             <tbody>
                                 @foreach ($riders as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->user?->name ?? "N/A" }}</td>
-                                        <td>{{ $item->status ?? "N/A" }}</td>
-                                        <td>0</td>
-                                        <td>
-                                            {{ $item->created_at->toFormattedDateString() }}
-                                            <br>
-                                            <span class="text-xs">
-                                                {{ $item->created_at->diffForHumans() }}
-                                            </span>
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->user?->name ?? "N/A" }}</td>
+                                    <td>{{ $item->status ?? "N/A" }}</td>
 
-                                        </td>
-                                        <td>
-                                            <x-nav-link href="{{route('system.rider.edit', ['id' => $item->id])}}">edit</x-nav-link>
-                                        </td>
-                                    </tr>
+                                    <td>
+                                        {{ $item->created_at->toFormattedDateString() }}
+                                        <br>
+                                        <span class="text-xs">
+                                            {{ $item->created_at->diffForHumans() }}
+                                        </span>
+
+                                    </td>
+                                    <td>
+                                        <x-nav-link href="{{route('system.rider.edit', ['id' => $item->id])}}">edit
+                                        </x-nav-link>
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </x-dashboard.table>

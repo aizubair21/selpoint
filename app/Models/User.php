@@ -463,4 +463,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(userDeposit::class);
     }
+
+    public function cod()
+    {
+        return $this->hasMany(cod::class);
+    }
 }

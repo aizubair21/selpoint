@@ -15,6 +15,7 @@ use App\Livewire\System\Comissions\Index as ComissionsIndex;
 use App\Livewire\System\Comissions\Takes;
 use App\Livewire\System\Comissions\TakesDetails;
 use App\Livewire\System\Comissions\TakesDistributes;
+use App\Livewire\System\Consignment\Index as ConsignmentIndex;
 use App\Livewire\System\Deposit\Index as DepositIndex;
 use App\Livewire\System\Deposit\PrintSummery;
 use App\Livewire\System\EarnBySell\Index as EarnBySellIndex;
@@ -337,4 +338,8 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     Route::get('/geolocations', \App\Livewire\System\Geolocation\Index::class)->name('geolocations.index');
     Route::get('/geolocations/cities', Cities::class)->name('geolocations.cities');
     Route::get('/geolocations/area', Area::class)->name('geolocations.area');
+
+
+    // consignment
+    Route::get('/consignment', ConsignmentIndex::class)->name('consignment.index');
 });
