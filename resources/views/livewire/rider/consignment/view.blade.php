@@ -1,14 +1,22 @@
 <div>
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <x-dashboard.page-header>
-        <div class="flex justify-between items-center">
+        <div class="md:flex justify-between items-center">
             <div>
                 Consignment #{{$id}} <i class="fas fa-angle-right px-2"></i> assign at {{$order->id}}
             </div>
 
-            <x-nav-link-btn href="{{route('rider.consignment')}}">
-                <i class="fas fa-angle-left pr-2"></i> Back
-            </x-nav-link-btn>
+            <div class="flex gap-2">
+                {{-- @if ($cod->status == 'Pending')
+
+                <x-danger-button class="cancelShipment" wire:click='cancelShipment'>
+                    Cancel Shipment
+                </x-danger-button>
+                @endif --}}
+                <x-nav-link-btn href="{{route('rider.consignment')}}">
+                    <i class="fas fa-angle-left pr-2"></i> Back
+                </x-nav-link-btn>
+            </div>
         </div>
     </x-dashboard.page-header>
 
@@ -85,9 +93,9 @@
                         <tr>
                             <td>
                                 <div class="flex">
-                                    <img src="{{asset('storage/' . $item->thumbnail ?? '')}}" class=" w-12 h-12 mr-2"
-                                        alt="">
-                                    {{$item->title ?? "N/A"}}
+                                    <img src="{{asset('storage/' . $item->product?->thumbnail ?? '')}}"
+                                        class=" w-12 h-12 mr-2" alt="">
+                                    {{$item->product?->title ?? "N/A"}}
                                 </div>
                             </td>
                         </tr>

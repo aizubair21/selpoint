@@ -281,10 +281,32 @@
 
                             <div class="w-full">
 
-                                <x-input-field inputClass="w-full" class="mb-1" wire:model.live="district"
-                                    label="District" error="district" name="district" />
-                                <x-input-field inputClass="w-full" class="mb-1" wire:model.live="upozila"
-                                    label="Upozila" error="upozila" name="upozila" />
+                                <x-input-file label="District" name="state" error="district">
+                                    <select wire:model.live="district" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select State --</option>
+                                        @foreach ($states as $state)
+                                        <option value="{{$state->name}}">{{$state->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
+                                <x-input-file label="Upozila" name="city" error="upozila">
+                                    <select wire:model.live="upozila" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select City --</option>
+                                        @foreach ($cities as $item)
+                                        <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
+                                <x-input-file label="Location" name="targeted_area" error="area_name">
+                                    <select wire:model.live="area_name" id="states" class="w-full rounded-md ">
+                                        <option value=""> -- Select Area --</option>
+                                        @foreach ($area as $item)
+                                        <option value="{{$item->name}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
                                 <div>
                                     <x-input-field inputClass="w-full" class="mb-1" wire:model.live="house_no"
                                         label="House No" error="house_no" name="house_no" />

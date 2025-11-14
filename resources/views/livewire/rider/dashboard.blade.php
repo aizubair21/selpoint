@@ -3,7 +3,7 @@
 
     <div class="flex justify-between items-center p-2">
         <div>
-          
+
             @if (count($orders))
             {{count($orders)}} consignment are available.
             @else
@@ -24,7 +24,8 @@
 
             <div class="bg-white rounded shadow text-center flex flex-col justify-between">
                 <div class="py-2 bg-gray-200">
-                    <h3 class="text-xs text-gray-500"> Order ID </h3>
+                    <h3 class="text-xs text-gray-500"> Order ID
+                    </h3>
                     <div class="font-bold">
                         {{$order->id}}
                     </div>

@@ -55,8 +55,6 @@ class Dashboard extends Component
 
             // assign necessary info to cod model
             $totalNotResel = $order->cartOrders->each(function ($item) {
-                // if the item is not resellable, then return true
-                // resellable can easily be determined by checking if the item has isResel relation
                 return !$item->product?->isResel;
             })->sum('total');
             cod::create(

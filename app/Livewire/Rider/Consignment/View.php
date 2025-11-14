@@ -17,6 +17,16 @@ class View extends Component
     #[Url]
     public $id;
 
+    public function cancelShipment()
+    {
+        try {
+            cod::destroy($this->id);
+            $this->redirectIntended(route('rider.consignment'), true);
+        } catch (\Throwable $th) {
+            $this->dispatch('error', 'Have an error to Cancel the Shipment');
+            //throw $th;
+        }
+    }
 
     public function render()
     {
@@ -24,7 +34,7 @@ class View extends Component
         return view('livewire.rider.consignment.view', [
             'cod' => $dta,
             'order' => $dta->order,
-            'co' => CartOrder::where('order_id', $dta->order_id)->get(),
+            'co' => CartOrder::where('order_id', '=', $dta->order_id)->get(),
             'seller' => User::findOrFail($dta->seller_id),
             'user' => User::findOrFail($dta->user_id)
         ]);

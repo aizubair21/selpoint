@@ -22,7 +22,7 @@ class View extends Component
     public $order;
 
     public $orderStatus = 'Pending', $orders, $mainProduct, $isResell = false, $resellerProductId = '', $cartOrderId = '', $cartOrder;
-    public $district, $upozila, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no, $shipping;
+    public $district, $upozila, $target_area, $location, $area_condition, $delevery, $quantity, $rprice, $attr, $name, $phone, $house_no, $road_no, $shipping;
     public $rider = [], $rider_id;
 
     public function mount()
@@ -159,6 +159,7 @@ class View extends Component
         $this->district = $this->orders->district;
         $this->upozila = $this->orders->upozila;
         $this->location = $this->orders->location;
+        $this->target_area = $this->orders->target_area;
         $this->area_condition = $this->orders->area_condition;
         $this->delevery = $this->orders->delevery;
         $this->rprice = $this->cartOrder->price;
@@ -205,6 +206,7 @@ class View extends Component
                 'name' => 'Resel',
                 'district' => $this->district,
                 'upozila' => $this->upozila,
+                'target_area' => $this->target_area,
                 'location' => $this->location,
                 'house_no' => $this->house_no,
                 'road_no' => $this->road_no,
