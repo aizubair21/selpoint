@@ -72,6 +72,8 @@
                             </div>
                         </div>
                     </div>
+
+                    
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
@@ -144,8 +146,11 @@
                                 error="products.buying_price" />
                             <x-input-field class=" mx-1" labelWidht="100px" label="Product Sell Price"
                                 wire:model.live="products.price" name="products.price" error="products.price" />
-                            <x-input-field class=" mx-1" labelWidht="100px" type="number" label="Product Unite"
-                                wire:model.live="products.unit" name="products.unit" error="products.unit" />
+
+                            <x-input-field
+                                class="{{$products['is_resel'] && $products['user_id'] == auth()->user()->id ? 'hidden disabled' : ''}} mx-1"
+                                labelWidht="100px" type="number" label="Product Unite" wire:model.live="products.unit"
+                                name="products.unit" error="products.unit" />
                         </div>
                         <x-hr />
                         <div>

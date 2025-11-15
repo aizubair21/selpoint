@@ -16,6 +16,8 @@ use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
+use Livewire\Attributes\Title;
+
 
 use function PHPUnit\Framework\isNull;
 

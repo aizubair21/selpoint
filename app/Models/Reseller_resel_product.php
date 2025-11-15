@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reseller_resel_product extends Model
 {
+    protected $guarded = [];
+
     public function reselProduct()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');

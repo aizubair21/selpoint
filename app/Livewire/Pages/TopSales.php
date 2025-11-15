@@ -12,8 +12,9 @@ class TopSales extends Component
 
     public function mount()
     {
-        $this->topSales = productSalesIndex::query()->orderBy('total_sales', 'desc')->limit(20)->get();
-        // $this->topSales = Product::whereIn('id', $ids)->get();
+        // $this->topSales = productSalesIndex::query()->orderBy('total_sales', 'desc')->limit(20)->pluck('product_id');
+        // dd($this->topSales);
+        $this->topSales = Product::query()->reseller()->whereIn('id', productSalesIndex::query()->orderBy('total_sales', 'desc')->limit(20)->pluck('product_id'))->get();
     }
 
     public function render()

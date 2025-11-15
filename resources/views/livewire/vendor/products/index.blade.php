@@ -47,9 +47,7 @@
                                 <x-nav-link href="?nav=Active" :active="$nav && !$take">
                                     Active
                                 </x-nav-link>
-                                <x-nav-link href="?nav=Draft" :active="$nav == '0'">
-                                    In Active
-                                </x-nav-link>
+
                                 <x-nav-link href="?take=trash" :active="$take == 'trash'">
                                     Trash
                                 </x-nav-link>

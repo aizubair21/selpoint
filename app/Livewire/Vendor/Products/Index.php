@@ -47,19 +47,20 @@ class Index extends Component
     {
 
         //     
-        $products = auth()->user()->myProducts()->where(['status' => $this->nav])->paginate(200);
 
-        if ($this->take) {
+        if ($this->take == 'trash') {
             $products = auth()->user()->myProducts()->onlyTrashed()->paginate(20);
+        } else {
+            $products = auth()->user()->myProducts()->where(['status' => $this->nav])->paginate(200);
         }
 
-        if ($this->nav == 'draft') {
-            // 
-        }
+        // if ($this->nav == 'Draft') {
+        //     $products = auth()->user()->myProducts()->onlyTrashed()->paginate(200);
+        // }
 
 
-        if (!empty($this->search)) {
-            $products = auth()->user()->myProducts()->where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->get();
+        if ($this->search) {
+            $products = auth()->user()->myProducts()->where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->paginate(20);
         }
         return view('livewire.vendor.products.index', compact('products'));
     }

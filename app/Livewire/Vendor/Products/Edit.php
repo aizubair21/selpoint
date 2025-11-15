@@ -4,8 +4,10 @@ namespace App\Livewire\Vendor\Products;
 
 use App\HandleImageUpload;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\product_has_attribute;
 use App\Models\product_has_image;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage as FacadesStorage;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -27,7 +29,7 @@ class Edit extends Component
     // protected $Listeners = ["$refresh"];
 
     protected $listeners = ['editorUpdated' => 'updateContent'];
-    // #[On('refresh')]
+    #[On('refresh')]
     public function mount()
     {
         $this->data();
@@ -36,21 +38,20 @@ class Edit extends Component
 
     public function data()
     {
-        // $ac = auth()->user()->account_type();
-        // $roles = auth()->user()->getRoleNames();
 
-
-        // dd($this->account);
 
         $this->categories = Category::getAll();
 
         $this->data = auth()->user()?->myProducts()->withTrashed()->find(decrypt($this->product));
-        $this->data->load('isResel');
+        $this->data->load(['isResel']);
         // if ($this->data->trashed()) {
         //     $this->redirectIntended(route('vendor.products.view'), true);
         // }
 
+
         $this->products = $this->data->toArray();
+        // dd(Product::find($this->data));
+        // dd(Product::query()->whereIn('id', $this->data->resel->pluck('product_id'))->get());
         $this->relatedImage = $this->data->showcase->toArray();
         $this->attr = $this->data->attr->toArray();
 
@@ -143,6 +144,11 @@ class Edit extends Component
 
     public function restoreFromTrash()
     {
+        // if ($this->data->resel) {
+        //     $rp = Product::whereIn('id', $this->data->resel?->pluck('product_id'))->get();
+        //     dd($rp);
+        // }
+
         $this->data->restore();
         $this->dispatch('success', "Restore From Trash");
         $this->dispatch('refresh');
