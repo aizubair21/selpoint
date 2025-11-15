@@ -9,7 +9,8 @@
                 </x-slot>>
                 <x-slot name="content">
                     <div class="md:flex justify-between items-center">
-                        <div class="text-2xl font-bold text-indigo-900"> {{auth()->user()->coin}} TK </div>
+                        <div class="text-2xl font-bold text-indigo-900"> Available Balance
+                            {{auth()->user()->abailCoin()}} TK </div>
 
                         <div class="flex">
 

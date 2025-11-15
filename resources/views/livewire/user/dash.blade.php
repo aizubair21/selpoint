@@ -1,11 +1,12 @@
 <div>
 
-    {{-- <?php 
+    {{--
+    <?php 
     use App\Models\vendor;
     use function Livewire\Volt\{state};
     state(['latestVndor' =>0, 'data' => vendor::latest()]);
     ?> --}}
-    
+
     <x-dashboard.container>
         <x-dashboard.section>
             <div class="my-2 rounded">
@@ -17,7 +18,7 @@
                         {{-- <div>
                             {{auth()->user()->created_at->diffForHumans()}}
                         </div> --}}
-                    </div >
+                    </div>
                     <div class="flex align-center justify-between m-0 p-0">
                         <div class="px-0">
                             <b class="text-green-900" style="font-size: 20px">
@@ -25,7 +26,8 @@
                             </b>
                         </div>
                         {{-- <div class="col-md-2 co px-0"></div> --}}
-                        <x-nav-link href="{{route('user.wallet.index')}}" class="border rounded-lg shadow px-3 text-indigo-900 ring-1">
+                        <x-nav-link href="{{route('user.wallet.index')}}"
+                            class="border rounded-lg shadow px-3 text-indigo-900 ring-1">
                             <div>
                                 Wallet
                             </div>
@@ -34,11 +36,11 @@
                             </div>
                         </x-nav-link>
                     </div>
-                        
+
                 </div>
             </div>
         </x-dashboard.section>
-    
+
         <div class="lg:flex justify-between items-start m-0 my-2">
             <x-dashboard.section>
                 <div class="">
@@ -51,22 +53,26 @@
                         </x-slot>
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
-    
+
                         <div class=" w-100">
-                            <input type="text" disabled readonly id="refID" class=" form-control rounded" value="{{auth()->user()->myRef->ref ?? ""}}" >
+                            <input type="text" disabled readonly id="refID" class=" form-control rounded"
+                                value="{{auth()->user()->myRef->ref ?? ""}}">
                         </div>
-        
-                        <div>    
-                            <x-primary-button onclick="copyPaymentNumber(this, 'refID')" class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i> COPY</x-primary-button>
-                            <x-nav-link wire:navigate class="text-xs" href="{{route('user.ref.view')}}">View Your Referred User</x-nav-link>
+
+                        <div>
+                            <x-primary-button onclick="copyPaymentNumber(this, 'refID')"
+                                class="my-1 btn btn-success btn-sm PX-3 text-right"> <i class="fas fa-copy mr-1"></i>
+                                COPY</x-primary-button>
+                            <x-nav-link wire:navigate class="text-xs" href="{{route('user.ref.view')}}">View Your
+                                Referred User</x-nav-link>
                         </div>
                     </x-dashboard.section.inner>
-                    
+
                 </div>
             </x-dashboard.section>
-    
+
             <x-dashboard.section>
-                <div @class(['hidden' => auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72])>
+                <div @class(['hidden'=> auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72])>
                     <x-dashboard.section.header>
                         <x-slot name="title">
                             Claim Your Reward
@@ -77,92 +83,106 @@
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
                         <div class=" position-relative">
-        
+
                             {{-- <form action="{{route('user.set.ref')}}" method="post"> --}}
-                            <form wire:submit.prevent="checkRef">
-                                <div class="input-group w-100">
-                                    {{-- @php 
+                                <form wire:submit.prevent="checkRef">
+                                    <div class="input-group w-100">
+                                        {{-- @php
                                         $rffer = '';
-                                        if(auth()->user()->reference_accepted_at || auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72)
+                                        if(auth()->user()->reference_accepted_at ||
+                                        auth()->user()->created_at->diffInHours(Carbon\Carbon::now()) > 72)
                                         {
-                                            $rffer = auth()->user()->reference;
+                                        $rffer = auth()->user()->reference;
                                         }
-                                        
-                                    @endphp --}}
-                                    <input type="text" class="w-full rounded border" wire:model.live="newRef"  @disabled(auth()->user()->reference_accepted_at ? true : false) placeholder="Give Referred Code" >
-                                    @error('reference')
+
+                                        @endphp --}}
+                                        <input type="text" class="w-full rounded border" wire:model.live="newRef"
+                                            @disabled(auth()->user()->reference_accepted_at ? true : false)
+                                        placeholder="Give Referred Code" >
+                                        @error('reference')
                                         <strong>{{$message}}</strong>
-                                    @enderror
-                                </div>  
-                
-    
-                                <div class="mt-1 flex justify-between align-center">
-                                    <x-primary-button >Apply</x-primary-button>
-    
-                                    {{-- <button class="bg-gray-800 text-white px-3 py-1 rounded mt-1" type="submit" for="" @disabled(auth()->user()->reference_accepted_at ? true : false) > Apply</button> --}}
-                                    <div class="text-xs">
-                                        <span class="" id="timeleft"> </span>
-                                        {{auth()->user()->created_at->diffForHumans()}}
+                                        @enderror
                                     </div>
-                                </div>
-        
-                            </form>
+
+
+                                    <div class="mt-1 flex justify-between align-center">
+                                        <x-primary-button>Apply</x-primary-button>
+
+                                        {{-- <button class="bg-gray-800 text-white px-3 py-1 rounded mt-1" type="submit"
+                                            for="" @disabled(auth()->user()->reference_accepted_at ? true : false) >
+                                            Apply</button> --}}
+                                        <div class="text-xs">
+                                            <span class="" id="timeleft"> </span>
+                                            {{auth()->user()->created_at->diffForHumans()}}
+                                        </div>
+                                    </div>
+
+                                </form>
                         </div>
                     </x-dashboard.section.inner>
                 </div>
             </x-dashboard.section>
         </div>
-    
-    
-     
+
+
+
         <x-dashboard.section>
             <x-client.membership-activate-box />
-    
+
             @push('style')
-                <style>
-                    .add:hover > .wrapAdd{
-                        translate: all linear .3s;
-                        /* position: absolute;
+            <style>
+                .add:hover>.wrapAdd {
+                    translate: all linear .3s;
+                    /* position: absolute;
                         bottom: 12px;
                         right: 12px!important; */
-                        width: 10px;
-                        height: 10px;
-                        translate: all linear .3s;
-                        /* border: 1px solid green!important; */
-    
-                    }
-                    .wrapAdd{
-                        translate: all linear .3s;
-                        margin-top: 10px;
-                        /* position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    translate: all linear .3s;
+                    /* border: 1px solid green!important; */
+
+                }
+
+                .wrapAdd {
+                    translate: all linear .3s;
+                    margin-top: 10px;
+                    /* position: absolute;
                         bottom: 12px;
                         right: 20px; */
-                        /* padding: 5px; */
-                        width: 15px;
-                        height: 15px;
-                        /* border-radius: 3px; */
-                        border-top: 1px solid gray;;
-                        border-right: 1px solid gray;;
-                        transform: rotate(45deg);
-                    }
-                </style>
+                    /* padding: 5px; */
+                    width: 15px;
+                    height: 15px;
+                    /* border-radius: 3px; */
+                    border-top: 1px solid gray;
+                    ;
+                    border-right: 1px solid gray;
+                    ;
+                    transform: rotate(45deg);
+                }
+            </style>
             @endpush
-            <div style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); grid-gap:10px">
-                <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'vendor'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+            <div
+                style="color:black; display: grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); grid-gap:10px">
+                <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'vendor'])}}"
+                    class="add p-3 rounded shadow my-2 border; "
+                    style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                     <div class="text-lg" style="font-weight:600; color:green"> Be a Vendor</div>
                     <div class="text-sm">
                         Upgrade your account to <strong>VENDOR</strong>, sell product and earn comission.
                     </div>
                     <div class="wrapAdd"></div>
                 </a>
-                <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'reseller'])}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
-                    <div class="text-lg" style="font-weight:600; color:green;" >  Be Reseller</div>
+                <a wire:navigate href="{{route('upgrade.vendor.index', ['upgrade' => 'reseller'])}}"
+                    class="add p-3 rounded shadow my-2 border; "
+                    style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+                    <div class="text-lg" style="font-weight:600; color:green;"> Be Reseller</div>
                     <div class="text-sm">
                         Upgrade your account to <strong>Reseller</strong> now. Chose product and sel as yours.
                     </div>
                     <div class="wrapAdd"></div>
                 </a>
-                <a wire:navigate href="{{route('upgrade.rider.index')}}" class="add p-3 rounded shadow my-2 border; " style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
+                <a wire:navigate href="{{route('upgrade.rider.index')}}" class="add p-3 rounded shadow my-2 border; "
+                    style="position:relative;background:linear-gradient(135deg, rgb(235, 235, 235), lightgreen, rgb(235, 235, 235))">
                     <h6 style="font-weight:600; color:green;">Be a Rider</h6>
                     <div class="text-sm">
                         Be a <strong>Delevary Man</strong>, collect product and shipped to destination.
@@ -172,11 +192,11 @@
             </div>
         </x-dashboard.section>
 
-    </x-dashboard.container>    
+    </x-dashboard.container>
 
-    
+
     @push('script')
-    
+
     <script>
         function copyRef() {
             var copyText = document.getElementById("refID");
@@ -232,6 +252,6 @@
             
         }
     </script>
-    
+
     @endpush
 </div>

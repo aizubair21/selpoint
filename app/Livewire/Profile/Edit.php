@@ -20,11 +20,11 @@ class Edit extends Component
     {
         $city = [];
         $area = [];
-        if ($this->state_name) {
-            $city = city::where('state_id', state::where('name', $this->state_name)->first()?->id)->get();
+        if ($this->state) {
+            $city = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
         }
-        if ($this->city_name) {
-            $area = ta::where('city_id', city::where('name', $this->city_name)->first()?->id)->get();
+        if ($this->city) {
+            $area = ta::where('city_id', city::where('name', $this->city)->first()?->id)->get();
         }
         return view('livewire.profile.edit', [
             'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
