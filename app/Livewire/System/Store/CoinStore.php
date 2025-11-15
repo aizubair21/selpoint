@@ -34,7 +34,6 @@ class CoinStore extends Component
 
     public function getDeta()
     {
-
         $this->store = TakeComissions::where(['confirmed' => true])->sum('store');
         $this->take = TakeComissions::where(['confirmed' => true])->sum('take_comission');
         $this->give = TakeComissions::where(['confirmed' => true])->sum('distribute_comission');
@@ -44,10 +43,6 @@ class CoinStore extends Component
 
     public function render()
     {
-        // $store = Store::query()->store()->first();
-
-        // $withdraw_trac = $tracking->withdraw()->store()->get();
-        // $diposit_track = $tracking->deposit()->store()->get();
         return view('livewire.system.store.coin-store');
     }
 }

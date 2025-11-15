@@ -6,6 +6,9 @@ use App\Events\ProductComissions;
 use App\Http\Controllers\UserWalletController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Store;
+
+use function Livewire\store;
 
 class TakeComissions extends Model
 {
@@ -36,6 +39,24 @@ class TakeComissions extends Model
                     $dci->confirmed = false;
                     $dci->save();
                 }
+            }
+
+
+            $store = TakeComissions::where(['confirmed' => true])->sum('store');
+            $take = TakeComissions::where(['confirmed' => true])->sum('take_comission');
+            $give = TakeComissions::where(['confirmed' => true])->sum('distribute_comission');
+
+            // update comission store 
+            if (store::where(['name' => 'comission_store'])->exists()) {
+                store::where(['name' => 'comission_store'])->update(['coin' => $store]);
+            }
+
+            if (store::where(['name' => 'comission_take'])->exists()) {
+                store::where(['name' => 'comission_take'])->update(['coin' => $take]);
+            }
+
+            if (store::where(['name' => 'comission_give'])->exists()) {
+                store::where(['name' => 'comission_give'])->update(['coin' => $give]);
             }
         });
     }

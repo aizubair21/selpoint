@@ -15,11 +15,6 @@ class Store extends Model
     public function scopeDonation($query)
     {
         return $query->where('name', 'donation');
-
-        //how to call this function with eloquent or db
-        // User::admin()->get();
-        //but it not a static function 
-
     }
 
     public function scopeCost($query)
@@ -31,10 +26,12 @@ class Store extends Model
     {
         return $query->where('name', 'store');
     }
+
     public function scopeComission($query)
     {
         return $query->where('name', 'comission');
     }
+    
     public function scopeProfit($query)
     {
         return $query->where('name', 'profit');

@@ -38,62 +38,6 @@
 
         <x-hr class="my-2" />
 
-        {{-- <div class="flex justify-between items-center">
-            <div>
-                Today's Overview
-            </div>
-
-            <div class="flex">
-                <x-text-input class="bg-transparent py-1" type="date" />
-            </div>
-        </div> --}}
-
-        {{-- <x-dashboard.overview.section>
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Generate
-                </x-slot>
-                <x-slot name="content">
-                    {{$tgen ?? 0}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Take
-                </x-slot>
-                <x-slot name="content">
-                    {{$ttake ?? 0}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Give
-                </x-slot>
-                <x-slot name="content">
-                    {{$tgive ?? 0}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Store
-                </x-slot>
-                <x-slot name="content">
-                    {{$tstore ?? 0}}
-                </x-slot>
-            </x-dashboard.overview.div>
-
-            <x-dashboard.overview.div>
-                <x-slot name="title">
-                    Return
-                </x-slot>
-                <x-slot name="content">
-                    {{$treturn ?? 0}}
-                </x-slot>
-            </x-dashboard.overview.div>
-        </x-dashboard.overview.section> --}}
 
         <x-dashboard.section.inner>
             <div>
@@ -229,8 +173,7 @@
         <div class="p-3">
             <div class="my-2 flex justify-between items-start space-x-1">
                 <div>
-                    <p>Comission Type</p>
-                    <select wire:model.live='where' class="rounded-md w-full ">
+                    <select wire:model.live='where' class="rounded-md w-full py-1">
                         <option value="">-- Select -- </option>
                         <option value="user_id">User</option>
                         <option value="product_id">Product</option>
@@ -238,9 +181,15 @@
                     </select>
                 </div>
                 <div>
-                    <p>ID</p>
-                    <x-text-input class="w-full" placeholder="ID" wire:model.live="wid" />
+                    <select wire:model.live="confirm" class="py-1 rounded-md" id="">
+                        <option value="All">Both</option>
+                        <option value="true">Confirmed</option>
+                        <option value="false">Pending</option>
+                    </select>
                 </div>
+            </div>
+            <div>
+                <x-text-input class="w-full" placeholder="Search By ID" wire:model.live="wid" />
             </div>
         </div>
         <hr class="my-1" />
