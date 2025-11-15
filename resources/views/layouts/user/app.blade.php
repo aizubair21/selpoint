@@ -7,13 +7,26 @@
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
    <meta name="author" content="" />
    <meta name="token" content="{{csrf_token()}}">
+   
+   @stack('seo')
 
-   {{--
-   <x-site_icon /> --}}
+
+   <x-site_icon />
 
    <link rel="shortcut icon" href={{ asset("icon.png")}} type="">
 
-   <x-site_title />
+   {{--
+   <x-site_title /> --}}
+
+   <title>
+      @isset($title)
+      {{$title}} -
+      {{config('app.name', 'nolicx')}}
+      @else
+      {{config('app.name', 'nolicx')}}
+      @endisset
+   </title>
+
 
    {{-- google font --}}
    <link rel="preconnect" href="https://fonts.googleapis.com">

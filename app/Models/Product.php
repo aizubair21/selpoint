@@ -28,6 +28,7 @@ class Product extends Model
         'unit',
         'status', // 
         'display_at_home',
+        'deleted_at',
 
         'vc',
         'brand',
@@ -90,6 +91,28 @@ class Product extends Model
                     'product_id' => $product->id,
                 ]
             );
+        });
+
+
+        static::updated(function (Product $product) {
+
+            if ($product->belongs_to_type == 'vendor' && $product->resel) {
+                $rp = Product::query()->whereIn('id', $product->resel?->pluck('product_id'));
+
+
+                /**
+                 * if update unit, the update the uni of resel product
+                 */
+                if ($product->isDirty('unit')) {
+                    $rp->update(['unit' => $product->unit]);
+                }
+
+
+                /**
+                 * if delet, then delet the resel product
+                 */
+                $rp->update(['deleted_at' => $product->deleted_at ?? null]);
+            }
         });
     }
 
@@ -198,6 +221,11 @@ class Product extends Model
     {
         return $this->hasMany(Reseller_resel_product::class, 'parent_id', 'id');
     }
+
+    // public function reselProducts()
+    // {
+    //     return $this->belongsToMany(Product::class, 'reseller_resel_products', 'parent_id', 'product_id');
+    // }
 
     /**
      * comments

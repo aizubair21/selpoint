@@ -13,7 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
+        // country seeder
+        $this->call(CountrySeeder::class);
+
+        // state seeder
+        $this->call(StateSeeder::class);
+
+        //city seeder
+        // $this->call(CitySeeder::class);
+
+
         // User::factory(10000)->create();
 
         // call PermissionSeeder here to create permission seeder
@@ -29,6 +38,8 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Super Admin',
                 'email' => config('app.system_email'),
                 'password' => bcrypt('password'),
+                'country' => 'Bangladesh',
+                'state' => 'Bhola'
             ]
         );
 

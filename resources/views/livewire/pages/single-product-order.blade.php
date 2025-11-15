@@ -88,13 +88,17 @@
                                 @enderror
                             </div>
                             @endif
-                            <x-input-field class="md:flex w-full" type="number" wire:model.live="quantity" min="1"
-                                label="Quantity" error="quantity" name="quantity" />
+                            <x-input-file label="Quantity" error="quantity" name="quantity">
+                                <x-text-input class="w-full" type="number" wire:model.lazy="quantity" min="1" />
+                            </x-input-file>
 
                             {{--
-                            <x-input-field wire:model.live="name" label="Your Name" error="name" name="name" /> --}}
-                            <x-input-field class="md:flex w-full" wire:model.live="phone" label="Your Active Phone"
-                                error="phone" name="phone" />
+                            <x-input-file wire:model.live="name" label="Your Name" error="name" name="name" /> --}}
+                            <x-input-file label="Phone" error="phone" name="phone">
+                                <x-text-input type="text" placeholder="+8801100 000000" class=" w-full"
+                                    wire:model.live="phone" label="Your Active Phone" />
+
+                            </x-input-file>
 
 
                             <x-input-file label="State" name="state" error="district">
@@ -127,10 +131,22 @@
 
 
                             <div>
+                                {{--
                                 <x-input-field class="md:flex w-full " wire:model.live="house_no" label="House No"
-                                    error="house_no" name="house_no" />
+                                    error="house_no" name="house_no" /> --}}
+
+                                <x-input-file label="house_no" error="house_no" name="house_no">
+                                    <x-text-input class="w-full" type="text" placeholder="House No"
+                                        wire:model.lazy="house_no" />
+                                </x-input-file>
+                                <x-input-file label="road_no" error="road_no" name="road_no">
+                                    <x-text-input class="w-full" type="text" placeholder="Road No"
+                                        wire:model.lazy="road_no" />
+                                </x-input-file>
+
+                                {{--
                                 <x-input-field class="md:flex w-full " wire:model.live="road_no" label="Road No"
-                                    error="road_no" name="road_no" />
+                                    error="road_no" name="road_no" /> --}}
                             </div>
                             <x-hr />
                             <div class="mt-4">

@@ -29,10 +29,11 @@
             <x-dashboard.section.header>
                 <x-slot name="title" class="float-right clearfix">
                     <div class="flex justify-between items-center">
-                        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')">
+                        {{-- <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'filter-modal')">
                             <i class="fas fa-filter"></i>
-                        </x-primary-button>
-                        <x-text-input type="search" placeholder="Search by name" class="mx-2 hidden lg:block py-1">
+                        </x-primary-button> --}}
+                        <x-text-input type="search" wire:model.live='search' placeholder="Search by name"
+                            class="mx-2 hidden lg:block py-1">
                         </x-text-input>
                     </div>
 
@@ -40,13 +41,13 @@
                 <x-slot name="content">
                     <div class="flex justify-between items-center">
                         <div>
-                            <x-nav-link href="" :active="true">
+                            <x-nav-link href="?pd=Active" :active="$pd == 'Active'">
                                 Active
                             </x-nav-link>
-                            <x-nav-link href="">
+                            {{-- <x-nav-link href="?nav=Draft">
                                 In Active
-                            </x-nav-link>
-                            <x-nav-link href="">
+                            </x-nav-link> --}}
+                            <x-nav-link href="?pd=Trash" :active="$pd== 'Trash'">
                                 Trash
                             </x-nav-link>
                         </div>

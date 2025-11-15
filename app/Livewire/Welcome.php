@@ -23,6 +23,7 @@ class Welcome extends Component
     public  function mount()
     {
         $this->products =  Product::query()->reseller()->active()->orderBy('id', 'desc')->limit(20)->get();
+        // dd($this->products);
         $this->categories = Category::getAll();
     }
     public function getProducts()

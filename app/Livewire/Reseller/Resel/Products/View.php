@@ -67,14 +67,13 @@ class View extends Component
                 $this->forResel['user_id'] = auth()->user()->id;
                 $this->forResel['belongs_to_type'] = 'reseller';
                 $this->forResel['buying_price'] = $this->products->totalPrice();
-                $this->forResel['unit'] = 1;
+                $this->forResel['unit'] = $this->products?->unit ?? 1;
                 $this->forResel['offer_type'] = $this->isReselWithDiscountPrice;
                 $this->forResel['discount'] = $this->isReselWithDiscountPrice ? $this->reselDiscountPrice : null;
                 $this->forResel['price'] = $this->reselPrice;
                 $this->forResel['category_id'] = $this->resellerCat;
                 $this->forResel['status'] = 'Active';
                 $this->forResel['country'] = auth()->user()->country ?? 'Bangladesh';
-
 
                 // save as new to reseller
                 $newProduct = Product::create($this->forResel);

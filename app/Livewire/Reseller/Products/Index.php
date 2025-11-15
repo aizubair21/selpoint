@@ -15,20 +15,27 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $nav = 'own', $pd = 'Active';
+    public $nav = 'own', $pd = 'Active', $search;
 
 
     public function render()
     {
         $data = [];
 
-        if ($this->nav == 'own') {
-            $data = auth()->user()->myProducts()->paginate(50);
+        if ($this->nav == 'own' && $this->pd != 'Trash') {
+            $data = auth()->user()->myProducts()->where(['status' => $this->pd])->paginate(50);
+        } else {
+            $data = auth()->user()->myProducts()->onlyTrashed()->paginate(50);
         }
 
         if ($this->nav == 'resel') {
             $rl = Reseller_resel_product::where(['user_id' => Auth::id()])->pluck('product_id');
             $data = Product::whereIn('id', $rl)->paginate(50);
+        }
+
+
+        if ($this->search) {
+            $data = auth()->user()->myProducts()->where('title', 'like', '%' . $this->search . "%")->orwhere('name', 'like', '%' . $this->search . "%")->paginate(20);
         }
 
         return view('livewire.reseller.products.index', compact('data'));
