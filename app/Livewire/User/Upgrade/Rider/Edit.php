@@ -28,7 +28,7 @@ class Edit extends Component
         $this->rider = $this->data->toArray();
         // dd($this->rider);
 
-        if ($this->rider['stauts'] != 'Pending') {
+        if ($this->rider['status'] != 'Pending') {
             return redirect()->back()->with('error', 'Unable to edit or update');
         }
     }
