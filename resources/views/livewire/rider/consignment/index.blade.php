@@ -109,10 +109,12 @@
                         {{$cod->number}}
                     </div> --}}
                 </div>
+                {{-- @if ($cod->order?->status == 'Delivery') --}}
                 @if ($cod->status == 'Pending')
                 <div class="pb-2">
-                    <button class=" rounded border px-2 py-1 bg-indigo-900 text-white shadow text-sm"
-                        wire:click.prevent="confirmOrder({{$cod->id}}, 'Received')">
+                    <button class="rounded border px-2 py-1 bg-indigo-900 text-white shadow text-sm"
+                        wire:click.prevent="confirmOrder({{$cod->id}}, 'Received')"
+                        wire:confirm='Are you received the purcel from sender?'>
                         Mark as Received
                     </button>
                 </div>

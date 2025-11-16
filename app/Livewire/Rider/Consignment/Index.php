@@ -21,10 +21,12 @@ class Index extends Component
     {
         $order = cod::findOrFail($order);
         // if the order status is not 'Delivery', cod status not change
-        if ($order->order->status != 'Delivery') {
-            $this->dispatch('error', 'Order not shipped yet');
-            return;
-        }
+
+        // if ($order->order->status != 'Delivery') {
+        //     $this->dispatch('error', 'Order not shipped yet');
+        //     return;
+        // }
+
         if ($order && auth()->user()->abailCoin() >= $order->total_amount) {
             $order->status = $status;
             $order->save();
@@ -42,7 +44,7 @@ class Index extends Component
                     $seller->save();
                 }
             }
-            $this->dispatch('success', 'Shipment Updated. ');
+            $this->dispatch('success', "Shipment Updated");
         } else {
             $this->dispatch('warning', 'You do not have enough balance to process this request !');
         }
@@ -60,7 +62,7 @@ class Index extends Component
     public function render()
     {
         // dd(auth()->user()->abailCoin());
-        $query = cod::query()->where('rider_id', auth()->user()->id);
+        $query = cod::query()->with('order')->where('rider_id', auth()->user()->id);
         // get the consignments belongs to rider id
         if ($this->status != 'All') {
             $consignments = $query->where(['status' => $this->status]);
