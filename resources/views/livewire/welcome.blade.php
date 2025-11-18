@@ -225,8 +225,9 @@
         {{-- categories --}}
         @if (count($categories))
 
-        <div x-loading.disabled x-transition class="mask_bg relative py-4 overflow-hidden " id="cat_div">
-            <div id="cat_wrapper" class=" flex gap-3 overflow-x-auto scroll-smooth no-scrollbar">
+        <div x-loading.disabled x-transition class=" relative py-4 overflow-hidden " id="cat_div">
+            <div id="cat_wrapper" class="mask_bg flex gap-3 overflow-x-auto scroll-smooth no-scrollbar"
+                style="scrollbar-width: none">
                 @foreach ($categories as $item)
                 @if ($item->slug != 'default-category')
                 <div class="text-center rounded-md cat_item"
@@ -235,7 +236,7 @@
                         class="flex flex-col items-center w-full h-full "
                         style="width:100px!important; height:100px!important;" wire:navigate>
                         <img src="{{asset('storage/'.$item->image)}}"
-                            style="width:70px!important; height:70px!important; "
+                            style="width:60px!important; height:60px!important; "
                             class="rounded-full border border-gray-900 " alt="">
                         <div class="pt-1 w-full text-center" style="background-color:
                                             #f6f6f69c; backdrop-filter:blur(6px)">
@@ -249,10 +250,10 @@
 
             <div class="navigation_btn absolute flex justify-between w-full items-center px-3 lg:px-6 "
                 style="top:50px; transform:translatey(-50%)">
-                <button id="prev_btn" onclick="paginateCat('+')">
+                <button id="prev_btn" class="border rounded-full p-2 bg-gray-900 text-white" onclick="paginateCat('+')">
                     <i class="fas fa-angle-left"></i>
                 </button>
-                <button id="next_btn" onclick="paginateCat('-')">
+                <button id="next_btn" class="border rounded-full p-2 bg-gray-900 text-white" onclick="paginateCat('-')">
                     <i class="fas fa-angle-right"></i>
                 </button>
             </div>

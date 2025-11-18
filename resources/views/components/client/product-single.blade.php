@@ -48,13 +48,13 @@ new class extends Component
 <div>
     @props(['product'])
 
-    <div class="lg:flex justify-between item-start p-2">
+    <div class="lg:flex justify-start item-start p-2">
         <!-- card left -->
-        <div class="bg-white p-3 rounded" style="width:100%; max-width:400px">
+        <div class=" p-3 " style="width:100%; max-width:600px">
             <div class="img-display sm:flex sm:justify-start items-start lg:block rounded">
                 <div class="img-showcase" style="">
-                    <img id="preview" class="p-2 rounded-md shadow-lg"
-                        style="width: 100%; object-fit:contain; max-width:400px;" height="400"
+                    <img id="preview" class="p-2 rounded-md border"
+                        style="width: 100%; object-fit:contain; max-width:600px;" height="400"
                         src="{{ asset('storage/' . $product?->thumbnail) }}" alt="image">
                 </div>
 
@@ -62,12 +62,12 @@ new class extends Component
                 <div class="flex items-center md:block lg:flex flex-wrap">
                     <button class="p-1 rounded mb-1">
                         <img class=" border p-1 rounded" onclick="previewImage(this)"
-                            src="{{asset('storage/'. $product?->thumbnail)}}" width="45px" height="45px" alt="">
+                            src="{{asset('storage/'. $product?->thumbnail)}}" width="60px" height="60px" alt="">
                     </button>
                     @foreach ($product->showcase as $images)
                     <button class="p-1 rounded mb-1">
-                        <img width="45px" height="45px" class=" border p-1 rounded" onclick="previewImage(this)"
-                            src="{{asset('storage/'. $images?->image)}}" width="45px" height="45px" alt="">
+                        <img width="60px" height="60px" class=" border p-1 rounded" onclick="previewImage(this)"
+                            src="{{asset('storage/'. $images?->image)}}" width="60px" height="60px" alt="">
                     </button>
                     @endforeach
                 </div>
@@ -76,10 +76,10 @@ new class extends Component
             </div>
         </div>
 
-        <div class="p-3 rounded bg-white" style="min-width: 300px">
+        <div class="p-3 w-full " style="min-width: 300px">
             <div>
                 {{-- Shop --}}
-                <div class="text-green-900 w-auto text-sm">
+                <div class="text-green-900 w-full text-sm">
 
                     <strong>
                         <x-nav-link class="px-2 rounded-xl bg-gray-50 "
@@ -206,7 +206,7 @@ new class extends Component
             </div> --}}
         </div>
 
-        @if (isset($relatedProduct))
+        {{-- @if (isset($relatedProduct))
         <div class="p-3 rounded hidden md:block" style="min-width: 300px;">
             <div class="">
                 Related Products
@@ -247,7 +247,7 @@ new class extends Component
 
             {{$relatedProduct->links()}}
         </div>
-        @endif
+        @endif --}}
     </div>
 
     {{-- <div class="flex flex-wrap items-center p-3">
@@ -282,7 +282,7 @@ new class extends Component
 
     @if (isset($relatedProduct))
     <hr>
-    <div class="sm:w-full p-3 block md:hidden">
+    <div class="sm:w-full p-3 ">
 
         <div class="font-bold">
             Related Products
