@@ -16,18 +16,10 @@
                             {{$tp}}
                         </x-slot>
                     </x-dashboard.overview.div>
-                    <x-dashboard.overview.div>
-                        <x-slot name="title">
-                            Category
-                        </x-slot>
 
-                        <x-slot name="content">
-                            {{$category}}
-                        </x-slot>
-                    </x-dashboard.overview.div>
                     <x-dashboard.overview.div>
                         <x-slot name="title">
-                            Shops
+                            Vendor Shops
                         </x-slot>
 
                         <x-slot name="content">
@@ -38,6 +30,8 @@
 
             </div>
             <x-hr />
+
+
             <x-dashboard.section>
                 <x-dashboard.section.header>
                     <x-slot name="title">
@@ -53,11 +47,15 @@
                     </x-primary-button>
                 </x-dashboard.section.inner>
             </x-dashboard.section>
-            <x-dashboard.container>
-            </x-dashboard.container>
+
+            @livewire('vendor.orders.index', ['nav' => 'All', 'create' => 'day', 'start_date' =>
+            now()->format('Y-m-d')])
 
             <x-hr />
             <x-dashboard.section.inner wire:navigate.hidden>
+                <p class="mb-2 text-xs">
+                    Resel Products from vendor
+                </p>
                 <div class=""
                     style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 170px); grid-gap:10px">
 
@@ -69,18 +67,10 @@
                     @endif
                 </div>
             </x-dashboard.section.inner>
-            {{-- <x-dashboard.container>
-            </x-dashboard.container>
-            <div wire:navigate.hidden class=""
-                style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 170px); grid-gap:10px">
-
-                @if (count($products) > 0)
-
-                @foreach ($products as $p)
-                @includeIf('components.dashboard.reseller.resel-product-cart', ['pd' => $p])
-                @endforeach
-                @endif
-            </div> --}}
+            <x-responsive-nav-link href="{{route('reseller.resel-product.index')}}"
+                :active="request()->routeIs('reseller.resel-product.*')">
+                <i class="fas fa-sync pr-2 w-6"></i> View All
+            </x-responsive-nav-link>
         </div>
 
         <x-modal name="explore-category">
