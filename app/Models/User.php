@@ -222,15 +222,15 @@ class User extends Authenticatable
         // 500 is the minimum balance to hold for user
         $active_nav = $this->active_nav;
         if ($active_nav == 'reseller') {
-            return $this->coin - $this->resellerShop()->fixed_amount;
-        };
-        if ($active_nav == 'vendor') {
-            return $this->coin - $this->vendorShop()->fixed_amount;
-        };
-        if ($active_nav == 'rider') {
-            return $this->coin - $this->isRider()->fixed_amount;
+            return $this->coin - $this->resellerShop()?->fixed_amount;
+        } elseif ($active_nav == 'vendor') {
+            return $this->coin - $this->vendorShop()?->fixed_amount;
+        } elseif ($active_nav == 'rider') {
+            return $this->coin - $this->isRider()?->fixed_amount;
+        } else {
+            return $this->coin - 500;
         }
-    }
+    } 
 
     /**
      * @return Array

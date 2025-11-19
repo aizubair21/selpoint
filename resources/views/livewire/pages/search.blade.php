@@ -48,47 +48,8 @@
         <div>
             Categories
         </div>
-        <div wire:loading.disabled class=""
-            style="display: grid; grid-template-columns:repeat(auto-fit, 100px); grid-gap:10px">
-            {{-- @foreach ($category as $cat)
-            <x-nav-link class="px-2 rounded border" href="{{ route('category.products', ['cat' => $cat->slug]) }}">{{
-                $cat->name }}</x-nav-link>
-            @endforeach --}}
-
-            @foreach ($category as $item)
-            @if ($item->slug != 'default-category')
-            <div class="relative text-center rounded " style="backdrop-filter:blur(3px); background-color:#fff">
-                <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate>
-                    <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
-                    <div class="absolute bottom-0 shadow text-white w-full text-center font-bold" style="background-color:
-                                rgba(0, 0, 0, 0.173); backdrop-filter:blur(6px)">
-                        {{ Str::limit($item->name, 10, '...') }}
-                    </div>
-                </a>
-            </div>
-            @endif
-            @endforeach
-        </div>
+        @includeIf('components.client.display-category', ['categories' => $category])
         @endif
-        {{-- @else
-        <p class="mb-2">All You Need </p>
-        <div class="flex gap-3">
 
-            @foreach ($category as $item)
-            @if ($item->slug != 'default-category')
-            <div class="relative bg-white text-center rounded hover:border-indigo-900 hover:shadow w-full"
-                style="width:110px">
-                <a href="{{ route('category.products', ['cat' => $item->slug]) }}" style="height: 100px;" wire:navigate>
-                    <img src="{{asset('storage/'.$item->image)}}" class="w-full h-full" alt="">
-                    <div class="absolute bottom-0 shadow text-white px-1 w-full text-center" style="background-color:
-                                    #00000067; backdrop-filter:blur(6px)">
-                        {{$item->name}}
-                    </div>
-                </a>
-            </div>
-            @endif
-            @endforeach
-
-        </div> --}}
     </x-dashboard.container>
 </div>

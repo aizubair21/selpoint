@@ -68,7 +68,8 @@ new class extends Component {
         </a>
 
         {{-- search --}}
-        <div class="hidden md:flex justify-start items-center flex-1 w-full px-4" id="search_content">
+        <div class="hidden md:flex justify-between items-center flex-1 w-full px-4" id="search_content">
+            <a wire:navigate href="{{route('shops.reseller')}}" class="block px-2"> Shops </a>
 
             <style>
                 .nv-shop-item {
@@ -76,30 +77,12 @@ new class extends Component {
                     z-index: 9;
                 }
 
-                /* @media (max-width:570px){
-                    .nv-shop-item{
-                        width:350px
-                    }
-                }
-                @media (min-width : 570px) and (max-width:990px)
-                {
-                    .nv-shop-item{
-                        width:570px;
-                    }
-                }
-                @media (min-width : 990px){
-                    .nv-shop-item {
-                        width:900px
-                    }
-                } */
-
                 .nv-shop-btn:hover .nv-shop-item {
                     display: block;
                     transition: all linear .3s;
                 }
             </style>
 
-            <a wire:navigate href="{{route('shops.reseller')}}" class="block px-2"> Shops </a>
             <div class="pe-4 max-w-md nv-shop-btn relative" id="" style="width:200px">
                 <div class="flex items-center justify-center cursor-pointer">
                     <div>Category</div>
@@ -161,13 +144,16 @@ new class extends Component {
                 </div>
             </div>
 
-            <div class="relative border flex-1">
+            <div class="relative  flex-1">
                 <form action="{{route('search')}}">
                     <input type="search" name="q" value="{{request()->get('q')}}"
                         placeholder="Search Product By Title or Tasgs"
-                        class="border-0 shadow-0 focus:border-0 focus:shadow-0 w-full" style="margin-bottom: 0px;"
-                        id="search">
+                        class="border-0 rounded-md shadow-0 focus:border-0 focus:shadow-0 w-full"
+                        style="margin-bottom: 0px;" id="search">
                 </form>
+                {{-- <button class="rounded mx-2" @click="$dispatch('open-modal', 'search-modal')">
+                    <i class="fas fa-search text-md p-2"></i>
+                </button> --}}
             </div>
         </div>
 
@@ -332,27 +318,27 @@ new class extends Component {
         </div>
 
         {{-- search --}}
-        <div x-show="search" x-transition
+        {{-- <div x-show="search" x-transition
             class="absolute border rounded shadow flex justify-between items-center flex-1 pr-3"
-            style="left: 30px; width:80%" id="search_content">
+            style="left: 30px; width:300px" id="search_content">
             <div class="relative w-full flex-1 px-2">
                 <form action="{{route('search')}}">
                     <input type="search" name="q" autofocus placeholder="Search Product By Title or Tasgs "
-                        class="mb-0 border-0 shadow-0 blur:border-0 blur:shadow-0 w-full" id="" autofocus
+                        class="mb-0 border-0 rounded-md shadow-0 blur:border-0 blur:shadow-0 " id="" autofocus
                         style="margin-bottom:0px">
                 </form>
             </div>
             <button x-on:click="search = !search">
                 <i class="fas fa-times"></i>
             </button>
-        </div>
+        </div> --}}
 
 
         {{-- right content --}}
         <div>
 
             <div class="flex items-center justify-between">
-                <button class="rounded mx-2" x-on:click="search = !search">
+                <button class="rounded mx-2" @click="$dispatch('open-modal', 'search-modal')">
                     <i class="fas fa-search text-md p-2"></i>
                 </button>
                 @auth
@@ -492,7 +478,23 @@ new class extends Component {
 
     </div>
 
+
+
+    <x-modal name="search-modal">
+        <div class="p-3">
+            <form action="{{route('search')}}">
+                <input type="search" name="q" value="{{request()->get('q')}}"
+                    placeholder="Search Product By Title or Tasgs" class="border rounded-md w-full"
+                    style="margin-bottom: 0px;" id="search">
+                <hr class="my-2" />
+                <x-primary-button type="submit"> Search </x-primary-button>
+            </form>
+        </div>
+    </x-modal>
+
 </div>
+
+
 
 <script>
     /**

@@ -222,28 +222,8 @@
 
 
     <x-dashboard.container>
-        {{-- categories --}}
-        @if (count($categories))
 
-        <div x-loading.disabled x-transition class="pb-4 flex overflow-x-scroll gap-3 ">
-            @foreach ($categories as $item)
-            @if ($item->slug != 'default-category')
-            <div class="relative text-center rounded-md"
-                style="backdrop-filter:blur(3px); background-color:#fff; width:100px; height:100px">
-                <a href="{{ route('category.products', ['cat' => $item->slug]) }}" class="block w-full h-full"
-                    style="width:100px!important; height: 100px!important;" wire:navigate>
-                    <img src="{{asset('storage/'.$item->image)}}"
-                        style="width:100px!important; height:100px!important; " alt="">
-                    <div class="absolute bottom-0 shadow w-full text-center" style="background-color:
-                                        #f6f6f69c; backdrop-filter:blur(6px)">
-                        {{ Str::limit($item->name, 9, '...') }}
-                    </div>
-                </a>
-            </div>
-            @endif
-            @endforeach
-        </div>
-        @endif
+        @includeIf('components.client.display-category', ['categories' => $categories])
 
         <div>
             <div class="py-4 flex px-2 justify-between items-center">
@@ -412,7 +392,13 @@
     }
     
     startAutoplay();
+
+
+  
+
 </script>
 @endscript
+
+
 
 </div>

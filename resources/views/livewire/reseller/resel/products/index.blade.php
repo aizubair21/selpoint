@@ -32,42 +32,7 @@
     </x-dashboard.page-header>
 
     <x-dashboard.container>
-        {{-- <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    <div class="text-md">Product for Resel</div>
-                </x-slot>
-
-                <x-slot name="content">
-                    If you plan to resel produt, you are requested to copy product data form here then add to your won
-                    product.
-                </x-slot>
-            </x-dashboard.section.header>
-
-            <x-dashboard.section.inner>
-
-
-                <div wire:show="!cat">
-                    <div class="flex items-center">
-                        <x-text-input type="search" class="py-1 mx:w-48" placeholder="Search By Name .."></x-text-input>
-                    </div>
-                </div>
-            </x-dashboard.section.inner>
-
-            <x-dashboard.section.header>
-                <x-slot name="title">
-
-                </x-slot>
-                <x-slot name="content"></x-slot>
-            </x-dashboard.section.header>
-        </x-dashboard.section> --}}
-        {{-- <div wire:show="cat">
-            Display from <span class="px-2 border rounded mx-1 font-bold"> {{$targetCat->name ?? "n/a"}} </span>
-            category.
-            <x-primary-button wire:show="cat" wire:click.prevent="vieAll">View All Products</x-primary-button>
-        </div> --}}
-
-        {{-- if reseller is not able to add product --}}
+       
         @if (!$ableToAdd)
         <div class="p-2 bg-red-200 text-red-800">
             You have reached the maximum number of products you can upload {{$shop->max_resell_product}}. Please delete

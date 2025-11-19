@@ -10,7 +10,7 @@
     <meta name="description" content="{{$product->meta_description ?? $product->title}}" />
     <meta name="keyword" content="{{$product->keyword ?? ''}}" />
     <meta name="twitter:card" content="summary_large_image" />
-    
+
     <meta name="twitter:title" content="{{ $product->meta_title ?? $product->title }}" />
     <meta name="twitter:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
 
@@ -73,7 +73,7 @@
 
     <x-dashboard.container>
         <div class=" ">
-            <div class="bg-white">
+            <div class="">
                 @includeIf('components.client.product-single')
 
             </div>
@@ -81,92 +81,81 @@
 
 
         {{-- summery and specifications --}}
-        <x-dashboard.section x-data="{tab:'summery'}">
+        <x-dashboard.section>
             <x-dashboard.section.header>
                 <x-slot name="title">
-                    {{-- Product Specification & Summery --}}
+                    Shop Details
                 </x-slot>
                 <x-slot name="content">
-                    <div class="w-full border-b flex items-center text-md" style="height: 28px">
-                        <div class="px-2 cursor-pointer"
-                            :class="{'font-bold bg-indigo-900 text-white' : tab == 'summery'}"
-                            x-on:click="tab = 'summery'"> Summery </div>
-                        <div class="px-2 cursor-pointer" :class="{'font-bold bg-indigo-900 text-white' : tab == 'shop'}"
-                            x-on:click="tab = 'shop'"> About Shop </div>
-                    </div>
+                    this product belongs to bellow shop. see about the shop.
                 </x-slot>
             </x-dashboard.section.header>
+
             <x-dashboard.section.inner>
-                <div x-show="tab == 'summery'" x-transition>
-                    <div class="bg-white p-2 w-full">
+                @if (auth()?->user()?->id == $product->user_id)
+                <strong class="p-2 rounded border bg-sky-900 text-white">It's your product </strong>
+                @else
+                <hr class="my-2" />
+                <div class="flex flex-wrap">
+                    <div class=" border-b w-48 m-2 p-2">
+                        <div class="text-sm font-normal">
+                            Shop Name
+                        </div>
+                        <div class="text-md font-bold">
+                            {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
+                        </div>
+                    </div>
+                    <div class=" border-b w-48 m-2 p-2">
+                        <div class="text-sm font-normal">
+                            Shop Owner
+                        </div>
+                        <div class="text-md font-bold">
+                            {{$product?->owner?->name ?? "N/A"}}
+                        </div>
+                    </div>
+                    <div class=" border-b w-48 m-2 p-2">
+                        <div class="text-sm font-normal">
+                            Shop Location
+                        </div>
+                        <div class="text-md font-bold">
+                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
+                        </div>
+                    </div>
+                    <div class=" border-b w-48 m-2 p-2">
+                        <div class="text-sm font-normal">
+                            Shop Address
+                        </div>
+                        <div class="text-md font-bold">
+                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="flex flex-wrap space-x-2 ">
+                    <x-nav-link-btn
+                        href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop()->id, 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
+                        Visit Shop</x-nav-link-btn>
+                    {{-- <x-nav-link-btn href="" class="space-x-2 space-y-2">Other Products
+                    </x-nav-link-btn>
+                    <x-nav-link-btn href="">Report Incorrect Information</x-nav-link-btn> --}}
+                </div>
+                @endif
+            </x-dashboard.section.inner>
+        </x-dashboard.section>
+
+
+        <x-dashboard.section>
+
+            <x-dashboard.section.inner>
+                <div>
+                    <div class=" p-2 w-full">
                         {!! $product->description ?? "No Description Found !" !!}
                     </div>
                 </div>
-                <div x-show="tab == 'shop'" x-transition>
-                    <div class="mx:w-[-350px] rounded border bg-gray-200 pt-2">
-                        @if (auth()?->user()?->id == $product->user_id)
-                        <strong class="p-2 rounded border bg-sky-900 text-white">It's your product </strong>
-                        @else
-                        <x-dashboard.section>
-                            <x-dashboard.section.header>
-                                <x-slot name="title">
-                                    Shop Details
-                                </x-slot>
-                                <x-slot name="content">
-                                    this product belongs to bellow shop. see about the shop.
-                                </x-slot>
-                            </x-dashboard.section.header>
-
-                            <x-dashboard.section.inner>
-                                <div class="flex flex-wrap">
-                                    <div class=" border-b w-48 m-2 p-2">
-                                        <div class="text-sm font-normal">
-                                            Shop Name
-                                        </div>
-                                        <div class="text-md font-bold">
-                                            {{$product?->owner?->resellerShop()->shop_name_en ?? "N/A"}}
-                                        </div>
-                                    </div>
-                                    <div class=" border-b w-48 m-2 p-2">
-                                        <div class="text-sm font-normal">
-                                            Shop Owner
-                                        </div>
-                                        <div class="text-md font-bold">
-                                            {{$product?->owner?->name ?? "N/A"}}
-                                        </div>
-                                    </div>
-                                    <div class=" border-b w-48 m-2 p-2">
-                                        <div class="text-sm font-normal">
-                                            Shop Location
-                                        </div>
-                                        <div class="text-md font-bold">
-                                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
-                                        </div>
-                                    </div>
-                                    <div class=" border-b w-48 m-2 p-2">
-                                        <div class="text-sm font-normal">
-                                            Shop Address
-                                        </div>
-                                        <div class="text-md font-bold">
-                                            {{$product?->owner?->resellerShop()->address ?? "N/A"}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="flex flex-wrap space-x-2 ">
-                                    <x-nav-link-btn
-                                        href="{{route('shops.visit', ['id' => $product?->owner?->resellerShop()->id, 'name' => $product?->owner?->resellerShop()->shop_name_en])}}">
-                                        Visit Shop</x-nav-link-btn>
-                                    {{-- <x-nav-link-btn href="" class="space-x-2 space-y-2">Other Products
-                                    </x-nav-link-btn>
-                                    <x-nav-link-btn href="">Report Incorrect Information</x-nav-link-btn> --}}
-                                </div>
-                            </x-dashboard.section.inner>
-                        </x-dashboard.section>
-                        @endif
-                    </div>
             </x-dashboard.section.inner>
 
+        </x-dashboard.section>
+        <x-dashboard.section>
 
             <x-dashboard.section.header>
                 <x-slot name="title">

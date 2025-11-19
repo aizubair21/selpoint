@@ -25,12 +25,21 @@ class Dashboard extends Component
 
         // get the order those are match with active user rider info
         if ($this->riderInfo) {
-            $this->orders = Order::query()->where(['delevery' => 'cash'])->where(function ($itm) {
+            $orq = Order::query();
+
+            $this->orders = $orq->where(function ($itm) {
                 $itm->where('target_area', 'like', '%' . $this->riderInfo?->targeted_area . '%')
-                    ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered']);
+                    ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']);
             })->whereDoesntHave('hasRider', function ($query) {
                 $query->where('rider_id', auth()->id());
             })->get();
+
+            // $this->orders = Order::query()->where(['delevery' => 'cash'])->where(function ($itm) {
+            //     $itm->where('target_area', 'like', '%' . $this->riderInfo?->targeted_area . '%')
+            //         ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered']);
+            // })->whereDoesntHave('hasRider', function ($query) {
+            //     $query->where('rider_id', auth()->id());
+            // })->get();
             // dd($this->orders);
         }
         // dd($this->orders[0]->hasRider()->first()->rider?->name);

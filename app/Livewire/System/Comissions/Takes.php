@@ -12,32 +12,15 @@ use Illuminate\Support\Carbon;
 class Takes extends Component
 {
     #[URL]
-    public $where, $to, $from, $wid;
-
-    public function mount()
-    {
-        // $this->takes = TakeComissions::query()->where([$this->where => $this->wid])->whereBetween('created_at', )->get();
-        // $this->edate = today();
-        // $this->sdate = today()->subDays(30);
-        // $this->check();
-    }
-
-    
-
-    // public function updated()
-    // {
-    //     $this->check();
-    // }
-
-
+    public $where, $to, $from, $wid, $confirm;
 
     // public function check() {}
-
-
-    public function render()
+    private function queryResult()
     {
+        $q = TakeComissions::query();
 
-        $query = TakeComissions::query()->when($this->where == 'user_id', function ($query) {
+
+        return $q->when($this->where == 'user_id', function ($query) {
             return $query->where('user_id', $this->wid);
         })
             ->when($this->where == 'product_id', function ($query) {
@@ -56,6 +39,13 @@ class Takes extends Component
                 return $query->where('id', $this->wid);
             });
 
-        return view('livewire.system.comissions.takes', ['comissions' => $query->get()]);
+        if ($this->confirm != 'All') {
+            $q->where(['confirmed' => $this->confirm == 'true' ? 1 : 0]);
+        }
+    }
+
+    public function render()
+    {
+        return view('livewire.system.comissions.takes', ['comissions' => $this->queryResult()->get()]);
     }
 }

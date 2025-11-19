@@ -99,13 +99,16 @@ class Create extends Component
                 'thumbnail' => $this->handleImageUpload($this->thumb, 'products', null),
                 'belongs_to_type' => $this->belongs_to,
                 'country' => Auth::user()->country ?? 'Bangladesh',
-                'state' => Auth::user()->city ?? null,
+                'state' => Auth::user()->state ?? null,
 
                 'meta_title' => $this->meta['meta_title'],
                 'meta_description' => $this->meta['meta_description'],
                 'meta_tags' => $this->meta['meta_tags'],
                 'keyword' => $this->meta['keyword'],
                 'meta_thumbnail' => $this->handleImageUpload($this->meta['meta_thumbnail'], 'products-seo', ''),
+                'cod' => $this->products['cod'],
+                'courier' => $this->products['courier'],
+                'hand' => $this->products['hand'],
             ]
         );
 

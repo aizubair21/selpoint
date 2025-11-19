@@ -35,7 +35,6 @@ class Edit extends Component
         $this->data();
     }
 
-
     public function data()
     {
 
@@ -58,15 +57,24 @@ class Edit extends Component
         $this->description = $this->products['description'];
     }
 
-
     public function updateContent($html)
     {
         $this->description = $html;
     }
 
-
     public function save()
     {
+        $this->validate(
+            [
+                'products.name' => ['required'],
+                'products.title' => ['required'],
+                'products.category_id' => ['required'],
+                'products.buying_price' => ['required'],
+                'products.price' => ['required'],
+                'products.unit' => ['required'],
+                'products.thumbnail' => ['required'],
+            ]
+        );
 
         // dd($this->products);
         $this->data->name = $this->products['name'];
@@ -81,7 +89,6 @@ class Edit extends Component
         $this->data->description = $this->description;
         $this->data->thumbnail = $this->handleImageUpload($this->thumb, 'products', $this->products['thumbnail']);
 
-        // seo 
         $this->data->meta_title = $this->products['meta_title'];
         $this->data->meta_description = $this->products['meta_description'];
         $this->data->keyword = $this->products['keyword'];
@@ -89,10 +96,7 @@ class Edit extends Component
         if ($this->newseothumb) {
             $this->data->meta_thumbnail = $this->handleImageUpload($this->newseothumb, 'products-seo', $this->products['meta_thumbnail']);
         }
-        // seo 
 
-
-        // delivery 
         $this->data->cod = $this->products['cod'];
         $this->data->courier = $this->products['courier'];
         $this->data->hand = $this->products['hand'];
@@ -100,13 +104,6 @@ class Edit extends Component
         $this->data->shipping_out_dhaka = $this->products['shipping_out_dhaka'];
         $this->data->shipping_note = $this->products['shipping_note'];
 
-        // delivery 
-
-        // dd($this->data);
-
-
-
-        // dd($this->products);
         $this->data->save();
 
         if ($this->attr && $this->attr['id']) {
@@ -126,8 +123,6 @@ class Edit extends Component
             );
         }
 
-        // $totalImage = array_merge($this->relatedImage, $this->newImage);
-        // $this->data->showcase->delete();
         if ($this->newImage) {
             foreach ($this->newImage as $key => $image) {
                 product_has_image::create([
@@ -139,7 +134,6 @@ class Edit extends Component
         $this->reset('newImage');
         $this->dispatch('refresh');
         $this->dispatch('success', 'Product Updated !');
-        // dd($totalImage);
     }
 
     public function restoreFromTrash()
