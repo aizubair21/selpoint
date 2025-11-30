@@ -150,12 +150,13 @@
                             {{ ($item->price - $item->buying_price) * $item->quantity }}
                         </td>
                         <th>
-    
+
                             <div class="flex rounded border justify-between bg-gray-200">
 
-                                <div class="bg-white px-1 rounded">
-                                    {{$item->order?->comissionsInfo[$key]->take_comission}}
-                                </div>
+                                {{-- <div class="bg-white px-1 rounded">
+                                    {{$item->order?->comissionsInfo ?
+                                    $item->order?->comissionsInfo[$key]?->take_comission : 0}}
+                                </div> --}}
 
                                 <div class="flex space-x-1 px-1">
 
