@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\Helpers;
 
 class ProductComissionController extends Controller
 {
@@ -77,8 +78,10 @@ class ProductComissionController extends Controller
                     } else {
                         $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
                     }
-                    $comission = round(($profit * $shop->system_get_comission) / 100, 2); // system comissions take form the reseller/vendor
-                    $distribute = round(($comission * 30) / 100, 2);
+                    $comission = round(($profit * $shop->system_get_comission) / 100, 5); // system comissions take form the reseller/vendor
+
+                    $distribute = round(($comission * 30) / 100, 5);
+                    // $distribute = $this->roundNumberLength();
 
                     /**
                      * calculate the reseller profit
@@ -103,7 +106,7 @@ class ProductComissionController extends Controller
                                         'buy' => $ord->buying_price,
                                         'sel' => $ord->price,
                                         'to' => $ord->user_id,
-                                        'profit' => round($rprofit, 2),
+                                        'profit' => round($rprofit, 5),
                                         'confirmed' => false,
                                     ]
                                 );
@@ -140,11 +143,11 @@ class ProductComissionController extends Controller
                                 'order_id' => $orderData->id,
                                 'buying_price' => $products->buying_price,
                                 'selling_price' => $orderData->belongs_to_type == 'vendor' ? $products->totalPrice() : $ord->total, // 
-                                'take_comission' => round($comission, 2),
-                                'distribute_comission' => round($distribute, 2),
-                                'store' => round($comission - $distribute, 2),
-                                'return' => round($profit - $comission, 2),
-                                'profit' => round($profit, 2),
+                                'take_comission' => round($comission, 5),
+                                'distribute_comission' => round($distribute, 5),
+                                'store' => round($comission - $distribute, 5),
+                                'return' => round($profit - $comission, 5),
+                                'profit' => round($profit, 5),
                                 'confirmed' => false,
                                 'comission_range' => $shop->system_get_comission,
                             ]
@@ -187,10 +190,10 @@ class ProductComissionController extends Controller
 
                                 if ($key == 'buyer' || $key == 'seller') {
                                     $rng = 10;
-                                    $am = round(($comission * $rng) / 100, 2);
+                                    $am = round(($comission * $rng) / 100, 5);
                                 } else {
                                     $rng = 5;
-                                    $am = round(($comission * $rng) / 100, 2);
+                                    $am = round(($comission * $rng) / 100, 5);
                                 }
 
                                 switch ($key) {
