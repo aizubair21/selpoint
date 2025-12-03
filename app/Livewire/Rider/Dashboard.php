@@ -29,7 +29,7 @@ class Dashboard extends Component
 
             $this->orders = $orq->where(function ($itm) {
                 $itm->where('target_area', 'like', '%' . $this->riderInfo?->targeted_area . '%')
-                    ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']);
+                    ->whereIn('status', 'Accept');
             })->whereDoesntHave('hasRider', function ($query) {
                 $query->where('rider_id', auth()->id());
             })->get();
