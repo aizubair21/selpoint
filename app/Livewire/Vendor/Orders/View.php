@@ -268,10 +268,6 @@ class View extends Component
             $this->dispatch('error', 'Rider not found');
             return;
         }
-        if ($this->orders->status != 'Accept') {
-            $this->dispatch('error', 'You can assign rider only accepted orders');
-            return;
-        }
 
         $cod = new cod();
         $cod->order_id = $this->orders->id;
@@ -287,6 +283,7 @@ class View extends Component
         $cod->status = 'Pending';
         $cod->save();
 
+        $this->updateOrderStatusTo('Picked');
         $this->dispatch('close-modal', 'rider-assign-modal');
         $this->dispatch('success', 'Rider assigned successfully');
     }
