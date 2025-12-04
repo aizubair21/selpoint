@@ -79,9 +79,7 @@ class ProductComissionController extends Controller
                         $profit = ($ord->price - $ord->buying_price) * $ord->quantity; // total profit of selling product
                     }
                     $comission = round(($profit * $shop->system_get_comission) / 100, 5); // system comissions take form the reseller/vendor
-
                     $distribute = round(($comission * 30) / 100, 5);
-                    // $distribute = $this->roundNumberLength();
 
                     /**
                      * calculate the reseller profit
