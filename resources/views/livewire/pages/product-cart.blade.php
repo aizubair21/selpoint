@@ -43,7 +43,7 @@
     {{-- card body --}}
     <div class=" p-2 flex flex-col justify-between">
 
-        <div class="text-white">
+        <div class="text-white flex items-start justify-between">
 
             {{-- <a href="{{ route('product.details', ['id' => $product->id]) }}"
                 class="d-block w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light"
@@ -58,13 +58,13 @@
 
 
             <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}"
-                class="text-black">
-                {{ Str::limit($product->title ?? 'Product Title Here', 17, '...')}}
+                class="text-black text-xs block leading-2">
+                {{ $product->title}}
             </a>
 
-            {{-- <div style="width:20%;" class="text-sm py-1 px-2 bg_primary">
+            <div style="width:20%;" class="text-xs py-1 px-2 h-full bg_primary">
                 {{ $product->unit ?? "0"}}
-            </div> --}}
+            </div>
 
         </div>
 

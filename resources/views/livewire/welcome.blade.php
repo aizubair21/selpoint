@@ -225,10 +225,15 @@
 
         @includeIf('components.client.display-category', ['categories' => $categories])
 
+        @includeIf('new-product', ['links' => false])
+
+
+        @includeIf('todays-product')
+
         <div>
             <div class="py-4 flex px-2 justify-between items-center">
                 <div class="text-xl font-bold">
-                    New Arrival
+                    Products
                 </div>
 
                 <div class="text-center">
@@ -239,23 +244,23 @@
             </div>
             <div class="product_section pt-4" x-loading.disabled x-transition>
                 {{-- @includeIf('components.client.common-heading') --}}
-                {{--
-                <x-client.products-loop :$products /> --}}
-                @if (count($products))
+
+                <x-client.products-loop :$products />
+                {{-- @if (count($products))
                 <div class=""
                     style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
                     @foreach($products as $product)
-
                     @livewire('pages.product-cart', ['product' => $product], key($product->id))
                     @endforeach
                 </div>
-                @endif
+                @endif --}}
 
             </div>
 
             @livewire('pages.topSales')
         </div>
     </x-dashboard.container>
+
     {{-- static slider --}}
     @if (count($ss) > 0)
 
@@ -286,21 +291,11 @@
         </div>
     </div>
 
-
-
     @endif
-    {{-- static slider --}}
+
+    {{-- recomended product --}}
     <x-dashboard.container>
         @livewire('pages.RecomendedProducts')
-
-        {{-- <div class="py-4 flex px-2 justify-between items-center">
-            <div class="text-xl font-bold">
-                Top Sell
-            </div>
-
-
-        </div> --}}
-        {{-- @livewire('reseller.resel.categories') --}}
     </x-dashboard.container>
 </div>
 
