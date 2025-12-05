@@ -62,10 +62,11 @@ class Index extends Component
     public function render()
     {
         // dd(auth()->user()->abailCoin());
+        $consignments = [];
         $query = cod::query()->with('order')->where('rider_id', auth()->user()->id);
         // get the consignments belongs to rider id
         if ($this->status != 'All') {
-            $consignments = $query->where(['status' => $this->status]);
+            $query->where(['status' => $this->status]);
         }
 
 
@@ -89,6 +90,7 @@ class Index extends Component
         //         ->where('status', $this->status);
         // })->get();
         $consignments = $query->orderby('id', 'desc')->get();
+        // dd($consignments);
         return view('livewire.rider.consignment.index', compact('consignments'));
     }
 }
