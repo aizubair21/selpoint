@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('shipping_out_dhaka')->nullable()->default(120); // delevery other destricts
             $table->string('shipping_note')->nullable(); // shipping note
 
-            $table->string('badge', 100)->nullable();
-            $table->string('tags', 100)->nullable();
+            $table->json('badge')->nullable();
+            $table->json('tags')->nullable();
             $table->boolean('accept_cuppon')->nullable()->default(false);
             //  $table->string('name', 100)->nullable()->default('text');
         });

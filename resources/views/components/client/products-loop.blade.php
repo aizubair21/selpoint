@@ -20,10 +20,11 @@
             <x-client.product-cart :$product :key="$product->id" /> --}}
             @livewire('pages.product-cart', ['product' => $product], key($product->id))
         </div>
+
         @endforeach
     </div>
 
-    <hr>
+    <hr class="my-2">
     @endif
 
 </div>

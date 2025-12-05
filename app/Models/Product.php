@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Casts\Attributes;
 use Illuminate\Support\Str;
 
+use function Pest\Laravel\json;
+
 class Product extends Model
 {
     use SoftDeletes;
@@ -28,7 +30,6 @@ class Product extends Model
         'unit',
         'status', // 
         'display_at_home',
-        'deleted_at',
 
         'vc',
         'brand',
@@ -59,7 +60,9 @@ class Product extends Model
     {
         return [
             'created_at' => 'datetime',
-            'updated_at' => 'datetime'
+            'updated_at' => 'datetime',
+            'badge' => 'array',
+            'tags' => 'array',
         ];
     }
 

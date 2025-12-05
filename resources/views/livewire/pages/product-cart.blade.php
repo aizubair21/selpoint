@@ -41,7 +41,7 @@
 
 
     {{-- card body --}}
-    <div class=" p-2 flex flex-col justify-between">
+    <div class="p-2 flex flex-col justify-between" style="height: 100px">
 
         <div class="text-white flex items-start justify-between">
 
@@ -59,17 +59,17 @@
 
             <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}"
                 class="text-black text-xs block leading-2">
-                {{ $product->title}}
+                {{ Str::limit($product->title, 40, '...') }}
             </a>
 
-            <div style="width:20%;" class="text-xs py-1 px-2 h-full bg_primary">
+            <div class="text-xs py-1 px-2 bg_primary">
                 {{ $product->unit ?? "0"}}
             </div>
 
         </div>
 
         <div style="height:32px; width:100%; display:flex; flex-direction:colums-reverse; align-items: center; font-size:14px; justify-content:space-between"
-            class=" py-1">
+            class="py-1">
             @if($product->offer_type)
 
             <div class="text-md @if($product->offer_type ) @else align-self:center @endif"
@@ -90,11 +90,9 @@
             </div>
             @endif
         </div>
-        {{-- <div style="font-size: 13px;background-color:var(--brand-light);"
-            class=" px-3 py-1 rounded-pill  d-flex justify-content-center align-items-center">
-            <div style="width:10px; height:10px; border-radius:50%; background-color:var(--brand-primary); "
-                class="mr-2"></div>
-            {{ $product->unit }}
+
+        {{-- <div class="mb-2 text-xs text-center">
+            In Stock {{ $product->unit }}
         </div> --}}
 
         {{-- @guest
@@ -119,7 +117,7 @@
         @else
         @endguest --}}
         <a type="button"
-            class="bg-white text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center"
+            class="block bg-white text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center"
             style="font-weight:bold; color:var(--brand-primary); width:100%"
             href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
             </i>Order Now

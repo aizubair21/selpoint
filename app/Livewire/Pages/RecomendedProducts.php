@@ -7,12 +7,12 @@ use App\Models\Product;
 
 class RecomendedProducts extends Component
 {
-    public $data = [];
+    public $products = [];
 
     public function mount()
     {
         
-        $this->data = Product::query()->reseller()->active()->home()->orderBy('vc')->limit(20)->get();
+        $this->products = Product::query()->reseller()->active()->home()->orderBy('vc')->limit(20)->get();
         // dd($this->data);
     }
     public function render()

@@ -13,7 +13,7 @@ class TodaysProduct extends Component
         return view(
             'livewire.pages.todays-product',
             [
-                'products' => Product::whereDate(['created_at' => now()->endOfDay()])->orderBy('vc')->limit(20),
+                'todays_products' => Product::whereDate('created_at', now())->where(['belongs_to_type' => 'reseller'])->orderBy('vc')->limit(20)->get(),
             ]
         );
     }

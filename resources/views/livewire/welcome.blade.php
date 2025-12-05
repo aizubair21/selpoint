@@ -225,12 +225,10 @@
 
         @includeIf('components.client.display-category', ['categories' => $categories])
 
-        @includeIf('new-product', ['links' => false])
+        @livewire('pages.new-product')
+        @livewire('pages.todays-product')
 
-
-        @includeIf('todays-product')
-
-        <div>
+        <div class="py-4">
             <div class="py-4 flex px-2 justify-between items-center">
                 <div class="text-xl font-bold">
                     Products
@@ -242,23 +240,12 @@
                     </x-nav-link>
                 </div>
             </div>
-            <div class="product_section pt-4" x-loading.disabled x-transition>
-                {{-- @includeIf('components.client.common-heading') --}}
-
+            <div class="product_section" x-loading.disabled x-transition>
                 <x-client.products-loop :$products />
-                {{-- @if (count($products))
-                <div class=""
-                    style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); grid-gap:10px">
-                    @foreach($products as $product)
-                    @livewire('pages.product-cart', ['product' => $product], key($product->id))
-                    @endforeach
-                </div>
-                @endif --}}
-
             </div>
 
-            @livewire('pages.topSales')
         </div>
+        @livewire('pages.topSales')
     </x-dashboard.container>
 
     {{-- static slider --}}
