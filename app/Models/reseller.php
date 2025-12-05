@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 
 class reseller extends Model
@@ -41,48 +42,6 @@ class reseller extends Model
         'information_update_date',
         'status',
     ];
-    /**
-     * cast information_update_date to datetime
-     */
-    protected $casts = [
-        'information_update_date' => 'datetime',
-    ];
-
-
-
-    protected function country(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
-        );
-    }
-    protected function district(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
-        );
-    }
-    protected function upozila(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
-        );
-    }
-    protected function village(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
-        );
-    }
-
-    protected function address(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
-        );
-    }
-
-
 
     //////////////// 
     // MODEL BOOT //
@@ -138,16 +97,72 @@ class reseller extends Model
             }
         });
 
-        /**
-         * if anyway update the model
-         * dispatch an alert message
-         */
-        static::updated(function () {
-            // dispatch('alert', 'Updated!');
-            // dispatch();
-            Session::flash('Success', "Model Updated !");
+        static::updated(function (reseller $rider) {
+            /**
+             * if the status field is updated,
+             * and status is Active,
+             * then assign the rider role
+             */
+
+            // get the rider role
+            $riderRoleName =  Role::where('name', 'reseller')->first();
+            if ($rider->isDirty('status') && $rider->status == 'Active') {
+                // assign role to user
+                $rider->user?->assignRole($riderRoleName);
+            } else {
+
+                // else remove the role if exists
+                if ($rider->user?->hasRole($riderRoleName)) {
+                    $rider->user?->removeRole($riderRoleName);
+                }
+            }
         });
     }
+
+
+    /**
+     * cast information_update_date to datetime
+     */
+    protected $casts = [
+        'information_update_date' => 'datetime',
+    ];
+
+
+
+    protected function country(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+    protected function district(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+    protected function upozila(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+    protected function village(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+
+    protected function address(): Attribute
+    {
+        return Attribute::make(
+            set: fn($value) => Str::title(strtolower($value)), // Capitalizes first word
+        );
+    }
+
+
+
 
     //////////////// 
     // SCOPE //

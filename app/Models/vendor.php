@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\vendor_has_document;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
 
 class vendor extends Model
 {
@@ -64,14 +65,6 @@ class vendor extends Model
         'fixed_amount',
     ];
 
-    /**
-     * cast information_update_date to datetime
-     */
-    protected $casts = [
-        'information_update_date' => 'datetime',
-    ];
-
-
     //////////////// 
     // MODEL BOOT //
     ///////////////
@@ -126,15 +119,37 @@ class vendor extends Model
             }
         });
 
-        /**
-         * if anyway update the model
-         * dispatch an alert message
-         */
-        static::updated(function () {
-            // $this->dispatch('alert', 'Updated!');
-            Session::flash('Success', "Model Updated !");
+        static::updated(function (vendor $rider) {
+            /**
+             * if the status field is updated,
+             * and status is Active,
+             * then assign the rider role
+             */
+
+            // get the rider role
+            $riderRoleName =  Role::where('name', 'rider')->first();
+            if ($rider->isDirty('status') && $rider->status == 'Active') {
+                // assign role to user
+                $rider->user?->assignRole($riderRoleName);
+            } else {
+
+                // else remove the role if exists
+                if ($rider->user?->hasRole($riderRoleName)) {
+                    $rider->user?->removeRole($riderRoleName);
+                }
+            }
         });
     }
+
+
+    /**
+     * cast information_update_date to datetime
+     */
+    protected $casts = [
+        'information_update_date' => 'datetime',
+    ];
+
+
 
 
     //////////////// 

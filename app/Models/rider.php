@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class rider extends Model
 {
@@ -65,6 +66,27 @@ class rider extends Model
         parent::boot();
         static::creating(function (rider $data) {
             $data->status = 'Pending';
+        });
+
+        static::updated(function (rider $rider) {
+            /**
+             * if the status field is updated,
+             * and status is Active,
+             * then assign the rider role
+             */
+
+            // get the rider role
+            $riderRoleName =  Role::where('name', 'rider')->first();
+            if ($rider->isDirty('status') && $rider->status == 'Active') {
+                // assign role to user
+                $rider->user?->assignRole($riderRoleName);
+            } else {
+
+                // else remove the role if exists
+                if ($rider->user?->hasRole($riderRoleName)) {
+                    $rider->user?->removeRole($riderRoleName);
+                }
+            }
         });
     }
 
@@ -154,6 +176,11 @@ class rider extends Model
     public function scopeDisabled($query)
     {
         return $query->where(['status' => 'Disabled']);
+    }
+
+    public function scopeIsActive()
+    {
+        return $this->status == 'Active';
     }
 
     //////////////// 
