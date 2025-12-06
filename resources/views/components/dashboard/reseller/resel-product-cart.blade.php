@@ -175,11 +175,11 @@ new class extends Component
 
         @if ($pd->offer_type)
 
-        <div class="absolute top-0 left-0 px-2 bg-indigo-900 text-white rounded text-sm ">
+        <div class="discount-badge bg-orange-600 ">
             @php
             $dis = $pd->price - $pd->discount;
             @endphp
-            {{ round(($dis / $pd->price) * 100, 1) ?? 0}}% off
+            {{ round(($dis / $pd->price) * 100, 1) ?? 0}}%
         </div>
 
         @endif
@@ -189,7 +189,7 @@ new class extends Component
                 alt="image">
         </div>
 
-        <div class="p-2 bg-white h-36 flex flex-col justify-between">
+        <div class="p-2 bg-white h-34 flex flex-col justify-between">
             <x-nav-link href="{{route('reseller.resel-product.veiw', ['pd' => $pd->id])}}">
                 <div class="text-sm">{{$pd->name ?? "N/A"}}</div>
             </x-nav-link>
@@ -217,7 +217,7 @@ new class extends Component
                 </div> --}}
                 <div class="flex justify-center items-center text-sm">
                     <x-hr />
-                    <x-primary-button class=" text-center"
+                    <x-primary-button class=" text-center w-full flex justify-between "
                         x-on:click.prevent="$dispatch('open-modal', 'orderProduct_{{$pd->id}}')"> Purchase <i
                             class="fas fa-angle-right pl-2"></i> </x-primary-button>
                     {{-- <button>To Cart</button> --}}

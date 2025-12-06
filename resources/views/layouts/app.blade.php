@@ -42,7 +42,20 @@
             background-color: #f9fafb
         }
 
-        
+        .discount-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: white;
+            font-weight: bold;
+            padding: 3px 8px;
+            clip-path: polygon(0px 0px, 75px 0px, 0px 75px);
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            display: flex;
+            font-size: 18px;
+        }
     </style>
 
     @stack('style')
