@@ -43,7 +43,7 @@
     {{-- card body --}}
     <div class="p-2 flex flex-col justify-between" style="height: 100px">
 
-        <div class="text-white flex items-start justify-between">
+        <div class="text-white flex items-start justify-between space-x-1">
 
             {{-- <a href="{{ route('product.details', ['id' => $product->id]) }}"
                 class="d-block w-100 mr-1 px-3 py-1 bold d-block bg_primary border-0 text-start text-light"
@@ -58,11 +58,11 @@
 
 
             <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}"
-                class="text-black text-xs block leading-2">
+                class="text-white text-xs block leading-2 bg_primary p-1 w-full">
                 {{ Str::limit($product->title, 40, '...') }}
             </a>
 
-            <div class="text-xs py-1 px-2 bg_primary">
+            <div class="text-xs p-1 h-full bg_primary">
                 {{ $product->unit ?? "0"}}
             </div>
 
@@ -120,7 +120,7 @@
             class="block bg-white text-sm btn_hover hover_zoom d-block text-center flex items-center justify-center"
             style="font-weight:bold; color:var(--brand-primary); width:100%"
             href="{{route('product.makeOrder', ['id' => $product->id, 'slug' => $product->slug])}}">
-            </i>Order Now
+            <i class="fas fa-cart-plus mr-2"></i> Order Now
         </a>
         {{-- <form action="{{ route('cart.add', $product->id) }}" method="post" class="">
             @csrf
