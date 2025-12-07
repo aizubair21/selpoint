@@ -12,39 +12,42 @@ use App\Models\city;
 use App\Models\country;
 use App\Models\state;
 use App\Models\ta;
+use App\countryStateCity;
 
 new #[Layout('layouts.guest')] class extends Component
 {
+    use countryStateCity;
+    
     public string $name = '';
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
     public $reference;
     public $phone = '';
-    public $country = 'Bangladesh'; // default country
-    public $city = '';
-    public $state = '';
     public $country_code = '';
-
-    public $states = [], $cities = [];
 
 
     public function mount()
     {
-        $this->states = state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get();
+        $this->getCountry();
     }
 
     public function updated($prop)
     {
-        // dd($prop);
-        if ($prop == 'state') {
-        $this->cities = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
-        }
+
+        // dd($this->country_name, state::where('country_id', country::where('name', $this->country_name)->first()?->id)->get());
+        // if ($prop == 'state') {
+        // $this->cities = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
+        // }
         // if ($prop == $this->city) {
         // $this->areas = ta::where('city_id', city::where('name', $this->city)->first()?->id)->get();
         // }
+
+        $this->getCity();
+        $this->getState();
+        // dd($this->getCity());
     }
-    
+            
 
     /**
      * Handle an incoming registration request.
@@ -99,7 +102,7 @@ new #[Layout('layouts.guest')] class extends Component
 
 ?>
 
-<div class="w-full bg-white p-4" style="max-width:800px">
+<div class="bg-white p-6" style="max-width:400px">
     <style>
         .pasDiv {
             position: relative;
@@ -120,7 +123,7 @@ new #[Layout('layouts.guest')] class extends Component
     <form wire:submit="register">
 
         <x-auth-session-status class="mb-4" :status="session('status')" />
-        <div class=" lg:flex items-start justify-between mb-4 w-full">
+        <div class="mb-4">
             <div>
                 <!-- Name -->
                 <div>
@@ -187,79 +190,22 @@ new #[Layout('layouts.guest')] class extends Component
                 </div>
 
             </div>
-            {{-- <div>
-                <input type="search" id="country_list" name="country_list" list="country_lists">
-                <datalist id="country_lists">
-                    <option value="Ban" />
-                    <option value="Ind" />
-                    <option value="Jap" />
-                </datalist>
-            </div>
-
-            <label for="browser">Choose your browser from the list:</label>
-            <input list="browsers" name="browser" id="browser">
-
-            <datalist id="browsers">
-                <option value="Edge">
-                <option value="Firefox">
-                <option value="Chrome">
-                <option value="Opera">
-                <option value="Safari">
-            </datalist> --}}
 
             <div>
                 {{-- country field --}}
                 <div class="mt-4">
-                    <x-input-label for="country" value='Your Country'></x-input-label>
-                    {{-- <p class="text-sm text-gray-600">Please select your country.</p> --}}
-
-                    {{--
-                    <x-text-input type="search" list="countries" wire:model="country" id="country"
-                        class="block mt-1 w-full" type="text" name="country" />
-                    <datalist id="countries">
-                        <option value="Bangladesh" data-con='BD' />
-                    </datalist> --}}
-                    <select wire:model="country" id="country" class="w-full rounded-md ">
-                        <option value="Bangladesh">Bangladesh</option>
-                    </select>
-
-                    <x-input-error :messages="$errors->get('country')" class="mt-2" />
+                    <x-countries :$countries />
                 </div>
 
                 {{-- state field --}}
-                <div class="mt-4" id="state_main">
-                    <x-input-label for="" value='District'></x-input-label>
-
-                    {{--
-                    <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
-                        name="district" /> --}}
-                    <select wire:model.live="state" id="states" class="w-full rounded-md ">
-                        <option value=""> -- Select District --</option>
-                        @foreach ($states as $state)
-                        <option value="{{$state->name}}">{{$state->name}}</option>
-                        @endforeach
-                    </select>
-
-                    <x-input-error :messages="$errors->get('state')" class="mt-2" />
+                <div class="mt-4">
+                    <x-states :$states />
                 </div>
-
 
 
                 {{-- state field --}}
                 <div class="mt-4">
-                    <x-input-label for="" value='Upozila'></x-input-label>
-
-                    {{--
-                    <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text"
-                        name="district" /> --}}
-                    <select wire:model.live="city" id="Upozila" class="w-full rounded-md ">
-                        <option value=""> -- Select Upozila --</option>
-                        @foreach ($cities as $item)
-                        <option value="{{$item->name}}">{{$item->name}}</option>
-                        @endforeach
-                    </select>
-
-                    <x-input-error :messages="$errors->get('city')" class="mt-2" />
+                    <x-cities :$cities />
                 </div>
 
 
@@ -295,18 +241,19 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
     </form>
 
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
     <script>
         function showOrHide(div, input) {
-            if (div.textContent === 'show') {
-                div.textContent = 'hide';
-                document.querySelector(input).type = 'text';
-            } else {
-                div.textContent = 'show';
-                document.querySelector(input).type = 'password';
-            }
+        if (div.textContent === 'show') {
+            div.textContent = 'hide';
+            document.querySelector(input).type = 'text';
+        } else {
+            div.textContent = 'show';
+            document.querySelector(input).type = 'password';
         }
-
+    }
+    </script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"></script>
+    <script>
         let countryCode = '';
         function getCountryStateCity() {
             const countrySelectElement = document.getElementById('select_country');

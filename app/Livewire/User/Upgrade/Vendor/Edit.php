@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User\Upgrade\Vendor;
 
+use App\countryStateCity;
 use App\Models\reseller;
 use App\Models\reseller_has_document;
 use App\Models\vendor;
@@ -16,7 +17,7 @@ use App\HandleImageUpload;
 
 class Edit extends Component
 {
-    use WithFileUploads, HandleImageUpload;
+    use WithFileUploads, HandleImageUpload, countryStateCity;
 
     #[URL]
     public $id, $upgrade = 'vendor', $nav = 'basic';
@@ -35,12 +36,34 @@ class Edit extends Component
 
     public function mount()
     {
+        
+        
         $this->getDate();
         // dd($this->data);
-
+        
+        $this->country = $this->vendor['country'];
+        $this->state = $this->vendor['district'];
+        $this->city = $this->vendor['upozila'];
+        
+        // get countries \
+        $this->getCountry();
+        $this->getState();
+        $this->getCity();
+ 
         // if (empty($this->vendor) || empty($this->vendorDocument)) {
         //     $this->redirectIntended(route('upgrade.vendor.index', ['upgrade' => $this->upgrade]), true);
         // }
+    }
+
+    public function updated()
+    {
+
+        // get states
+        $this->getState();
+        $this->getCity();
+
+        $this->vendor['district'] = $this->state;
+        $this->vendor['upozila'] = $this->city;
     }
 
 

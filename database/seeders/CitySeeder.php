@@ -3,13 +3,13 @@
 namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\city;
 
 class CitySeeder extends Seeder
 {
     public function run()
     {
-        DB::table('cities')->delete();
+    city::query()->delete();
 $cities = array(
 array('name' => "Bombuflat",'state_id' => 1),
 array('name' => "Garacharma",'state_id' => 1),

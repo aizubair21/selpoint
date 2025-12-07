@@ -12,25 +12,23 @@ use Illuminate\Support\Str;
 use Livewire\Attributes\Url;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Layout;
-use App\Models\city;
-use App\Models\country;
-use App\Models\state;
-use App\Models\ta;
-
+use App\countryStateCity;
 
 #[layout('layouts.user.dash.userDash')]
 class Create extends Component
 {
-    use WithFileUploads, HandleImageUpload;
+    use WithFileUploads, HandleImageUpload, countryStateCity;
 
     #[URL]
     public $upgrade = 'vendor';
 
-    public $shop_name_en, $shop_name_bn, $phone, $email, $country = 'Bangladesh', $district, $upozila, $village, $zip, $road_no, $house_no, $address, $logo, $banner, $description;
-
+    public $shop_name_en, $shop_name_bn, $phone, $email, $district, $upozila, $village, $zip, $road_no, $house_no, $address, $logo, $banner, $description;
     public function mount()
     {
-        // 
+        // get all country from trait;
+        $this->getCountry();
+
+
         if ($this->upgrade == 'vendor') {
             $vi = vendor::where(['user_id' => Auth::id()])->orderBy('id', 'desc')->first();
         } else {
@@ -50,23 +48,19 @@ class Create extends Component
         }
     }
 
+    public function updated()
+    {
+        $this->getState();
+        $this->getCity();
+
+        $this->district = $this->state;
+        $this->upozila = $this->city;
+    }
 
     public function render()
     {
-        $city = [];
-        if ($this->district) {
-            $city = city::where('state_id', state::where('name', $this->district)->first()?->id)->get();
-        }
-        // if ($this->city_name) {
-        //     $area = ta::where('city_id', city::where('name', $this->city_name)->first()?->id)->get();
-        // }
-
         return view(
-            'livewire.user.upgrade.vendor.create',
-            [
-                'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
-                'cities' => $city,
-            ]
+            'livewire.user.upgrade.vendor.create'
         );
     }
 
@@ -127,14 +121,18 @@ class Create extends Component
 
             ]);
             $validated['logo'] = $this->handleImageUpload($this->logo, 'shop-logo', '');
-            $info = array(
-                [
-                    'slug' => Str::slug($this->shop_name_en),
-                    'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
-                    'fixed_amount' => 500,
-                ]
-            );
-            $vendorId = vendor::create(array_merge($validated, $info));
+            // $info = array(
+            //     [
+            //         'slug' => Str::slug($this->shop_name_en),
+            //         'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
+            //         'fixed_amount' => 500,
+            //     ]
+            // );
+            $validated['slug'] = Str::slug($this->shop_name_en);
+            $validated['banner'] = $this->handleImageUpload($this->banner, 'shop-banner', '');
+            $validated['fixed_amount'] = 500;
+
+            $vendorId = vendor::create($validated);
         }
         if ($this->upgrade == 'reseller') {
             $validated = $this->validate([
@@ -186,14 +184,10 @@ class Create extends Component
                 ]
             ]);
             $validated['logo'] = $this->handleImageUpload($this->logo, 'shop-logo', '');
-            $info = array(
-                [
-                    'slug' => Str::slug($this->shop_name_en),
-                    'banner' => $this->handleImageUpload($this->banner, 'shop-banner', ''),
-                    'fixed_amount' => 500,
-                ]
-            );
-            $vendorId = reseller::create(array_merge($validated, $info));
+            $validated['slug'] = Str::slug($this->shop_name_en);
+            $validated['banner'] = $this->handleImageUpload($this->banner, 'shop-banner', '');
+            $validated['fixed_amount'] = 500;
+            $vendorId = reseller::create($validated);
         }
         // dd();
         // return redirect()->route();

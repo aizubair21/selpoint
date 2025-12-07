@@ -1,9 +1,9 @@
 <?php
 namespace Database\Seeders;
 
+use App\Models\state;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
 class StateSeeder extends Seeder
 {
     /**
@@ -14,7 +14,7 @@ class StateSeeder extends Seeder
     public function run()
     {
         //
-        DB::table('states')->delete();
+        state::query()->delete();
         $states = array(
             array('name' => "Andaman and Nicobar Islands", 'country_id' => 101),
             array('name' => "Andhra Pradesh", 'country_id' => 101),

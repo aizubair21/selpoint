@@ -78,7 +78,7 @@
         <div class="mt-4">
             <div style="width:350px">
 
-                <x-input-label for="address" value='Give Full Address Of Your Shops'></x-input-label>
+                <x-input-label for="address" value='Give Full Address of Your Shops'></x-input-label>
 
             </div>
             {{--
@@ -103,7 +103,7 @@
         <x-input-field class="md:flex" inputClass="w-full" :data="$data??[]" wire:model.live="house_no" label="House No"
             name="house_no" error="house_no" />
 
-      
+
 
         {{-- country field --}}
         <div class="mt-4 md:flex items-center">
@@ -120,31 +120,7 @@
                 <option value="Bangladesh" data-con='BD' />
             </datalist> --}}
             <div class="w-full">
-
-                <select wire:model="country" id="country" class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="Bangladesh">Bangladesh</option>
-                </select>
-            </div>
-
-        </div>
-
-        {{-- state field --}}
-        <div class="mt-4 md:flex items-center" id="">
-            <div style="width:350px">
-                <x-input-label for="district" value='District'></x-input-label>
-                <x-input-error :messages="$errors->get('district')" class="mt-2" />
-            </div>
-
-            {{--
-            <x-text-input wire:model="district" id="district" class="block mt-1 w-full" type="text" name="district" />
-            <div class="w-full"> --}}
-
-                <select wire:model.live="district" id="discript" class="w-full rounded-md ">
-                    <option value=""> -- Select Upozila --</option>
-                    @foreach ($states as $state)
-                    <option value="{{$state->name}}">{{$state->name}}</option>
-                    @endforeach
-                </select>
+                <x-countries :$countries />
             </div>
 
         </div>
@@ -153,20 +129,27 @@
         <div class="mt-4 md:flex">
             <div style="width:350px">
 
-                <x-input-label for="upozila" value='Upozila'></x-input-label>
-                <x-input-error :messages="$errors->get('upozila')" class="mt-2" />
+                <x-input-label for="upozila" value='Yout State'></x-input-label>
 
             </div>
 
+            <div class="w-full">
+
+                <x-states :$states />
+            </div>
+        </div>
+
+
+        {{-- state field --}}
+        <div class="mt-4 md:flex">
+            <div style="width:350px">
+
+                <x-input-label for="upozila" value='Yout City'></x-input-label>
+
+            </div>
 
             <div class="w-full">
-                <select wire:model.live="upozila" id="upozila" class="w-full rounded-md ">
-                    <option value=""> -- Select Upozila --</option>
-                    @foreach ($cities as $item)
-                    <option value="{{$item->name}}">{{$item->name}}</option>
-                    @endforeach
-                </select>
-
+                <x-cities :$cities />
             </div>
         </div>
 
