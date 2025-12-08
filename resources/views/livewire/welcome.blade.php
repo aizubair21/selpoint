@@ -76,145 +76,6 @@
             } */
 
         }
-
-
-        .body {
-            margin: 0;
-            font-family: sans-serif;
-            background: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* height: 100vh; */
-        }
-
-        .slider {
-            position: relative;
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            overflow: hidden;
-            /* border-radius: 10px; */
-            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
-            background: #fff;
-            aspect-ratio: 16/9;
-        }
-
-        .slides {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .slide {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            transform: scale(0.95);
-            visibility: hidden;
-            transition: opacity 0.6s linear, transform 0.6s linear;
-            display: flex;
-            align-items: center;
-        }
-
-        .slide.active {
-            opacity: 1;
-            transform: scale(1);
-            visibility: visible;
-            z-index: 2;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: unset;
-            position: absolute;
-            z-index: 0;
-            top: 0;
-            left: 0;
-            /* aspect-ratio: 16/9; */
-        }
-
-        .description {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 400px;
-            /* background: #002c3e09; */
-            background-color: #ffffffe8;
-            padding: 30px;
-            margin-left: 40px;
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: opacity 0.6s linear, transform 0.6s linear;
-            /* filter: blur(10px); */
-            backdrop-filter: blur(8px);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .slide.active .description {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .description h1 {
-            margin: 0 0 10px;
-            font-size: 28px;
-        }
-
-        .description p {
-            margin: 0 0 15px;
-            font-size: 16px;
-        }
-
-        /* .description .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background: #22c55e;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background 0.3s;
-        }
-        
-        .description .btn:hover {
-        background: #16a34a;
-        } */
-
-        .dots {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 8px;
-            z-index: 9;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .dot .active {
-            background-color: #000;
-        }
-
-        .slide.exit {
-            opacity: 0;
-            transform: scale(0.95);
-            visibility: hidden;
-            z-index: 1;
-        }
     </style>
 
 
@@ -227,6 +88,8 @@
 
         @livewire('pages.new-product')
         @livewire('pages.todays-product')
+
+        @if (count($products))
 
         <div class="py-4">
             <div class="py-4 flex px-2 justify-between items-center">
@@ -245,44 +108,22 @@
             </div>
 
         </div>
+        @endif
+
         @livewire('pages.topSales')
-    </x-dashboard.container>
 
-    {{-- static slider --}}
-    @if (count($ss) > 0)
+        {{-- static slider --}}
+        @if (count($ss))
 
-    <div class="">
-
-        <div class="body">
-
-            <div class="slider">
-                <div class="slides">
-                    @foreach ($ss as $slider)
-                    @foreach ($slider->slides as $key => $item)
-
-                    <div class="slide {{ $key == 0 ? 'active' : '' }}">
-                        {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
-                        <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation
-                            class="slide-link w-full">
-                            {{-- <img src="https://placehold.co/600x400/orange/white" /> --}}
-                            <img src="{{asset('storage/' .$item->image)}}" class="w-full" />
-                        </a>
-                    </div>
-
-                    @endforeach
-                    @endforeach
-                </div>
-
-            </div>
-
+        <div class="">
+            @livewire('pages.static-slider', ['placement' => 'middle', 'page' => 'home'])
         </div>
-    </div>
 
-    @endif
+        @endif
 
-    {{-- recomended product --}}
-    <x-dashboard.container>
+
         @livewire('pages.RecomendedProducts')
+        @livewire('pages.static-slider', ['placement' => 'bottom', 'page' => 'home'])
     </x-dashboard.container>
 </div>
 
@@ -315,7 +156,7 @@
     
 </script> --}}
 
-<script>
+{{-- <script>
     const slides = document.querySelectorAll(".slide");
     const dots = document.querySelectorAll(".dot");
     
@@ -378,7 +219,7 @@
 
   
 
-</script>
+</script> --}}
 @endscript
 
 

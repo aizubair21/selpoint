@@ -1,6 +1,6 @@
 <div>
 
-    @if ($todays_products)
+    @if (count($todays_products))
 
     <div class="py-4 flex px-2 justify-between items-center">
         <div class="text-xl font-bold">

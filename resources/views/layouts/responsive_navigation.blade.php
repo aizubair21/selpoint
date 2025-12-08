@@ -89,7 +89,7 @@
 @can('slider_view')
 <x-responsive-nav-link :href="route('system.static-slider.index')"
     :active="request()->routeIs('system.static-slider.*')">
-    <i class="fas fa-photo-film pr-2 w-6"></i>{{ __('Static Slider') }}
+    <i class="fas fa-photo-film pr-2 w-6"></i>{{ __('Static Banner') }}
 </x-responsive-nav-link>
 @endcan
 {{-- @can('', $post)

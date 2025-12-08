@@ -5,9 +5,10 @@
     </x-dashboard.page-header>
 
 
+    {{--
     <pre>
         {{ json_encode($layout, JSON_PRETTY_PRINT) }}   
-    </pre>
+    </pre> --}}
 
     {{--
     <pre>
@@ -105,19 +106,6 @@
         @if(session()->has('success'))
         <div class="text-green-600 mt-2">{{ session('success') }}</div>
         @endif
-    </div>
-
-
-
-    <div x-data="{ open: false }" class="mt-10">
-        <button @click="open = !open" class="bg-blue-600 text-white px-4 py-2 rounded">
-            Preview Footer Layout
-        </button>
-
-        <div x-show="open" x-transition class="mt-4">
-            @include('layouts.user.footer')
-        </div>
-
     </div>
 
 </div>

@@ -1,5 +1,5 @@
 <div>
-    @if (($products))
+    @if (count($products))
     {{-- Stop trying to control. --}}
     <div x-init="$wire.get">
         <div class="py-4 flex px-2 justify-between items-center">

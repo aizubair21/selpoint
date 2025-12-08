@@ -63,17 +63,17 @@ class Static_slider extends Model
         return $query->where('categories_product', true);
     }
 
-    public function scopePlacementTop($query)
+    public function scopeTop($query)
     {
         return $query->where('placement_top', true);
     }
 
-    public function scopePlacementMiddle($query)
+    public function scopeMiddle($query)
     {
         return $query->where('placement_middle', true);
     }
 
-    public function scopePlacementBottom($query)
+    public function scopeBottom($query)
     {
         return $query->where('placement_bottom', true);
     }
@@ -120,17 +120,17 @@ class Static_slider extends Model
         return (bool) $this->categories_product;
     }
 
-    public function getIsPlacementTopAttribute()
+    public function getIsTopAttribute()
     {
         return (bool) $this->placement_top;
     }
 
-    public function getIsPlacementMiddleAttribute()
+    public function getIsMiddleAttribute()
     {
         return (bool) $this->placement_middle;
     }
 
-    public function getIsPlacementBottomAttribute()
+    public function getIsBottomAttribute()
     {
         return (bool) $this->placement_bottom;
     }
