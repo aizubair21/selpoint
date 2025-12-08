@@ -2,14 +2,17 @@
 
 namespace App\Livewire;
 
+use App\HandleImageUpload;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Models\FooterLayout;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 use phpDocumentor\Reflection\Types\This;
 
 #[layout('layouts.app')]
 class FooterBuilder extends Component
 {
+    use WithFileUploads, HandleImageUpload;
     public $layout = [
         'sections' => []
     ];
@@ -19,6 +22,32 @@ class FooterBuilder extends Component
         $footer = FooterLayout::where('name', 'default')->first();
         if ($footer) {
             $this->layout = json_decode($footer->layout, true);
+        }
+    }
+
+    public function updated($prop)
+    {
+        foreach ($this->layout['sections'] as $sIndex => $section) {
+            foreach ($section['columns'] as $cIndex => $column) {
+                foreach ($column['widgets'] as $wIndex => $widget) {
+
+                    // Only apply to icon widgets with uploaded file
+                    if (
+                        $widget['type'] === 'icon' &&
+                        isset($widget['icon'])
+                    ) {
+
+                        // Upload using existing trait
+                        $path = $this->handleImageUpload($widget['icon'], 'footer');
+
+                        // Save uploaded path as icon value
+                        $this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets'][$wIndex]['url'] = $path;
+
+                        // Remove temporary upload field
+                        // unset($this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets'][$wIndex]['icon']);
+                    }
+                }
+            }
         }
     }
 
