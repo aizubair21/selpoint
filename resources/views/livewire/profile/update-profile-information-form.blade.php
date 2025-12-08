@@ -11,6 +11,7 @@ use App\Models\city;
 use App\Models\ta;
 use Livewire\Attributes\Url;
 
+
 new class extends Component
 {
     public string $name = '';
@@ -44,15 +45,16 @@ new class extends Component
         //////////////// 
            //default data
          ///////////////
-        // $this->states = state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get();        
+        // $this->states = state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get();     
+        // $st = state::where('country_id', App\Models\country::where('name', $this->country)->first()?->id)->get();   
+        // $ct = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
     }
     
-    // public function updated($prop)    
-    // {
-    //     if ($prop == 'state') {
-    //         $this->cities = ;
-    //     }
-    // }
+    public function updated($prop)    
+    {
+        // dd($this->country);
+        $ct = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
+    }
 
     /**
      * Update the profile information for the currently authenticated user.
@@ -175,9 +177,13 @@ new class extends Component
                 {{--
                 <x-text-input wire:model="country" id="select_country" name="country" type="search" list="countries"
                     class="border-0 mt-1 block w-full" required autocomplete="country" /> --}}
-                <select name="" id="select_country" wire:model="country"
+                <select name="" id="select_country" wire:model.live="country"
                     class="rounded border-0 ring-1 block mt-1 w-full">
-                    <option value="">Bangladesh</option>
+                    <option value="">Country</option>
+                    @foreach (App\Models\country::all() as $item)
+                    <option :value="$item->name"> {{$item->name}} </option>
+
+                    @endforeach
                 </select>
             </div>
 
@@ -185,10 +191,12 @@ new class extends Component
         </div>
         <div>
             <x-input-label for="state" :value="__('State')" />
-            <select name="" wire:model.live='state' id="state" class="w-full rounded-md">
                 @php
-                $st = state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get();
+                    $st = [];
+                    $st = state::where('country_id', country::where('name', $this->country)->first()?->id)->get();
                 @endphp
+            <select name="" wire:model.live='state' id="state" class="w-full rounded-md">
+                <option value="">State</option>
                 @foreach ($st as $item)
                 <option value="{{$item->name}}"> {{$item->name}} </option>
                 @endforeach
@@ -196,10 +204,13 @@ new class extends Component
         </div>
         <div>
             <x-input-label for="city" :value="__('City')" />
-            @php
-            $ct = city::where('state_id', state::where('name', $this->state)->first()?->id)->get()
-            @endphp
-            <select name="" wire:model.lazy='city' id="city" class="w-full rounded-md">
+
+                @php
+                    $ct = [];
+                    $ct = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
+                @endphp
+            <select name="" wire:model.live='city' id="city" class="w-full rounded-md">
+                <option value="">city</option>
                 @foreach ($ct as $item)
                 <option value="{{$item->name}}"> {{$item->name}} </option>
                 @endforeach

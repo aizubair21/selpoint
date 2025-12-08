@@ -34,20 +34,20 @@
                         <x-input-field label="Your NID No" name="nid" error="nid" wire:model.live="nid" error="nid"
                             placeholder="Your NID No" class="w-full" />
 
-                        <x-input-file label="You NID Front Image (max 1Mb)" name="nid_photo_front"
+                        <x-input-file label="You NID Front Image (max 512KB)" name="nid_photo_front"
                             error="nid_photo_front">
                             @if ($nid_photo_front)
                             <img src="{{$nid_photo_front->temporaryUrl()}}" alt="NID Front"
                                 style="width: 200px; height:100px" srcset="">
                             @endif
-                            <x-text-input type="file" wire:model="nid_photo_front" id="nid_front" max="1024" />
+                            <x-text-input type="file" wire:model="nid_photo_front" id="nid_front" max="512" />
                         </x-input-file>
-                        <x-input-file label="You NID Back Image (max 1Mb)" name="nid_photo_back" error="nid_photo_back">
+                        <x-input-file label="You NID Back Image (max 512KB)" name="nid_photo_back" error="nid_photo_back">
                             @if ($nid_photo_back)
                             <img src="{{$nid_photo_back->temporaryUrl()}}" alt="NID Back"
-                                style="width: 200px; height:100px" srcset="">
+                                style="width: 200px; height:100px" srcset="">   
                             @endif
-                            <x-text-input type="file" wire:model="nid_photo_back" id="nid_back" max="1024" />
+                            <x-text-input type="file" wire:model="nid_photo_back" id="nid_back" max="512" />
                         </x-input-file>
                     </div>
 
@@ -61,7 +61,10 @@
                             <div>
                                 <x-input-file label="Country" name="country" error="country">
                                     <select wire:model.live="country" id="country" class="w-full rounded-md ">
-                                        <option value="Bangladesh">Bangladesh</option>
+                                        <option value=""> -- Select Country --</option>
+                                        @foreach ($ctries as $ctr)
+                                        <option value="{{$ctr->name}}">{{$ctr->name}}</option>
+                                        @endforeach
                                     </select>
                                 </x-input-file>
                                 <x-hr />
@@ -161,7 +164,7 @@
                     </x-input-file>
                 </div>
                 <x-hr />
-                <x-primary-button> <i class="fas fa-file-alt pr-2"></i> Confirm</x-primary-button>
+                <x-primary-button> <i class="fas fa-file-alt pr-2"></i> submit</x-primary-button>
 
             </x-dashboard.section.inner>
         </x-dashboard.section>

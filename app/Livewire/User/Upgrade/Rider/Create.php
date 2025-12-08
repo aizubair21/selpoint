@@ -33,6 +33,7 @@ class Create extends Component
 
         $this->phone = auth()->user()->phone;
         $this->email = auth()->user()->email;
+        $this->country = auth()->user()->country;
         $this->state_name = auth()->user()->state;
         $this->city_name = auth()->user()->city;
     }
@@ -43,8 +44,8 @@ class Create extends Component
             'phone' => 'required|numeric',
             'email' => 'required|email',
             'nid' => 'required|string',
-            'nid_photo_front' => 'required|mimes:jpg,jpeg,png| max:1024',
-            'nid_photo_back' => 'required|mimes:jpg,jpeg,png| max:1024',
+            'nid_photo_front' => 'required|mimes:jpg,jpeg,png| max:512',
+            'nid_photo_back' => 'required|mimes:jpg,jpeg,png| max:512',
             'vehicle_type' => 'required|string',
             'vehicle_number' => 'required',
             'vehicle_model' => 'required',
@@ -118,8 +119,13 @@ class Create extends Component
     public function render()
     {
 
+        $countries = country::all();
+        $states = [];
         $city = [];
         $area = [];
+        if ($this->country) {
+            $states = state::where('country_id', country::where('name', $this->country)->first()?->id)->get();
+        }
         if ($this->state_name) {
             $city = city::where('state_id', state::where('name', $this->state_name)->first()?->id)->get();
         }
@@ -131,7 +137,8 @@ class Create extends Component
         return view(
             'livewire..user.upgrade.rider.create',
             [
-                'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+                'ctries' => $countries,
+                'states' => $states,
                 'cities' => $city,
                 'area' => $area,
             ]
