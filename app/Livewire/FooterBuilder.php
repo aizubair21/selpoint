@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Models\FooterLayout;
+use phpDocumentor\Reflection\Types\This;
 
 #[layout('layouts.app')]
 class FooterBuilder extends Component
@@ -21,10 +22,10 @@ class FooterBuilder extends Component
         }
     }
 
-    public function addSection()
+    public function addSection($sIndex = null)
     {
-        $this->layout['sections'][] = [
-            'title' => 'New Section',
+        $this->layout['sections'][$sIndex] = [
+            'title' => 'Section',
             'columns' => [
                 ['widgets' => []]
             ]
@@ -36,6 +37,25 @@ class FooterBuilder extends Component
         $this->layout['sections'][$sIndex]['columns'][] = ['widgets' => []];
     }
 
+    public function deleteColumn($sIndex, $cIndex)
+    {
+
+        if (count($this->layout['sections'][$sIndex]['columns']) == 1) {
+            $this->addSection($sIndex);
+        } else {
+            array_splice($this->layout['sections'][$sIndex]['columns'], $cIndex, 1);
+        }
+    }
+
+    public function deleteSection($sIndex)
+    {
+        if (count($this->layout['sections']) > 1) {
+            array_splice($this->layout['sections'], $sIndex, 1);
+        } else {
+            $this->layout['sections'] = [];
+        }
+    }
+
     public function addWidget($sIndex, $cIndex, $type = 'text')
     {
         $this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets'][] = [
@@ -45,6 +65,15 @@ class FooterBuilder extends Component
             'url' => '',
             'icon' => ''
         ];
+    }
+    public function deleteWidget($sIndex, $cIndex, $wIndex)
+    {
+        if (count($this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets']) > 1) {
+            # code...
+            array_splice($this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets'], $wIndex, 1);
+        } else {
+            $this->layout['sections'][$sIndex]['columns'][$cIndex]['widgets'] = [];
+        }
     }
 
     public function save()
