@@ -13,28 +13,29 @@ use Illuminate\Support\Facades\Artisan;
 class Cities extends Component
 {
     #[URL]
-    public $country, $state_id, $city_name;
+    public $country, $state_id;
+    public $newCity = ['state_id' => 0, 'name' => ''], $cities, $state;
 
     protected $listeners = ['refresh' => '$refresh'];
+
+    public function updated()
+    {
+        $this->newCity['state_id'] = $this->state_id;
+    }
+
     public function saveCity()
     {
         try {
-
-            //code...
-            // add new city
             $this->validate([
-                'state_id' => 'required|exists:states,id',
-                'city_name' => 'required|string|max:255',
+                'newCity.state_id' => 'required|exists:states,id',
+                'newCity.name' => 'required|string|max:255',
             ]);
-            city::create([
-                'state_id' => $this->state_id,
-                'name' => $this->city_name,
-            ]);
+            city::create($this->newCity);
 
             // reset the form
             $this->dispatch('refresh');
-            $this->reset(['city_name']);
-            $this->dispatch('success', 'City Added');
+            $this->reset('newCity');
+            $this->dispatch('close-modal', 'newCityModal');
         } catch (\Throwable $th) {
             //throw $th;
             $this->dispatch('error', 'Error Adding City: ' . $th->getMessage());
@@ -58,13 +59,10 @@ class Cities extends Component
     public function render()
     {
         $cq = city::query();
-        $sq = state::where(['country_id' => $this->country])->get();
+        $this->state = state::where(['country_id' => $this->country])->orderBy('name', 'asc')->get();
 
         $cq->where(['state_id' => $this->state_id]);
-
-        return view('livewire.system.geolocation.cities', [
-            'cities' => $cq->get(),
-            'state' => $sq,
-        ]);
+        $this->cities = $cq->orderBy('name', 'asc')->get();
+        return view('livewire.system.geolocation.cities');
     }
 }

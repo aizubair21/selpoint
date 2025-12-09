@@ -12,16 +12,20 @@
                         <div class="flex gap-2">
                             <div>
                                 <x-input-label value="Country" />
-                                <select name="" id="" class="py-1 rounded-md">
-                                    <option value="">Bangladesh</option>
-                                </select>
+                                <x-select wire:model.live="country" class="mr-4">
+                                    <option value="">Select Country</option>
+                                    @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                                    <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
+                                    @endforeach
+
+                                </x-select>
                             </div>
                             <div>
                                 <x-input-label value="State" />
-                                <select wire:model.live="state_id" class="py-1 rounded-md" id="selectState">
+                                <select wire:model.live="state_id" class=" rounded-md" id="selectState">
                                     <option value=""> -- State -- </option>
                                     @foreach ($state as $item)
-                                    <option value="{{$item->id}}"> {{$item->name}} </option>
+                                    <option value="{{$item->id}}"> {{$item->id}} - {{$item->name}} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -52,7 +56,8 @@
                         <x-danger-button wire:click='deleteCity({{$item->id}})'>
                             <i class="fas fa-trash"></i>
                         </x-danger-button>
-                        <x-nav-link-btn href="{{route('system.geolocations.area', ['state_id' => $state_id, 'city_id' => $item->id])}}">
+                        <x-nav-link-btn
+                            href="{{route('system.geolocations.area', ['state_id' => $state_id, 'city_id' => $item->id])}}">
                             <i class="fas fa-angle-right"></i>
                         </x-nav-link-btn>
                     </div>
@@ -75,23 +80,27 @@
                 <div class="mb-2 flex items-center gap-2">
                     <div class="mb-3">
                         <x-input-label value="Country" />
-                        <select name="" id="" class="py-1 rounded-md w-full">
-                            <option value="">Bangladesh</option>
-                        </select>
-                        @error('country_id')
+                        <x-select wire:model.live="country" class="mr-4">
+                            <option value="">Select Country</option>
+                            @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                            <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
+                            @endforeach
+
+                        </x-select>
+                        @error('newCity.country_id')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
 
                     </div>
                     <div class="mb-3">
                         <x-input-label value="State" />
-                        <select wire:model.live="state_id" class="py-1 rounded-md w-full">
+                        <select wire:model.live="newCity.state_id" class="py-1 rounded-md w-full">
                             <option value=""> -- Select State -- </option>
                             @foreach ($state as $item)
                             <option value="{{$item->id}}"> {{$item->name}} </option>
                             @endforeach
                         </select>
-                        @error('state_id')
+                        @error('newCity.state_id')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -99,7 +108,7 @@
 
                 <div class="mb-3">
                     <x-input-label value="City Name" />
-                    <x-text-input type="text" wire:model.live="city_name" class="w-full"
+                    <x-text-input type="text" wire:model.live="newCity.name" class="w-full"
                         placeholder="Enter City Name" />
                     @error('city_name')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
