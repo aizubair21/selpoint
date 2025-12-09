@@ -78,7 +78,7 @@
                     Go To Setup
                 </x-nav-link-btn> --}}
                 <div class="flex items-center gap-2">
-                    <x-nav-link-btn href="">Countries</x-nav-link-btn>
+                    <x-nav-link-btn href="{{route('system.geolocations.country')}}">Countries</x-nav-link-btn>
                     <x-nav-link-btn href="">States</x-nav-link-btn>
                     <x-nav-link-btn href="{{route('system.geolocations.cities')}}">Cities</x-nav-link-btn>
                     <x-nav-link-btn href="{{route('system.geolocations.area')}}">Target Area</x-nav-link-btn>
