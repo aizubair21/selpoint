@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Artisan;
 class Cities extends Component
 {
     #[URL]
-    public $country = '18', $state_id, $city_name;
+    public $country, $state_id, $city_name;
 
     protected $listeners = ['refresh' => '$refresh'];
     public function saveCity()

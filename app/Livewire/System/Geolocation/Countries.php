@@ -51,7 +51,7 @@ class Countries extends Component
         if ($this->searchTerm) {
             $q->where('name', 'like', "%" . $this->searchTerm . "%");
         };
-        $this->countries = $q->get()->toArray();
+        $this->countries = $q->orderBy('name', 'desc')->get()->toArray();
         return view(
 
             'livewire.system.geolocation.countries'
