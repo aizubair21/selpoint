@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 class Area extends Component
 {
     #[URL]
-    public $country = '18', $state_id, $city_name, $city_id, $area_name;
+    public $country, $state_id, $city_name, $city_id, $area_name;
 
     protected $listeners = ['refresh' => '$refresh'];
     public function saveCity()
@@ -87,8 +87,7 @@ class Area extends Component
         $cq = city::query();
         $sq = state::where(['country_id' => $this->country])->get();
         $cq->where(['state_id' => $this->state_id]);
-
-
+        
         return view('livewire.system.geolocation.area', [
             'cities' => $cq->get(),
             'state' => $sq,

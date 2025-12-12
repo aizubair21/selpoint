@@ -146,13 +146,13 @@
                                     <td> {{$item->id}} </td>
 
                                     <td>
-                                        <x-nav-link class="text-xs"
+                                        <div class="flex items-center text-xs"
                                             href="{{route('products.details', ['id' => $item->id ?? '',  'slug' => $item->slug ?? ''])}}">
                                             <img width="30px" height="30px"
                                                 src="{{asset('storage/'. $item->thumbnail)}}" alt=""
                                                 class="mr-2 rounded-full">
                                             {{$item->name ?? "N/A" }}
-                                        </x-nav-link>
+                                        </div>
                                         <br>
                                         <div class="text-xs border rounded inline-block">
                                             {{$item->status ?? 'N/A'}}
@@ -189,20 +189,25 @@
                                     </td>
 
                                     <td>
-                                        {{$item->price ?? 0}} TK
-                                        @if ($item->offer_type)
-
-                                        <div class="flex items-center text-center p-1 rounded bg-gray-100 text-xs">
-                                            D: {{$item->discount}} |
-                                            @php
-                                            if ($item->offer_type) {
-                                            // $ds = $item->price - $item->discount;
-                                            $com = round((100 * ($item->price - $item->discount)) / $item->price, 0);
-                                            echo($com . "% off");
-                                            };
-                                            @endphp
+                                        <div class="">
+                                            {{$item->buying_price?? 0}} <i class="fas fa-angle-right px-2"></i>
+                                            {{$item->price ?? 0}} TK
+                                            @if ($item->offer_type)
+                                            <br>
+                                            <div
+                                                class="inline-block items-center text-center p-1 rounded bg-gray-100 text-xs">
+                                                D: {{$item->discount}} |
+                                                @php
+                                                if ($item->offer_type) {
+                                                // $ds = $item->price - $item->discount;
+                                                $com = round((100 * ($item->price - $item->discount)) / $item->price,
+                                                0);
+                                                echo($com . "% off");
+                                                };
+                                                @endphp
+                                            </div>
+                                            @endif
                                         </div>
-                                        @endif
                                     </td>
                                     {{-- <td>
                                         {{$item->orders?->count()}}

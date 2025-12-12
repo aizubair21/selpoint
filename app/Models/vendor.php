@@ -127,7 +127,7 @@ class vendor extends Model
              */
 
             // get the rider role
-            $riderRoleName =  Role::where('name', 'rider')->first();
+            $riderRoleName =  Role::where('name', 'vendor')->first();
             if ($rider->isDirty('status') && $rider->status == 'Active') {
                 // assign role to user
                 $rider->user?->assignRole($riderRoleName);

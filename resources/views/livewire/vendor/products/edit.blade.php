@@ -3,7 +3,7 @@
 
     {{-- Stop trying to control. --}}
     <x-dashboard.page-header>
-        Product Edit
+        <span class="text-gray-500">{{$products['title']}}</span>
         <br>
         {{--
         <x-dashboard.vendor.products.navigations :nav="$nav" /> --}}
@@ -73,10 +73,11 @@
                         </div>
                     </div>
 
-                    
+
                 </x-slot>
             </x-dashboard.section.header>
         </x-dashboard.section>
+
 
         <form wire:submit.prevent="save">
             <div class="md:flex jusfity-between">
@@ -90,21 +91,18 @@
                         </x-slot>
                     </x-dashboard.section.header>
                     <x-dashboard.section.inner>
-
+                        {{-- @dd($products) --}}
                         <x-input-field error='products.name' wire:model.live="products.name" labelWidth="350px"
                             label="Products Name" name="name" inputClass="w-full">
-                            {{-- <textarea wire:model.live="products.name" rows="2" id="" class="w-full"></textarea>
-                            --}}
                         </x-input-field>
-                        <x-input-file labelWidth="200px" class="block" error='products.title' label="Products title"
-                            name="title" inputClass="w-full">
-                            <textarea wire:model.live="products.title" rows="3" id="" class="w-full rounded"></textarea>
+                        <x-input-file labelWidth="350px" wire:model.live="products.title" error='products.title'
+                            label="Products title" name="title" inputClass="block w-full">
                         </x-input-file>
 
                         <x-hr />
                         <x-input-file labelWidth="250px" class="md:flex" label="Products Category" error="category">
                             <div class="text-xs">
-                                Category : <strong>{{ $data['category']?->name ?? "N/A" }}</strong>. Change to another
+                                Category : <strong>{{ $data['category']?->name ?? "N/A" }}</strong>.
                             </div>
                             <select wire:modal="products.category_id" id="">
                                 <option value=""> -- Select Category -- </option>
@@ -339,7 +337,7 @@
                 <x-dashboard.section.header>
                     <x-slot name="title">
                         {{-- <div class="flex"></div> --}}
-                        Other Image
+                        Image Gallery
                     </x-slot>
                     <x-slot name="content">
                         Other product image that showcase your product. other image mainly display at product details
@@ -396,72 +394,34 @@
                 </x-dashboard.section.header>
                 <x-dashboard.section.inner>
                     <x-input-file label="Description" labelWidth="250px" error="products.description">
-                        {{-- <div class="flex flex-wrap items-center p-3 border-b bg-gray-50 gap-2">
-                            <button type="button" onclick="format('bold')" class="px-2 py-1 hover:bg-gray-200 rounded"
-                                title="Bold"><b>B</b></button>
-                            <button type="button" onclick="format('italic')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded italic" title="Italic">I</button>
-                            <button type="button" onclick="format('underline')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded underline" title="Underline">U</button>
-                            <button type="button" onclick="format('strikeThrough')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded line-through" title="Strike">S</button>
-                            <button type="button" onclick="format('insertOrderedList')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded" title="Ordered List">OL</button>
-                            <button type="button" onclick="format('insertUnorderedList')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded" title="Unordered List">UL</button>
-                            <button type="button" onclick="format('formatBlock', 'H1')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded text-xl" title="Heading 1">H1</button>
-                            <button type="button" onclick="format('formatBlock', 'H2')"
-                                class="px-2 py-1 hover:bg-gray-200 rounded text-lg" title="Heading 2">H2</button>
-                            <button type="button" onclick="addLink()"
-                                class="px-2 py-1 hover:bg-gray-200 rounded text-blue-600"
-                                title="Insert Link">🔗</button>
-                            <button type="button" onclick="removeFormatting()"
-                                class="px-2 py-1 hover:bg-gray-200 rounded text-red-600"
-                                title="Clear Formatting">🧹</button>
-                        </div> --}}
-                        {{-- <div id="editor" class="rounded border min-h-[200px] p-4 focus:outline-none"
-                            contenteditable="true" placeholder="Write Here ...">
-                            <p class="text-gray-700">Start writing here...</p>
-                        </div> --}}
 
-                        {{-- <div wire:ignore ">
-                            <div id=" editor" class="min-h-[200px] border rounded p-3 bg-white" contenteditable="true"
-                            x-init="
-                                    $el.innerHTML = @js($description);
-                                    $el.addEventListener('input', () => {
-                                        Livewire.emit('editorUpdated', $el.innerHTML);
-                                    });
-                                "></div>
-</div> --}}
-{{-- <textarea wire:model.live="products.description" class="w-full rounded border-gray-30o"
-    placeholder="Describe your own" id="editor" rows="10"></textarea> --}}
-<main wire:ignore>
-    <trix-toolbar id="my_toolbar"></trix-toolbar>
-    <div class="more-stuff-inbetween"></div>
-    <input type="hidden" name="content" id="my_input" wire:model.live="description" value="{{$description}}">
-    <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
-</main>
+                        <main wire:ignore>
+                            <trix-toolbar id="my_toolbar"></trix-toolbar>
+                            <div class="more-stuff-inbetween"></div>
+                            <input type="hidden" name="content" id="my_input" wire:model.live="description"
+                                value="{{$description}}">
+                            <trix-editor toolbar="my_toolbar" input="my_input"></trix-editor>
+                        </main>
 
 
-{{-- {!! $description !!} --}}
+                        {{-- {!! $description !!} --}}
 
-</x-input-file>
-</x-dashboard.section.inner>
-</x-dashboard.section>
+                    </x-input-file>
+                </x-dashboard.section.inner>
+            </x-dashboard.section>
 
-<x-primary-button>save</x-primary-button>
-</form>
+            <x-primary-button>save</x-primary-button>
+        </form>
 
-</x-dashboard.container>
+    </x-dashboard.container>
 
-<script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 
-@script
-<script>
-    document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
+    @script
+    <script>
+        document.querySelector("trix-editor").addEventListener('trix-change', ()=> {
             @this.set('description', document.querySelector("#my_input").value);            
         })
-</script>
-@endscript
+    </script>
+    @endscript
 </div>

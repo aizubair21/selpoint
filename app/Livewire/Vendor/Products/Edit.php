@@ -29,12 +29,13 @@ class Edit extends Component
     // protected $Listeners = ["$refresh"];
 
     protected $listeners = ['editorUpdated' => 'updateContent'];
-    #[On('refresh')]
+    
     public function mount()
     {
         $this->data();
     }
 
+    #[On('refresh')]
     public function data()
     {
 

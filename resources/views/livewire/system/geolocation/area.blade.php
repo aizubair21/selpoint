@@ -12,25 +12,28 @@
                         <div class="flex gap-2">
                             <div>
                                 <x-input-label value="Country" />
-                                <select name="" id="" class="py-1 rounded-md">
-                                    <option value="">Bangladesh</option>
-                                </select>
+                                <x-select wire:model.live="country" class="py-1">
+                                    <option value="">Select Country</option>
+                                    @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                                    <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
+                                    @endforeach
+                                </x-select>
                             </div>
                             <div>
                                 <x-input-label value="State" />
                                 <select wire:model.live="state_id" class="py-1 rounded-md" id="selectState">
                                     <option value=""> -- State -- </option>
                                     @foreach ($state as $item)
-                                    <option value="{{$item->id}}"> {{$item->name}} </option>
+                                    <option value="{{$item->id}}"> {{$item->id}} - {{$item->name}} </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div>
                                 <x-input-label value="City" />
                                 <select wire:model.live="city_id" class="py-1 rounded-md" id="selectState">
-                                    <option value=""> -- State -- </option>
+                                    <option value=""> -- city -- </option>
                                     @foreach ($cities as $item)
-                                    <option value="{{$item->id}}"> {{$item->name}} </option>
+                                    <option value="{{$item->id}}"> {{$item->id}} - {{$item->name}} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -97,9 +100,13 @@
                 <div class="mb-2 flex items-center gap-2">
                     <div class="mb-3">
                         <x-input-label value="Country" />
-                        <select name="" id="" class="py-1 rounded-md w-full">
-                            <option value="">Bangladesh</option>
-                        </select>
+                        <x-select wire:model.live="country" class="mr-4">
+                            <option value="">Select Country</option>
+                            @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                            <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
+                            @endforeach
+
+                        </x-select>
                         @error('country_id')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror

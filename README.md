@@ -17,3 +17,4 @@ SELPOINT is a multi-vendor drop-shipping e-commerce platform. aims to reach larg
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+

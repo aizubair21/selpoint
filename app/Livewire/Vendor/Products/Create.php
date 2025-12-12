@@ -37,7 +37,7 @@ class Create extends Component
 
 
     #[On('refresh')]
-    public function mount()
+    public function getData()
     {
 
         /**
@@ -85,7 +85,7 @@ class Create extends Component
 
     public function create()
     {
-
+        $this->getData();
         if (auth()->user()->myProducts()->count() >= $this->shop->max_product_upload) {
             $this->dispatch('error', 'You have reached the maximum number of products allowed for your shop.');
             $this->ableToCreate = false;
@@ -127,7 +127,7 @@ class Create extends Component
             }
 
             $this->dispatch('success', 'Product Created');
-            $this->redirectIntended(route('vendor.products.edit', ['product' => encrypt($pd->id)]), true);
+            $this->redirectIntended(route('vendor.products.edit', ['product' => encrypt($pd->id)]), false);
         } catch (\Throwable $th) {
             $this->dispatch('error', 'Have an error to upload product.');
         }
