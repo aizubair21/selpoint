@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('vc', 100)->nullable()->default(0); // view count
             $table->string('brand', 100)->nullable(); // for product brand
 
-            $table->boolean('cod')->nullable()->default(false); // is cash on delevery accept or not
+            $table->boolean('cod')->nullable()->default(true); // is cash on delevery accept or not
             $table->boolean('courier')->nullable()->default(true); // is couries delevery accept or not
-            $table->boolean('hand')->nullable()->default(true); // is hand-to-hand delevery accept or not
+            $table->boolean('hand')->nullable()->default(false); // is hand-to-hand delevery accept or not
 
             $table->string('shipping_in_dhaka')->nullable()->default(80); // delevery in dhaka
             $table->string('shipping_out_dhaka')->nullable()->default(120); // delevery other destricts

@@ -20,7 +20,7 @@ class Create extends Component
     use HandleImageUpload, WithFileUploads;
 
     #[Validate]
-    public $products = [], $thumb, $categories, $attrName, $attrValue;
+    public $products = [], $thumb, $categories = [], $attrName, $attrValue;
     public $belongs_to, $shop, $ableToCreate = true, $meta = ['meta_thumbnail' => '', 'meta_title' => '', 'keyword' => '', 'meta_tags' => '', 'meta_description' => ''];
 
     protected function rules()
@@ -33,6 +33,11 @@ class Create extends Component
             'products.price' => 'required',
             'thumb' => 'required',
         ];
+    }
+
+    public function mount()
+    {
+        $this->getData();
     }
 
 

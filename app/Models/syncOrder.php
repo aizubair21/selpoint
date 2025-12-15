@@ -19,7 +19,7 @@ class syncOrder extends Model
         static::updated(function ($data) {
             // logger("Order Model Updated $data->id");
             // if the status field if updated
-            if ($data->isDirty('status')) {
+            if ($data->isDirty('status') && $data->status != 'Confirm') {
                 // logger("Order Model Updated $data->id");
                 Order::where(['id' => $data->user_order_id])->update(['status' => $data->status]);
             }

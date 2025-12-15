@@ -5,6 +5,7 @@ namespace App;
 use App\Models\city;
 use App\Models\country;
 use App\Models\state;
+use App\Models\ta;
 
 trait countryStateCity
 {
@@ -37,5 +38,10 @@ trait countryStateCity
         }
     }
 
-    protected function getArea() {}
+    protected function getAreas()
+    {
+        if (isset($this->city)) {
+            $this->areas = ta::where('city_id', city::where('name', $this->city)->first()->id)->get();
+        }
+    }
 }

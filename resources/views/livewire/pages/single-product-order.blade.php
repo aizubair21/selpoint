@@ -100,30 +100,22 @@
 
                             </x-input-file>
 
+                            <x-input-file label="Country" error='country' name="Country">
+                                <x-countries :$countries />
+                            </x-input-file>
 
-                            <x-input-file label="State" name="state" error="district">
-                                <select wire:model.live="district" id="states" class="w-full rounded-md ">
-                                    <option value=""> -- Select State --</option>
-                                    @foreach ($states as $state)
-                                    <option value="{{$state->name}}">{{$state->name}}</option>
-                                    @endforeach
-                                </select>
+                            <x-input-file label="State" error="state" name="state">
+                                <x-states :$states />
                             </x-input-file>
-                            <x-hr />
-                            <x-input-file label="City" name="city" error="upozila">
-                                <select wire:model.live="upozila" id="states" class="w-full rounded-md ">
-                                    <option value=""> -- Select City --</option>
-                                    @foreach ($cities as $item)
-                                    <option value="{{$item->name}}">{{$item->name}}</option>
-                                    @endforeach
-                                </select>
+
+                            <x-input-file label="City" error="city" name="city">
+                                <x-cities :$cities />
                             </x-input-file>
-                            <x-hr />
                             <x-input-file label="Area" name="targeted_area" error="area_name">
 
-                                <select wire:model.live="area_name" id="states" class="w-full rounded-md ">
+                                <select wire:model.live="area_name" id="areas" class="w-full rounded-md ">
                                     <option value=""> -- Select Area --</option>
-                                    @foreach ($area as $item)
+                                    @foreach ($areas as $item)
                                     <option value="{{$item->name}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>

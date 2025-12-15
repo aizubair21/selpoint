@@ -74,6 +74,8 @@ class View extends Component
                 $this->forResel['category_id'] = $this->resellerCat;
                 $this->forResel['status'] = 'Active';
                 $this->forResel['country'] = auth()->user()->country ?? 'Bangladesh';
+                $this->forResel['cod'] = 1;
+                $this->forResel['courier'] = 1;
 
                 // save as new to reseller
                 $newProduct = Product::create($this->forResel);

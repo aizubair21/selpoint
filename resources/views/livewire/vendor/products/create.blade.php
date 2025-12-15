@@ -54,11 +54,14 @@
                         <x-input-field inputClass="w-full" label="Product Title" wire:model.live="products.title"
                             name="products.title" error="products.title" />
 
+
                         <x-input-file label="Chose Category" name="products.category_id" error="products.category_id">
                             <select
                                 class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                                 wire:model.live="products.category_id" id="">
-                                <option value=""> -- Chose an category -- </option>
+                                <option value=""> -- Chose category -- </option>
+                                @if (count($categories))
+
                                 @foreach ($categories as $children)
                                 <option value="{{$children->id}}"> {{$children->name}} </option>
 
@@ -75,6 +78,7 @@
 
                                 @endif
                                 @endforeach
+                                @endif
                             </select>
                             {{-- <x-primary-button type="button"
                                 x-on:click.prevent="$dispatch('open-modal', 'create-category-modal')">Create

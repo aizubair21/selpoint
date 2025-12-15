@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResellerResellProfits extends Model
 {
-    //
 
     protected static function booted()
     {

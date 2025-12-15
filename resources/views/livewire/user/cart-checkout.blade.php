@@ -281,6 +281,15 @@
 
                             <div class="w-full">
 
+                                <x-input-file label="Country" name="country" error="country">
+                                    <select wire:model.live="country" id="country" class="w-full rounded-md ">
+                                        <option value=""> -- Select Country --</option>
+                                        @foreach (App\Models\Country::get() as $state)
+                                        <option value="{{$state->name}}">{{$state->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </x-input-file>
+                                <x-hr />
                                 <x-input-file label="District" name="state" error="district">
                                     <select wire:model.live="district" id="states" class="w-full rounded-md ">
                                         <option value=""> -- Select State --</option>

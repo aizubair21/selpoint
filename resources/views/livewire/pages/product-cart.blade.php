@@ -59,7 +59,7 @@
 
             <a wire:navigate href="{{route('products.details', ['id' => $product->id, 'slug' => $product->slug])}}"
                 class="text-white text-xs block leading-2 bg_primary p-1 w-full">
-                {{ Str::limit($product->title, 40, '...') }}
+                {{ Str::limit($product->title, 15, '...') }}
             </a>
 
             <div class="text-xs p-1 h-full bg_primary">

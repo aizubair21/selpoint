@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages;
 
+use App\countryStateCity;
 use App\Events\ProductComissions;
 use App\Http\Controllers\ProductComissionController;
 use App\Jobs\UpdateProductSalesIndex;
@@ -22,16 +23,21 @@ use App\Models\ta;
 #[layout('layouts.user.app')]
 class SingleProductOrder extends Component
 {
+    use countryStateCity;
+
     #[URL]
     public $slug, $id;
 
     public $product, $size, $total, $price;
 
     #[validate('required')]
-    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $district, $upozila, $shipping = 0, $delevery, $area_name;
+    public $location, $phone, $quantity = 1, $house_no, $road_no, $area_condition = 'Dhaka', $shipping = 0, $delevery, $area_name;
 
     public function updated($property)
     {
+        $this->getState();
+        $this->getCity();
+        $this->getAreas();
         if ($property) {
             // if quantity is zero or less, set it to 1
             if ($this->quantity <= 0) {
@@ -83,8 +89,8 @@ class SingleProductOrder extends Component
                         'delevery' => $this->delevery,
                         'number' => $this->phone,
                         'area_condition' => $this->area_condition,
-                        'district' => $this->district,
-                        'upozila' => $this->upozila,
+                        'district' => $this->state,
+                        'upozila' => $this->city,
                         'location' => $this->location,
                         'phone' => $this->phone,
                         'road_no' => $this->road_no,
@@ -128,19 +134,22 @@ class SingleProductOrder extends Component
 
     public function render()
     {
-        $city = [];
-        $area = [];
-        if ($this->district) {
-            $city = city::where('state_id', state::where('name', $this->district)->first()?->id)->get();
-        }
-        if ($this->upozila) {
-            $area = ta::where('city_id', city::where('name', $this->upozila)->first()?->id)->get();
-        }
+        $this->getCountry();
+        // $city = [];
+        // $area = [];
+        // if ($this->district) {
+        //     $city = city::where('state_id', state::where('name', $this->state)->first()?->id)->get();
+        // }
+        // if ($this->upozila) {
+        //     $area = ta::where('city_id', city::where('name', $this->city)->first()?->id)->get();
+        // }
 
-        return view('livewire.pages.single-product-order', [
-            'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
-            'cities' => $city,
-            'area' => $area,
-        ]);
+        return view('livewire.pages.single-product-order');
+
+        // return view('livewire.pages.single-product-order', [
+        //     'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+        //     'cities' => $city,
+        //     'area' => $area,
+        // ]);
     }
 }

@@ -24,7 +24,7 @@ class CartCheckout extends Component
     public $carts = [], $qty = [], $tp = 0, $q = 0, $isMultiple, $selectedCarts;
 
     #[validate('required')]
-    public $phone, $house_no, $road_no, $location, $area_condition = 'Dhaka', $district, $upozila, $area_name, $shipping = 0, $delevery;
+    public $country, $phone, $house_no, $road_no, $location, $area_condition = 'Dhaka', $district, $upozila, $area_name, $shipping = 0, $delevery;
 
     #[On('refresh')]
     public function mount()
@@ -155,8 +155,13 @@ class CartCheckout extends Component
 
     public function render()
     {
+        $states = [];
         $city = [];
         $area = [];
+        if ($this->country) {
+            $states =
+                state::where('country_id', country::where('name', $this->country)->first()?->id)->get();
+        }
         if ($this->district) {
             $city = city::where('state_id', state::where('name', $this->district)->first()?->id)->get();
         }
@@ -167,7 +172,7 @@ class CartCheckout extends Component
         return view(
             'livewire.user.cart-checkout',
             [
-                'states' => state::where('country_id', country::where('name', 'Bangladesh')->first()?->id)->get(),
+                'states' => $states,
                 'cities' => $city,
                 'area' => $area,
             ]

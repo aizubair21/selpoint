@@ -19,17 +19,17 @@ class cod extends Model
             // if the cod status is 'Completed', cut the amount from rider account and add to seller account
             if ($cod->status == 'Completed') {
 
-                // when product reached to the buyer, then make the order status to 'Delivered'
-                $order = Order::find($cod->order_id);
-                if ($order) {
-                    $order->status = 'Delivered';
-                    $order->save();
-                }
-
-
                 $rider = User::find($cod->rider_id);
                 $seller = User::find($cod->seller_id);
                 if ($rider && $rider->abailCoin() >= $cod->total_amount) {
+
+                    // when product reached to the buyer, then make the order status to 'Delivered'
+                    $order = Order::find($cod->order_id);
+                    if ($order) {
+                        $order->status = 'Delivered';
+                        $order->save();
+                    }
+
                     // cut due_amount from rider account, and add to seller account
                     $rider->coin -= $cod->due_amount;
                     $rider->save();
@@ -46,7 +46,7 @@ class cod extends Model
                     }
 
                     // add shipping amount to rider account
-                    $rider->coin += $order->shipping;
+                    // $rider->coin += $order->shipping;
                 }
             }
         });

@@ -99,20 +99,6 @@ class View extends Component
                 $ct = new ProductComissionController(); // instance
                 $ct->confirmTakeComissions($this->orders->id); // call to confirm comissions 
                 // $ct->confirmTakeComissions($sysOr->user_order_id); // call to confirm comissions for user
-
-                // $comisionForUser = TakeComissions::where([
-                //     'order_id' => $this->cartOrder->order_id,
-                //     'product_id' => $this->cartOrder->product_id,
-                // ])->get();
-
-                // if ($comisionForUser->count() > 0) {
-                //     # code...
-                //     $comisionForUser->each(function ($item) {
-                //         $item->confirmed = true;
-                //         // You could add more custom logic here
-                //         $item->save();
-                //     });
-                // }
             }
 
             $this->dispatch('refresh');
