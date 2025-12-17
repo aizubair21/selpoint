@@ -336,8 +336,8 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
     // geolocations
     // Rotue::get('/geolocations', \App\Livewire\System\Geolocation\Index::class)->name('geolocations.index')->middleware(AbleTo::class . ":geolocation_view");
     Route::get('/geolocations', \App\Livewire\System\Geolocation\Index::class)->name('geolocations.index');
-    Route::get('/geolocations/country', \App\Livewire\System\Geolocation\countries::class)->name('geolocations.country');
-    Route::get('/geolocations/state', \App\Livewire\System\Geolocation\states::class)->name('geolocations.states');
+    Route::get('/geolocations/country', \App\Livewire\System\Geolocation\Countries::class)->name('geolocations.country');
+    Route::get('/geolocations/state', \App\Livewire\System\Geolocation\States::class)->name('geolocations.states');
     Route::get('/geolocations/cities', Cities::class)->name('geolocations.cities');
     Route::get('/geolocations/area', Area::class)->name('geolocations.area');
 
