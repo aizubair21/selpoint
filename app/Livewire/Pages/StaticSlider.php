@@ -48,7 +48,7 @@ class StaticSlider extends Component
                 break;
         }
 
-        $this->data = $q->active()->orderBy('order', 'desc')->with('slides')->get();
+        $this->data = $q->active()->orderBy('order', 'asc')->with('slides')->get();
     }
 
     public function render()

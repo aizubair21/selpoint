@@ -2,27 +2,27 @@
 
 
     <x-slot name="title">
-        {{$product->meta_title ?? $product->title}}
+        {{ $product->title}}
     </x-slot>
 
     @push('seo')
-    <meta name="title" content="{{$product->seo_title ?? $product->name}}" />
-    <meta name="description" content="{{$product->meta_description ?? $product->title}}" />
+    <meta name="title" content="{{ $product->name}}" />
+    <meta name="description" content="{{$product->title}}" />
     <meta name="keyword" content="{{$product->keyword ?? ''}}" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="twitter:title" content="{{ $product->meta_title ?? $product->title }}" />
+    <meta name="twitter:title" content="{{  $product->title }}" />
     <meta name="twitter:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
 
     <meta name="twitter:image:alt" content="" />
 
-    <meta name="twitter:image" content="{{ asset('storage/'. $product->meta_thumbnail ?? $product->thumbnail) }}" />
+    <meta name="twitter:image" content="{{ asset('storage/'. $product->thumbnail) }}" />
 
     <meta property="og:type" content="og:product" />
 
-    <meta property="og:title" content="{{ $product->meta_title ?? $product->title }}" />
+    <meta property="og:title" content="{{  $product->title }}" />
 
-    <meta property="og:image" content="{{ asset('storage/'. $product->meta_thumbnail ?? $product->thumbnail) }}" />
+    <meta property="og:image" content="{{ asset('storage/'. $product->thumbnail) }}" />
 
     <meta property="og:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
 
@@ -75,7 +75,6 @@
         <div class=" ">
             <div class="">
                 @includeIf('components.client.product-single')
-
             </div>
         </div>
 
@@ -165,6 +164,7 @@
 
                 </x-slot>
             </x-dashboard.section.header>
+            
             <x-dashboard.section.inner>
                 @foreach ($product->comments as $item)
 
@@ -214,64 +214,6 @@
             @endif
 
         </x-dashboard.section>
-
-
-
-        {{-- Product Q/A --}}
-        {{-- <x-dashboard.section x-data={show:false}>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    <div class="flex justify-between items-center">
-                        Product Q/A
-                        <button x-html="show ? 'collapse' : 'expand'" class="border text-xs p-2 rounded-lg"
-                            x-on:click="show = !show">
-
-                        </button>
-                    </div>
-                </x-slot>
-                <x-slot name="content">
-                    Have any question regarding this products?
-                </x-slot>
-            </x-dashboard.section.header>
-            <x-dashboard.section.inner>
-                <div class="mb-2">
-                    <div class="py-2 ">
-                        <div class="flex items-center text-xs mb-2">
-                            <div class="">Your Qestions</div>
-                        </div>
-
-                        <div class="p-2 border-l mb-3">
-                            <div class="text-sm text-bold text-gray-600">July 16, 2025</div>
-                            <div class="p-2">
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. A quaerat labore voluptatem
-                                rerum delectus vero iusto quia culpa voluptatum quae.
-                                <div class="text-gray-600 font-normal">
-                                    <i class="fa-solid fa-sync"></i>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, similique.
-                                    <i>seller</i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div x-show="show" x-transition>
-                    <x-hr />
-                    No More Question Found !
-                    <x-hr />
-                </div>
-                @auth
-                <div class="border rounded p-2 text-end">
-                    <textarea name="" id="" cols="3" class="w-full rounded border-0 mb-2"
-                        placeholder="ask a question "></textarea>
-                    <x-primary-button>ask</x-primary-button>
-                </div>
-                @else
-                <div class="border rounded p-2 text-center">
-                    login to ask question
-                </div>
-                @endauth
-            </x-dashboard.section.inner>
-        </x-dashboard.section> --}}
 
         @livewire('pages.RecomendedProducts')
     </x-dashboard.container>

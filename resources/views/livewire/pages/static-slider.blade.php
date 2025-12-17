@@ -1,5 +1,5 @@
 <div>
-    @if (count($data[0]->slides))
+    @if (count($data))
 
     <div class="body">
 
@@ -8,7 +8,7 @@
                 @foreach ($data as $slider)
                 @foreach ($slider->slides as $key => $item)
 
-                <div class="slide {{ $key == 0 ? 'active' : '' }}">
+                <div class="slide {{ $loop->first ? 'active' : '' }}">
                     {{-- <img src="https://via.placeholder.com/800x400?text=Product+1" loading="lazy" /> --}}
                     <a href="{{ $item->action_url ?? route('products.index') }}" wire:nvigation
                         class="slide-link w-full">

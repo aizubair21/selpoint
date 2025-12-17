@@ -143,7 +143,7 @@ class ProductsDetails extends Component
              * latest task belongs to this running month, then
              * make false the value of taskNotCompleteYet, means task already complete.
              */
-            if ($this->taskType == 'monthly' && Carbon::parse($this->lastTask->created_at)->shortLocaleMonth == today()->shortLocaleMonth && $this->lastTask?->coin) {
+            if ($this->taskType &&  $this->taskType == 'monthly' && Carbon::parse($this->lastTask?->created_at)->shortLocaleMonth == today()->shortLocaleMonth && $this->lastTask?->coin) {
                 $this->taskNotCompletYet = false;
             }
 

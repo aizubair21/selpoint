@@ -35,47 +35,6 @@
                 margin-bottom: 0px;
             }
         }
-
-        @media (max-width: 767px) {
-
-            .slider {
-                /* height:200px!important; */
-            }
-
-            /* .slider_bg_box img {
-                width: 100%;
-                height: 100%;
-                -o-object-fit: cover;
-                object-fit: cover;
-                -o-object-position: top right;
-                object-position: top right;
-                aspect-ratio: 16 / 9;
-            }
-            .slider_section {
-                padding: 20px 10px;
-            }
-            .detail-box h1 {
-                font-size: 1.5rem!important;
-                margin-bottom: 0px;
-            }
-            .detail-box a {
-                margin-top: 0px!important;
-                padding: 10px!important;
-                font-weight: 500!important;
-            }
-            .slider_section .detail-box,
-            .about_section .detail-box {
-                margin-bottom: 0px;
-            }
-            .slider_section .carousel-indicators li {
-                background-color: #ffffff;
-                width: 12px!important;
-                height: 12px!important;
-                border-radius: 100%;
-                opacity: 1;
-            } */
-
-        }
     </style>
 
 
@@ -111,17 +70,7 @@
         @endif
 
         @livewire('pages.topSales')
-
-        {{-- static slider --}}
-        @if (count($ss))
-
-        <div class="">
-            @livewire('pages.static-slider', ['placement' => 'middle', 'page' => 'home'])
-        </div>
-
-        @endif
-
-
+        @livewire('pages.static-slider', ['placement' => 'middle', 'page' => 'home'])
         @livewire('pages.RecomendedProducts')
         @livewire('pages.static-slider', ['placement' => 'bottom', 'page' => 'home'])
     </x-dashboard.container>
