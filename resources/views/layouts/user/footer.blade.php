@@ -45,7 +45,7 @@
                             {{-- ICON WIDGET --}}
                             @if($widget['type'] === 'icon' && !empty($widget['url']))
                             <a href="{{ $widget['url'] ?? '#' }}" target="_blank" class="inline-block mr-3">
-                                <img src="{{ asset('storage/') ." /". $widget['url'] }}" alt="icon" class="h-24">
+                                <img src="{{ asset('storage/') ."/". $widget['url'] }}" alt="icon" class="h-24">
                             </a>
                             @endif
 

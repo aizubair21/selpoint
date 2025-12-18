@@ -19,19 +19,11 @@
 
             <div class="product_section ">
 
-                {{-- <div class=""
-                    style="display: grid; justify-content:center; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); grid-gap:10px">
-                    @foreach($products as $product)
-                    <x-client.product-cart :$product :key="$product->id" />
-                    @endforeach
-                </div> --}}
-
                 <div class="md:flex w-full">
-                    <div style="width: 300px" class=" bg-white p-3 hidden md:block">
+                    <div style="width: 300px" class="mr-1 bg-white p-3 hidden md:block">
                         {{-- @livewire('reseller.resel.categories') --}}
                         <div>
                             <x-nav-link-btn href="{{route('products.index')}}">All Product</x-nav-link-btn>
-                            <br>
                         </div>
                         @foreach ($categories as $item)
                         {{--
@@ -65,7 +57,7 @@
 
 
 
-                    <div class="px-2 w-full">
+                    <div class="w-full">
                         {{--
                         <x-client.products-loop :$products /> --}}
                         <div class="w-full"

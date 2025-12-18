@@ -154,6 +154,7 @@
             </x-dashboard.section.inner>
 
         </x-dashboard.section>
+        
         <x-dashboard.section>
 
             <x-dashboard.section.header>
@@ -268,19 +269,6 @@
     </script>
     @endscript
 
-    {{-- <script>
-        let token = "{{csrf_token()}}";
-            let req = new XMLHttpRequest();
-
-            req.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log(JSON.parse(this.response));
-                    
-                }
-            };
-            req.open("get", "http://eruhi.local/http/test", true);
-            req.send();
-
-    </script> --}}
+   
     @endauth
 </div>

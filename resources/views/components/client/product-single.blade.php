@@ -48,12 +48,12 @@ new class extends Component
 <div>
     @props(['product'])
 
-    <div class="lg:flex justify-start item-start p-2">
+    <div class="lg:flex justify-start item-start">
         <!-- card left -->
-        <div class=" p-3 " style="width:100%; max-width:600px">
+        <div class="mr-1" style="width:100%; max-width:600px">
             <div class="img-display sm:flex sm:justify-start items-start lg:block rounded">
                 <div class="img-showcase" style="">
-                    <img id="preview" class="p-2 rounded-md border"
+                    <img id="preview" class="rounded-md border"
                         style="width: 100%; object-fit:contain; max-width:600px;" height="400"
                         src="{{ asset('storage/' . $product?->thumbnail) }}" alt="image">
                 </div>
@@ -61,7 +61,7 @@ new class extends Component
                 @if ($product?->showcase)
                 <div class="flex items-center md:block lg:flex flex-wrap">
                     <button class="p-1 rounded mb-1">
-                        <img class=" border p-1 rounded" onclick="previewImage(this)"
+                        <img class="p-1 rounded" onclick="previewImage(this)"
                             src="{{asset('storage/'. $product?->thumbnail)}}" width="60px" height="60px" alt="">
                     </button>
                     @foreach ($product->showcase as $images)
@@ -76,7 +76,7 @@ new class extends Component
             </div>
         </div>
 
-        <div class="p-3 w-full " style="min-width: 300px">
+        <div class=" w-full " style="min-width: 300px">
             <div>
                 {{-- Shop --}}
                 <div class="text-green-900 w-full text-sm">
@@ -151,9 +151,8 @@ new class extends Component
 
             {{-- optional delivery --}}
             @if ($product->shipping_note)
-            <div class=" flex bg-gray-50 shadow rounded-lg p-1 bg-indigo-900">
-                <i class="h-auto block rounded bg-gray-50 shadow-xl fas fa-bell p-2"></i>
-                <p class="p-2 text-xs text-white">
+            <div class=" flex bg-gray-50">
+                <p class="p-2 text-xs">
                     {{$product->shipping_note}}
                 </p>
             </div>
@@ -201,103 +200,23 @@ new class extends Component
                 @endvolt
 
             </div>
-            {{-- <div class="mt-3 text-center text-xs">
-                SHARE WITH YOUR FRIENDS
-            </div> --}}
         </div>
 
-        {{-- @if (isset($relatedProduct))
-        <div class="p-3 rounded hidden md:block" style="min-width: 300px;">
-            <div class="">
-                Related Products
-            </div>
-
-            @foreach ($relatedProduct as $item)
-            <div class="flex py-2 border-b">
-                <img src="{{asset('storage/'. $item->thumbnail)}}" style="width: 70px; height:70px" alt="">
-                <div class="px-2 w-full">
-                    <a wire:navigate href="{{route('products.details', ['id' => $item->id, 'slug' => $item->slug])}}">
-                        {{$item->title}}
-                    </a>
-                    <div style="width:100%; display:flex; flex-direction:colums-reverse; align-items: center; font-size:14px; justify-content:space-between"
-                        class="w-full py-1">
-                        @if($item->offer_type)
-
-                        <div class="text-md @if($item->offer_type ) @else align-self:center @endif"
-                            style="font-weight: bold; text-align:right">
-                            {{$item->discount}} TK
-                        </div>
-
-                        <div class="text-xs">
-                            <del>
-                                MRP {{$item->price}} TK
-                            </del>
-                        </div>
-
-                        @else
-                        <div class=" test-md @if($item->offer_type ) pr-2 @else align-self:center @endif"
-                            style="font-weight: bold; text-align:right">
-                            {{$item->price}} TK
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            @endforeach
-
-            {{$relatedProduct->links()}}
-        </div>
-        @endif --}}
     </div>
 
-    {{-- <div class="flex flex-wrap items-center p-3">
-        @if ($product->cod)
-        <div class="flex items-center p-2 w-full">
-            <i class="fas fa-check-circle pr-2 m-0 w-6 h-6"></i>
-            <div>
-
-                <strong>Cash On Delivery.</strong>
-                <p class="text-xs">
-                    Get the product and pay.
-                </p>
-            </div>
-        </div>
-        <x-hr />
-        @endif
-        @if ($product->hand)
-        <div class="text-green-200 flex items-center p-2 w-full">
-            <i class="fas fa-check-circle pr-2 m-0 w-6 h-6"></i>
-
-            <div>
-
-                <strong>Hand-To-Hand</strong>
-                <p class="text-xs">
-                    Get the product directly from the shop, save shipping amount.
-                </p>
-            </div>
-        </div>
-        <x-hr />
-        @endif
-    </div> --}}
 
     @if (isset($relatedProduct))
     <hr>
-    <div class="sm:w-full p-3 ">
+    <div class="sm:w-full ">
 
         <div class="font-bold">
             Related Products
         </div>
         <br>
-        <div class="product_section"
-            style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
-            @foreach ($relatedProduct as $product)
-            {{-- @component('client.product-cart', ['product' => $item], key($item->id)) --}}
-            {{-- @includeIf('view.name', ['some' => 'data']) --}}
-            <x-client.product-cart :$product :key="$product->id" />
-            @endforeach
+
+        <div class="product_section">
+            <x-client.products-loop :products="$relatedProduct" />
         </div>
-
-
 
     </div>
     @endif
@@ -307,12 +226,7 @@ new class extends Component
             const file = element.src;
             console.log(file);
             document.getElementById('preview').src = file;
-            // const reader = new FileReader();
-            // reader.onload = () => {
-            //     const preview = document.getElementById('preview');
-            //     preview.src = reader.result;
-            // };
-            // reader.readAsDataURL(file);
+           
                 
         }
     </script>
