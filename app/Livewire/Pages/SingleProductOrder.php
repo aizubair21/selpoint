@@ -80,10 +80,6 @@ class SingleProductOrder extends Component
                         'belongs_to' => $this->product?->user_id,
                         'belongs_to_type' => 'reseller',
                         'status' => 'Pending',
-                        // 'product_id' => $this->product?->id,
-                        // 'size' => $this->size ?? 'Free Size',
-                        // 'name' => $this->name,
-                        // 'price' => $this->price,
                         'quantity' => $this->quantity,
                         'total' => $this->total,
                         'delevery' => $this->delevery,
@@ -97,7 +93,6 @@ class SingleProductOrder extends Component
                         'house_no' => $this->house_no,
                         'shipping' => $this->shipping,
                         'target_area' => $this->area_name,
-                        // 'buying_price' => $this->product?->buying_price,
                     ]
                 );
 

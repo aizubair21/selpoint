@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 #[layout('layouts.user.app')]
 class Welcome extends Component
 {
-    public $products = [], $categories = [], $topSellingProducts = [], $displayAtHome = [];
+    public $products = [], $categories = [], $topSellingProducts = [], $displayAtHome = [], $QString = '';
 
     public  function mount()
     {

@@ -72,11 +72,8 @@
     </style>
 
     <x-dashboard.container>
-        <div class=" ">
-            <div class="">
-                @includeIf('components.client.product-single')
-            </div>
-        </div>
+
+        @includeIf('components.client.product-single')
 
 
         {{-- summery and specifications --}}
@@ -154,7 +151,7 @@
             </x-dashboard.section.inner>
 
         </x-dashboard.section>
-        
+
         <x-dashboard.section>
 
             <x-dashboard.section.header>
@@ -165,7 +162,7 @@
 
                 </x-slot>
             </x-dashboard.section.header>
-            
+
             <x-dashboard.section.inner>
                 @foreach ($product->comments as $item)
 
@@ -188,8 +185,8 @@
                 @endforeach
             </x-dashboard.section.inner>
 
-            <x-hr />
             @if (Auth::check())
+            <x-hr />
 
             <x-dashboard.section.inner>
                 <form action="{{route('user.comment.store')}}" method="post">
@@ -210,7 +207,7 @@
             </x-dashboard.section.inner>
             @else
             <div>
-                Log In to add comment
+                Login to add comment
             </div>
             @endif
 
@@ -269,6 +266,6 @@
     </script>
     @endscript
 
-   
+
     @endauth
 </div>
