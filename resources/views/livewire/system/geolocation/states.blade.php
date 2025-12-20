@@ -25,7 +25,7 @@
                 <div class="flex items-center mb-4 gap-2">
                     <x-select wire:model.live="country" class="mr-4">
                         <option value="">Select Country</option>
-                        @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                        @foreach (\App\Models\country::orderBy('name','asc')->get() as $country)
                         <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
                         @endforeach
 

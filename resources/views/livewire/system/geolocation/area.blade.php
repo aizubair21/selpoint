@@ -14,7 +14,7 @@
                                 <x-input-label value="Country" />
                                 <x-select wire:model.live="country" class="py-1">
                                     <option value="">Select Country</option>
-                                    @foreach (\App\Models\Country::orderBy('name','asc')->get() as $country)
+                                    @foreach (\App\Models\country::orderBy('name','asc')->get() as $country)
                                     <option value="{{ $country->id }}"> {{$country->id}} - {{ $country->name }}</option>
                                     @endforeach
                                 </x-select>
