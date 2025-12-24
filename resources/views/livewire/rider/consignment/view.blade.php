@@ -126,22 +126,7 @@
                                 {{$cod->amount}} TK
                             </th>
                         </tr>
-                        <tr class="border-b text-end">
-                            <td>
-                                Paid
-                            </td>
-                            <th>
-                                {{$cod->paid_amount}} TK
-                            </th>
-                        </tr>
-                        <tr class="border-b text-end">
-                            <td>
-                                Due
-                            </td>
-                            <th>
-                                {{$cod->due_amount}} TK
-                            </th>
-                        </tr>
+
                         <tr class="bg-gray-200 text-end">
                             <td>
                                 Sub-Total
@@ -150,14 +135,7 @@
                                 {{$cod->due_amount}} TK
                             </th>
                         </tr>
-                        <tr class=" text-end">
-                            <td>
-                                Comission
-                            </td>
-                            <th>
-                                {{$cod->system_comission}} TK
-                            </th>
-                        </tr>
+
                         <tr class="bg-gray-300 text-end">
                             <td>
                                 Total
