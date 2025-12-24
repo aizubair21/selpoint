@@ -6,9 +6,11 @@ use App\Models\Product;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\vendor;
+use Livewire\WithPagination;
 
 class Dashboard extends Component
 {
+    use WithPagination;
     public $products = [], $tp,  $category, $vendor, $trands;
 
     public function mount()
@@ -16,7 +18,6 @@ class Dashboard extends Component
 
         $this->tp = Product::where(['belongs_to_type' => 'vendor'])->count();
         $this->vendor = vendor::count();
-        $this->products = Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->limit('50')->get();
     }
 
     public function getData()
@@ -27,6 +28,9 @@ class Dashboard extends Component
 
     public function render()
     {
-        return view('livewire.reseller.dashboard');
+        return view('livewire.reseller.dashboard', 
+    [
+        'products' => Product::where(['belongs_to_type' => 'vendor', 'status' => 'Active'])->paginate(100),
+    ]);
     }
 }

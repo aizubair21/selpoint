@@ -52,21 +52,21 @@
             now()->format('Y-m-d')])
 
             <x-hr />
-            <x-dashboard.section.inner wire:navigate.hidden>
-                <p class="mb-2 text-xs">
-                    Resel Products from vendor
-                </p>
-                <div class=""
-                    style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 170px); grid-gap:10px">
+            <div wire:navigate.hidden>
+                <div
+                    style="display: grid; justify-content:start; grid-template-columns: repeat(auto-fill, 160px); grid-gap:10px">
 
                     @if (count($products) > 0)
 
                     @foreach ($products as $p)
                     @includeIf('components.dashboard.reseller.resel-product-cart', ['pd' => $p])
                     @endforeach
+                    <div class="mt-2 text-center">
+                        {{$products->links()}}
+                    </div>
                     @endif
                 </div>
-            </x-dashboard.section.inner>
+            </div>
             <x-responsive-nav-link href="{{route('reseller.resel-product.index')}}"
                 :active="request()->routeIs('reseller.resel-product.*')">
                 <i class="fas fa-sync pr-2 w-6"></i> View All
