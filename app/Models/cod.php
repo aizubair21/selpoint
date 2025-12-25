@@ -16,6 +16,12 @@ class cod extends Model
     {
         parent::booted();
         static::updated(function (cod $cod) {
+            $order = Order::find($cod->order_id);
+            if ($cod->status == 'Received' && $order) {
+                $order->status = "Delivery";
+                $order->save();
+            }
+
             // if the cod status is 'Completed', cut the amount from rider account and add to seller account
             if ($cod->status == 'Completed') {
 
@@ -24,7 +30,6 @@ class cod extends Model
                 if ($rider && $rider->abailCoin() >= $cod->total_amount) {
 
                     // when product reached to the buyer, then make the order status to 'Delivered'
-                    $order = Order::find($cod->order_id);
                     if ($order) {
                         $order->status = 'Delivered';
                         $order->save();

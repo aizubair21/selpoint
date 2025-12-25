@@ -30,7 +30,15 @@ class Index extends Component
         if ($order && auth()->user()->abailCoin() >= $order->total_amount) {
             $order->status = $status;
             $order->save();
- 
+
+            // if ($status == 'Received') {
+            //     $order?->order?->status = "Delivery";
+            //     $order?->order?->save();
+            // }
+            // if ($status == 'Completed') {
+            //     $order?->order?->status = "Delivered";
+            //     $order?->order?->save();
+            // }
             // if ($status == 'Completed') {
             //     // cut due_amount from rider account, and add to seller account
             //     $rider = auth()->user();
@@ -46,7 +54,7 @@ class Index extends Component
             //         $rider->save();
             //         $seller->save();
             //     }
-            // }
+            // } 
 
             $this->dispatch('success', "Shipment Updated");
         } else {

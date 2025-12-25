@@ -72,15 +72,6 @@
         <x-hr />
 
         <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    Products ({{count($co)}})
-                </x-slot>
-                <x-slot name="content">
-                    View products of the order.
-                </x-slot>
-            </x-dashboard.section.header>
-
             <x-dashboard.section.inner>
                 <x-dashboard.table :data="$co">
                     <thead>
@@ -92,59 +83,22 @@
                         @foreach ($co as $item)
                         <tr>
                             <td>
-                                <div class="flex">
+                                <div class="flex items-center">
                                     <img src="{{asset('storage/' . $item->product?->thumbnail ?? '')}}"
-                                        class=" w-12 h-12 mr-2" alt="">
+                                        class="rounded-full border w-12 h-12 mr-2" alt="">
                                     {{$item->product?->title ?? "N/A"}}
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
-                </x-dashboard.table>
-            </x-dashboard.section.inner>
-        </x-dashboard.section>
-        <x-hr />
-
-        <x-dashboard.section>
-            <x-dashboard.section.header>
-                <x-slot name="title">
-                    Consignment Amount
-                </x-slot>
-                <x-slot name="content">
-
-                </x-slot>
-            </x-dashboard.section.header>
-            <x-dashboard.section.inner>
-                <x-dashboard.table>
-                    <tbody>
-                        <tr class="border-b text-end">
+                    <tfoot>
+                        <tr class="text-end border-t mt-1">
                             <td>
-                                Product Price
+                                Total Amount = {{$cod->amount}} TK
                             </td>
-                            <th>
-                                {{$cod->amount}} TK
-                            </th>
                         </tr>
-
-                        <tr class="bg-gray-200 text-end">
-                            <td>
-                                Sub-Total
-                            </td>
-                            <th>
-                                {{$cod->due_amount}} TK
-                            </th>
-                        </tr>
-
-                        <tr class="bg-gray-300 text-end">
-                            <td>
-                                Total
-                            </td>
-                            <th>
-                                {{$cod->total_amount}} TK
-                            </th>
-                        </tr>
-                    </tbody>
+                    </tfoot>
                 </x-dashboard.table>
             </x-dashboard.section.inner>
         </x-dashboard.section>
