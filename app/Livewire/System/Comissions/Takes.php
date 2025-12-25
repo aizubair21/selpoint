@@ -46,6 +46,6 @@ class Takes extends Component
 
     public function render()
     {
-        return view('livewire.system.comissions.takes', ['comissions' => $this->queryResult()->get()]);
+        return view('livewire.system.comissions.takes', ['comissions' => $this->queryResult()->orderBy('id', 'desc')->get()]);
     }
 }

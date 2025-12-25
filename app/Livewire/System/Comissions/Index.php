@@ -80,7 +80,7 @@ class Index extends Component
         return view(
             'livewire.system.comissions.index',
             [
-                'comissions' => $this->queryResult()->orderBy('id', 'asc')->paginate(20)
+                'comissions' => $this->queryResult()->orderBy('id', 'desc')->paginate(20)
             ]
         );
     }

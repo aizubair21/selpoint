@@ -21,7 +21,7 @@ class TakesDistributes extends Component
         $takes = TakeComissions::findOrFail($this->id);
         $this->takes = $takes->load('product', 'user');
         // dd($this->takes);
-        $this->distributes = DistributeComissions::where(['parent_id' => $this->id])->get();
+        $this->distributes = DistributeComissions::where(['parent_id' => $this->id])->orderBy('id', 'desc')->get();
     }
 
 
