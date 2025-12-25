@@ -33,9 +33,9 @@ class Index extends Component
         // }
 
         if ($this->nav == 'sold') {
-            $pfq->where('status', 'Confirmed');
+            $pfq->where('status', 'Confirm');
         } elseif ($this->nav == 'selling') {
-            $pfq->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered']);
+            $pfq->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered', 'Cancel', 'Hold', 'Cancelled']);
         }
 
         $this->totalSell = $pfq->sum('price');
@@ -51,6 +51,22 @@ class Index extends Component
         })->count();
     }
 
+
+    public function print()
+    {
+        $url = route(
+            'seller.sel.print',
+            [
+                'nav' => $this->nav,
+                'fd' => $this->fd,
+                'lastDate' => $this->lastDate,
+                'user_type' => $this->user_type,
+                'account' => $this->account,
+            ]
+        );
+        $this->dispatch('open-printable', ['url' => $url]);
+    }
+
     public function render()
     {
         $q = CartOrder::query()->where('belongs_to_type', $this->account);
@@ -58,11 +74,25 @@ class Index extends Component
         $q->where(function ($q) {
 
             if ($this->nav == 'sold') {
-                $q->where('status', 'Confirmed');
+                $q->where('status', 'Confirm');
             } elseif ($this->nav == 'selling') {
-                $q->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered']);
+                $q->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered', 'Cancel', 'Hold', 'Cancelled']);
             }
         })->whereBetween('created_at', [$this->fd, Carbon::parse($this->lastDate)->endOfDay()]);
+
+
+        $this->totalSell = $q->sum('price');
+        $this->tn = $q->sum('buying_price');
+        $this->tp = $this->totalSell - $this->tn;
+        $this->shop = $q->count();
+        // $this->ushop = $pfq->groupBy('product_id')->select('product_id')->count();
+        $this->tpr = CartOrder::where('user_type', 'reseller')->groupBy('product_id')->select('product_id')->get()->each(function ($q) {
+            return !$q->product->isResel();
+        })->count();
+        $this->tprr = CartOrder::where('user_type', 'user')->groupBy('product_id')->select('product_id')->get()->each(function ($q) {
+            return $q->product->isResel();
+        })->count();
+
 
         $products = $q->orderBy('id', 'desc')->paginate(20);
         return view(

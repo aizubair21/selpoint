@@ -31,14 +31,14 @@
                     {{$tn}} TK
                 </x-slot>
             </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
+            {{-- <x-dashboard.overview.div>
                 <x-slot name="title">
                     Shop
                 </x-slot>
                 <x-slot name="content">
                     {{$shop}}
                 </x-slot>
-            </x-dashboard.overview.div>
+            </x-dashboard.overview.div> --}}
 
             {{-- <x-dashboard.overview.div>
                 <x-slot name="title">
@@ -72,6 +72,10 @@
                                 <option value="sold">Sold</option>
                                 <option value="selling">On-Selling</option>
                             </select>
+
+                            <x-secondary-button wire:click='print'>
+                                <i class="fas fa-print"></i>
+                            </x-secondary-button>
                         </div>
                         {{-- <div>
                             <select wire:model.live="user_type" id="" class="rounded py-1">
@@ -130,9 +134,7 @@
                                     {{$item->product?->name ?? "N/A" }}
                                 </x-nav-link>
                                 <br>
-                                <div class="text-xs border rounded inline-block">
-                                    {{$item->product?->status ?? 'N/A'}}
-                                </div>
+
                             </td>
 
                             <td>
@@ -197,38 +199,13 @@
                                 {{$item->product?->comissionsTake()?->sum('store')}}
                             </td> --}}
                             <td>
-                                {{$item->product?->created_at?->toFormattedDateString()}}
+                                <div class="text-xs">
+                                    {{$item->product?->created_at?->toFormattedDateString()}}
+                                </div>
                             </td>
                             <td>
-                                {{-- <div class="flex">
-                                    <x-nav-link href="/">
-                                        Disable
-                                    </x-nav-link>
-                                    <x-nav-link href="/">
-                                        View
-                                    </x-nav-link>
-                                </div> --}}
-                                @if ($item->status == 'Pending')
-                                <span class="text-xs p-1 border rounded-md bg-yellow-200 text-yellow-900">Pending</span>
-                                @elseif ($item->status == 'Accept')
-                                <span class="text-xs p-1 border rounded-md bg-green-200 text-green-900">Accept</span>
-                                @elseif ($item->status == 'Picked')
-                                <span class="text-xs p-1 border rounded-md bg-lime-200 text-lime-900">Picked</span>
-                                @elseif ($item->status == 'Delivery')
-                                <span class="text-xs p-1 border rounded-md bg-sky-200 text-sky-900">Delivery</span>
-                                @elseif ($item->status == 'Delivered')
-                                <span class="text-xs p-1 border rounded-md bg-blue-200 text-blue-900">Delivered</span>
-                                @elseif ($item->status == 'Confirm')
-                                <span class="text-xs p-1 border rounded-md bg-indigo-200 text-indigo-900">Confirm</span>
-                                @elseif ($item->status == 'Hold')
-                                <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Hold</span>
-                                @elseif ($item->status == 'Cancel')
-                                <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancel</span>
-                                @elseif ($item->status == 'Cancelled')
-                                <span class="text-xs p-1 border rounded-md bg-red-200 text-red-900">Cancelled</span>
-                                @else
-                                <span class="text-xs p-1 border rounded-md bg-gray-200 text-gray-900">Unknown</span>
-                                @endif
+
+                                <x-dashboard.order-status :status="$item->status" />
                             </td>
                         </tr>
                         @endforeach
@@ -274,4 +251,12 @@
             </div>
         </x-modal>
     </x-dashboard.container>
+
+    <script>
+        window.addEventListener('open-printable', (e) => {
+                    // console.log(e.detail[0].url);
+                    window.open(e.detail[0].url, '_blank');
+                });
+                
+    </script>
 </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ResellerController;
 use App\Http\Middleware\AbleTo;
 use App\Livewire\EarnBySell\Index as EarnBySellIndex;
+use App\Livewire\EarnBySell\Sprint;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +56,7 @@ Route::prefix('/r/')->group(function () {
 
     // sell
     Route::get('/sels', EarnBySellIndex::class)->name('reseller.sel.index');
+    Route::get('/sels/print', Sprint::class)->name('seller.sel.print');
 
     // vendor shop for reseller 
     Route::get('/shops', Shops::class)->name('shops');
