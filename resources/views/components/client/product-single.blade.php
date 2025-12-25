@@ -151,7 +151,7 @@ new class extends Component
 
             {{-- optional delivery --}}
             @if ($product->shipping_note)
-            <div class=" flex bg-gray-50">
+            <div class="border rounded">
                 <p class="p-2 text-xs">
                     {{$product->shipping_note}}
                 </p>
@@ -199,6 +199,12 @@ new class extends Component
                 </x-secondary-button>
                 @endvolt
 
+            </div>
+            <hr class="my-2">
+            <div class="text-sm">
+                <x-social-share :url="url()->current()" :title="$product->title"
+                    :text="'Check out this product: ' . $product->title"
+                    :summary="Str::limit($product->description, 100)" />
             </div>
         </div>
 
