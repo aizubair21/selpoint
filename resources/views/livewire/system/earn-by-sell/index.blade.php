@@ -55,7 +55,7 @@
                     {{$tn}} TK
                 </x-slot>
             </x-dashboard.overview.div>
-            <x-dashboard.overview.div>
+            {{-- <x-dashboard.overview.div>
                 <x-slot name="title">
                     Shop
                 </x-slot>
@@ -79,7 +79,7 @@
                 <x-slot name="content">
                     {{$tprr}}
                 </x-slot>
-            </x-dashboard.overview.div>
+            </x-dashboard.overview.div> --}}
         </x-dashboard.overview.section>
 
 

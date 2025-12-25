@@ -28,9 +28,9 @@ class Index extends Component
         }
 
         if ($this->nav == 'sold') {
-            $pfq->where('status', 'Confirmed');
+            $pfq->where('status', 'Confirm');
         } elseif ($this->nav == 'selling') {
-            $pfq->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered']);
+            $pfq->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered', 'Cancel', 'Hold', 'Cancelled']);
         }
 
         $this->totalSell = $pfq->sum('price');
@@ -55,13 +55,25 @@ class Index extends Component
                 $q->where('user_type', $this->user_type);
             }
             if ($this->nav == 'sold') {
-                $q->where('status', 'Confirmed');
+                $q->where('status', 'Confirm');
             } elseif ($this->nav == 'selling') {
-                $q->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered']);
+                $q->whereIn('status', ['Pending', 'Picked', 'Delivery', 'Delivered', 'Cancel', 'Hold', 'Cancelled']);
             }
         })->whereBetween('created_at', [$this->fd, Carbon::parse($this->lastDate)->endOfDay()]);
 
         $products = $q->orderBy('id', 'desc')->paginate(20);
+
+         $this->totalSell = $q->sum('price');
+        $this->tn = $q->sum('buying_price');
+        $this->tp = $this->totalSell - $this->tn;
+        $this->shop = $q->count();
+        // $this->ushop = $pfq->groupBy('product_id')->select('product_id')->count();
+        $this->tpr = CartOrder::where('user_type', 'reseller')->groupBy('product_id')->select('product_id')->get()->each(function ($q) {
+            return !$q->product->isResel();
+        })->count();
+        $this->tprr = CartOrder::where('user_type', 'user')->groupBy('product_id')->select('product_id')->get()->each(function ($q) {
+            return $q->product->isResel();
+        })->count();
         return view(
             'livewire.system.earn-by-sell.index',
             [
