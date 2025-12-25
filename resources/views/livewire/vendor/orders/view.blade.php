@@ -46,7 +46,7 @@
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
                             in_array($orders->status, [ 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100'
-                            => $orders->status == 'Accept']) title="Find and collect the product">Picked
+                            => $orders->status == 'Accept']) title="Rider picked the order">Rider Ass.
                             <br>
                             <div @class([in_array($orders->status, ['Picked', 'Delivery', 'Delivered', 'Confirm']) ?
                                 'block' : 'hidden'])>
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="p-3">
+                <div class="p-3">
                     @switch($orders->status)
                     @case('Pending')
                     <div class="pb-2">
@@ -192,6 +192,11 @@
                         <p>
                         <ul>
                             <li> Buyer Received the purcel.</li>
+                            <li>
+                                <x-primary-button wire:click="updateOrderStatusTo('Confirm')">
+                                    Confirm
+                                </x-primary-button>
+                            </li>
                         </ul>
                         </p>
                     </div>
@@ -227,7 +232,7 @@
                     @break
                     @endswitch
 
-                </div> --}}
+                </div>
             </div>
 
             <div class="flex justify-end items-center space-x-2 mt-2">

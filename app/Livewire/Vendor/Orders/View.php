@@ -102,7 +102,7 @@ class View extends Component
             $this->dispatch('refresh');
             return;
         } else {
-            $this->dispatch('warning', "You Don't have required balance to process the order. You need ensure minimum" . $ensureBalance . " balance to procces the order");
+            $this->dispatch('warning', "You Don't have required balance to process the order. You need minimum" . $ensureBalance . " balance to procces the order");
             return;
         }
 
