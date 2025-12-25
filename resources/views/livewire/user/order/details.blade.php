@@ -297,7 +297,7 @@
                             </p>
                             <p class="text-xs">
                                 @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$order?->hasRider()?->first()->rider->name}} </b>
+                                Assigned to rider <b> {{$orders?->hasRider()?->first()->rider->name}} </b>
                                 @endif
                             </p>
                         </div>
@@ -371,9 +371,7 @@
                             </p>
                         </div>
                     </div>
-                    @endif
-
-                    @if ($orders->status == 'Delivery' && $orders->hasRider())
+                    @elseif ($orders->status == 'Delivery' && $orders->hasRider())
                     <div class="relative px-2 py-2 flex items-center border-l">
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">

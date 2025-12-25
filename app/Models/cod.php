@@ -30,10 +30,10 @@ class cod extends Model
                 if ($rider && $rider->abailCoin() >= $cod->total_amount) {
 
                     // when product reached to the buyer, then make the order status to 'Delivered'
-                    if ($order) {
-                        $order->status = 'Delivered';
-                        $order->save();
-                    }
+                    // if ($order) {
+                    //     $order->status = 'Delivered';
+                    //     $order->save();
+                    // }
 
                     // cut due_amount from rider account, and add to seller account
                     $rider->coin -= $cod->due_amount;

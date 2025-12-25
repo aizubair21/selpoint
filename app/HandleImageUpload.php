@@ -15,9 +15,11 @@ trait HandleImageUpload
             Storage::disk('public')->delete($oldImage);
         }
 
-        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
-        $path = $image->storeAs($directory, $filename, 'public');
+        if ($image) {
 
-        return $path;
+            $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs($directory, $filename, 'public');
+            return $path;
+        }
     }
 }

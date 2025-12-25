@@ -21,13 +21,12 @@
                 </div>
 
             </div>
-            <button class="rounded bg-lime-400 px-4 mt-1 py-1 text-sm border" type="submit">Check</button>
+            <x-primary-button type="submit">Check</x-primary-butt>
         </form>
     </x-dashboard.page-header>
-    <hr>
     <x-dashboard.container>
 
-        <p class="text-xl"> Sell and Profit </p>
+        {{-- <p class="text-xl"> Sell and Profit </p>
         <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
@@ -55,7 +54,7 @@
                     {{$tn}} TK
                 </x-slot>
             </x-dashboard.overview.div>
-            {{-- <x-dashboard.overview.div>
+            <x-dashboard.overview.div>
                 <x-slot name="title">
                     Shop
                 </x-slot>
@@ -79,8 +78,8 @@
                 <x-slot name="content">
                     {{$tprr}}
                 </x-slot>
-            </x-dashboard.overview.div> --}}
-        </x-dashboard.overview.section>
+            </x-dashboard.overview.div>
+        </x-dashboard.overview.section> --}}
 
 
         <x-dashboard.section>

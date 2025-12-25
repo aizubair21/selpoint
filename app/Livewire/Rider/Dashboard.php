@@ -85,7 +85,7 @@ class Dashboard extends Component
                 ]
             );
 
-            $order->status == 'Picked';
+            $order->status = 'Picked';
             $order->save();
 
             $this->dispatch('success', 'Consignment confirmed.');

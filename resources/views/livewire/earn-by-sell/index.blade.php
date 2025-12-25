@@ -3,7 +3,7 @@
 
     <x-dashboard.container>
 
-        <p class="text-xl"> Sell and Profit </p>
+        {{-- <p class="text-xl"> Sell and Profit </p>
         <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
@@ -31,16 +31,16 @@
                     {{$tn}} TK
                 </x-slot>
             </x-dashboard.overview.div>
-            {{-- <x-dashboard.overview.div>
+            <x-dashboard.overview.div>
                 <x-slot name="title">
                     Shop
                 </x-slot>
                 <x-slot name="content">
                     {{$shop}}
                 </x-slot>
-            </x-dashboard.overview.div> --}}
+            </x-dashboard.overview.div>
 
-            {{-- <x-dashboard.overview.div>
+            <x-dashboard.overview.div>
                 <x-slot name="title">
                     Vendor Shop
                 </x-slot>
@@ -55,8 +55,8 @@
                 <x-slot name="content">
                     {{$tprr}}
                 </x-slot>
-            </x-dashboard.overview.div> --}}
-        </x-dashboard.overview.section>
+            </x-dashboard.overview.div>
+        </x-dashboard.overview.section> --}}
 
 
         <x-dashboard.section>
