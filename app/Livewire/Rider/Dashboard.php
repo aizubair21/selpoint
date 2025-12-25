@@ -33,7 +33,7 @@ class Dashboard extends Component
             })->whereDoesntHave('hasRider', function ($query) {
                 $query->where('rider_id', auth()->id());
             })->get();
- 
+
             // $this->orders = Order::query()->where(['delevery' => 'cash'])->where(function ($itm) {
             //     $itm->where('target_area', 'like', '%' . $this->riderInfo?->targeted_area . '%')
             //         ->whereIn('status', ['Accept', 'Picked', 'Delivery', 'Delivered']);
@@ -58,7 +58,7 @@ class Dashboard extends Component
             return;
         }
 
-        if ($order && $order->delevery == 'cash' && $order->status == 'Accept') {
+        if ($order->status == 'Accept') {
             $rider_cm_range = auth()->user()?->isRider()?->comission;
             $system_cm = ($order->shipping * $rider_cm_range) / 100;
 
@@ -85,9 +85,12 @@ class Dashboard extends Component
                 ]
             );
 
-            $this->dispatch('success', 'Order confirmed successfully.');
+            $order->status == 'Picked';
+            $order->save();
+
+            $this->dispatch('success', 'Consignment confirmed.');
         } else {
-            $this->dispatch('error', 'Order not found or already confirmed.');
+            $this->dispatch('error', 'Have an error !');
         }
     }
 

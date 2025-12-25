@@ -43,8 +43,7 @@
                                 <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                                     text-center", 'bg-indigo-900 text-white'=> in_array($orders->status, [ 'Picked',
                                     'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status ==
-                                    'Accept']) title="Find and collect the product"> {{$orders->status == 'Picked' ?
-                                    'Collected' : 'Collecting'}}
+                                    'Accept']) title="Find and collect the product"> Rider Ass.
                                     <br>
                                     <div @class([in_array($orders->status, ['Picked', 'Delivery', 'Delivered',
                                         'Confirm']) ? 'block' : 'hidden'])>
@@ -75,7 +74,7 @@
                                     text-center", 'bg-indigo-900 text-white'=> $orders->status == 'Confirm' ,
                                     'bg-gray-100' => $orders->status == 'Delivered'])>Confirm
                                     <br>
-                                    <div @class([$orders->status == 'Confirmed' ? 'block' : 'hidden'])>
+                                    <div @class([$orders->status == 'Confirm' ? 'block' : 'hidden'])>
                                         <i class="fas fa-check-circle"></i>
                                     </div>
                                 </div>
@@ -199,20 +198,36 @@
                 <div class="pt-2">
 
                     <div class="text-xs flex items-center sapce-x-2">
-                        {{$orders->delevery }} Delevery {{$orders->area_condition == 'Dhaka' ? 'in Dhaka' : 'Outside of
+                        {{$orders->delevery }} Delevery - {{$orders->area_condition == 'Dhaka' ? 'in Dhaka' : 'Outside
                         Dhaka'}}
                     </div>
                 </div>
 
-                <div class=" text-sm mb-10">
+                <div class=" text-sm mb-3">
                     <b>
                         {{$orders->location ?? "N/A"}}
                     </b>
                     <br>
                     Phone : {{$orders->number ?? "N/A"}}
                 </div>
+
+                @if ($order->status == 'Delivery')
+                <div class="my-2 p-2 text-center w-full">
+                    <button @click="$dispatch('open-modal', 'user-confirm-modal')"
+                        class="px-4 py-2 w-full text-center border font-bold rounded-lg bg-indigo-900 text-white">
+                        Confirm
+                    </button>
+                </div>
+                @elseif($order->status != 'Confirm')
+                <div class="my-2 p-2 text-center w-full">
+                    <button class="px-4 py-2 w-full text-center border font-bold rounded-lg bg-indigo-200 ">
+                        Pending Confirmation
+                    </button>
+                </div>
+                @endif
+
                 {{-- assign rider --}}
-                <div class="mb-6">
+                <div class="mb-6 mt-3">
                     <h3 class="mb-2">Assign To</h3>
                     <x-hr />
                     <div>
@@ -278,10 +293,12 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Packed.
+                                Rider Assigned.
                             </p>
                             <p class="text-xs">
-                                Order product has been packed and ready for shipment.
+                                @if ($orders->delevery == 'cash' && $orders->hasRider())
+                                Assigned to rider <b> {{$order?->hasRider()?->first()->rider->name}} </b>
+                                @endif
                             </p>
                         </div>
                     </div>
@@ -326,10 +343,12 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Packed.
+                                Order Assignedd to Rider
                             </p>
                             <p class="text-xs">
-                                Order product has been packed and ready for shipment.
+                                @if ($orders->delevery == 'cash' && $orders->hasRider())
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
+                                @endif
                             </p>
                         </div>
                     </div>
@@ -359,12 +378,10 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Assignedd to Rider
+                                Awaiting !
                             </p>
                             <p class="text-xs">
-                                @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
-                                @endif
+                                Rider Received the purcel, arrived you soon.
                             </p>
                         </div>
                     </div>
@@ -383,17 +400,21 @@
                             </p>
                         </div>
                     </div>
+
                     <div class="relative px-2 py-2 flex items-center border-l">
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Packed.
+                                Order Assignedd to Rider
                             </p>
                             <p class="text-xs">
-                                Order product has been packed and ready for shipment.
+                                @if ($orders->delevery == 'cash' && $orders->hasRider())
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
+                                @endif
                             </p>
                         </div>
                     </div>
+
                     <div class="relative px-2 py-2 flex items-center border-l">
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
@@ -423,7 +444,7 @@
                                 Delivered
                             </p>
                             <p class="text-xs">
-                                Order has been marked as delivered to you by rider at.
+                                Order has been marked as delivered to you.
                             </p>
                         </div>
                     </div>
@@ -431,12 +452,10 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Assigned
+                                Awaiting !
                             </p>
                             <p class="text-xs">
-                                @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
-                                @endif
+                                Rider Received the purcel, arrived you soon.
                             </p>
                         </div>
                     </div>
@@ -459,13 +478,16 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Packed.
+                                Assigned
                             </p>
                             <p class="text-xs">
-                                Order product has been packed and ready for shipment.
+                                @if ($orders->delevery == 'cash' && $orders->hasRider())
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
+                                @endif
                             </p>
                         </div>
                     </div>
+
                     <div class="relative px-2 py-2 flex items-center border-l">
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
@@ -492,7 +514,10 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Success and Finished
+                                Order Mark as Finished
+                            </p>
+                            <p class="text-xs">
+                                at {{$orders->updated_at->toFormattedDateString()}}
                             </p>
                         </div>
                     </div>
@@ -500,12 +525,10 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Assigned
+                                Delivered
                             </p>
                             <p class="text-xs">
-                                @if ($orders->delevery == 'cash' && $orders->hasRider())
-                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
-                                @endif
+                                Order has been marked as delivered to you.
                             </p>
                         </div>
                     </div>
@@ -528,13 +551,17 @@
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
                             <p>
-                                Order Packed.
+                                Order Assigned
                             </p>
                             <p class="text-xs">
-                                Order product has been packed and ready for shipment.
+                                @if ($orders->delevery == 'cash' && $orders->hasRider())
+                                Assigned to rider <b> {{$rider?->rider?->name ?? "N/A"}} </b>
+                                @endif
                             </p>
                         </div>
                     </div>
+
+
                     <div class="relative px-2 py-2 flex items-center border-l">
                         <i class="fas absolute fa-check-circle w-12 h-12" style="left:-8px; top:12px;"></i>
                         <div class="px-4">
@@ -562,5 +589,14 @@
     </x-dashboard.container>
 
 
+    <x-modal name="user-confirm-modal">
+        <div class="p-3">
 
+            Are you succesfully received the percel from seller? If yes you can confirm.
+            <hr class="my-2" />
+            <x-primary-button wire:click='markAsReceived'>
+                Confirm
+            </x-primary-button>
+        </div>
+    </x-modal>
 </div>

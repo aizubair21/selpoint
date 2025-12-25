@@ -30,20 +30,24 @@ class Index extends Component
         if ($order && auth()->user()->abailCoin() >= $order->total_amount) {
             $order->status = $status;
             $order->save();
+ 
+            // if ($status == 'Completed') {
+            //     // cut due_amount from rider account, and add to seller account
+            //     $rider = auth()->user();
+            //     $seller = $order->order?->seller;
 
-            if ($status == 'Delivered') {
-                // cut due_amount from rider account, and add to seller account
-                $rider = auth()->user();
-                $seller = $order->order?->seller;
+            //     // $order?->order?->status = "Delivered";
+            //     // $order?->order?->save();
 
-                if ($rider && $seller) {
-                    $rider->coin -= $order->due_amount;
-                    $seller->coin += $order->due_amount;
+            //     if ($rider && $seller) {
+            //         $rider->coin -= $order->due_amount;
+            //         $seller->coin += $order->due_amount;
 
-                    $rider->save();
-                    $seller->save();
-                }
-            }
+            //         $rider->save();
+            //         $seller->save();
+            //     }
+            // }
+
             $this->dispatch('success', "Shipment Updated");
         } else {
             $this->dispatch('warning', 'You do not have enough balance to process this request !');

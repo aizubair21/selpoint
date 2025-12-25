@@ -22,25 +22,27 @@
                     <div @class(['mb-2 flex gap-2'])>
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
-                            in_array($orders->status, ['Pending', 'Accept', 'Picked', 'Delivery', 'Delivered',
+                            in_array($orders->status, ['Pending', 'Accept', 'Delivery', 'Delivered',
                             'Confirm']) , 'bg-gray-100' => $orders->status == 'Pending']) title="Buyer placed the order.
                             Order in Pending">Placed
                             <br>
-                            <div @class([in_array($orders->status, ['Pending','Accept', 'Picked', 'Delivery',
+                            <div @class([in_array($orders->status, ['Pending','Accept', 'Delivery',
                                 'Delivered', 'Confirm']) ? 'block' : 'hidden'])>
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
+
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
-                            in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered', 'Confirm']) ,
-                            'bg-gray-100' => $orders->status == 'Pending']) title="Accept the order for process">Accept
+                            in_array($orders->status, ['Accept', 'Delivery', 'Delivered', 'Confirm']) ,
+                            'bg-gray-100' => $orders->status == 'Pending']) title="Accept the order">Accept
                             <br>
-                            <div @class([in_array($orders->status, ['Accept', 'Picked', 'Delivery', 'Delivered',
+                            <div @class([in_array($orders->status, ['Accept', 'Delivery', 'Delivered',
                                 'Confirm']) ? 'block' : 'hidden'])>
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
+
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
                             in_array($orders->status, [ 'Picked', 'Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100'
@@ -51,26 +53,31 @@
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
+
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
                             in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) , 'bg-gray-100' =>
                             $orders->status == 'Picked']) title="product shipped to rider or courier.">Delivery
                             <br>
-                            <div @class([in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) ? 'block' :
+                            <div @class([in_array($orders->status, ['Delivery', 'Delivered', 'Confirm']) ?
+                                'block' :
                                 'hidden'])>
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
+
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
-                            in_array($orders->status, ['Delivered', 'Confirm']) , 'bg-gray-100' => $orders->status ==
-                            'Delivery']) title="product delivered to the buyer.and buyer successfully received the
-                            order">Delivered
+                            in_array($orders->status, ['Delivered', 'Confirm']) , 'bg-gray-100' =>
+                            $orders->status ==
+                            'Delivery']) title="product delivered to the rider">Delivered
                             <br>
-                            <div @class([in_array($orders->status, ['Delivered', 'Confirm']) ? 'block' : 'hidden'])>
+                            <div @class([in_array($orders->status, ['Delivered', 'Confirm']) ? 'block' :
+                                'hidden'])>
                                 <i class="fas fa-check-circle"></i>
                             </div>
                         </div>
+
                         <div @class(["p-2 px-3 rounded-md cursor-pointer text-gray-600 border-gray-600
                             text-center", 'bg-indigo-900 text-white'=>
                             $orders->status ==
@@ -109,8 +116,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
-                <div class="p-3">
+                {{-- <div class="p-3">
                     @switch($orders->status)
                     @case('Pending')
                     <div class="pb-2">
@@ -130,7 +136,6 @@
                             <li> Order now visible at rider dashboard for confirmation. </li>
                             <li> Or You can assign a rider from bellow button. If you assign a rider, order might hide
                                 from rider public dashboard, And assigned rider can view the order shipment.</li>
-                            <li> If you wish to send custom shipping method, skip this section and go next. </li>
                         </ul>
                         </p>
                     </div>
@@ -140,9 +145,7 @@
                             <i class="fas fa-plus pr-2"></i> Rider
                         </x-primary-button>
                         @endif
-                        <x-primary-button wire:click="updateOrderStatusTo('Picked')">
-                            Next
-                        </x-primary-button>
+
                     </div>
 
                     @break
@@ -150,78 +153,54 @@
                     @case('Picked')
                     <div class="pb-2">
                         <h3>
-                            Packed The items.
+                            Rider Picked !
                         </h3>
                         <p>
                         <ul>
-                            <li> Get your order item from your wirehouse. </li>
-                            <li> Packed the items for shipment.</li>
-                            <li> Send items to rider. Or courier delivery. </li>
-                            <li> If there have multiple rider assigned, Remove all of them except your targeted one.
-                            </li>
-                            <li> If done, click next button. Next steps rider able to <strong>Make as Received</strong>
-                                the order. </li>
+                            <li> A rider assigned to this. </li>
+                            <li> Send the product to the rider. </li>
                         </ul>
                         </p>
                     </div>
                     <div class="flex gap-2 items-center">
-
                         <x-primary-button wire:click="updateOrderStatusTo('Delivery')">
-                            Next
+                            Mark As Delivery
                         </x-primary-button>
                     </div>
                     @break
+
                     @case('Delivery')
                     <div class="pb-2">
                         <h3>
-                            On Shipment.
+                            On-Ride
                         </h3>
                         <p>
                         <ul>
-                            <li> Product On the Ride. You Already Send your product to rider or direct delivery to the
-                                customer.
-                            </li>
-                            <li> Now rider able to <strong>Make as Received</strong> the order, if you send it through
-                                rider. </li>
-                            <li> If order send to rider, Check bottom rider status. Make confirm rider status changed to
-                                <strong>Received</strong>.
-                            </li>
-                            <li> Without going to next steps rider unable to <strong>Mark as Delivered</strong>. </li>
-                            <li> <strong>Done !</strong> Go to next steps. </li>
+                            <li> Consignment send to rider or Direct to Buyer.</li>
+                            <li> Waiting for buyer confirmation. </li>
+                            <li> Rider Status : {{$orders?->hasRider()->first?->status}} </li>
                         </ul>
                         </p>
                     </div>
-                    <div class="flex gap-2 items-center">
 
-                        <x-primary-button wire:click="updateOrderStatusTo('Delivered')">
-                            Next
-                        </x-primary-button>
-                    </div>
                     @break
                     @case('Delivered')
                     <div class="pb-2">
                         <h3>
-                            Finally Done !
+                            User Confirmation
                         </h3>
                         <p>
                         <ul>
-                            <li> Customer successfully received the order. </li>
-                            <li> <strong>Finished</strong> the order. </li>
-                            <li> This dispatch your comission </li>
+                            <li> Buyer Received the purcel.</li>
                         </ul>
                         </p>
                     </div>
-                    <div class="flex gap-2 items-center">
 
-                        <x-primary-button wire:click="updateOrderStatusTo('Confirm')">
-                            Finished
-                        </x-primary-button>
-                    </div>
                     @break
                     @case('Confirm')
                     <div class="pb-2">
                         <h3>
-                            Congratulation ! Order has been Confirmed.
+                            Congratulation ! Order Confirmed.
                         </h3>
                     </div>
                     @break
@@ -248,7 +227,7 @@
                     @break
                     @endswitch
 
-                </div>
+                </div> --}}
             </div>
 
             <div class="flex justify-end items-center space-x-2 mt-2">
@@ -257,7 +236,7 @@
                     COMISSIONS</x-nav-link> --}}
                 @if ($orders->hasRider()->count())
                 <x-primary-button>
-                    <i class="fas fa-truck-fast pr-2"></i> Rider Assigned
+                    <i class="fas fa-truck-fast pr-2"></i> Assigned
                 </x-primary-button>
                 @endif
 
@@ -280,7 +259,7 @@
             </div>
         </x-dashboard.section>
 
-       
+
         <x-dashboard.overview.section>
             <x-dashboard.overview.div>
                 <x-slot name="title">
@@ -317,11 +296,6 @@
 
                     <x-nav-link-btn href="{{route('vendor.orders.cprint', ['order' => $orders->id])}}">Print
                     </x-nav-link-btn>
-                    {{-- <a target="_blank" href="{{route('admin.order.print')}}"
-                        class="btn btn-sm btn-outline-primary"> <i class="fas fa-print pe-2"></i> Print</a>
-                    <a target="_blank" href="{{route('admin.order.print', ['id' => $orders->id, 'target' => 'excel'])}}"
-                        class="btn btn-sm btn-outline-primary"> <i class="fab fa-excel pe-2"></i> Excel</a> --}}
-                    {{-- <table class="table"></table> --}}
                 </div>
                 <div class="order-total text-end">
                     <table class="table">
@@ -337,16 +311,7 @@
 
                             </p>
                         </tr>
-                        <tr>
-                            {{-- <th>House</th>
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Road</th>
-                            <td>
-                            </td>
-                        </tr> --}}
+
                     </table>
                 </div>
             </div>
@@ -502,7 +467,7 @@
             <x-dashboard.section.header>
                 <x-slot name="title">
                     <div class="flex justify-between items-center">
-                        RIDER
+                        Rider
                         <x-primary-button wire:click="$dispatch('open-modal', 'rider-assign-modal')">
                             <i class="fas fa-plus pr-2"></i> Rider
                         </x-primary-button>
@@ -672,5 +637,6 @@
                 </form>
             </div>
         </x-modal>
+
     </x-dashboard.container>
 </div>

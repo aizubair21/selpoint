@@ -66,25 +66,23 @@ class View extends Component
             return;
         }
 
-        // dd($status);
-        $sysOr = syncOrder::where(['reseller_order_id' => $this->orders->id])->first();
-        // dd($sysOr->userOrder);
-        if (in_array($status, ['Cancel', 'Hold', 'Pending'])) {
-            $this->orders->update(['status' => $status]);
-            if ($sysOr) {
-                # code...
-                $sysOr->status = $status;
-                $sysOr->save();
-            }
-        }
 
         $ensureBalance = $this->orders->comissionsInfo->sum('take_comission') + $this->orders->resellerProfit?->sum('profit');
-        if ($this->orders->status == 'Pending' && auth()->user()->abailCoin() < $ensureBalance) {
-            $this->dispatch('info', "You Don't have required balance to accept the order. You need ensure minimum" . $ensureBalance . " balance to procces the order ");
-            return;
-        }
 
-        if (auth()->user()->abailCoin() > $this->orders->comissionsInfo->sum('take_comission')) {
+        if (auth()->user()->abailCoin() > $ensureBalance) {
+
+            // dd($status);
+            $sysOr = syncOrder::where(['reseller_order_id' => $this->orders->id])->first();
+            // dd($sysOr->userOrder);
+            if (in_array($status, ['Cancel', 'Hold', 'Pending'])) {
+                $this->orders->update(['status' => $status]);
+                if ($sysOr) {
+                    # code...
+                    $sysOr->status = $status;
+                    $sysOr->save();
+                }
+            }
+
 
             $this->orders->update(['status' => $status]);
             // $this->orders->save();
@@ -104,7 +102,7 @@ class View extends Component
             $this->dispatch('refresh');
             return;
         } else {
-            $this->dispatch('warning', "You Don't have required balance to accept the order. You need ensure minimum" . $this->orders->comissionsInfo->sum('take_comission ') . " balance to procces the order ");
+            $this->dispatch('warning', "You Don't have required balance to process the order. You need ensure minimum" . $ensureBalance . " balance to procces the order");
             return;
         }
 
@@ -167,16 +165,7 @@ class View extends Component
             $this->dispatch('error', 'You can sync only accepted orders');
             return;
         };
-        // dd($this->mainProduct?->id,);
-        // $isExists = Order::where(
-        //     [
-        //         'order_id' => $this->orders->id,
-        //         'user_id' => auth()->user()->id,
-        //         'user_type' => 'reseller',
-        //         'belongs_to' => $this->mainProduct->user_id,
-        //         'belongs_to_type' => 'vendor',
-        //     ]
-        // )->exists();
+       
 
         $order = order::create(
             [
