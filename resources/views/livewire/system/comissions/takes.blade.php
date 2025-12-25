@@ -96,6 +96,7 @@
                         <td class="font-bold"> {{$comissions->sum('selling_price')}} </td>
                         <td class="font-bold"> {{$comissions->sum('profit')}} </td>
                         <td></td>
+                        <td></td>
                         <td class="font-bold"> {{$comissions->sum('take_comission')}} </td>
                         <td class="font-bold"> {{$comissions->sum('distribute_comission')}} </td>
                         <td class="font-bold"> {{$comissions->sum('store')}} </td>
@@ -140,15 +141,4 @@
             </div>
         </div>
     </x-modal> --}}
-
-    <script>
-        // If opened via browser printable flow, auto open print dialog
-        setTimeout(() => window.print(), 500);
-        // if (window.location.search.includes('autoPrint=1')) {
-        // }
-        
-        // close the window, while close window.print()
-        
-        
-    </script>
 </div>

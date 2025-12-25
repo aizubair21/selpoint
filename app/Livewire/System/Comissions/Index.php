@@ -4,6 +4,7 @@ namespace App\Livewire\System\Comissions;
 
 use App\Models\DistributeComissions;
 use App\Models\TakeComissions;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ class Index extends Component
 {
     use WithPagination;
     #[URL]
-    public $seller = 0, $product = 0, $order = 0, $from, $to, $where, $wid, $confirm;
+    public $seller = 0, $product = 0, $order = 0, $from, $to, $where, $wid, $confirm = true;
 
 
     // PDF customization options
@@ -28,7 +29,7 @@ class Index extends Component
 
     public function openPrintable()
     {
-        $url =  route('system.comissions.takes', ['confirm' => $this->confirm, 'where' => $this->where, 'from' => $this->from, 'to' => $this->to, 'wid' => $this->wid]);
+        $url =  route('system.comissions.takes', ['confirm' => $this->confirm, 'where' => $this->where, 'from' => $this->from, 'to' => Carbon::parse($this->to)->endOfDay(), 'wid' => $this->wid]);
 
         $this->dispatch('open-printable', ['url' => $url]);
     }
@@ -52,7 +53,7 @@ class Index extends Component
         if ($this->confirm != 'All') {
             $q->where(['confirmed' => $this->confirm == 'true' ? 1 : 0]);
         }
-        
+
         return $q->when($this->where == 'user_id', function ($query) {
             return $query->where('user_id', $this->wid);
         })
@@ -79,7 +80,7 @@ class Index extends Component
         return view(
             'livewire.system.comissions.index',
             [
-                'comissions' => $this->queryResult()->paginate(20)
+                'comissions' => $this->queryResult()->orderBy('id', 'asc')->paginate(20)
             ]
         );
     }

@@ -217,7 +217,7 @@
 
         {{-- comissions --}}
         @if ($nav == 'earn')
-        @livewire('system.comissions.takes', ['qry' => $order->id, 'query_type' => 'order_id', 'ord' => true])
+        @livewire('system.comissions.takes', ['wid' => $order->id, 'where' => 'order_id', 'ord' => true])
         @endif
 
         @if ($nav == 'profit')
