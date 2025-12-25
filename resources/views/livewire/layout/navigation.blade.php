@@ -111,6 +111,7 @@ new class extends component
 
                     @if (auth()->user()->hasRole('rider') && $this->get == 'rider')
                     {{-- rider primary nav --}}
+                    {{-- @includeIf('layouts.rider.navigation.responsive_navigation') --}}
                     @endif
 
                 </div>
@@ -263,6 +264,7 @@ new class extends component
 
             @if (auth()->user()->hasRole('rider') && $this->get == 'rider')
             {{-- rider primary nav --}}
+            @includeIf('layouts.rider.navigation.responsive_navigation')
             @endif
         </div>
 

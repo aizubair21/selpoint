@@ -69,7 +69,7 @@
 
         <!-- Page Heading -->
         <div class="flex sm:px-6 lg:px-8 ">
-            <div class=" hidden md:block h-auto" style="width:220px">
+            <div class="hidden md:block h-auto" style="width:220px">
                 <div class="pt-2 pb-3 w-full">
                     {{-- <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
                         wire:navigate>
