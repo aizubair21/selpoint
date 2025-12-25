@@ -19,6 +19,7 @@ use App\Livewire\System\Consignment\Index as ConsignmentIndex;
 use App\Livewire\System\Deposit\Index as DepositIndex;
 use App\Livewire\System\Deposit\PrintSummery;
 use App\Livewire\System\EarnBySell\Index as EarnBySellIndex;
+use App\Livewire\System\EarnBySell\Sprint;
 use App\Livewire\System\Geolocation\Area;
 use App\Livewire\System\Geolocation\Cities;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -312,6 +313,7 @@ Route::middleware(Authenticate::class)->name('system.')->prefix('system')->group
 
     // earn and sell
     Route::get('/earn/index', EarnBySellIndex::class)->name('earn.index');
+    Route::get('earn/print', Sprint::class)->name('earn.print');
     Route::get('/builder/footer', FooterBuilder::class)->name('footer.builder');
 
     Route::get('/reports', ReportIndex::class)->name('report.index');

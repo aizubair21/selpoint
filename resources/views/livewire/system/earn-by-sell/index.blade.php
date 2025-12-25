@@ -96,6 +96,10 @@
                                 <option value="sold">Sold</option>
                                 <option value="selling">On-Selling</option>
                             </select>
+
+                            <x-secondary-button wire:click='print'>
+                                <i class="fas fa-print"></i>
+                            </x-secondary-button>
                         </div>
                         <div>
                             <select wire:model.live="user_type" id="" class="rounded py-1">
@@ -261,4 +265,13 @@
 
 
     </x-dashboard.container>
+
+
+    <script>
+        window.addEventListener('open-printable', (e) => {
+                    // console.log(e.detail[0].url);
+                    window.open(e.detail[0].url, '_blank');
+                });
+                
+    </script>
 </div>

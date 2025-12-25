@@ -18,6 +18,20 @@ class Index extends Component
     public $nav = 'sold', $fd, $lastDate, $user_type = 'user';
     public $totalSell, $tp, $tn, $tpr, $tprr, $shop, $ushop;
 
+    public function print()
+    {
+        $url = route(
+            'system.earn.print',
+            [
+                'nav' => $this->nav,
+                'fd' => $this->fd,
+                'lastDate' => $this->lastDate,
+                'user_type' => $this->user_type,
+            ]
+        );
+        $this->dispatch('open-printable', ['url' => $url]);
+    }
+
     public function mount()
     {
         $this->lastDate = now();
@@ -63,7 +77,7 @@ class Index extends Component
 
         $products = $q->orderBy('id', 'desc')->paginate(20);
 
-         $this->totalSell = $q->sum('price');
+        $this->totalSell = $q->sum('price');
         $this->tn = $q->sum('buying_price');
         $this->tp = $this->totalSell - $this->tn;
         $this->shop = $q->count();
